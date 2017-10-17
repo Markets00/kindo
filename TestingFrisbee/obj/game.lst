@@ -1,0 +1,192 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .area _DATA
+                              2 .area _CODE
+                              3 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              4 .include "player.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; PLAYER PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl player_erase
+                              7 .globl player_update
+                              8 .globl player_draw
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              5 .include "frisbee.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; FRISBEE PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl frisbee_erase
+                              7 .globl frisbee_update
+                              8 .globl frisbee_draw
+                              9 .globl frisbee_data
+                             10 .globl frisbee_setOff
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                              6 .include "utility.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; INCLUDED CPCTELERA FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl cpct_waitVSYNC_asm
+                              7 .globl cpct_drawSolidBox_asm
+                              8 .globl cpct_getScreenPtr_asm
+                              9 .globl cpct_scanKeyboard_asm
+                             10 .globl cpct_isKeyPressed_asm
+                             11 .globl cpct_disableFirmware_asm
+                             12 .globl cpct_setVideoMode_asm
+                             13 .globl cpct_setPalette_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                              7 	
+                              8 ;; ====================================
+                              9 ;; ====================================
+                             10 ;; PUBLIC DATA
+                             11 ;; ====================================
+                             12 ;; ====================================
+                             13 
+                     0000    14 .equ Game_type, 	0	;; Game mode
+                     0001    15 .equ Game_map_L, 	1	;; Low part of pointer to game map
+                     0002    16 .equ Game_map_H, 	2	;; High part of pointer to game map
+                     0003    17 .equ Game_time_H, 	3	;; High part of match time
+                     0004    18 .equ Game_time_L, 	4	;; Low part of match time
+                             19 
+                     0050    20 .equ RIGHT_LIMIT,	80
+                     0000    21 .equ LEFT_LIMIT,	0
+                     0000    22 .equ TOP_LIMIT,	 	0
+                     00C8    23 .equ BOTTOM_LIMIT,	200
+                             24 
+                             25 ;; ====================================
+                             26 ;; ====================================
+                             27 ;; PRIVATE DATA
+                             28 ;; ====================================
+                             29 ;; ====================================
+                             30 
+                             31 ;; .equ mi_constante0, 0
+                             32 ;; .equ mi_constante1, 1
+                             33 
+                             34 	
+                             35 ;; ====================================
+                             36 ;; ====================================
+                             37 ;; PUBLIC FUNCTIONS
+                             38 ;; ====================================
+                             39 ;; ====================================
+                             40 
+                             41 
+                             42 ;; ===================================
+                             43 ;; Inicia una partida dependiendo
+                             44 ;; 	de los atributos de game
+                             45 ;; Entrada:
+                             46 ;; 	IX => Pointer to game data 
+                             47 ;; Modifica IX
+                             48 ;; ===================================
+   0000                      49 gameStart::
+                             50 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             51 	;; Reading game data example
+                             52 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             53 	;;	ld 	h, Game_type(ix)	;; H <= Game_type
+                             54 	;;
+                             55 	;;	ld 	h, Game_map_L(ix)
+                             56 	;;	ld 	l, Game_map_H(ix) 	;; HL <= Game_map pointer (little endian)
+                             57 	;;
+                             58 	;;	ld 	h, Game_time_H(ix)
+                             59 	;;	ld 	l, Game_time_L(ix)	;; HL <= Game_time
+                             60 	
+                             61 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                             62 	;; Modifying game data example
+                             63 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             64 	;;	ld 	Game_type(ix), #0	;; Game_type <= 0
+                             65 	;;
+                             66 	;;	ld 	Game_map_L(ix), #0
+                             67 	;;	ld 	Game_map_H(ix), #0 	;; Game_map <= 0x0000 (little endian)
+                             68 	;;
+                             69 	;;	ld 	Game_time_H(ix), #0
+                             70 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
+                             71 
+   0000 CD 07 00      [17]   72 	call 	initializeGame
+                             73 	;; Configuration staff...
+                             74 	;; Configuration staff...
+                             75 	;; Configuration staff...
+   0003 CD 0B 00      [17]   76 	call 	game_loop
+   0006 C9            [10]   77 	ret
+                             78 
+                             79 
+                             80 ;; ====================================
+                             81 ;; ====================================
+                             82 ;; PRIVATE FUNCTIONS
+                             83 ;; ====================================
+                             84 ;; ====================================
+                             85 
+                             86 
+                             87 ;; ========================
+                             88 ;; Initialize game
+                             89 ;; ========================
+   0007                      90 initializeGame:
+   0007 CD 00 00      [17]   91 	call cpct_disableFirmware_asm
+                             92 
+                             93 	;; Set video mode
+                             94 	;; ld 	c, #0
+                             95 	;; call cpct_setVideoMode_asm
+                             96 
+                             97 	;; Set palette
+                             98 	;; ld 	hl, #direccion_paleta
+                             99 	;; ld 	de, #16
+                            100 	;; call cpct_setPalette_asm
+                            101 
+   000A C9            [10]  102 	ret
+                            103 
+                            104 
+                            105 ;; ============================
+                            106 ;; Game loop until end of game
+                            107 ;; ============================
+   000B                     108 game_loop:
+                            109 
+                            110 	;; Wait VSYNC to modify VMEM without blinking
+   000B CD 00 00      [17]  111 	call cpct_waitVSYNC_asm
+                            112 
+                            113 	;; Erase entities
+   000E CD 00 00      [17]  114 	call player_erase
+   0011 CD 00 00      [17]  115 	call frisbee_erase
+                            116 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+                            117 	;; Update entities
+   0014 CD 00 00      [17]  118 	call player_update
+   0017 CD 00 00      [17]  119 	call frisbee_update
+                            120 
+                            121 	;; Draw entities
+   001A CD 00 00      [17]  122 	call player_draw
+   001D CD 00 00      [17]  123 	call frisbee_draw
+                            124 
+   0020 18 E9         [12]  125 	jr (game_loop) 			;; Bucle infinito
+   0022 C9            [10]  126 	ret

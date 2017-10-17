@@ -3,21 +3,40 @@
 .include "utility.h.s"
 .include "game.h.s"
 
-.equ Ent_x, 	0	;; X coordinate
-.equ Ent_y, 	1	;; Y coordinate
-.equ Ent_h, 	2	;; Height
-.equ Ent_w, 	3	;; Width
-.equ Ent_vx_I,	4	;; Velocity at X axis, integer part
-.equ Ent_vx_F,	5	;; Velocity at X axis, fractional part
-.equ Ent_vy_I,	6	;; Velocity at Y axis, integer part
-.equ Ent_vy_F,	7	;; Velocity at Y axis, fractional part
-.equ Ent_ax_I,	8	;; Acceleration at X axis, integer part
-.equ Ent_ax_F,	9	;; Acceleration at X axis, fractional part
-.equ Ent_ay_I,	10	;; Acceleration at Y axis, integer part
-.equ Ent_ay_F,	11	;; Acceleration at Y axis, fractional part
-.equ Ent_onOff,	12	;; Entity enabled/disabled
-.equ Ent_clr, 	13	;; Entity color pattern
+.equ Ent_x_F, 	0	;; X coordinate, low part
+.equ Ent_x_I, 	1	;; X coordinate, high part
+.equ Ent_y_F, 	2	;; Y coordinate, low part
+.equ Ent_y_I, 	3	;; Y coordinate, high part
+.equ Ent_h, 	4	;; Height
+.equ Ent_w, 	5	;; Width
+.equ Ent_vx_I,	6	;; Velocity at X axis, integer part
+.equ Ent_vx_F,	7	;; Velocity at X axis, fractional part
+.equ Ent_vy_I,	8	;; Velocity at Y axis, integer part
+.equ Ent_vy_F,	9	;; Velocity at Y axis, fractional part
+.equ Ent_ax_I,	10	;; Acceleration at X axis, integer part
+.equ Ent_ax_F,	11	;; Acceleration at X axis, fractional part
+.equ Ent_ay_I,	12	;; Acceleration at Y axis, integer part
+.equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
+.equ Ent_state,	14	;; Entity enabled/disabled
+.equ Ent_clr, 	15	;; Entity color pattern
 
+
+;; ====================================
+;; ====================================
+;; PRIVATE DATA
+;; ====================================
+;; ====================================
+.equ MAX_VEL_X, 2 
+.equ MIN_VEL_X, -2
+.equ MAX_VEL_Y, 4
+.equ MIN_VEL_Y, -4
+
+
+;; ====================================
+;; ====================================
+;; PUBLIC FUNCTIONS
+;; ====================================
+;; ====================================
 
 ;; ===================================
 ;; Pinta una entidad en pantalla
@@ -27,8 +46,8 @@
 ;; ===================================
 entityDraw::
 	ld 	de, #0xC000 		;; Video memory pointer
-	ld 	c, Ent_x(ix) 		;; C = ent_x
-	ld 	b, Ent_y(ix) 		;; B = ent_y
+	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
+	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
 	ex 	de, hl 			;; DE = ent screen pointer
@@ -47,8 +66,8 @@ entityDraw::
 ;; ===================================
 entityErase::
 	ld 	de, #0xC000 		;; Video memory  pointer
-	ld 	c, 0(ix) 		;; C = ent_x
-	ld 	b, 1(ix) 		;; B = ent_y
+	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
+	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
 	ex 	de, hl 			;; DE = ent screen pointer
@@ -60,71 +79,6 @@ entityErase::
 	ret
 
 ;; =========================================
-;; Actualiza la posición de la entidad
-;; Entrada:
-;; 	IX => Pointer to entity data
-;; Modifica AF, B, DE, HL, IX
-;; =========================================
-entityUpdatePosition:
-
-	;; x = x + vx_I
-	ld 	d, Ent_vx_I(ix) 	;; D <= ent_vx_I
-	ld 	e, #0			;; E <= 0 (discard fractional part)
-
-	ld 	h, Ent_x(ix) 		;; H <= Ent_x
-	ld 	l, #0			;; L <= 0 (discard fractional part)
-
-	add 	hl, de 			;; H <= H + D (x + vx_I)
-
-	ld 	b, h 			;; B <= H (x + vx_I)
-	ld 	a, #RIGHT_LIMIT
-	sub 	Ent_w(IX) 		;; A <= RIGHT_LIMIT - Ent_width
-
-	cp 	b			;; F <= A - B
-	jp 	m, cant_move_x		;; RIGHT_LIMIT - Ent_width < x + vx_I? can't move
-
-		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
-		cp 	b 			;; F <= A - B
-		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
-
-			;; can move
-			ld 	Ent_x(ix), h 		;; Ent_x <= H
-
-	cant_move_x:
-
-
-	;; y = y + vy_I*2
-	ld 	h, Ent_vy_I(ix) 	;; H <= ent_vy_I
-	ld 	l, Ent_vy_F(ix)		;; L <= ent_vy_F
-
-	ld 	d, Ent_y(ix) 		;; D <= Ent_y
-	ld 	e, #0			;; E <= 0 (discard fractional part)
-
-	;;add 	hl, hl 			;; H <= H(ent_vy_I)*2
-					;; D <= ent_vy_I*2
-	ex 	de, hl 			;; H <= Ent_y
-
-	add 	hl, de 			;; H <= H (y) + D (y + ent_vy_I*2)
-
-	ld 	b, h 			;; B <= H (y + ent_vy_I*2)
-	ld 	a, #BOTTOM_LIMIT
-	sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
-
-	cp 	b			;; F <= A - B
-	jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
-
-		ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
-		cp 	b 			;; F <= A - B
-		jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
-
-			;; can move
-			ld 	Ent_y(ix), h 		;; Ent_y <= H
-
-	cant_move_y:
-
-		ret
-
-;; =========================================
 ;; Actualiza el estado de las físicas
 ;; 	de una entidad
 ;; Entrada:
@@ -132,15 +86,27 @@ entityUpdatePosition:
 ;; Modifica F, DE, HL, IX
 ;; =========================================
 entityUpdatePhysics::
-	;; vx = vx + ax
+	;; vx' = vx + ax
 	ld 	h, Ent_vx_I(ix)
 	ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
 	ld 	d, Ent_ax_I(ix)
 	ld 	e, Ent_ax_F(ix)		;; DE <= ent_ax
 
 	add 	hl, de 			;; HL <= HL + DE
-	ld 	Ent_vx_I(ix), h
-	ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+
+	ld 	a, h
+	cp 	#MAX_VEL_X
+	jp 	p, cant_accelerate_x
+		;; vx' < MAX_VEL_X
+		cp 	#MIN_VEL_X
+		jp 	m, cant_accelerate_x
+			;; vx' > MIN_VEL_X
+			;; Can accelerate at X axis
+			ld 	Ent_vx_I(ix), h
+			ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+
+	cant_accelerate_x:
+	;; vx' > MAX_VEL_X || vx' < MIN_VEL_X
 
 
 	;; vy = vy + ay
@@ -150,9 +116,18 @@ entityUpdatePhysics::
 	ld 	e, Ent_ay_F(ix)		;; DE <= ent_ay
 
 	add 	hl, de 			;; HL <= HL + DE
-	ld 	Ent_vy_I(ix), h
-	ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+	ld 	a, h
+	cp 	#MAX_VEL_Y
+	jp 	p, cant_accelerate_y
+		;; vy' < MIN_VEL_Y
+		cp 	#MIN_VEL_Y
+		jp 	m, cant_accelerate_y
+			;; vy' > MIN_VEL_Y
+			;; Can accelerate at Y axis
+			ld 	Ent_vy_I(ix), h
+			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
 
+	cant_accelerate_y:
 
 	ld 	Ent_ax_I(ix), #0	;; 
 	ld 	Ent_ax_F(ix), #0	;; ax = 0
@@ -160,11 +135,6 @@ entityUpdatePhysics::
 	ld 	Ent_ay_F(ix), #0	;; ay = 0
 
 	call entityUpdatePosition
-
-	;; ld 	Ent_vx_I(ix), #0	;; 
-	;; ld 	Ent_vx_F(ix), #0	;; vx = 0
-	;; ld 	Ent_vy_I(ix), #0	;; 
-	;; ld 	Ent_vy_F(ix), #0	;; vy = 0
 
 	ret
 
@@ -190,10 +160,10 @@ entityCheckCollision::
 	ld 	(ent1_ptr), ix 		;; ent1_ptr <= IX
 	ld 	(ent2_ptr), hl 		;; ent2_ptr <= HL
 
-	ld 	a, Ent_x(ix)		;; A <= ent1_x
+	ld 	a, Ent_x_I(ix)		;; A <= ent1_x
 	add 	Ent_w(ix)		;; A <= A + ent1_w
 	ld 	ix, (ent2_ptr)		;; IX <= ent 2
-	sub 	Ent_x(ix)		;; A <= A - ent2_x
+	sub 	Ent_x_I(ix)		;; A <= A - ent2_x
 	jp 	p, collision_XR		;; A > 0? lo contrario a A <= 0
 
 	jr 	no_collision
@@ -206,10 +176,10 @@ entityCheckCollision::
 		;; If (ent2_x + ent2_w <= ent1_x) no collision
 		;; ent2_x + ent2_w - ent1_x <= 0
 		;; 
-		ld 	a, Ent_x(ix)		;; A <= ent2_x
+		ld 	a, Ent_x_I(ix)		;; A <= ent2_x
 		add 	Ent_w(ix) 		;; A <= A + ent2_w
 		ld 	ix, (ent1_ptr)		;; IX <= ent 1
-		sub 	Ent_x(ix)		;; A <= A - ent1_x
+		sub 	Ent_x_I(ix)		;; A <= A - ent1_x
 		jp 	p, collision_XL		;; A > 0? lo contrario a A <= 0
 
 		jr 	no_collision
@@ -219,10 +189,10 @@ entityCheckCollision::
 		;; If (ent1_y + ent1_h <= ent2_y) no collision
 		;; ent1_y + ent1_h - ent2_y <= 0
 		;;
-		ld 	a, Ent_y(ix)		;; A <= ent1_x
+		ld 	a, Ent_y_I(ix)		;; A <= ent1_x
 		add 	Ent_h(ix)		;; A <= A + ent1_w
 		ld 	ix, (ent2_ptr)		;; IX <= ent 2
-		sub 	Ent_y(ix)		;; A <= A - ent2_x
+		sub 	Ent_y_I(ix)		;; A <= A - ent2_x
 		jp 	p, collision_YB		;; A > 0? lo contrario a A <= 0
 
 		jr 	no_collision
@@ -233,10 +203,10 @@ entityCheckCollision::
 		;; If (ent2_y + ent2_h <= ent1_y) no collision
 		;; ent2_y + ent2_h - ent1_y <= 0
 		;; 
-		ld 	a, Ent_y(ix)		;; A <= ent2_y
+		ld 	a, Ent_y_I(ix)		;; A <= ent2_y
 		add 	Ent_h(ix) 		;; A <= A + ent2_h
 		ld 	ix, (ent1_ptr)		;; IX <= ent 1
-		sub 	Ent_y(ix)		;; A <= A - ent1_y
+		sub 	Ent_y_I(ix)		;; A <= A - ent1_y
 		jp 	p, collision_YT		;; A > 0? lo contrario a A <= 0
 
 		jr 	no_collision
@@ -252,3 +222,136 @@ entityCheckCollision::
 	no_collision:
 	ld 	a, #0 	;; A == 0 si no hay colisión
 	ret
+
+
+;; ====================================
+;; ====================================
+;; PRIVATE FUNCTIONS
+;; ====================================
+;; ====================================
+
+
+;; =========================================
+;; Actualiza la posición de la entidad
+;; Entrada:
+;; 	IX => Pointer to entity data
+;; Modifica AF, B, DE, HL, IX
+;; =========================================
+entityUpdatePosition:
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;
+	;;	TO DO 		;;
+	;; X está a mitad	;;
+	;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	;; x' = x + vx_I
+	ld 	d, Ent_vx_I(ix) 	
+	ld 	e, Ent_vx_F(ix)		;; DE <= ent_vx_I 
+
+	ld 	h, Ent_x_I(ix) 		;; 
+	ld 	l, Ent_x_F(ix)		;; HL <= Ent_x
+
+	add 	hl, de 			;; HL <= HL + DE (x + vx_I)
+
+	ld 	a, h 			;; A <= H (x + vx_I)
+	add 	Ent_w(IX) 		;; A <= w + x + vx_I
+	cp	#RIGHT_LIMIT
+	jr 	, cant_move_x		;; RIGHT_LIMIT < w + x + vx_I? can't move
+
+		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
+		cp 	b 			;; F <= A - B
+		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
+
+			;; can move
+			ld 	Ent_x_I(ix), h
+			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL
+
+	cant_move_x:
+
+
+	;; y' = y + vy_I*2
+	ld 	d, Ent_vy_I(ix)
+	ld 	e, Ent_vy_F(ix) 	;; DE <= ent_vy
+
+	ld 	h, Ent_y_I(ix)
+	ld 	l, Ent_y_F(ix) 		;; HL <= Ent_y
+
+	add 	hl, de
+	add 	hl, de 			;; A <= Ent_y + Ent_vy_I*2
+
+	ld 	b, h 			;; B <= A (y + ent_vy_I*2)
+	ld 	a, #BOTTOM_LIMIT
+	sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
+
+	cp 	b			;; F <= A - B
+	jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
+
+		ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
+		cp 	b 			;; F <= A - B
+		jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
+
+			;; can move
+			ld 	Ent_y_I(ix), h
+			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL
+
+	cant_move_y:
+
+		ret
+
+
+
+;;	;; x = x + vx_I
+;;	ld 	d, Ent_vx_I(ix) 	;; D <= ent_vx_I
+;;	ld 	e, #0			;; E <= 0 (discard fractional part)
+;;
+;;	ld 	h, Ent_x(ix) 		;; H <= Ent_x
+;;	ld 	l, #0			;; L <= 0 (discard fractional part)
+;;
+;;	add 	hl, de 			;; H <= H + D (x + vx_I)
+;;
+;;	ld 	b, h 			;; B <= H (x + vx_I)
+;;	ld 	a, #RIGHT_LIMIT
+;;	sub 	Ent_w(IX) 		;; A <= RIGHT_LIMIT - Ent_width
+;;
+;;	cp 	b			;; F <= A - B
+;;	jp 	m, cant_move_x		;; RIGHT_LIMIT - Ent_width < x + vx_I? can't move
+;;
+;;		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
+;;		cp 	b 			;; F <= A - B
+;;		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
+;;
+;;			;; can move
+;;			ld 	Ent_x(ix), h 		;; Ent_x <= H
+;;
+;;	cant_move_x:
+
+	;; y = y + vy_I*2
+	;;ld 	h, Ent_vy_I(ix) 	;; H <= ent_vy_I
+	;;ld 	l, Ent_vy_F(ix)		;; L <= ent_vy_F
+;;
+;;	;;ld 	d, Ent_y(ix) 		;; D <= Ent_y
+;;	;;ld 	e, #0			;; E <= 0 (discard fractional part)
+;;
+;;	;;add 	hl, hl 			;; H <= H(ent_vy_I)*2
+;;	;;				;; D <= ent_vy_I*2
+;;	;;ex 	de, hl 			;; H <= Ent_y
+;;
+;;	;;add 	hl, de 			;; H <= H (y) + D (ent_vy_I*2)
+;;
+;;	;;ld 	b, h 			;; B <= H (y + ent_vy_I*2)
+;;	;;ld 	a, #BOTTOM_LIMIT
+;;	;;sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
+;;
+;;	;;cp 	b			;; F <= A - B
+;;	;;jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
+;;
+;;	;;	ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
+;;	;;	cp 	b 			;; F <= A - B
+;;	;;	jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
+;;
+;;	;;		;; can move
+;;	;;		ld 	Ent_y(ix), h 		;; Ent_y <= H
+;;
+;;	;;cant_move_y:
+;;
+	;;	ret

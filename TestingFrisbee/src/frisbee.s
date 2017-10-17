@@ -10,9 +10,9 @@
 ;; ====================================
 ;; ====================================
 
-;; .macro defineEntity name, x, y, h, w, vx, vy, ax, ay, onOff, clr
+;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity frisbee, #80-2, #84, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
+defineEntity frisbee, #0x5000-0x200, #0x5400, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
 
 
 ;; ====================================
@@ -27,7 +27,7 @@ defineEntity frisbee, #80-2, #84, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
 ;; =========================================
 frisbee_setOff::
 	ld 	a, #0
-	ld 	(frisbee_onOff), a
+	ld 	(frisbee_state), a
 	ret
 
 frisbee_erase::
@@ -42,7 +42,7 @@ frisbee_erase::
 ;; =========================================
 frisbee_update::
 
-	ld 	a, (frisbee_onOff)	;; A <= frisbee_onOff
+	ld 	a, (frisbee_state)	;; A <= frisbee_state
 	cp 	#1
 	jr 	nz, not_active		;; A != 1?
 	
@@ -55,7 +55,7 @@ frisbee_update::
 
 	not_active:
 		ld 	a, #1
-		ld 	(frisbee_onOff), a
+		ld 	(frisbee_state), a
 	ret
 
 frisbee_draw::

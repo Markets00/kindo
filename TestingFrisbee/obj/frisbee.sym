@@ -1,0 +1,34 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     Ent_ax_F=  000B     |     Ent_ax_I=  000A 
+    Ent_ay_F=  000D     |     Ent_ay_I=  000C     |     Ent_clr =  000F 
+    Ent_h   =  0004     |     Ent_stat=  000E     |     Ent_vx_F=  0007 
+    Ent_vx_I=  0006     |     Ent_vy_F=  0009     |     Ent_vy_I=  0008 
+    Ent_w   =  0005     |     Ent_x_F =  0001     |     Ent_x_I =  0000 
+    Ent_y_F =  0003     |     Ent_y_I =  0002     |   0 can_move   0069 R
+  0 cant_mov   0055 R   |   0 cant_mov   0075 R   |   0 cant_mov   0049 R
+  0 cant_mov   0081 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 drawFris   0082 R   |     entityCh   **** GX  |     entityDr   **** GX
+    entityEr   **** GX  |     entityUp   **** GX  |   0 frisbee_   000A R
+  0 frisbee_   000C R   |   0 frisbee_   000F R   |   0 frisbee_   0000 GR
+  0 frisbee_   0036 GR  |   0 frisbee_   0016 GR  |   0 frisbee_   0004 R
+  0 frisbee_   0010 GR  |   0 frisbee_   000E R   |   0 frisbee_   001E GR
+  0 frisbee_   0006 R   |   0 frisbee_   0008 R   |   0 frisbee_   0005 R
+  0 frisbee_   0000 R   |   0 frisbee_   0002 R   |   0 moveDown   004A R
+  0 moveLeft   0056 R   |   0 moveRigh   003E R   |   0 moveUp     0076 R
+  0 not_acti   0030 R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size   9A   flags    0
+   1 _DATA      size    0   flags    0
+

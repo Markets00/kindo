@@ -1,0 +1,34 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     Ent_ax_F=  000B 
+    Ent_ax_I=  000A     |     Ent_ay_F=  000D     |     Ent_ay_I=  000C 
+    Ent_clr =  000F     |     Ent_h   =  0004     |     Ent_stat=  000E 
+    Ent_vx_F=  0007     |     Ent_vx_I=  0006     |     Ent_vy_F=  0009 
+    Ent_vy_I=  0008     |     Ent_w   =  0005     |     Ent_x_F =  0000 
+    Ent_x_I =  0001     |     Ent_y_F =  0002     |     Ent_y_I =  0003 
+    Game_fTi=  0003     |     Game_fTi=  0004     |     Game_map=  0002 
+    Game_map=  0001     |     Game_typ=  0000     |     LEFT_LIM=  0000 
+    MAX_VEL_=  0002     |     MAX_VEL_=  0004     |     MIN_VEL_=  FFFFFFFE 
+    MIN_VEL_=  FFFFFFFC     |     RIGHT_LI=  0050     |     TOP_LIMI=  0000 
+  0 cant_acc   0051 R   |   0 cant_acc   006F R   |   0 cant_mov   00FF R
+  0 cant_mov   0123 R   |   0 collisio   00B3 R   |   0 collisio   00A0 R
+  0 collisio   00C5 R   |   0 collisio   00D7 R   |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_wai   **** GX  |   0 ent1_ptr   0083 R   |   0 ent2_ptr   0085 R
+  0 entityCh   0087 GR  |   0 entityDr   0000 GR  |   0 entityEr   001A GR
+  0 entityUp   0033 GR  |   0 entityUp   00DC R   |     gameStar   **** GX
+  0 no_colli   00D9 R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  124   flags    0
+   1 _DATA      size    0   flags    0
+
