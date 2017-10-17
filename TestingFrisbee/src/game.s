@@ -61,16 +61,42 @@ gameStart::
 	;;	ld 	Game_time_H(ix), #0
 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
 
+	call 	initializeGame
+	;; Configuration staff...
+	;; Configuration staff...
+	;; Configuration staff...
 	call 	game_loop
 	ret
 
-	
+
 ;; ====================================
 ;; ====================================
 ;; PRIVATE FUNCTIONS
 ;; ====================================
 ;; ====================================
 
+
+;; ========================
+;; Initialize game
+;; ========================
+initializeGame:
+	call cpct_disableFirmware_asm
+
+	;; Set video mode
+	;; ld 	c, #0
+	;; call cpct_setVideoMode_asm
+
+	;; Set palette
+	;; ld 	hl, #direccion_paleta
+	;; ld 	de, #16
+	;; call cpct_setPalette_asm
+
+	ret
+
+
+;; ============================
+;; Game loop until end of game
+;; ============================
 game_loop:
 
 	;; Wait VSYNC to modify VMEM without blinking

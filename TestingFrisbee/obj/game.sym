@@ -12,14 +12,14 @@ Symbol Table
     cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |   0 gameStar   0000 GR
-  0 game_loo   0004 R   |     player_d   **** GX  |     player_e   **** GX
-    player_u   **** GX
+  0 game_loo   000B R   |   0 initiali   0007 R   |     player_d   **** GX
+    player_e   **** GX  |     player_u   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   1C   flags    0
+   0 _CODE      size   23   flags    0
    1 _DATA      size    0   flags    0
 

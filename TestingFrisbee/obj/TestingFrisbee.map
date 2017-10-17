@@ -32,14 +32,14 @@ _CODE                               00000100    00000403 =        1027. bytes (R
      00000221  frisbee_update                     
      00000239  frisbee_draw                       
      0000029D  game_data                          
-     000002A6  _main                              
-     000002B0  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000002BA  player_data                        cpct_keyboard
-     000002C8  enemy_data                         cpct_keyboard
-     000002D6  player_erase                       cpct_keyboard
-     000002E5  player_update                      cpct_keyboard
-     000002F7  player_draw                        cpct_keyboard
-     000003A9  gameStart                          
+     000002A2  _main                              
+     000002A9  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000002B3  player_data                        cpct_keyboard
+     000002C1  enemy_data                         cpct_keyboard
+     000002CF  player_erase                       cpct_keyboard
+     000002DE  player_update                      cpct_keyboard
+     000002F0  player_draw                        cpct_keyboard
+     000003A2  gameStart                          
      000003C5  _cpct_isKeyPressed                 cpct_keyboard
      000003C5  cpct_isKeyPressed_asm              cpct_keyboard
      000003D1  cpct_setPalette_asm                cpct_video

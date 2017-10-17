@@ -27,17 +27,23 @@ Hexadecimal [16-Bits]
                              22 		name'_clr:	.db clr		;; Entity color pattern		(8 bits)
                              23 .endm
                              24 
-                     0000    25 .equ Ent_x, 	0	;; X coordinate
-                     0001    26 .equ Ent_y, 	1	;; Y coordinate
-                     0002    27 .equ Ent_h, 	2	;; Height
-                     0003    28 .equ Ent_w, 	3	;; Width
-                     0004    29 .equ Ent_vx_I,	4	;; Velocity at X axis, integer part
-                     0005    30 .equ Ent_vx_F,	5	;; Velocity at X axis, fractional part
-                     0006    31 .equ Ent_vy_I,	6	;; Velocity at Y axis, integer part
-                     0007    32 .equ Ent_vy_F,	7	;; Velocity at Y axis, fractional part
-                     0008    33 .equ Ent_ax_I,	8	;; Acceleration at X axis, integer part
-                     0009    34 .equ Ent_ax_F,	9	;; Acceleration at X axis, fractional part
-                     000A    35 .equ Ent_ay_I,	10	;; Acceleration at Y axis, integer part
-                     000B    36 .equ Ent_ay_F,	11	;; Acceleration at Y axis, fractional part
-                     000C    37 .equ Ent_onOff,	12	;; Entity enabled/disabled
-                     000D    38 .equ Ent_clr, 	13	;; Entity color pattern	
+                             25 
+                             26 ;; ====================================
+                             27 ;; ====================================
+                             28 ;; ENTITY PUBLIC DATA
+                             29 ;; ====================================
+                             30 ;; ====================================
+                     0000    31 .equ Ent_x, 	0	;; X coordinate
+                     0001    32 .equ Ent_y, 	1	;; Y coordinate
+                     0002    33 .equ Ent_h, 	2	;; Height
+                     0003    34 .equ Ent_w, 	3	;; Width
+                     0004    35 .equ Ent_vx_I,	4	;; Velocity at X axis, integer part
+                     0005    36 .equ Ent_vx_F,	5	;; Velocity at X axis, fractional part
+                     0006    37 .equ Ent_vy_I,	6	;; Velocity at Y axis, integer part
+                     0007    38 .equ Ent_vy_F,	7	;; Velocity at Y axis, fractional part
+                     0008    39 .equ Ent_ax_I,	8	;; Acceleration at X axis, integer part
+                     0009    40 .equ Ent_ax_F,	9	;; Acceleration at X axis, fractional part
+                     000A    41 .equ Ent_ay_I,	10	;; Acceleration at Y axis, integer part
+                     000B    42 .equ Ent_ay_F,	11	;; Acceleration at Y axis, fractional part
+                     000C    43 .equ Ent_onOff,	12	;; Entity enabled/disabled
+                     000D    44 .equ Ent_clr, 	13	;; Entity color pattern	
