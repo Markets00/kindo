@@ -1,0 +1,102 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .area _DATA
+                              2 .area _CODE
+                              3 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              4 .include "player.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; PLAYER PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl player_erase
+                              7 .globl player_update
+                              8 .globl player_draw
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              5 .include "frisbee.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; FRISBEE PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl frisbee_erase
+                              7 .globl frisbee_update
+                              8 .globl frisbee_draw
+                              9 .globl frisbee_data
+                             10 .globl frisbee_setOff
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                              6 .include "utility.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; INCLUDED CPCTELERA FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl cpct_waitVSYNC_asm
+                              7 .globl cpct_drawSolidBox_asm
+                              8 .globl cpct_getScreenPtr_asm
+                              9 .globl cpct_scanKeyboard_asm
+                             10 .globl cpct_isKeyPressed_asm
+                             11 .globl cpct_disableFirmware_asm
+                             12 .globl cpct_setVideoMode_asm
+                             13 .globl cpct_setPalette_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                              7 .globl player_data
+                              8 .globl enemy_data
+                              9 
+                             10 
+                             11 ;; ========================
+                             12 ;; Initialize system
+                             13 ;; ========================
+   029D                      14 initializeGame:
+   029D CD E8 03      [17]   15 	call cpct_disableFirmware_asm
+                             16 
+                             17 	;; Set video mode
+                             18 	;; ld 	c, #0
+                             19 	;; call cpct_setVideoMode_asm
+                             20 
+                             21 	;; Set palette
+                             22 	;; ld 	hl, #direccion_paleta
+                             23 	;; ld 	de, #16
+                             24 	;; call cpct_setPalette_asm
+                             25 
+   02A0 C9            [10]   26 	ret
+                             27 
+                             28 ;; ========================
+                             29 ;; Programa principal
+                             30 ;; ========================
+   02A1                      31 _main::
+   02A1 CD 9D 02      [17]   32 	call initializeGame
+                             33 
+   02A4 CD E1 02      [17]   34 	call player_erase
+   02A7 CD 19 02      [17]   35 	call frisbee_erase
+                             36 
+   02AA CD F0 02      [17]   37 	call player_update
+   02AD CD 21 02      [17]   38 	call frisbee_update
+                             39 
+   02B0 CD 02 03      [17]   40 	call player_draw
+   02B3 CD 39 02      [17]   41 	call frisbee_draw
+                             42 
+                             43 	
+   02B6 CD D3 03      [17]   44 	call cpct_waitVSYNC_asm
+                             45 
+   02B9 18 E6         [12]   46 	jr (_main) 			;; Bucle infinito

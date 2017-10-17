@@ -1,0 +1,36 @@
+XL2
+H 9 areas 5 global symbols
+M tileset
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 24 flags 0 addr 0
+S _g_palette Def0000
+S _g_tileset Def0010
+S _g_tileset_0 Def0014
+S _g_tileset_1 Def001C
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 54 44 5C 58 45 56 46 5E 40 47 42 53 5A 4A
+R 00 00 00 00
+T 0E 00 43 4B
+R 00 00 00 00
+T 10 00
+R 00 00 00 00
+T 10 00 14 00 1C 00
+R 00 00 00 00 00 02 00 00 00 04 00 00
+T 14 00
+R 00 00 00 00
+T 14 00 44 74 C4 A1 84 29 18 7C
+R 00 00 00 00
+T 1C 00
+R 00 00 00 00
+T 1C 00 C7 F7 93 7F A1 FF 5F FF
+R 00 00 00 00

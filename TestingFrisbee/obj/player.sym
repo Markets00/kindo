@@ -1,0 +1,74 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     Ent_ax_F=  0009     |     Ent_ax_I=  0008 
+    Ent_ay_F=  000B     |     Ent_ay_I=  000A     |     Ent_clr =  000D 
+    Ent_h   =  0002     |     Ent_onOf=  000C     |     Ent_vx_F=  0005 
+    Ent_vx_I=  0004     |     Ent_vy_F=  0007     |     Ent_vy_I=  0006 
+    Ent_w   =  0003     |     Ent_x   =  0000     |     Ent_y   =  0001 
+    Joy0_Dow=  0209     |     Joy0_Fir=  1009     |     Joy0_Fir=  2009 
+    Joy0_Fir=  4009     |     Joy0_Lef=  0409     |     Joy0_Rig=  0809 
+    Joy0_Up =  0109     |     Joy1_Dow=  0206     |     Joy1_Fir=  1006 
+    Joy1_Fir=  2006     |     Joy1_Fir=  4006     |     Joy1_Lef=  0406 
+    Joy1_Rig=  0806     |     Joy1_Up =  0106     |     Key_0   =  0104 
+    Key_1   =  0108     |     Key_2   =  0208     |     Key_3   =  0207 
+    Key_4   =  0107     |     Key_5   =  0206     |     Key_6   =  0106 
+    Key_7   =  0205     |     Key_8   =  0105     |     Key_9   =  0204 
+    Key_A   =  2008     |     Key_At  =  0403     |     Key_B   =  4006 
+    Key_Back=  4002     |     Key_C   =  4007     |     Key_Caps=  4008 
+    Key_Care=  0103     |     Key_Clos=  0802     |     Key_Clr =  0102 
+    Key_Colo=  2003     |     Key_Comm=  8004     |     Key_Cont=  8002 
+    Key_Copy=  0201     |     Key_Curs=  0400     |     Key_Curs=  0101 
+    Key_Curs=  0200     |     Key_Curs=  0100     |     Key_D   =  2007 
+    Key_Del =  8009     |     Key_Dot =  8003     |     Key_E   =  0407 
+    Key_Ente=  4000     |     Key_Esc =  0408     |     Key_F   =  2006 
+    Key_F0  =  8001     |     Key_F1  =  2001     |     Key_F2  =  4001 
+    Key_F3  =  2000     |     Key_F4  =  1002     |     Key_F5  =  1001 
+    Key_F6  =  1000     |     Key_F7  =  0401     |     Key_F8  =  0801 
+    Key_F9  =  0800     |     Key_FDot=  8000     |     Key_G   =  1006 
+    Key_H   =  1005     |     Key_Hyph=  0203     |     Key_I   =  0804 
+    Key_J   =  2005     |     Key_K   =  2004     |     Key_L   =  1004 
+    Key_M   =  4004     |     Key_N   =  4005     |     Key_O   =  0404 
+    Key_Open=  0202     |     Key_P   =  0803     |     Key_Q   =  0808 
+    Key_R   =  0406     |     Key_Retu=  0402     |     Key_S   =  1007 
+    Key_Semi=  1003     |     Key_Shif=  2002     |     Key_Slas=  4003 
+    Key_Spac=  8005     |     Key_T   =  0806     |     Key_Tab =  1008 
+    Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
+    Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
+  0 _cpct_ke   0000 GR  |   0 a_not_pr   00DE R   |   0 cant_mov   00A4 R
+  0 cant_mov   00BC R   |   0 checkFri   0056 R   |   0 checkUse   00BD R
+  0 collisio   0089 R   |   0 collisio   00A1 R   |   0 collisio   0071 R
+  0 collisio   00B9 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 d_not_pr   00D1 R   |   0 enemy_ax   0020 R   |   0 enemy_ay   0022 R
+  0 enemy_cl   0025 R   |   0 enemy_da   0018 GR  |   0 enemy_h    001A R
+  0 enemy_on   0024 R   |   0 enemy_vx   001C R   |   0 enemy_vy   001E R
+  0 enemy_w    001B R   |   0 enemy_x    0018 R   |   0 enemy_y    0019 R
+    entityCh   **** GX  |     entityDr   **** GX  |     entityEr   **** GX
+    entityUp   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+    frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+  0 moveDown   0075 R   |   0 moveLeft   008D R   |   0 moveRigh   005D R
+  0 moveUp     00A5 R   |   0 player_a   0012 R   |   0 player_a   0014 R
+  0 player_c   0017 R   |   0 player_d   000A GR  |   0 player_d   0047 GR
+  0 player_e   0026 GR  |   0 player_h   000C R   |   0 player_o   0016 R
+  0 player_u   0035 GR  |   0 player_v   000E R   |   0 player_v   0010 R
+  0 player_w   000D R   |   0 player_x   000A R   |   0 player_y   000B R
+  0 s_not_pr   00F8 R   |     std_acc =  001E     |   0 w_not_pr   00EB R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size   F9   flags    0
+   1 _DATA      size    0   flags    0
+
