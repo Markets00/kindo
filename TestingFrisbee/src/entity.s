@@ -1,11 +1,7 @@
-RIGHT_LIMIT  	= 80
-LEFT_LIMIT 	= 0
-TOP_LIMIT 	= 0
-BOTTOM_LIMIT 	= 200
-
 .area _DATA
 .area _CODE
 .include "utility.h.s"
+.include "game.h.s"
 
 .equ Ent_x, 	0	;; X coordinate
 .equ Ent_y, 	1	;; Y coordinate

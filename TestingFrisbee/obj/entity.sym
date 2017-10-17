@@ -9,15 +9,17 @@ Symbol Table
     Ent_clr =  000D     |     Ent_h   =  0002     |     Ent_onOf=  000C 
     Ent_vx_F=  0005     |     Ent_vx_I=  0004     |     Ent_vy_F=  0007 
     Ent_vy_I=  0006     |     Ent_w   =  0003     |     Ent_x   =  0000 
-    Ent_y   =  0001     |     LEFT_LIM=  0000     |     RIGHT_LI=  0050 
-    TOP_LIMI=  0000     |   0 cant_mov   0051 R   |   0 cant_mov   0071 R
-  0 collisio   00DC R   |   0 collisio   00C9 R   |   0 collisio   00EE R
-  0 collisio   0100 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
-    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_sca   **** GX
-    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
-  0 ent1_ptr   00AC R   |   0 ent2_ptr   00AE R   |   0 entityCh   00B0 GR
-  0 entityDr   0000 GR  |   0 entityEr   001A GR  |   0 entityUp   0072 GR
-  0 entityUp   0033 R   |   0 no_colli   0102 R
+    Ent_y   =  0001     |     Game_map=  0002     |     Game_map=  0001 
+    Game_tim=  0003     |     Game_tim=  0004     |     Game_typ=  0000 
+    LEFT_LIM=  0000     |     RIGHT_LI=  0050     |     TOP_LIMI=  0000 
+  0 cant_mov   0051 R   |   0 cant_mov   0071 R   |   0 collisio   00DC R
+  0 collisio   00C9 R   |   0 collisio   00EE R   |   0 collisio   0100 R
+    cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_get   **** GX
+    cpct_isK   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_wai   **** GX  |   0 ent1_ptr   00AC R
+  0 ent2_ptr   00AE R   |   0 entityCh   00B0 GR  |   0 entityDr   0000 GR
+  0 entityEr   001A GR  |   0 entityUp   0072 GR  |   0 entityUp   0033 R
+    gameStar   **** GX  |   0 no_colli   0102 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

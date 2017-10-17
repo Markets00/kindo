@@ -1,8 +1,9 @@
 XL2
-H 2 areas D global symbols
+H 2 areas E global symbols
 S cpct_setPalette_asm Ref0000
 S cpct_isKeyPressed_asm Ref0000
 S .__.ABS. Def0000
+S gameStart Ref0000
 S cpct_setVideoMode_asm Ref0000
 S cpct_waitVSYNC_asm Ref0000
 S cpct_disableFirmware_asm Ref0000
@@ -18,15 +19,15 @@ A _DATA size 0 flags 0 addr 0
 T 00 00
 R 00 00 00 00
 T 00 00 11 00 C0 DD 4E 00 DD 46 01 CD 00 00 EB DD
-R 00 00 00 00 02 0C 08 00
+R 00 00 00 00 02 0C 09 00
 T 0E 00 46 02 DD 4E 03 DD 7E 0D CD 00 00 C9
-R 00 00 00 00 02 0B 06 00
+R 00 00 00 00 02 0B 07 00
 T 1A 00
 R 00 00 00 00
 T 1A 00 11 00 C0 DD 4E 00 DD 46 01 CD 00 00 EB 3E
-R 00 00 00 00 02 0C 08 00
+R 00 00 00 00 02 0C 09 00
 T 28 00 00 DD 46 02 DD 4E 03 CD 00 00 C9
-R 00 00 00 00 02 0A 06 00
+R 00 00 00 00 02 0A 07 00
 T 33 00
 R 00 00 00 00
 T 33 00 DD 56 04 1E 00 DD 66 00 2E 00 19 44 3E 50
