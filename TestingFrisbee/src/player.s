@@ -173,6 +173,8 @@ moveUp:
 	cant_move_up:
 	ret
 
+
+
 ;; ============================
 ;; Lee la entrada del teclado
 ;; Modifica AF, BC, DE, HL

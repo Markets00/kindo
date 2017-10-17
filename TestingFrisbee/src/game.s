@@ -28,6 +28,9 @@
 ;; ====================================
 ;; ====================================
 
+;; .equ mi_constante0, 0
+;; .equ mi_constante1, 1
+
 	
 ;; ====================================
 ;; ====================================
@@ -44,7 +47,9 @@
 ;; Modifica IX
 ;; ===================================
 gameStart::
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;; Reading game data example
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;;	ld 	h, Game_type(ix)	;; H <= Game_type
 	;;
 	;;	ld 	h, Game_map_L(ix)
@@ -52,8 +57,10 @@ gameStart::
 	;;
 	;;	ld 	h, Game_time_H(ix)
 	;;	ld 	l, Game_time_L(ix)	;; HL <= Game_time
-
+	
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	;; Modifying game data example
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;;	ld 	Game_type(ix), #0	;; Game_type <= 0
 	;;
 	;;	ld 	Game_map_L(ix), #0

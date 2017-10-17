@@ -1,21 +1,0 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     Ent_ax_F=  0009     |     Ent_ax_I=  0008 
-    Ent_ay_F=  000B     |     Ent_ay_I=  000A     |     Ent_clr =  000D 
-    Ent_h   =  0002     |     Ent_onOf=  000C     |     Ent_vx_F=  0005 
-    Ent_vx_I=  0004     |     Ent_vy_F=  0007     |     Ent_vy_I=  0006 
-    Ent_w   =  0003     |     Ent_x   =  0000     |     Ent_y   =  0001 
-    entityCh   **** GX  |     entityDr   **** GX  |     entityEr   **** GX
-    entityUp   **** GX
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE      size    0   flags    0
-
