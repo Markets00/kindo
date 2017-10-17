@@ -1,17 +1,18 @@
 .area _DATA
 .area _CODE
 
-.include "player.h.s"
-.include "frisbee.h.s"
+.include "game.h.s"
 .include "utility.h.s"
-.globl player_data
-.globl enemy_data
+
+
+;; .macro defineGame name, type, map, time
+defineGame game, #0, #0x0000, #0x012C
 
 
 ;; ========================
 ;; Initialize system
 ;; ========================
-initializeGame:
+initializeSystem:
 	call cpct_disableFirmware_asm
 
 	;; Set video mode
@@ -29,18 +30,7 @@ initializeGame:
 ;; Programa principal
 ;; ========================
 _main::
-	call initializeGame
+	call initializeSystem
 
-	call player_erase
-	call frisbee_erase
-
-	call player_update
-	call frisbee_update
-
-	call player_draw
-	call frisbee_draw
-
-	
-	call cpct_waitVSYNC_asm
-
-	jr (_main) 			;; Bucle infinito
+	ld ix, #game_data
+	call gameStart		;; inicia una partida con los valores de game_data

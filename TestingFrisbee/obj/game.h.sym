@@ -7,18 +7,12 @@ Symbol Table
     .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     Game_map=  0002 
     Game_map=  0001     |     Game_tim=  0003     |     Game_tim=  0004 
     Game_typ=  0000     |     LEFT_LIM=  0000     |     RIGHT_LI=  0050 
-    TOP_LIMI=  0000     |   0 _main      0009 GR  |     cpct_dis   **** GX
-    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
-    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |     gameStar   **** GX  |   0 game_dat   0000 GR
-  0 game_map   0001 R   |   0 game_tim   0003 R   |   0 game_typ   0000 R
-  0 initiali   0005 R
+    TOP_LIMI=  0000     |     gameStar   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   13   flags    0
-   1 _DATA      size    0   flags    0
+   0 _CODE      size    0   flags    0
 

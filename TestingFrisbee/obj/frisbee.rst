@@ -236,11 +236,11 @@ Hexadecimal [16-Bits]
    028C 4F            [ 4]  144 	ld 	c, a			;; C = frisbee_x
    028D 3A 06 02      [13]  145 	ld 	a, (frisbee_y) 
    0290 47            [ 4]  146 	ld 	b, a 			;; B = frisbee_y
-   0291 CD A5 04      [17]  147 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
+   0291 CD B6 04      [17]  147 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
                             148 
    0294 EB            [ 4]  149 	ex 	de, hl 			;; DE = frisbee screen pointer
    0295 F1            [10]  150 	pop 	af 			;; A = User selected colour
    0296 01 02 08      [10]  151 	ld 	bc, #0x0802		;; 8x8 píxeles
-   0299 CD F8 03      [17]  152 	call cpct_drawSolidBox_asm
+   0299 CD 09 04      [17]  152 	call cpct_drawSolidBox_asm
                             153 
    029C C9            [10]  154 	ret

@@ -61,13 +61,13 @@ Hexadecimal [16-Bits]
    0100 11 00 C0      [10]   33 	ld 	de, #0xC000 		;; Video memory pointer
    0103 DD 4E 00      [19]   34 	ld 	c, Ent_x(ix) 		;; C = ent_x
    0106 DD 46 01      [19]   35 	ld 	b, Ent_y(ix) 		;; B = ent_y
-   0109 CD A5 04      [17]   36 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0109 CD B6 04      [17]   36 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              37 
    010C EB            [ 4]   38 	ex 	de, hl 			;; DE = ent screen pointer
    010D DD 46 02      [19]   39 	ld 	b, Ent_h(ix) 		;; B = ent height
    0110 DD 4E 03      [19]   40 	ld 	c, Ent_w(ix) 		;; C = ent width
    0113 DD 7E 0D      [19]   41 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0116 CD F8 03      [17]   42 	call cpct_drawSolidBox_asm
+   0116 CD 09 04      [17]   42 	call cpct_drawSolidBox_asm
                              43 
    0119 C9            [10]   44 	ret
                              45 
@@ -81,13 +81,13 @@ Hexadecimal [16-Bits]
    011A 11 00 C0      [10]   53 	ld 	de, #0xC000 		;; Video memory  pointer
    011D DD 4E 00      [19]   54 	ld 	c, 0(ix) 		;; C = ent_x
    0120 DD 46 01      [19]   55 	ld 	b, 1(ix) 		;; B = ent_y
-   0123 CD A5 04      [17]   56 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0123 CD B6 04      [17]   56 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              57 
    0126 EB            [ 4]   58 	ex 	de, hl 			;; DE = ent screen pointer
    0127 3E 00         [ 7]   59 	ld 	a, #0x00 		;; A = background color
    0129 DD 46 02      [19]   60 	ld 	b, Ent_h(ix) 		;; B = ent height
    012C DD 4E 03      [19]   61 	ld 	c, Ent_w(ix) 		;; C = ent width
-   012F CD F8 03      [17]   62 	call cpct_drawSolidBox_asm
+   012F CD 09 04      [17]   62 	call cpct_drawSolidBox_asm
                              63 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]

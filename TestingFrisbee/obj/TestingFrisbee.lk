@@ -10,10 +10,12 @@
 obj/entity.rel
 obj/frisbee.rel
 obj/entity.h.rel
+obj/game.h.rel
 obj/player.h.rel
 obj/utility.h.rel
 obj/main.rel
 obj/frisbee.h.rel
 obj/player.rel
+obj/game.rel
 
 -e
