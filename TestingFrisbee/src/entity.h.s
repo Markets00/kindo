@@ -22,6 +22,12 @@
 		name'_clr:	.db clr		;; Entity color pattern		(8 bits)
 .endm
 
+
+;; ====================================
+;; ====================================
+;; ENTITY PUBLIC DATA
+;; ====================================
+;; ====================================
 .equ Ent_x, 	0	;; X coordinate
 .equ Ent_y, 	1	;; Y coordinate
 .equ Ent_h, 	2	;; Height
