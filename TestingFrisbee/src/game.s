@@ -1,14 +1,15 @@
 .area _DATA
 .area _CODE
 
+.include "player.h.s"
+.include "frisbee.h.s"
+.include "utility.h.s"
+	
 ;; ====================================
 ;; ====================================
 ;; PUBLIC DATA
 ;; ====================================
 ;; ====================================
-.include "player.h.s"
-.include "frisbee.h.s"
-.include "utility.h.s"
 
 .equ Game_type, 	0	;; Game mode
 .equ Game_map_L, 	1	;; Low part of pointer to game map

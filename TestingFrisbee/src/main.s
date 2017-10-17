@@ -4,7 +4,7 @@
 .include "game.h.s"
 
 
-;; .macro defineGame name, type, map, time
+;; .macro defineGame name, type, map, fTime
 defineGame game, #0, #0x0000, #0x012C
 
 ;; ========================
