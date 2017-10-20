@@ -15,9 +15,9 @@ std_acc = 16 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x, y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity player, #0x2700, #0x5000, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0
+defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0
 
-defineEntity enemy, #0x5000-0x0400, #0x6400, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF
+defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF
 
 	
 ;; ====================================

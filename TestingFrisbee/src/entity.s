@@ -3,10 +3,10 @@
 .include "utility.h.s"
 .include "game.h.s"
 
-.equ Ent_x_F, 	0	;; X coordinate, low part
-.equ Ent_x_I, 	1	;; X coordinate, high part
-.equ Ent_y_F, 	2	;; Y coordinate, low part
-.equ Ent_y_I, 	3	;; Y coordinate, high part
+.equ Ent_x_I, 	0	;; X coordinate, integer part
+.equ Ent_x_F, 	1	;; X coordinate, fractional part
+.equ Ent_y_I, 	2	;; Y coordinate, integer part
+.equ Ent_y_F, 	3	;; Y coordinate, fractional part
 .equ Ent_h, 	4	;; Height
 .equ Ent_w, 	5	;; Width
 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part
@@ -92,7 +92,7 @@ entityUpdatePhysics::
 	ld 	d, Ent_ax_I(ix)
 	ld 	e, Ent_ax_F(ix)		;; DE <= ent_ax
 
-	add 	hl, de 			;; HL <= HL + DE
+	add 	hl, de 			;; HL <= HL + DE (ent_vx + ent_ax)
 
 	ld 	a, h
 	cp 	#MAX_VEL_X
@@ -115,7 +115,7 @@ entityUpdatePhysics::
 	ld 	d, Ent_ay_I(ix)
 	ld 	e, Ent_ay_F(ix)		;; DE <= ent_ay
 
-	add 	hl, de 			;; HL <= HL + DE
+	add 	hl, de 			;; HL <= HL + DE (ent_vy + ent_ay)
 	ld 	a, h
 	cp 	#MAX_VEL_Y
 	jp 	p, cant_accelerate_y
@@ -239,119 +239,57 @@ entityCheckCollision::
 ;; =========================================
 entityUpdatePosition:
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;	TO DO 		;;
-	;; X está a mitad	;;
-	;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 	;; x' = x + vx_I
 	ld 	d, Ent_vx_I(ix) 	
-	ld 	e, Ent_vx_F(ix)		;; DE <= ent_vx_I 
+	ld 	e, Ent_vx_F(ix)		;; DE <= ent_vx
 
 	ld 	h, Ent_x_I(ix) 		;; 
 	ld 	l, Ent_x_F(ix)		;; HL <= Ent_x
 
-	add 	hl, de 			;; HL <= HL + DE (x + vx_I)
+	add 	hl, de 			;; HL <= HL + DE (x + vx)
 
-	ld 	a, h 			;; A <= H (x + vx_I)
-	add 	Ent_w(IX) 		;; A <= w + x + vx_I
-	cp	#RIGHT_LIMIT
-	jr 	, cant_move_x		;; RIGHT_LIMIT < w + x + vx_I? can't move
-
-		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
-		cp 	b 			;; F <= A - B
-		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
-
+	ld 	a, h 			;; B <= H (x_I + vx_I) integer part
+	cp 	#LEFT_LIMIT
+	jp 	m, cant_move_x		;; LIMIT_LEFT > x_I + vx_I? can't move
+		;; can move left
+		add 	Ent_w(ix) 		;; A <= w + x_I + vx_I
+		ld	b, a
+		ld 	a, #RIGHT_LIMIT
+		cp	b
+		jr 	c, cant_move_x	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
 			;; can move
 			ld 	Ent_x_I(ix), h
-			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL
+			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL (x + vx)
 
 	cant_move_x:
 
-
 	;; y' = y + vy_I*2
-	ld 	d, Ent_vy_I(ix)
-	ld 	e, Ent_vy_F(ix) 	;; DE <= ent_vy
+	ld 	d, Ent_vy_I(ix) 	
+	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
 
-	ld 	h, Ent_y_I(ix)
-	ld 	l, Ent_y_F(ix) 		;; HL <= Ent_y
+	ld 	h, Ent_y_I(ix) 		;; 
+	ld 	l, Ent_y_F(ix)		;; HL <= Ent_y
 
-	add 	hl, de
-	add 	hl, de 			;; A <= Ent_y + Ent_vy_I*2
+	add 	hl, de 			;; HL <= HL + DE (y + vy)
+	add 	hl, de 			;; HL <= HL + DE (y + vy)
 
-	ld 	b, h 			;; B <= A (y + ent_vy_I*2)
-	ld 	a, #BOTTOM_LIMIT
-	sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
-
-	cp 	b			;; F <= A - B
-	jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
-
-		ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
-		cp 	b 			;; F <= A - B
-		jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
-
+	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
+	cp 	#TOP_LIMIT
+	jp 	c, cant_move_y		;; TOP_LIMIT > y_I + vy_I? can't move
+	;;jp 	m, cant_move_y
+		;; can move up
+		ld 	a, h
+		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
+		ld	b, a
+		ld 	a, #BOTTOM_LIMIT
+		cp	b
+		jp 	c, cant_move_y		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
 			;; can move
 			ld 	Ent_y_I(ix), h
-			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL
+			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
+
+	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
 
 	cant_move_y:
 
 		ret
-
-
-
-;;	;; x = x + vx_I
-;;	ld 	d, Ent_vx_I(ix) 	;; D <= ent_vx_I
-;;	ld 	e, #0			;; E <= 0 (discard fractional part)
-;;
-;;	ld 	h, Ent_x(ix) 		;; H <= Ent_x
-;;	ld 	l, #0			;; L <= 0 (discard fractional part)
-;;
-;;	add 	hl, de 			;; H <= H + D (x + vx_I)
-;;
-;;	ld 	b, h 			;; B <= H (x + vx_I)
-;;	ld 	a, #RIGHT_LIMIT
-;;	sub 	Ent_w(IX) 		;; A <= RIGHT_LIMIT - Ent_width
-;;
-;;	cp 	b			;; F <= A - B
-;;	jp 	m, cant_move_x		;; RIGHT_LIMIT - Ent_width < x + vx_I? can't move
-;;
-;;		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
-;;		cp 	b 			;; F <= A - B
-;;		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
-;;
-;;			;; can move
-;;			ld 	Ent_x(ix), h 		;; Ent_x <= H
-;;
-;;	cant_move_x:
-
-	;; y = y + vy_I*2
-	;;ld 	h, Ent_vy_I(ix) 	;; H <= ent_vy_I
-	;;ld 	l, Ent_vy_F(ix)		;; L <= ent_vy_F
-;;
-;;	;;ld 	d, Ent_y(ix) 		;; D <= Ent_y
-;;	;;ld 	e, #0			;; E <= 0 (discard fractional part)
-;;
-;;	;;add 	hl, hl 			;; H <= H(ent_vy_I)*2
-;;	;;				;; D <= ent_vy_I*2
-;;	;;ex 	de, hl 			;; H <= Ent_y
-;;
-;;	;;add 	hl, de 			;; H <= H (y) + D (ent_vy_I*2)
-;;
-;;	;;ld 	b, h 			;; B <= H (y + ent_vy_I*2)
-;;	;;ld 	a, #BOTTOM_LIMIT
-;;	;;sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
-;;
-;;	;;cp 	b			;; F <= A - B
-;;	;;jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
-;;
-;;	;;	ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
-;;	;;	cp 	b 			;; F <= A - B
-;;	;;	jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
-;;
-;;	;;		;; can move
-;;	;;		ld 	Ent_y(ix), h 		;; Ent_y <= H
-;;
-;;	;;cant_move_y:
-;;
-	;;	ret

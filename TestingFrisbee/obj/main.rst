@@ -62,25 +62,25 @@ Hexadecimal [16-Bits]
                               6 
                               7 
                               8 ;; .macro defineGame name, type, map, fTime
-   02BE                       9 defineGame game, #0, #0x0000, #0x012C
+   02B9                       9 defineGame game, #0, #0x0000, #0x012C
    0000                       1 	game_data::
-   02BE 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
-   02BF 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   02C1 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
+   02B9 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
+   02BA 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
+   02BC 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
                              10 
                              11 ;; .macro defineGame name, type, map, fTime
-   02C3                      12 defineGame gameaux, #0, #0x0000, #0x012C
+   02BE                      12 defineGame gameaux, #0, #0x0000, #0x012C
    0005                       1 	gameaux_data::
-   02C3 00                    2 		gameaux_type:	.db #0	;; Game Mode			(8 bits)
-   02C4 00 00                 3 		gameaux_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   02C6 2C 01                 4 		gameaux_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
+   02BE 00                    2 		gameaux_type:	.db #0	;; Game Mode			(8 bits)
+   02BF 00 00                 3 		gameaux_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
+   02C1 2C 01                 4 		gameaux_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
                              13 
                              14 ;; ========================
                              15 ;; Programa principal
                              16 ;; ========================
-   02C8                      17 _main::
-   02C8 DD 21 BE 02   [14]   18 	ld ix, #game_data
-   02CC CD D1 03      [17]   19 	call menuStart
-   02CF CD DA 03      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
+   02C3                      17 _main::
+   02C3 DD 21 B9 02   [14]   18 	ld ix, #game_data
+   02C7 CD CC 03      [17]   19 	call menuStart
+   02CA CD D5 03      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
                              21 
-   02D2 18 F4         [12]   22 	jr (_main)
+   02CD 18 F4         [12]   22 	jr (_main)

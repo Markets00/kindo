@@ -57,18 +57,19 @@ Hexadecimal [16-Bits]
                              25 
                      0050    26 .equ RIGHT_LIMIT,	80
                      0000    27 .equ LEFT_LIMIT,	0
-                     0000    28 .equ TOP_LIMIT,	 	0
+                     000A    28 .equ TOP_LIMIT,	 	10
                      00C8    29 .equ BOTTOM_LIMIT,	200
+                     0028    30 .equ CENTER_LIMIT,	40
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 
 
                               5 
-                     0000     6 .equ Ent_x_F, 	0	;; X coordinate, low part
-                     0001     7 .equ Ent_x_I, 	1	;; X coordinate, high part
-                     0002     8 .equ Ent_y_F, 	2	;; Y coordinate, low part
-                     0003     9 .equ Ent_y_I, 	3	;; Y coordinate, high part
+                     0000     6 .equ Ent_x_I, 	0	;; X coordinate, integer part
+                     0001     7 .equ Ent_x_F, 	1	;; X coordinate, fractional part
+                     0002     8 .equ Ent_y_I, 	2	;; Y coordinate, integer part
+                     0003     9 .equ Ent_y_F, 	3	;; Y coordinate, fractional part
                      0004    10 .equ Ent_h, 	4	;; Height
                      0005    11 .equ Ent_w, 	5	;; Width
                      0006    12 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part
@@ -108,15 +109,15 @@ Hexadecimal [16-Bits]
                              46 ;; ===================================
    0100                      47 entityDraw::
    0100 11 00 C0      [10]   48 	ld 	de, #0xC000 		;; Video memory pointer
-   0103 DD 4E 01      [19]   49 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
-   0106 DD 46 03      [19]   50 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0109 CD EE 04      [17]   51 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0103 DD 4E 00      [19]   49 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
+   0106 DD 46 02      [19]   50 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
+   0109 CD E9 04      [17]   51 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              52 
    010C EB            [ 4]   53 	ex 	de, hl 			;; DE = ent screen pointer
    010D DD 46 04      [19]   54 	ld 	b, Ent_h(ix) 		;; B = ent height
    0110 DD 4E 05      [19]   55 	ld 	c, Ent_w(ix) 		;; C = ent width
    0113 DD 7E 0F      [19]   56 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0116 CD 41 04      [17]   57 	call cpct_drawSolidBox_asm
+   0116 CD 3C 04      [17]   57 	call cpct_drawSolidBox_asm
                              58 
    0119 C9            [10]   59 	ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
@@ -133,15 +134,15 @@ Hexadecimal [16-Bits]
                              66 ;; ===================================
    011A                      67 entityErase::
    011A 11 00 C0      [10]   68 	ld 	de, #0xC000 		;; Video memory  pointer
-   011D DD 4E 01      [19]   69 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
-   0120 DD 46 03      [19]   70 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0123 CD EE 04      [17]   71 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   011D DD 4E 00      [19]   69 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
+   0120 DD 46 02      [19]   70 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
+   0123 CD E9 04      [17]   71 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              72 
    0126 EB            [ 4]   73 	ex 	de, hl 			;; DE = ent screen pointer
    0127 3E 00         [ 7]   74 	ld 	a, #0x00 		;; A = background color
    0129 DD 46 04      [19]   75 	ld 	b, Ent_h(ix) 		;; B = ent height
    012C DD 4E 05      [19]   76 	ld 	c, Ent_w(ix) 		;; C = ent width
-   012F CD 41 04      [17]   77 	call cpct_drawSolidBox_asm
+   012F CD 3C 04      [17]   77 	call cpct_drawSolidBox_asm
                              78 
    0132 C9            [10]   79 	ret
                              80 
@@ -159,7 +160,7 @@ Hexadecimal [16-Bits]
    0139 DD 56 0A      [19]   92 	ld 	d, Ent_ax_I(ix)
    013C DD 5E 0B      [19]   93 	ld 	e, Ent_ax_F(ix)		;; DE <= ent_ax
                              94 
-   013F 19            [11]   95 	add 	hl, de 			;; HL <= HL + DE
+   013F 19            [11]   95 	add 	hl, de 			;; HL <= HL + DE (ent_vx + ent_ax)
                              96 
    0140 7C            [ 4]   97 	ld 	a, h
    0141 FE 02         [ 7]   98 	cp 	#MAX_VEL_X
@@ -187,7 +188,7 @@ Hexadecimal [16-Bits]
    0157 DD 56 0C      [19]  115 	ld 	d, Ent_ay_I(ix)
    015A DD 5E 0D      [19]  116 	ld 	e, Ent_ay_F(ix)		;; DE <= ent_ay
                             117 
-   015D 19            [11]  118 	add 	hl, de 			;; HL <= HL + DE
+   015D 19            [11]  118 	add 	hl, de 			;; HL <= HL + DE (ent_vy + ent_ay)
    015E 7C            [ 4]  119 	ld 	a, h
    015F FE 04         [ 7]  120 	cp 	#MAX_VEL_Y
    0161 F2 6F 01      [10]  121 	jp 	p, cant_accelerate_y
@@ -232,10 +233,10 @@ Hexadecimal [16-Bits]
    0187 DD 22 83 01   [20]  160 	ld 	(ent1_ptr), ix 		;; ent1_ptr <= IX
    018B 22 85 01      [16]  161 	ld 	(ent2_ptr), hl 		;; ent2_ptr <= HL
                             162 
-   018E DD 7E 01      [19]  163 	ld 	a, Ent_x_I(ix)		;; A <= ent1_x
+   018E DD 7E 00      [19]  163 	ld 	a, Ent_x_I(ix)		;; A <= ent1_x
    0191 DD 86 05      [19]  164 	add 	Ent_w(ix)		;; A <= A + ent1_w
    0194 DD 2A 85 01   [20]  165 	ld 	ix, (ent2_ptr)		;; IX <= ent 2
-   0198 DD 96 01      [19]  166 	sub 	Ent_x_I(ix)		;; A <= A - ent2_x
+   0198 DD 96 00      [19]  166 	sub 	Ent_x_I(ix)		;; A <= A - ent2_x
    019B F2 A0 01      [10]  167 	jp 	p, collision_XR		;; A > 0? lo contrario a A <= 0
                             168 
    019E 18 39         [12]  169 	jr 	no_collision
@@ -253,10 +254,10 @@ Hexadecimal [16-Bits]
                             176 		;; If (ent2_x + ent2_w <= ent1_x) no collision
                             177 		;; ent2_x + ent2_w - ent1_x <= 0
                             178 		;; 
-   01A1 DD 7E 01      [19]  179 		ld 	a, Ent_x_I(ix)		;; A <= ent2_x
+   01A1 DD 7E 00      [19]  179 		ld 	a, Ent_x_I(ix)		;; A <= ent2_x
    01A4 DD 86 05      [19]  180 		add 	Ent_w(ix) 		;; A <= A + ent2_w
    01A7 DD 2A 83 01   [20]  181 		ld 	ix, (ent1_ptr)		;; IX <= ent 1
-   01AB DD 96 01      [19]  182 		sub 	Ent_x_I(ix)		;; A <= A - ent1_x
+   01AB DD 96 00      [19]  182 		sub 	Ent_x_I(ix)		;; A <= A - ent1_x
    01AE F2 B3 01      [10]  183 		jp 	p, collision_XL		;; A > 0? lo contrario a A <= 0
                             184 
    01B1 18 26         [12]  185 		jr 	no_collision
@@ -266,10 +267,10 @@ Hexadecimal [16-Bits]
                             189 		;; If (ent1_y + ent1_h <= ent2_y) no collision
                             190 		;; ent1_y + ent1_h - ent2_y <= 0
                             191 		;;
-   01B3 DD 7E 03      [19]  192 		ld 	a, Ent_y_I(ix)		;; A <= ent1_x
+   01B3 DD 7E 02      [19]  192 		ld 	a, Ent_y_I(ix)		;; A <= ent1_x
    01B6 DD 86 04      [19]  193 		add 	Ent_h(ix)		;; A <= A + ent1_w
    01B9 DD 2A 85 01   [20]  194 		ld 	ix, (ent2_ptr)		;; IX <= ent 2
-   01BD DD 96 03      [19]  195 		sub 	Ent_y_I(ix)		;; A <= A - ent2_x
+   01BD DD 96 02      [19]  195 		sub 	Ent_y_I(ix)		;; A <= A - ent2_x
    01C0 F2 C5 01      [10]  196 		jp 	p, collision_YB		;; A > 0? lo contrario a A <= 0
                             197 
    01C3 18 14         [12]  198 		jr 	no_collision
@@ -280,10 +281,10 @@ Hexadecimal [16-Bits]
                             203 		;; If (ent2_y + ent2_h <= ent1_y) no collision
                             204 		;; ent2_y + ent2_h - ent1_y <= 0
                             205 		;; 
-   01C5 DD 7E 03      [19]  206 		ld 	a, Ent_y_I(ix)		;; A <= ent2_y
+   01C5 DD 7E 02      [19]  206 		ld 	a, Ent_y_I(ix)		;; A <= ent2_y
    01C8 DD 86 04      [19]  207 		add 	Ent_h(ix) 		;; A <= A + ent2_h
    01CB DD 2A 83 01   [20]  208 		ld 	ix, (ent1_ptr)		;; IX <= ent 1
-   01CF DD 96 03      [19]  209 		sub 	Ent_y_I(ix)		;; A <= A - ent1_y
+   01CF DD 96 02      [19]  209 		sub 	Ent_y_I(ix)		;; A <= A - ent1_y
    01D2 F2 D7 01      [10]  210 		jp 	p, collision_YT		;; A > 0? lo contrario a A <= 0
                             211 
    01D5 18 02         [12]  212 		jr 	no_collision
@@ -323,124 +324,105 @@ Hexadecimal [16-Bits]
                             241 
                             242 	;; x' = x + vx_I
    01DC DD 56 06      [19]  243 	ld 	d, Ent_vx_I(ix) 	
-   01DF DD 5E 07      [19]  244 	ld 	e, Ent_vx_F(ix)		;; DE <= ent_vx_I 
+   01DF DD 5E 07      [19]  244 	ld 	e, Ent_vx_F(ix)		;; DE <= ent_vx
                             245 
-   01E2 DD 66 01      [19]  246 	ld 	h, Ent_x_I(ix) 		;; 
-   01E5 DD 6E 00      [19]  247 	ld 	l, Ent_x_F(ix)		;; HL <= Ent_x
+   01E2 DD 66 00      [19]  246 	ld 	h, Ent_x_I(ix) 		;; 
+   01E5 DD 6E 01      [19]  247 	ld 	l, Ent_x_F(ix)		;; HL <= Ent_x
                             248 
-   01E8 19            [11]  249 	add 	hl, de 			;; H <= HL + DE (x + vx_I)
+   01E8 19            [11]  249 	add 	hl, de 			;; HL <= HL + DE (x + vx)
                             250 
-   01E9 44            [ 4]  251 	ld 	b, h 			;; B <= H (x + vx_I)
-   01EA 3E 50         [ 7]  252 	ld 	a, #RIGHT_LIMIT
-   01EC DD 96 05      [19]  253 	sub 	Ent_w(IX) 		;; A <= RIGHT_LIMIT - Ent_width
-                            254 
-   01EF B8            [ 4]  255 	cp 	b			;; F <= A - B
-   01F0 FA FF 01      [10]  256 	jp 	m, cant_move_x		;; RIGHT_LIMIT - Ent_width < x + vx_I? can't move
-                            257 
-   01F3 3E 00         [ 7]  258 		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
-   01F5 B8            [ 4]  259 		cp 	b 			;; F <= A - B
-   01F6 F2 FF 01      [10]  260 		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
-                            261 
-                            262 			;; can move
-   01F9 DD 74 01      [19]  263 			ld 	Ent_x_I(ix), h
-   01FC DD 75 00      [19]  264 			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL
+   01E9 7C            [ 4]  251 	ld 	a, h 			;; B <= H (x_I + vx_I) integer part
+   01EA FE 00         [ 7]  252 	cp 	#LEFT_LIMIT
+   01EC FA FE 01      [10]  253 	jp 	m, cant_move_x		;; LIMIT_LEFT > x_I + vx_I? can't move
+                            254 		;; can move left
+   01EF DD 86 05      [19]  255 		add 	Ent_w(ix) 		;; A <= w + x_I + vx_I
+   01F2 47            [ 4]  256 		ld	b, a
+   01F3 3E 50         [ 7]  257 		ld 	a, #RIGHT_LIMIT
+   01F5 B8            [ 4]  258 		cp	b
+   01F6 38 06         [12]  259 		jr 	c, cant_move_x	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
+                            260 			;; can move
+   01F8 DD 74 00      [19]  261 			ld 	Ent_x_I(ix), h
+   01FB DD 75 01      [19]  262 			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL (x + vx)
+                            263 
+   01FE                     264 	cant_move_x:
                             265 
-   01FF                     266 	cant_move_x:
-                            267 
-                            268 
-                            269 	;; y' = y + vy_I*2
-   01FF DD 56 08      [19]  270 	ld 	d, Ent_vy_I(ix)
-   0202 DD 5E 09      [19]  271 	ld 	e, Ent_vy_F(ix) 	;; DE <= ent_vy
-                            272 
-   0205 DD 66 03      [19]  273 	ld 	h, Ent_y_I(ix)
-   0208 DD 6E 02      [19]  274 	ld 	l, Ent_y_F(ix) 		;; HL <= Ent_y
-                            275 
-   020B 19            [11]  276 	add 	hl, de
-   020C 19            [11]  277 	add 	hl, de 			;; A <= Ent_y + Ent_vy_I*2
-                            278 
-   020D 44            [ 4]  279 	ld 	b, h 			;; B <= A (y + ent_vy_I*2)
+                            266 	;; y' = y + vy_I*2
+                            267 ;;	ld 	d, Ent_vy_I(ix) 	
+                            268 ;;	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
+                            269 ;;
+                            270 ;;	ld 	h, Ent_y_I(ix) 		;; 
+                            271 ;;	ld 	l, Ent_y_F(ix)		;; HL <= Ent_y
+                            272 ;;
+                            273 ;;	add 	hl, de 			;; HL <= HL + DE (y + vy)
+                            274 ;;	add 	hl, de 			;; HL <= HL + DE (y + vy)
+                            275 ;;
+                            276 ;;	ld 	a, h			;; A <= H (y + vy) integer part
+                            277 ;;	cp 	#100
+                            278 ;;	jr 	c, upper_y		;; Is (y + vy) < 100?
+                            279 ;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
 Hexadecimal [16-Bits]
 
 
 
-   020E 3E C8         [ 7]  280 	ld 	a, #BOTTOM_LIMIT
-   0210 DD 96 04      [19]  281 	sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
-                            282 
-   0213 B8            [ 4]  283 	cp 	b			;; F <= A - B
-   0214 FA 23 02      [10]  284 	jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
-                            285 
-   0217 3E 00         [ 7]  286 		ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
-   0219 B8            [ 4]  287 		cp 	b 			;; F <= A - B
-   021A F2 23 02      [10]  288 		jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
-                            289 
-                            290 			;; can move
-   021D DD 74 03      [19]  291 			ld 	Ent_y_I(ix), h
-   0220 DD 75 02      [19]  292 			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL
-                            293 
-   0223                     294 	cant_move_y:
-                            295 
-   0223 C9            [10]  296 		ret
-                            297 
-                            298 
-                            299 
-                            300 ;;	;; x = x + vx_I
-                            301 ;;	ld 	d, Ent_vx_I(ix) 	;; D <= ent_vx_I
-                            302 ;;	ld 	e, #0			;; E <= 0 (discard fractional part)
+                            280 ;;		;; lower_y
+                            281 ;;		cp 	#TOP_LIMIT
+                            282 ;;		jp 	m, cant_move_y		;; TOP_LIMIT > y_I + vy_I? can't move
+                            283 ;;			jr can_move_up
+                            284 ;;
+                            285 ;;	;; MOVING UP
+                            286 ;;	upper_y:	
+                            287 ;;		cp 	#TOP_LIMIT
+                            288 ;;		jp 	pe, cant_move_y		;; TOP_LIMIT > y_I + vy_I? can't move
+                            289 ;;
+                            290 ;;	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
+                            291 ;;	can_move_up:
+                            292 ;;		;; MOVING DOWN
+                            293 ;;		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
+                            294 ;;		ld	b, a
+                            295 ;;		ld 	a, #BOTTOM_LIMIT
+                            296 ;;		cp	b
+                            297 ;;		jp 	c, cant_move_y		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
+                            298 ;;			;; can move
+                            299 ;;			ld 	Ent_y_I(ix), h
+                            300 ;;			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
+                            301 ;;
+                            302 ;;	cant_move_y:
                             303 ;;
-                            304 ;;	ld 	h, Ent_x(ix) 		;; H <= Ent_x
-                            305 ;;	ld 	l, #0			;; L <= 0 (discard fractional part)
-                            306 ;;
-                            307 ;;	add 	hl, de 			;; H <= H + D (x + vx_I)
-                            308 ;;
-                            309 ;;	ld 	b, h 			;; B <= H (x + vx_I)
-                            310 ;;	ld 	a, #RIGHT_LIMIT
-                            311 ;;	sub 	Ent_w(IX) 		;; A <= RIGHT_LIMIT - Ent_width
-                            312 ;;
-                            313 ;;	cp 	b			;; F <= A - B
-                            314 ;;	jp 	m, cant_move_x		;; RIGHT_LIMIT - Ent_width < x + vx_I? can't move
-                            315 ;;
-                            316 ;;		ld 	a, #LEFT_LIMIT		;; A <= LEFT_LIMIT
-                            317 ;;		cp 	b 			;; F <= A - B
-                            318 ;;		jp 	p, cant_move_x		;; LIMIT_LEFT > x + vx_I? can't move
-                            319 ;;
-                            320 ;;			;; can move
-                            321 ;;			ld 	Ent_x(ix), h 		;; Ent_x <= H
-                            322 ;;
-                            323 ;;	cant_move_x:
-                            324 
-                            325 	;; y = y + vy_I*2
-                            326 	;;ld 	h, Ent_vy_I(ix) 	;; H <= ent_vy_I
-                            327 	;;ld 	l, Ent_vy_F(ix)		;; L <= ent_vy_F
-                            328 ;;
-                            329 ;;	;;ld 	d, Ent_y(ix) 		;; D <= Ent_y
-                            330 ;;	;;ld 	e, #0			;; E <= 0 (discard fractional part)
-                            331 ;;
-                            332 ;;	;;add 	hl, hl 			;; H <= H(ent_vy_I)*2
-                            333 ;;	;;				;; D <= ent_vy_I*2
-                            334 ;;	;;ex 	de, hl 			;; H <= Ent_y
+                            304 ;;		ret
+                            305 
+                            306 	;; y' = y + vy_I*2
+   01FE DD 56 08      [19]  307 	ld 	d, Ent_vy_I(ix) 	
+   0201 DD 5E 09      [19]  308 	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
+                            309 
+   0204 DD 66 02      [19]  310 	ld 	h, Ent_y_I(ix) 		;; 
+   0207 DD 6E 03      [19]  311 	ld 	l, Ent_y_F(ix)		;; HL <= Ent_y
+                            312 
+   020A 19            [11]  313 	add 	hl, de 			;; HL <= HL + DE (y + vy)
+   020B 19            [11]  314 	add 	hl, de 			;; HL <= HL + DE (y + vy)
+                            315 
+   020C 7C            [ 4]  316 	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
+   020D FE 0A         [ 7]  317 	cp 	#TOP_LIMIT
+   020F DA 23 02      [10]  318 	jp 	c, cant_move_y		;; TOP_LIMIT > y_I + vy_I? can't move
+                            319 	;;jp 	m, cant_move_y
+                            320 		;; can move up
+   0212 7C            [ 4]  321 		ld 	a, h
+   0213 DD 86 04      [19]  322 		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
+   0216 47            [ 4]  323 		ld	b, a
+   0217 3E C8         [ 7]  324 		ld 	a, #BOTTOM_LIMIT
+   0219 B8            [ 4]  325 		cp	b
+   021A DA 23 02      [10]  326 		jp 	c, cant_move_y		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
+                            327 			;; can move
+   021D DD 74 02      [19]  328 			ld 	Ent_y_I(ix), h
+   0220 DD 75 03      [19]  329 			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
+                            330 
+                            331 	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
+                            332 
+   0223                     333 	cant_move_y:
+                            334 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
 Hexadecimal [16-Bits]
 
 
 
-                            335 ;;
-                            336 ;;	;;add 	hl, de 			;; H <= H (y) + D (ent_vy_I*2)
-                            337 ;;
-                            338 ;;	;;ld 	b, h 			;; B <= H (y + ent_vy_I*2)
-                            339 ;;	;;ld 	a, #BOTTOM_LIMIT
-                            340 ;;	;;sub 	Ent_h(IX) 		;; A <= BOTTOM_LIMIT - Ent_height
-                            341 ;;
-                            342 ;;	;;cp 	b			;; F <= A - B
-                            343 ;;	;;jp 	m, cant_move_y		;; BOTTOM_LIMIT - Ent_height < y + ent_vy_I*2? can't move
-                            344 ;;
-                            345 ;;	;;	ld 	a, #TOP_LIMIT		;; A <= TOP_LIMIT
-                            346 ;;	;;	cp 	b 			;; F <= A - B
-                            347 ;;	;;	jp 	p, cant_move_y		;; TOP_LIMIT > y + ent_vy_I*2? can't move
-                            348 ;;
-                            349 ;;	;;		;; can move
-                            350 ;;	;;		ld 	Ent_y(ix), h 		;; Ent_y <= H
-                            351 ;;
-                            352 ;;	;;cant_move_y:
-                            353 ;;
-                            354 	;;	ret
+   0223 C9            [10]  335 		ret

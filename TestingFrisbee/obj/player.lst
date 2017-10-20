@@ -62,10 +62,10 @@ Hexadecimal [16-Bits]
                              28 ;; ENTITY PUBLIC DATA
                              29 ;; ====================================
                              30 ;; ====================================
-                     0000    31 .equ Ent_x_I, 	0	;; X coordinate, high part
-                     0001    32 .equ Ent_x_F, 	1	;; X coordinate, low part
-                     0002    33 .equ Ent_y_I, 	2	;; Y coordinate, high part
-                     0003    34 .equ Ent_y_F, 	3	;; Y coordinate, low part
+                     0000    31 .equ Ent_x_I, 	0	;; X coordinate, integer part
+                     0001    32 .equ Ent_x_F, 	1	;; X coordinate, fractional part
+                     0002    33 .equ Ent_y_I, 	2	;; Y coordinate, integer part
+                     0003    34 .equ Ent_y_F, 	3	;; Y coordinate, fractional part
                      0004    35 .equ Ent_h, 	4	;; Height
                      0005    36 .equ Ent_w, 	5	;; Width
                      0006    37 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part
@@ -251,10 +251,10 @@ Hexadecimal [16-Bits]
                              15 
                              16 ;; .macro defineEntity name, x, y, h, w, vx, vy, ax, ay, state, clr
                              17 
-   000A                      18 defineEntity player, #0x2700, #0x5000, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0
+   000A                      18 defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0
    000A                       1 	player_data::
-   000A 00 27                 2 		player_x:	.dw #0x2700		;; X coordinate			(16 bits)
-   000C 00 50                 3 		player_y:	.dw #0x5000		;; Y coordinate			(16 bits)
+   000A 27 00                 2 		player_x:	.dw #0x0027		;; X coordinate			(16 bits)
+   000C 50 00                 3 		player_y:	.dw #0x0050		;; Y coordinate			(16 bits)
    000E 10                    4 		player_h:	.db #16		;; Height			(8 bits)
    000F 04                    5 		player_w:	.db #4		;; Width			(8 bits)
    0010 00 00                 6 		player_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
@@ -264,10 +264,10 @@ Hexadecimal [16-Bits]
    0018 01                   10 		player_state:	.db #1	;; Entity enabled/disabled	(8 bits)
    0019 F0                   11 		player_clr:	.db #0xF0		;; Entity color pattern		(8 bits)
                              19 
-   001A                      20 defineEntity enemy, #0x5000-0x0400, #0x6400, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF
+   001A                      20 defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF
    001A                       1 	enemy_data::
-   001A 00 4C                 2 		enemy_x:	.dw #0x5000-0x0400		;; X coordinate			(16 bits)
-   001C 00 64                 3 		enemy_y:	.dw #0x6400		;; Y coordinate			(16 bits)
+   001A 4C 00                 2 		enemy_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
+   001C 64 00                 3 		enemy_y:	.dw #0x0064		;; Y coordinate			(16 bits)
    001E 10                    4 		enemy_h:	.db #16		;; Height			(8 bits)
    001F 04                    5 		enemy_w:	.db #4		;; Width			(8 bits)
    0020 00 00                 6 		enemy_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)

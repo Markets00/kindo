@@ -33,10 +33,10 @@ Hexadecimal [16-Bits]
                              28 ;; ENTITY PUBLIC DATA
                              29 ;; ====================================
                              30 ;; ====================================
-                     0000    31 .equ Ent_x_F, 	0	;; X coordinate, low part
-                     0001    32 .equ Ent_x_I, 	1	;; X coordinate, high part
-                     0002    33 .equ Ent_y_F, 	2	;; Y coordinate, low part
-                     0003    34 .equ Ent_y_I, 	3	;; Y coordinate, high part
+                     0000    31 .equ Ent_x_I, 	0	;; X coordinate, integer part
+                     0001    32 .equ Ent_x_F, 	1	;; X coordinate, fractional part
+                     0002    33 .equ Ent_y_I, 	2	;; Y coordinate, integer part
+                     0003    34 .equ Ent_y_F, 	3	;; Y coordinate, fractional part
                      0004    35 .equ Ent_h, 	4	;; Height
                      0005    36 .equ Ent_w, 	5	;; Width
                      0006    37 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part

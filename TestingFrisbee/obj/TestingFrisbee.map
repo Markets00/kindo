@@ -10,15 +10,15 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  .__.ABS.                           cpct_keyboard
      00000000  l__DATA                         
      00000100  s__CODE                         
-     0000043B  l__CODE                         
-     0000053B  s__DATA                         
+     00000436  l__CODE                         
+     00000536  s__DATA                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    0000043B =        1083. bytes (REL,CON)
+_CODE                               00000100    00000436 =        1078. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -31,32 +31,32 @@ _CODE                               00000100    0000043B =        1083. bytes (R
      0000023A  frisbee_erase                      
      00000242  frisbee_update                     
      0000025A  frisbee_draw                       
-     000002BE  game_data                          
-     000002C3  gameaux_data                       
-     000002C8  _main                              
-     000002D4  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000002DE  player_data                        cpct_keyboard
-     000002EE  enemy_data                         cpct_keyboard
-     000002FE  player_erase                       cpct_keyboard
-     0000030D  player_update                      cpct_keyboard
-     0000031F  player_draw                        cpct_keyboard
-     000003D1  menuStart                          
-     000003DA  gameStart                          
-     000003FD  _cpct_isKeyPressed                 cpct_keyboard
-     000003FD  cpct_isKeyPressed_asm              cpct_keyboard
-     00000409  cpct_setPalette_asm                cpct_video
-     0000041C  _cpct_waitVSYNC                    cpct_video
-     0000041C  cpct_waitVSYNC_asm                 cpct_video
-     00000424  cpct_setVideoMode_asm              cpct_video
-     00000431  _cpct_disableFirmware              cpct_firmware
-     00000431  _cpct_removeInterruptHandler       cpct_firmware
-     00000431  cpct_disableFirmware_asm           cpct_firmware
-     00000431  cpct_removeInterruptHandler_asm    cpct_firmware
-     00000441  cpct_drawSolidBox_asm              cpct_sprites
-     000004ED  _cpct_mode_rom_status              cpct_firmware
-     000004EE  cpct_getScreenPtr_asm              cpct_video
-     0000050A  _cpct_scanKeyboard                 cpct_keyboard
-     0000050A  cpct_scanKeyboard_asm              cpct_keyboard
+     000002B9  game_data                          
+     000002BE  gameaux_data                       
+     000002C3  _main                              
+     000002CF  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000002D9  player_data                        cpct_keyboard
+     000002E9  enemy_data                         cpct_keyboard
+     000002F9  player_erase                       cpct_keyboard
+     00000308  player_update                      cpct_keyboard
+     0000031A  player_draw                        cpct_keyboard
+     000003CC  menuStart                          
+     000003D5  gameStart                          
+     000003F8  _cpct_isKeyPressed                 cpct_keyboard
+     000003F8  cpct_isKeyPressed_asm              cpct_keyboard
+     00000404  cpct_setPalette_asm                cpct_video
+     00000417  _cpct_waitVSYNC                    cpct_video
+     00000417  cpct_waitVSYNC_asm                 cpct_video
+     0000041F  cpct_setVideoMode_asm              cpct_video
+     0000042C  _cpct_disableFirmware              cpct_firmware
+     0000042C  _cpct_removeInterruptHandler       cpct_firmware
+     0000042C  cpct_disableFirmware_asm           cpct_firmware
+     0000042C  cpct_removeInterruptHandler_asm    cpct_firmware
+     0000043C  cpct_drawSolidBox_asm              cpct_sprites
+     000004E8  _cpct_mode_rom_status              cpct_firmware
+     000004E9  cpct_getScreenPtr_asm              cpct_video
+     00000505  _cpct_scanKeyboard                 cpct_keyboard
+     00000505  cpct_scanKeyboard_asm              cpct_keyboard
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 

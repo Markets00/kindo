@@ -30,5 +30,6 @@ Hexadecimal [16-Bits]
                              25 
                      0050    26 .equ RIGHT_LIMIT,	80
                      0000    27 .equ LEFT_LIMIT,	0
-                     0000    28 .equ TOP_LIMIT,	 	0
+                     000A    28 .equ TOP_LIMIT,	 	10
                      00C8    29 .equ BOTTOM_LIMIT,	200
+                     0028    30 .equ CENTER_LIMIT,	40

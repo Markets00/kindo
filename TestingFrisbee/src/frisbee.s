@@ -12,7 +12,7 @@
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity frisbee, #0x5000-0x200, #0x5400, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
+defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
 
 
 ;; ====================================
@@ -99,16 +99,18 @@ moveDown:
 
 ;; ===========================================
 ;; Mueve el frisbee a la izquierda un píxel
+;; Recibe:
+;; 	IX <= Pointer to entity data
 ;; Modifica A
 ;; ===========================================
 moveLeft:
-	ld 	a, (frisbee_x) 		;; A = frisbee_x
+	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
 	cp 	#0 			;; A == left_limit?
 	jr 	nz, can_move_left 
 		ld 	a, #80-2 	;; restore initial position
-		ld 	(frisbee_x), a
-		ld 	a, #80
-		ld 	(frisbee_y), a	
+		ld 	Ent_x_I(IX), a
+		;; ld 	a, #80
+		;; ld 	(frisbee_y), a	
 		jr 	cant_move_left
 	can_move_left:	
 		ld	ix, #frisbee_data

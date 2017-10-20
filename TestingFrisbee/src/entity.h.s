@@ -28,10 +28,10 @@
 ;; ENTITY PUBLIC DATA
 ;; ====================================
 ;; ====================================
-.equ Ent_x_F, 	0	;; X coordinate, low part
-.equ Ent_x_I, 	1	;; X coordinate, high part
-.equ Ent_y_F, 	2	;; Y coordinate, low part
-.equ Ent_y_I, 	3	;; Y coordinate, high part
+.equ Ent_x_I, 	0	;; X coordinate, integer part
+.equ Ent_x_F, 	1	;; X coordinate, fractional part
+.equ Ent_y_I, 	2	;; Y coordinate, integer part
+.equ Ent_y_F, 	3	;; Y coordinate, fractional part
 .equ Ent_h, 	4	;; Height
 .equ Ent_w, 	5	;; Width
 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part

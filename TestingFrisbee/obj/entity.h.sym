@@ -8,8 +8,8 @@ Symbol Table
     Ent_ay_F=  000D     |     Ent_ay_I=  000C     |     Ent_clr =  000F 
     Ent_h   =  0004     |     Ent_stat=  000E     |     Ent_vx_F=  0007 
     Ent_vx_I=  0006     |     Ent_vy_F=  0009     |     Ent_vy_I=  0008 
-    Ent_w   =  0005     |     Ent_x_F =  0000     |     Ent_x_I =  0001 
-    Ent_y_F =  0002     |     Ent_y_I =  0003     |     entityCh   **** GX
+    Ent_w   =  0005     |     Ent_x_F =  0001     |     Ent_x_I =  0000 
+    Ent_y_F =  0003     |     Ent_y_I =  0002     |     entityCh   **** GX
     entityDr   **** GX  |     entityEr   **** GX  |     entityUp   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
