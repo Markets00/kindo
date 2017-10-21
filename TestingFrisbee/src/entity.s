@@ -3,6 +3,13 @@
 .include "utility.h.s"
 .include "game.h.s"
 
+
+
+;; ====================================
+;; ====================================
+;; PUBLIC DATA
+;; ====================================
+;; ====================================
 .equ Ent_x_I, 	0	;; X coordinate, integer part
 .equ Ent_x_F, 	1	;; X coordinate, fractional part
 .equ Ent_y_I, 	2	;; Y coordinate, integer part
@@ -19,13 +26,11 @@
 .equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
 .equ Ent_state,	14	;; Entity enabled/disabled
 .equ Ent_clr, 	15	;; Entity color pattern
+.equ Ent_id, 	16	;; Numeric ID
+			;; Frisbee 	0
+			;; Player1 	1
+			;; Enemy1	2
 
-
-;; ====================================
-;; ====================================
-;; PRIVATE DATA
-;; ====================================
-;; ====================================
 .equ MAX_VEL_X, 2 
 .equ MIN_VEL_X, -2
 .equ MAX_VEL_Y, 4
@@ -83,7 +88,7 @@ entityErase::
 ;; 	de una entidad
 ;; Entrada:
 ;; 	IX => Pointer to entity data
-;; Modifica F, DE, HL, IX
+;; Modifica F, DE, HL
 ;; =========================================
 entityUpdatePhysics::
 	;; vx' = vx + ax
@@ -133,8 +138,6 @@ entityUpdatePhysics::
 	ld 	Ent_ax_F(ix), #0	;; ax = 0
 	ld 	Ent_ay_I(ix), #0	;; 
 	ld 	Ent_ay_F(ix), #0	;; ay = 0
-
-	call entityUpdatePosition
 
 	ret
 
@@ -211,7 +214,7 @@ entityCheckCollision::
 
 		jr 	no_collision
 
-	;; Hay colisión en el eje Y, , ent2 está entre arriba y abajo de ent1
+	;; Hay colisión en el eje Y, ent2 está entre arriba y abajo de ent1
 	collision_YT:
 
 	;; A == ent1_x + ent1_w - ent2_x, A es mínimo 1
@@ -224,20 +227,13 @@ entityCheckCollision::
 	ret
 
 
-;; ====================================
-;; ====================================
-;; PRIVATE FUNCTIONS
-;; ====================================
-;; ====================================
-
-
 ;; =========================================
 ;; Actualiza la posición de la entidad
 ;; Entrada:
 ;; 	IX => Pointer to entity data
 ;; Modifica AF, B, DE, HL, IX
 ;; =========================================
-entityUpdatePosition:
+entityUpdatePosition::
 
 	;; x' = x + vx_I
 	ld 	d, Ent_vx_I(ix) 	
@@ -275,7 +271,7 @@ entityUpdatePosition:
 
 	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
 	cp 	#TOP_LIMIT
-	jp 	c, cant_move_y		;; TOP_LIMIT > y_I + vy_I? can't move
+	jp 	c, check_top		;; TOP_LIMIT > y_I + vy_I? can't move
 	;;jp 	m, cant_move_y
 		;; can move up
 		ld 	a, h
@@ -283,13 +279,53 @@ entityUpdatePosition:
 		ld	b, a
 		ld 	a, #BOTTOM_LIMIT
 		cp	b
-		jp 	c, cant_move_y		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
+		jp 	c, check_bot		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
 			;; can move
 			ld 	Ent_y_I(ix), h
 			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
 
+			ret
+
 	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
 
-	cant_move_y:
+	check_top:
+		ld 	Ent_y_I(ix), #TOP_LIMIT
+		ld 	Ent_y_F(ix), #0 		;; Ent_y <= TOP_LIMIT
+		;; ld	a, Ent_id(ix)
+		;; cp 	#0
+		;; jr 	nz, not_frisbee			;;Ent_id != 0?
+			jr frisbee
+	check_bot:
+		ld 	a, #BOTTOM_LIMIT
+		sub	a, Ent_h(ix)
+		ld 	Ent_y_I(ix), a
+		ld 	Ent_y_F(ix), #0 		;; Ent_y <= BOTTOM_LIMIT
+		;; ld	a, Ent_id(ix)
+		;; cp 	#0
+		;; jr 	nz, not_frisbee			;;Ent_id != 0?
 
+	frisbee:
+			ld 	h, Ent_vy_I(ix)
+			ld 	l, Ent_vy_F(ix)		;; HL <= Ent_vy
+
+			ld 	a, #0			;;
+			xor	a			;;
+			sub	l			;;
+			ld	l,a			;;
+			sbc	a,a			;;
+			sub	h			;;
+			ld	h,a			;; negate HL
+
+			ld 	Ent_vy_I(ix), h
+			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL negated
+
+
+	not_frisbee:
 		ret
+
+;; ====================================
+;; ====================================
+;; PRIVATE FUNCTIONS
+;; ====================================
+;; ====================================
+

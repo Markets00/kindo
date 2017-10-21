@@ -15,9 +15,9 @@ std_acc = 16 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x, y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0
+defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0, #1
 
-defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF
+defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #1, #0xFF, #2
 
 	
 ;; ====================================
@@ -34,12 +34,18 @@ player_erase::
 	ret
 
 player_update::
+	ld 	ix, #player_data
 	call checkUserInput
 
 	ld 	ix, #player_data
 	call entityUpdatePhysics
 	ld 	ix, #enemy_data
 	call entityUpdatePhysics
+
+	ld 	ix, #player_data
+	call entityUpdatePosition
+	ld 	ix, #enemy_data
+	call entityUpdatePosition
 	ret
 
 player_draw::
@@ -184,14 +190,15 @@ moveUp:
 
 
 
-;; ============================
+;; ====================================
 ;; Lee la entrada del teclado
+;; Entrada:
+;; 	IX <= pointer to entity data
 ;; Modifica AF, BC, DE, HL
-;; ============================
+;; ====================================
 checkUserInput:
 	call cpct_scanKeyboard_asm
 
-	ld 	ix, #player_data
 	ld 	hl, #Key_D			;; HL = D Keycode
 	call 	cpct_isKeyPressed_asm 		;; A = True/False
 	cp 	#0 				;; A == 0?
@@ -224,4 +231,40 @@ checkUserInput:
 		call 	moveDown
 	s_not_pressed:
 
+;;	ld 	hl, #Key_V			;; HL = V Keycode
+;;	call 	cpct_isKeyPressed_asm 		;; A = True/False
+;;	cp 	#0 				;; A == 0?
+;;	jr 	z, v_not_pressed
+;;		;; V is pressed	
+;;		ld 	hl, #Key_B			;; HL = B Keycode
+;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
+;;		cp 	#0 				;; A == 0?
+;;		jr 	z, just_v_pressed
+;;			;; V and B are pressed
+;;			jr vorb_pressed
+;;		just_v_pressed:
+;;			ld 	h, #-1
+;;			ld 	h, #std_eff
+;;			call frisbee_setEffect
+;;			jr 	vorb_pressed
+;;	v_not_pressed:
+;;
+;;		ld 	hl, #Key_B			;; HL = B Keycode
+;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
+;;		cp 	#0 				;; A == 0?
+;;		jr 	z, b_not_pressed
+;;			;; B is pressed
+;;			ld 	h, #0
+;;			ld 	h, #std_eff
+;;			call frisbee_setEffect
+;;
+;;			vorb_pressed:
+;;			ld	h, Ent_vx_I(ix)
+;;			ld	l, Ent_vx_F(ix)
+;;			ld	d, Ent_vy_I(ix)
+;;			ld	e, Ent_vy_F(ix)
+;;			call frisbee_setVelocities
+;;
+;;	b_not_pressed:
 	ret
+

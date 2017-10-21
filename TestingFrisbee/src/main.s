@@ -9,7 +9,7 @@
 defineGame game, #0, #0x0000, #0x012C
 
 ;; .macro defineGame name, type, map, fTime
-defineGame gameaux, #0, #0x0000, #0x012C
+;; defineGame gameaux, #0, #0x0000, #0x012C
 
 ;; ========================
 ;; Programa principal

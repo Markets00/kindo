@@ -103,7 +103,7 @@ Hexadecimal [16-Bits]
                              47 ;; 	IX => Pointer to game data 
                              48 ;; Modifica IX
                              49 ;; ===================================
-   03D5                      50 gameStart::
+   043A                      50 gameStart::
                              51 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              52 	;; Reading game data example
                              53 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -131,12 +131,12 @@ Hexadecimal [16-Bits]
                              70 	;;	ld 	Game_time_H(ix), #0
                              71 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
                              72 
-   03D5 CD DC 03      [17]   73 	call 	initializeGame
+   043A CD 41 04      [17]   73 	call 	initializeGame
                              74 	;; Configuration staff...
                              75 	;; Configuration staff...
                              76 	;; Configuration staff...
-   03D8 CD E0 03      [17]   77 	call 	game_loop
-   03DB C9            [10]   78 	ret
+   043D CD 45 04      [17]   77 	call 	game_loop
+   0440 C9            [10]   78 	ret
                              79 
                              80 
                              81 ;; ====================================
@@ -149,8 +149,8 @@ Hexadecimal [16-Bits]
                              88 ;; ========================
                              89 ;; Initialize game
                              90 ;; ========================
-   03DC                      91 initializeGame:
-   03DC CD 2C 04      [17]   92 	call cpct_disableFirmware_asm
+   0441                      91 initializeGame:
+   0441 CD 91 04      [17]   92 	call cpct_disableFirmware_asm
                              93 
                              94 	;; Set video mode
                              95 	;; ld 	c, #0
@@ -161,20 +161,20 @@ Hexadecimal [16-Bits]
                             100 	;; ld 	de, #16
                             101 	;; call cpct_setPalette_asm
                             102 
-   03DF C9            [10]  103 	ret
+   0444 C9            [10]  103 	ret
                             104 
                             105 
                             106 ;; ============================
                             107 ;; Game loop until end of game
                             108 ;; ============================
-   03E0                     109 game_loop:
+   0445                     109 game_loop:
                             110 
                             111 	;; Wait VSYNC to modify VMEM without blinking
-   03E0 CD 17 04      [17]  112 	call cpct_waitVSYNC_asm
+   0445 CD 7C 04      [17]  112 	call cpct_waitVSYNC_asm
                             113 
                             114 	;; Erase entities
-   03E3 CD F9 02      [17]  115 	call player_erase
-   03E6 CD 3A 02      [17]  116 	call frisbee_erase
+   0448 CD 50 03      [17]  115 	call player_erase
+   044B CD 65 02      [17]  116 	call frisbee_erase
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
@@ -182,12 +182,12 @@ Hexadecimal [16-Bits]
 
                             117 
                             118 	;; Update entities
-   03E9 CD 08 03      [17]  119 	call player_update
-   03EC CD 42 02      [17]  120 	call frisbee_update
+   044E CD 5F 03      [17]  119 	call player_update
+   0451 CD 7A 02      [17]  120 	call frisbee_update
                             121 
                             122 	;; Draw entities
-   03EF CD 1A 03      [17]  123 	call player_draw
-   03F2 CD 5A 02      [17]  124 	call frisbee_draw
+   0454 CD 83 03      [17]  123 	call player_draw
+   0457 CD 95 02      [17]  124 	call frisbee_draw
                             125 
-   03F5 18 E9         [12]  126 	jr (game_loop) 			;; Bucle infinito
-   03F7 C9            [10]  127 	ret
+   045A 18 E9         [12]  126 	jr (game_loop) 			;; Bucle infinito
+   045C C9            [10]  127 	ret

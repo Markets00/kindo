@@ -4,15 +4,27 @@
 .include "entity.h.s"
 .include "utility.h.s"
 
+.equ Frisbee_effect_I, 17
+.equ Frisbee_effect_F, 18
+.equ std_eff, 08
 ;; ====================================
 ;; ====================================
-;; PRIVATE DATA
+;; PUBLIC DATA
 ;; ====================================
 ;; ====================================
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0000, #0000, #0000, #0000, #1, #0x0F
+defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #1, #0x0F, #0
+	frisbee_effect: .dw #0x0800									;; effect
+
+
+
+;; ====================================
+;; ====================================
+;; PRIVATE DATA
+;; ====================================
+;; ====================================
 
 
 ;; ====================================
@@ -36,6 +48,34 @@ frisbee_erase::
 
 	ret
 
+
+;; ================================================
+;; Modifica el valor de la velocidad del frisbee
+;; 	en el eje X e Y, al recibido en HL y DE
+;; Recibe:
+;; 	HL <= X axis velocity
+;; 	DE <= Y axis velocity
+;; Modifica: HL
+;; ================================================
+frisbee_setVelocities::
+	ld 	(frisbee_vx), hl
+	ld 	h, d
+	ld 	l, e
+	ld 	(frisbee_vy), hl
+	ret
+
+
+;; ===========================================
+;; Modifica el valor del efecto del frisbee
+;; 	al recibido en HL
+;; Recibe:
+;; 	HL <= Effect value
+;; Modifica A
+;; ===========================================
+frisbee_setEffect::
+	ld 	(frisbee_effect), hl
+	ret
+
 ;; =========================================
 ;; Actualiza el estado del frisbee
 ;; Modifica A
@@ -48,9 +88,10 @@ frisbee_update::
 	
 		;; Active
 		ld 	ix, #frisbee_data
+		call frisbee_applyEffect 	
 		call entityUpdatePhysics
-
-		call moveLeft
+		call entityUpdatePosition
+		;; call moveLeft
 		ret
 
 	not_active:
@@ -70,6 +111,37 @@ frisbee_draw::
 ;; PRIVATE FUNCTIONS
 ;; ====================================
 ;; ====================================
+
+
+;; ===========================================
+;; Mueve el frisbee a la izquierda un píxel
+;; Recibe:
+;; 	IX <= Pointer to entity data
+;; Modifica A
+;; ===========================================
+frisbee_applyEffect:
+
+	;; vy' = vy + ay
+	ld 	h, Ent_vy_I(ix)
+	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+	ld 	d, Frisbee_effect_I(ix)
+	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
+
+	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
+	ld 	a, h
+	cp 	#MAX_VEL_Y
+	jp 	p, cant_accelerate_y
+		;; vy' < MIN_VEL_Y
+		cp 	#MIN_VEL_Y
+		jp 	m, cant_accelerate_y
+			;; vy' > MIN_VEL_Y
+			;; Can accelerate at Y axis
+			ld 	Ent_vy_I(ix), h
+			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+
+	cant_accelerate_y:
+
+	ret
 
 ;; =========================================
 ;; Mueve el frisbee a la derecha un píxel

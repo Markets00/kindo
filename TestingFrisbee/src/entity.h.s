@@ -7,8 +7,9 @@
 .globl entityErase
 .globl entityCheckCollision
 .globl entityUpdatePhysics
+.globl entityUpdatePosition
 
-.macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
+.macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
 	name'_data::
 		name'_x:	.dw x		;; X coordinate			(16 bits)
 		name'_y:	.dw y		;; Y coordinate			(16 bits)
@@ -20,6 +21,7 @@
 		name'_ay:	.dw ay		;; Acceleration at Y axis	(16 bits)
 		name'_state:	.db state	;; Entity enabled/disabled	(8 bits)
 		name'_clr:	.db clr		;; Entity color pattern		(8 bits)
+		name'_id:	.db id		;; Numeric ID			(8 bits)
 .endm
 
 
@@ -44,3 +46,9 @@
 .equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
 .equ Ent_state,	14	;; Entity enabled/disabled
 .equ Ent_clr, 	15	;; Entity color pattern
+.equ Ent_id, 	16	;; Numeric ID
+
+.equ MAX_VEL_X, 2 
+.equ MIN_VEL_X, -2
+.equ MAX_VEL_Y, 4
+.equ MIN_VEL_Y, -4

@@ -39,8 +39,9 @@ Hexadecimal [16-Bits]
                              25 
                      0050    26 .equ RIGHT_LIMIT,	80
                      0000    27 .equ LEFT_LIMIT,	0
-                     0000    28 .equ TOP_LIMIT,	 	0
+                     000A    28 .equ TOP_LIMIT,	 	10
                      00C8    29 .equ BOTTOM_LIMIT,	200
+                     0028    30 .equ CENTER_LIMIT,	40
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -62,25 +63,21 @@ Hexadecimal [16-Bits]
                               6 
                               7 
                               8 ;; .macro defineGame name, type, map, fTime
-   02B9                       9 defineGame game, #0, #0x0000, #0x012C
+   0313                       9 defineGame game, #0, #0x0000, #0x012C
    0000                       1 	game_data::
-   02B9 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
-   02BA 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   02BC 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
+   0313 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
+   0314 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
+   0316 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
                              10 
                              11 ;; .macro defineGame name, type, map, fTime
-   02BE                      12 defineGame gameaux, #0, #0x0000, #0x012C
-   0005                       1 	gameaux_data::
-   02BE 00                    2 		gameaux_type:	.db #0	;; Game Mode			(8 bits)
-   02BF 00 00                 3 		gameaux_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   02C1 2C 01                 4 		gameaux_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
+                             12 ;; defineGame gameaux, #0, #0x0000, #0x012C
                              13 
                              14 ;; ========================
                              15 ;; Programa principal
                              16 ;; ========================
-   02C3                      17 _main::
-   02C3 DD 21 B9 02   [14]   18 	ld ix, #game_data
-   02C7 CD CC 03      [17]   19 	call menuStart
-   02CA CD D5 03      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
+   0318                      17 _main::
+   0318 DD 21 13 03   [14]   18 	ld ix, #game_data
+   031C CD 31 04      [17]   19 	call menuStart
+   031F CD 3A 04      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
                              21 
-   02CD 18 F4         [12]   22 	jr (_main)
+   0322 18 F4         [12]   22 	jr (_main)
