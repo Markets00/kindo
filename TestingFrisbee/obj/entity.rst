@@ -116,7 +116,7 @@ Hexadecimal [16-Bits]
    013F 11 00 C0      [10]   53 	ld 	de, #0xC000 		;; Video memory pointer
    0142 DD 4E 00      [19]   54 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    0145 DD 46 02      [19]   55 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0148 CD 9F 05      [17]   56 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0148 CD F1 05      [17]   56 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              57 
    014B EB            [ 4]   58 	ex 	de, hl 			;; DE = ent screen pointer
    014C DD 46 04      [19]   59 	ld 	b, Ent_h(ix) 		;; B = ent height
@@ -127,7 +127,7 @@ Hexadecimal [16-Bits]
 
    014F DD 4E 05      [19]   60 	ld 	c, Ent_w(ix) 		;; C = ent width
    0152 DD 7E 0F      [19]   61 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0155 CD F2 04      [17]   62 	call cpct_drawSolidBox_asm
+   0155 CD 44 05      [17]   62 	call cpct_drawSolidBox_asm
                              63 
    0158 C9            [10]   64 	ret
                              65 
@@ -141,13 +141,13 @@ Hexadecimal [16-Bits]
    0159 11 00 C0      [10]   73 	ld 	de, #0xC000 		;; Video memory  pointer
    015C DD 4E 00      [19]   74 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    015F DD 46 02      [19]   75 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0162 CD 9F 05      [17]   76 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0162 CD F1 05      [17]   76 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              77 
    0165 EB            [ 4]   78 	ex 	de, hl 			;; DE = ent screen pointer
    0166 3E 00         [ 7]   79 	ld 	a, #0x00 		;; A = background color
    0168 DD 46 04      [19]   80 	ld 	b, Ent_h(ix) 		;; B = ent height
    016B DD 4E 05      [19]   81 	ld 	c, Ent_w(ix) 		;; C = ent width
-   016E CD F2 04      [17]   82 	call cpct_drawSolidBox_asm
+   016E CD 44 05      [17]   82 	call cpct_drawSolidBox_asm
                              83 
    0171 C9            [10]   84 	ret
                              85 

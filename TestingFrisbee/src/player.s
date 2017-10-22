@@ -248,40 +248,47 @@ checkUserInput:
 		call 	moveDown
 	s_not_pressed:
 
-;;	ld 	hl, #Key_V			;; HL = V Keycode
-;;	call 	cpct_isKeyPressed_asm 		;; A = True/False
-;;	cp 	#0 				;; A == 0?
-;;	jr 	z, v_not_pressed
-;;		;; V is pressed	
-;;		ld 	hl, #Key_B			;; HL = B Keycode
-;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
-;;		cp 	#0 				;; A == 0?
-;;		jr 	z, just_v_pressed
-;;			;; V and B are pressed
-;;			jr vorb_pressed
-;;		just_v_pressed:
-;;			ld 	h, #-1
-;;			ld 	h, #std_eff
-;;			call frisbee_setEffect
-;;			jr 	vorb_pressed
-;;	v_not_pressed:
-;;
-;;		ld 	hl, #Key_B			;; HL = B Keycode
-;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
-;;		cp 	#0 				;; A == 0?
-;;		jr 	z, b_not_pressed
-;;			;; B is pressed
-;;			ld 	h, #0
-;;			ld 	h, #std_eff
-;;			call frisbee_setEffect
-;;
-;;			vorb_pressed:
-;;			ld	h, Ent_vx_I(ix)
-;;			ld	l, Ent_vx_F(ix)
-;;			ld	d, Ent_vy_I(ix)
-;;			ld	e, Ent_vy_F(ix)
-;;			call frisbee_setVelocities
-;;
-;;	b_not_pressed:
+
+	push 	ix
+	call 	checkFrisbeeCollision 	;; A == collision/no_collision
+	pop 	ix
+	cp 	#0			;; A == 0?
+	jr	z, b_not_pressed 	;; checkFrisbeeCollision == 0?
+
+	ld 	hl, #Key_V			;; HL = V Keycode
+	call 	cpct_isKeyPressed_asm 		;; A = True/False
+	cp 	#0 				;; A == 0?
+	jr 	z, v_not_pressed
+		;; V is pressed	
+		ld 	hl, #Key_B			;; HL = B Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, just_v_pressed
+			;; V and B are pressed
+			jr vorb_pressed
+		just_v_pressed:
+			ld 	h, #-1
+			ld 	h, #std_eff
+			call frisbee_setEffect
+			jr 	vorb_pressed
+	v_not_pressed:
+
+		ld 	hl, #Key_B			;; HL = B Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, b_not_pressed
+			;; B is pressed
+			ld 	h, #0
+			ld 	h, #std_eff
+			call frisbee_setEffect
+
+			vorb_pressed:
+			ld	h, Ent_vx_I(ix)
+			ld	l, Ent_vx_F(ix)
+			ld	d, Ent_vy_I(ix)
+			ld	e, Ent_vy_F(ix)
+			call frisbee_setVelocities
+
+	b_not_pressed:
 	ret
 

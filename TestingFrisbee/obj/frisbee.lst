@@ -159,189 +159,190 @@ Hexadecimal [16-Bits]
                              55 ;; Recibe:
                              56 ;; 	HL <= X axis velocity
                              57 ;; 	DE <= Y axis velocity
-                             58 ;; Modifica: HL
+                             58 ;; Modifica: HL, IX
                              59 ;; ================================================
    0021                      60 frisbee_setVelocities::
-   0021 22 06 00      [16]   61 	ld 	(frisbee_vx), hl
-   0024 62            [ 4]   62 	ld 	h, d
-   0025 6B            [ 4]   63 	ld 	l, e
-   0026 22 08 00      [16]   64 	ld 	(frisbee_vy), hl
-   0029 C9            [10]   65 	ret
-                             66 
+   0021 DD 21 00 00   [14]   61 	ld 	ix, #frisbee_data
+   0025 DD 74 06      [19]   62 	ld 	Ent_vx_I(ix), h
+   0028 DD 75 07      [19]   63 	ld 	Ent_vx_F(ix), l
+   002B DD 72 08      [19]   64 	ld 	Ent_vy_I(ix), d
+   002E DD 73 09      [19]   65 	ld 	Ent_vy_F(ix), e
+   0031 C9            [10]   66 	ret
                              67 
-                             68 ;; ===========================================
-                             69 ;; Modifica el valor del efecto del frisbee
-                             70 ;; 	al recibido en HL
-                             71 ;; Recibe:
-                             72 ;; 	HL <= Effect value
-                             73 ;; Modifica A
-                             74 ;; ===========================================
-   002A                      75 frisbee_setEffect::
-   002A 22 11 00      [16]   76 	ld 	(frisbee_effect), hl
-   002D C9            [10]   77 	ret
-                             78 
-                             79 ;; =========================================
-                             80 ;; Actualiza el estado del frisbee
-                             81 ;; Modifica A
-                             82 ;; =========================================
-   002E                      83 frisbee_update::
-                             84 
-   002E 3A 0E 00      [13]   85 	ld 	a, (frisbee_state)	;; A <= frisbee_state
-   0031 FE 01         [ 7]   86 	cp 	#1
-   0033 20 0E         [12]   87 	jr 	nz, not_active		;; A != 1?
-                             88 	
-                             89 		;; Active
-   0035 DD 21 00 00   [14]   90 		ld 	ix, #frisbee_data
-   0039 CD 51 00      [17]   91 		call frisbee_applyEffect 	
-   003C CD 00 00      [17]   92 		call entityUpdatePhysics
-   003F CD 00 00      [17]   93 		call entityUpdatePosition
-                             94 		;; call moveLeft
-   0042 C9            [10]   95 		ret
-                             96 
-   0043                      97 	not_active:
-   0043 3E 01         [ 7]   98 		ld 	a, #1
-   0045 32 0E 00      [13]   99 		ld 	(frisbee_state), a
-   0048 C9            [10]  100 	ret
-                            101 
-   0049                     102 frisbee_draw::
-                            103 
+                             68 
+                             69 ;; ===========================================
+                             70 ;; Modifica el valor del efecto del frisbee
+                             71 ;; 	al recibido en HL
+                             72 ;; Recibe:
+                             73 ;; 	HL <= Effect value
+                             74 ;; Modifica A
+                             75 ;; ===========================================
+   0032                      76 frisbee_setEffect::
+   0032 22 11 00      [16]   77 	ld 	(frisbee_effect), hl
+   0035 C9            [10]   78 	ret
+                             79 
+                             80 ;; =========================================
+                             81 ;; Actualiza el estado del frisbee
+                             82 ;; Modifica A
+                             83 ;; =========================================
+   0036                      84 frisbee_update::
+                             85 
+   0036 3A 0E 00      [13]   86 	ld 	a, (frisbee_state)	;; A <= frisbee_state
+   0039 FE 01         [ 7]   87 	cp 	#1
+   003B 20 0E         [12]   88 	jr 	nz, not_active		;; A != 1?
+                             89 	
+                             90 		;; Active
+   003D DD 21 00 00   [14]   91 		ld 	ix, #frisbee_data
+   0041 CD 59 00      [17]   92 		call frisbee_applyEffect 	
+   0044 CD 00 00      [17]   93 		call entityUpdatePhysics
+   0047 CD 00 00      [17]   94 		call entityUpdatePosition
+                             95 		;; call moveLeft
+   004A C9            [10]   96 		ret
+                             97 
+   004B                      98 	not_active:
+   004B 3E 01         [ 7]   99 		ld 	a, #1
+   004D 32 0E 00      [13]  100 		ld 	(frisbee_state), a
+   0050 C9            [10]  101 	ret
+                            102 
+   0051                     103 frisbee_draw::
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 
 
-   0049 DD 21 00 00   [14]  104 	ld 	ix, #frisbee_data
-   004D CD 00 00      [17]  105 	call entityDraw 		;; Pintar cuadrado azul cian
-                            106 
-   0050 C9            [10]  107 	ret
-                            108 	
-                            109 ;; ====================================
+                            104 
+   0051 DD 21 00 00   [14]  105 	ld 	ix, #frisbee_data
+   0055 CD 00 00      [17]  106 	call entityDraw 		;; Pintar cuadrado azul cian
+                            107 
+   0058 C9            [10]  108 	ret
+                            109 	
                             110 ;; ====================================
-                            111 ;; PRIVATE FUNCTIONS
-                            112 ;; ====================================
+                            111 ;; ====================================
+                            112 ;; PRIVATE FUNCTIONS
                             113 ;; ====================================
-                            114 
+                            114 ;; ====================================
                             115 
-                            116 ;; ===========================================
-                            117 ;; Mueve el frisbee a la izquierda un píxel
-                            118 ;; Recibe:
-                            119 ;; 	IX <= Pointer to entity data
-                            120 ;; Modifica A
-                            121 ;; ===========================================
-   0051                     122 frisbee_applyEffect:
-                            123 
-                            124 	;; vy' = vy + ay
-   0051 DD 66 08      [19]  125 	ld 	h, Ent_vy_I(ix)
-   0054 DD 6E 09      [19]  126 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
-   0057 DD 56 11      [19]  127 	ld 	d, Frisbee_effect_I(ix)
-   005A DD 5E 12      [19]  128 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
-                            129 
-   005D 19            [11]  130 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
-   005E 7C            [ 4]  131 	ld 	a, h
-   005F FE 04         [ 7]  132 	cp 	#MAX_VEL_Y
-   0061 F2 6F 00      [10]  133 	jp 	p, cant_accelerate_y
-                            134 		;; vy' < MIN_VEL_Y
-   0064 FE FC         [ 7]  135 		cp 	#MIN_VEL_Y
-   0066 FA 6F 00      [10]  136 		jp 	m, cant_accelerate_y
-                            137 			;; vy' > MIN_VEL_Y
-                            138 			;; Can accelerate at Y axis
-   0069 DD 74 08      [19]  139 			ld 	Ent_vy_I(ix), h
-   006C DD 75 09      [19]  140 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
-                            141 
-   006F                     142 	cant_accelerate_y:
-                            143 
-   006F C9            [10]  144 	ret
-                            145 
-                            146 ;; =========================================
-                            147 ;; Mueve el frisbee a la derecha un píxel
-                            148 ;; Modifica A
-                            149 ;; =========================================
-   0070                     150 moveRight:
-   0070 3A 00 00      [13]  151 	ld 	a, (frisbee_x) 		;; A = frisbee_x
-   0073 FE 4D         [ 7]  152 	cp 	#80-3 			;; A == right_limit - frisbee_width?
-   0075 28 04         [12]  153 	jr 	z, cant_move_right 		
-   0077 3C            [ 4]  154 		inc 	a 		;; move right one pixel
-   0078 32 00 00      [13]  155 		ld 	(frisbee_x), a
-   007B                     156 	cant_move_right:
-   007B C9            [10]  157 	ret
-                            158 
+                            116 
+                            117 ;; ===========================================
+                            118 ;; Mueve el frisbee a la izquierda un píxel
+                            119 ;; Recibe:
+                            120 ;; 	IX <= Pointer to entity data
+                            121 ;; Modifica A
+                            122 ;; ===========================================
+   0059                     123 frisbee_applyEffect:
+                            124 
+                            125 	;; vy' = vy + ay
+   0059 DD 66 08      [19]  126 	ld 	h, Ent_vy_I(ix)
+   005C DD 6E 09      [19]  127 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+   005F DD 56 11      [19]  128 	ld 	d, Frisbee_effect_I(ix)
+   0062 DD 5E 12      [19]  129 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
+                            130 
+   0065 19            [11]  131 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
+   0066 7C            [ 4]  132 	ld 	a, h
+   0067 FE 04         [ 7]  133 	cp 	#MAX_VEL_Y
+   0069 F2 77 00      [10]  134 	jp 	p, cant_accelerate_y
+                            135 		;; vy' < MIN_VEL_Y
+   006C FE FC         [ 7]  136 		cp 	#MIN_VEL_Y
+   006E FA 77 00      [10]  137 		jp 	m, cant_accelerate_y
+                            138 			;; vy' > MIN_VEL_Y
+                            139 			;; Can accelerate at Y axis
+   0071 DD 74 08      [19]  140 			ld 	Ent_vy_I(ix), h
+   0074 DD 75 09      [19]  141 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+                            142 
+   0077                     143 	cant_accelerate_y:
+                            144 
+   0077 C9            [10]  145 	ret
+                            146 
+                            147 ;; =========================================
+                            148 ;; Mueve el frisbee a la derecha un píxel
+                            149 ;; Modifica A
+                            150 ;; =========================================
+   0078                     151 moveRight:
+   0078 3A 00 00      [13]  152 	ld 	a, (frisbee_x) 		;; A = frisbee_x
+   007B FE 4D         [ 7]  153 	cp 	#80-3 			;; A == right_limit - frisbee_width?
+   007D 28 04         [12]  154 	jr 	z, cant_move_right 		
+   007F 3C            [ 4]  155 		inc 	a 		;; move right one pixel
+   0080 32 00 00      [13]  156 		ld 	(frisbee_x), a
+   0083                     157 	cant_move_right:
+   0083 C9            [10]  158 	ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 
 
-                            159 ;; =========================================
-                            160 ;; Mueve el frisbee abajo un píxel
-                            161 ;; Modifica A
-                            162 ;; =========================================
-   007C                     163 moveDown:
-   007C 3A 02 00      [13]  164 	ld 	a, (frisbee_y) 		;; A = frisbee_x
-   007F FE BC         [ 7]  165 	cp 	#200-12 		;; A == bottom_limit - frisbee_height?
-   0081 28 04         [12]  166 	jr 	z, cant_move_down 		
-   0083 3C            [ 4]  167 		inc 	a 		;; move down one pixel
-   0084 32 02 00      [13]  168 		ld 	(frisbee_y), a
-   0087                     169 	cant_move_down:
-   0087 C9            [10]  170 	ret
-                            171 
-                            172 ;; ===========================================
-                            173 ;; Mueve el frisbee a la izquierda un píxel
-                            174 ;; Recibe:
-                            175 ;; 	IX <= Pointer to entity data
-                            176 ;; Modifica A
-                            177 ;; ===========================================
-   0088                     178 moveLeft:
-   0088 DD 7E 00      [19]  179 	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
-   008B FE 00         [ 7]  180 	cp 	#0 			;; A == left_limit?
-   008D 20 07         [12]  181 	jr 	nz, can_move_left 
-   008F 3E 4E         [ 7]  182 		ld 	a, #80-2 	;; restore initial position
-   0091 DD 77 00      [19]  183 		ld 	Ent_x_I(IX), a
-                            184 		;; ld 	a, #80
-                            185 		;; ld 	(frisbee_y), a	
-   0094 18 0C         [12]  186 		jr 	cant_move_left
-   0096                     187 	can_move_left:	
-   0096 DD 21 00 00   [14]  188 		ld	ix, #frisbee_data
-   009A DD 36 0A FF   [19]  189 		ld 	Ent_ax_I(ix), #-1
-   009E DD 36 0B 80   [19]  190 		ld 	Ent_ax_F(ix), #-128	;; Ent_ax <= FF(-1)80(-128) (-128)
-                            191 
-   00A2                     192 	cant_move_left:
-   00A2 C9            [10]  193 	ret
-                            194 
-                            195 ;; =========================================
-                            196 ;; Mueve el frisbee arriba un píxel
-                            197 ;; Modifica A
-                            198 ;; =========================================
-   00A3                     199 moveUp:
-   00A3 3A 02 00      [13]  200 	ld 	a, (frisbee_y) 		;; A = frisbee_y
-   00A6 FE 00         [ 7]  201 	cp 	#0 			;; A == top_limit?
-   00A8 28 04         [12]  202 	jr 	z, cant_move_up 		
-   00AA 3D            [ 4]  203 		dec 	a 		;; move up one pixel
-   00AB 32 02 00      [13]  204 		ld 	(frisbee_y), a
-   00AE                     205 	cant_move_up:
-   00AE C9            [10]  206 	ret
-                            207 
-                            208 ;; ================================================
-                            209 ;; Pinta un cuadrado en pantalla del color elegido
-                            210 ;; Entrada:
-                            211 ;; 	A => Colour Pattern
-                            212 ;; Modifica AF, BC, DE, HL
-                            213 ;; ================================================
+                            159 
+                            160 ;; =========================================
+                            161 ;; Mueve el frisbee abajo un píxel
+                            162 ;; Modifica A
+                            163 ;; =========================================
+   0084                     164 moveDown:
+   0084 3A 02 00      [13]  165 	ld 	a, (frisbee_y) 		;; A = frisbee_x
+   0087 FE BC         [ 7]  166 	cp 	#200-12 		;; A == bottom_limit - frisbee_height?
+   0089 28 04         [12]  167 	jr 	z, cant_move_down 		
+   008B 3C            [ 4]  168 		inc 	a 		;; move down one pixel
+   008C 32 02 00      [13]  169 		ld 	(frisbee_y), a
+   008F                     170 	cant_move_down:
+   008F C9            [10]  171 	ret
+                            172 
+                            173 ;; ===========================================
+                            174 ;; Mueve el frisbee a la izquierda un píxel
+                            175 ;; Recibe:
+                            176 ;; 	IX <= Pointer to entity data
+                            177 ;; Modifica A
+                            178 ;; ===========================================
+   0090                     179 moveLeft:
+   0090 DD 7E 00      [19]  180 	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
+   0093 FE 00         [ 7]  181 	cp 	#0 			;; A == left_limit?
+   0095 20 07         [12]  182 	jr 	nz, can_move_left 
+   0097 3E 4E         [ 7]  183 		ld 	a, #80-2 	;; restore initial position
+   0099 DD 77 00      [19]  184 		ld 	Ent_x_I(IX), a
+                            185 		;; ld 	a, #80
+                            186 		;; ld 	(frisbee_y), a	
+   009C 18 0C         [12]  187 		jr 	cant_move_left
+   009E                     188 	can_move_left:	
+   009E DD 21 00 00   [14]  189 		ld	ix, #frisbee_data
+   00A2 DD 36 0A FF   [19]  190 		ld 	Ent_ax_I(ix), #-1
+   00A6 DD 36 0B 80   [19]  191 		ld 	Ent_ax_F(ix), #-128	;; Ent_ax <= FF(-1)80(-128) (-128)
+                            192 
+   00AA                     193 	cant_move_left:
+   00AA C9            [10]  194 	ret
+                            195 
+                            196 ;; =========================================
+                            197 ;; Mueve el frisbee arriba un píxel
+                            198 ;; Modifica A
+                            199 ;; =========================================
+   00AB                     200 moveUp:
+   00AB 3A 02 00      [13]  201 	ld 	a, (frisbee_y) 		;; A = frisbee_y
+   00AE FE 00         [ 7]  202 	cp 	#0 			;; A == top_limit?
+   00B0 28 04         [12]  203 	jr 	z, cant_move_up 		
+   00B2 3D            [ 4]  204 		dec 	a 		;; move up one pixel
+   00B3 32 02 00      [13]  205 		ld 	(frisbee_y), a
+   00B6                     206 	cant_move_up:
+   00B6 C9            [10]  207 	ret
+                            208 
+                            209 ;; ================================================
+                            210 ;; Pinta un cuadrado en pantalla del color elegido
+                            211 ;; Entrada:
+                            212 ;; 	A => Colour Pattern
+                            213 ;; Modifica AF, BC, DE, HL
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 
 
-   00AF                     214 drawFrisbee:
-   00AF F5            [11]  215 	push 	af 
-   00B0 11 00 C0      [10]  216 	ld 	de, #0xC000 		;; Video memory  pointer
-   00B3 3A 00 00      [13]  217 	ld 	a, (frisbee_x) 
-   00B6 4F            [ 4]  218 	ld 	c, a			;; C = frisbee_x
-   00B7 3A 02 00      [13]  219 	ld 	a, (frisbee_y) 
-   00BA 47            [ 4]  220 	ld 	b, a 			;; B = frisbee_y
-   00BB CD 00 00      [17]  221 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
-                            222 
-   00BE EB            [ 4]  223 	ex 	de, hl 			;; DE = frisbee screen pointer
-   00BF F1            [10]  224 	pop 	af 			;; A = User selected colour
-   00C0 01 02 08      [10]  225 	ld 	bc, #0x0802		;; 8x8 píxeles
-   00C3 CD 00 00      [17]  226 	call cpct_drawSolidBox_asm
-                            227 
-   00C6 C9            [10]  228 	ret
+                            214 ;; ================================================
+   00B7                     215 drawFrisbee:
+   00B7 F5            [11]  216 	push 	af 
+   00B8 11 00 C0      [10]  217 	ld 	de, #0xC000 		;; Video memory  pointer
+   00BB 3A 00 00      [13]  218 	ld 	a, (frisbee_x) 
+   00BE 4F            [ 4]  219 	ld 	c, a			;; C = frisbee_x
+   00BF 3A 02 00      [13]  220 	ld 	a, (frisbee_y) 
+   00C2 47            [ 4]  221 	ld 	b, a 			;; B = frisbee_y
+   00C3 CD 00 00      [17]  222 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
+                            223 
+   00C6 EB            [ 4]  224 	ex 	de, hl 			;; DE = frisbee screen pointer
+   00C7 F1            [10]  225 	pop 	af 			;; A = User selected colour
+   00C8 01 02 08      [10]  226 	ld 	bc, #0x0802		;; 8x8 píxeles
+   00CB CD 00 00      [17]  227 	call cpct_drawSolidBox_asm
+                            228 
+   00CE C9            [10]  229 	ret

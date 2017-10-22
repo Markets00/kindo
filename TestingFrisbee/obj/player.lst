@@ -542,45 +542,52 @@ Hexadecimal [16-Bits]
    011B CD 9F 00      [17]  248 		call 	moveDown
    011E                     249 	s_not_pressed:
                             250 
-                            251 ;;	ld 	hl, #Key_V			;; HL = V Keycode
-                            252 ;;	call 	cpct_isKeyPressed_asm 		;; A = True/False
-                            253 ;;	cp 	#0 				;; A == 0?
-                            254 ;;	jr 	z, v_not_pressed
-                            255 ;;		;; V is pressed	
-                            256 ;;		ld 	hl, #Key_B			;; HL = B Keycode
-                            257 ;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
-                            258 ;;		cp 	#0 				;; A == 0?
-                            259 ;;		jr 	z, just_v_pressed
+                            251 
+   011E DD E5         [15]  252 	push 	ix
+   0120 CD 80 00      [17]  253 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
+   0123 DD E1         [14]  254 	pop 	ix
+   0125 FE 00         [ 7]  255 	cp 	#0			;; A == 0?
+   0127 28 3F         [12]  256 	jr	z, b_not_pressed 	;; checkFrisbeeCollision == 0?
+                            257 
+   0129 21 06 80      [10]  258 	ld 	hl, #Key_V			;; HL = V Keycode
+   012C CD 00 00      [17]  259 	call 	cpct_isKeyPressed_asm 		;; A = True/False
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
 Hexadecimal [16-Bits]
 
 
 
-                            260 ;;			;; V and B are pressed
-                            261 ;;			jr vorb_pressed
-                            262 ;;		just_v_pressed:
-                            263 ;;			ld 	h, #-1
-                            264 ;;			ld 	h, #std_eff
-                            265 ;;			call frisbee_setEffect
-                            266 ;;			jr 	vorb_pressed
-                            267 ;;	v_not_pressed:
-                            268 ;;
-                            269 ;;		ld 	hl, #Key_B			;; HL = B Keycode
-                            270 ;;		call 	cpct_isKeyPressed_asm 		;; A = True/False
-                            271 ;;		cp 	#0 				;; A == 0?
-                            272 ;;		jr 	z, b_not_pressed
-                            273 ;;			;; B is pressed
-                            274 ;;			ld 	h, #0
-                            275 ;;			ld 	h, #std_eff
-                            276 ;;			call frisbee_setEffect
-                            277 ;;
-                            278 ;;			vorb_pressed:
-                            279 ;;			ld	h, Ent_vx_I(ix)
-                            280 ;;			ld	l, Ent_vx_F(ix)
-                            281 ;;			ld	d, Ent_vy_I(ix)
-                            282 ;;			ld	e, Ent_vy_F(ix)
-                            283 ;;			call frisbee_setVelocities
-                            284 ;;
-                            285 ;;	b_not_pressed:
-   011E C9            [10]  286 	ret
-                            287 
+   012F FE 00         [ 7]  260 	cp 	#0 				;; A == 0?
+   0131 28 15         [12]  261 	jr 	z, v_not_pressed
+                            262 		;; V is pressed	
+   0133 21 06 40      [10]  263 		ld 	hl, #Key_B			;; HL = B Keycode
+   0136 CD 00 00      [17]  264 		call 	cpct_isKeyPressed_asm 		;; A = True/False
+   0139 FE 00         [ 7]  265 		cp 	#0 				;; A == 0?
+   013B 28 02         [12]  266 		jr 	z, just_v_pressed
+                            267 			;; V and B are pressed
+   013D 18 1A         [12]  268 			jr vorb_pressed
+   013F                     269 		just_v_pressed:
+   013F 26 FF         [ 7]  270 			ld 	h, #-1
+   0141 26 08         [ 7]  271 			ld 	h, #std_eff
+   0143 CD 00 00      [17]  272 			call frisbee_setEffect
+   0146 18 11         [12]  273 			jr 	vorb_pressed
+   0148                     274 	v_not_pressed:
+                            275 
+   0148 21 06 40      [10]  276 		ld 	hl, #Key_B			;; HL = B Keycode
+   014B CD 00 00      [17]  277 		call 	cpct_isKeyPressed_asm 		;; A = True/False
+   014E FE 00         [ 7]  278 		cp 	#0 				;; A == 0?
+   0150 28 16         [12]  279 		jr 	z, b_not_pressed
+                            280 			;; B is pressed
+   0152 26 00         [ 7]  281 			ld 	h, #0
+   0154 26 08         [ 7]  282 			ld 	h, #std_eff
+   0156 CD 00 00      [17]  283 			call frisbee_setEffect
+                            284 
+   0159                     285 			vorb_pressed:
+   0159 DD 66 06      [19]  286 			ld	h, Ent_vx_I(ix)
+   015C DD 6E 07      [19]  287 			ld	l, Ent_vx_F(ix)
+   015F DD 56 08      [19]  288 			ld	d, Ent_vy_I(ix)
+   0162 DD 5E 09      [19]  289 			ld	e, Ent_vy_F(ix)
+   0165 CD 00 00      [17]  290 			call frisbee_setVelocities
+                            291 
+   0168                     292 	b_not_pressed:
+   0168 C9            [10]  293 	ret
+                            294 

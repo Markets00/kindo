@@ -55,13 +55,14 @@ frisbee_erase::
 ;; Recibe:
 ;; 	HL <= X axis velocity
 ;; 	DE <= Y axis velocity
-;; Modifica: HL
+;; Modifica: HL, IX
 ;; ================================================
 frisbee_setVelocities::
-	ld 	(frisbee_vx), hl
-	ld 	h, d
-	ld 	l, e
-	ld 	(frisbee_vy), hl
+	ld 	ix, #frisbee_data
+	ld 	Ent_vx_I(ix), h
+	ld 	Ent_vx_F(ix), l
+	ld 	Ent_vy_I(ix), d
+	ld 	Ent_vy_F(ix), e
 	ret
 
 
