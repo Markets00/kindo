@@ -17,16 +17,16 @@
 // 		name'_id:	.db id		;; Numeric ID				(8 bits)
 // .endm
 typedef struct {
-	u8		x_I, x_F;
-	u8		y_I, y_F;
-	u8 		h, w;
-	u8		vx_I,vx_F;
-	u8		vy_I,vy_F;
-	u8		ax_I,ax_F;
-	u8		ay_I,ay_F;
-	u8		state;
-	u8		clr;
-	u8		id;
+	u8		x_I, x_F;	// X, parte entera y parte decimal
+	u8		y_I, y_F;	// Y, parte entera y parte decimal
+	u8 		h, w;		// alto y ancho
+	u8		vx_I,vx_F;	// VX, parte entera y parte decimal
+	u8		vy_I,vy_F;	// VY, parte entera y parte decimal
+	u8		ax_I,ax_F;	// AX, parte entera y parte decimal
+	u8		ay_I,ay_F;	// AY, parte entera y parte decimal
+	u8		state;		// estado
+	u8		clr;		// patrón de color
+	u8		id;			// ID numérico
 } TEntity;
 
 

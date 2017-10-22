@@ -269,7 +269,7 @@ checkUserInput:
 		just_v_pressed:
 			ld 	h, #-1
 			ld 	h, #std_eff
-			call frisbee_setEffect
+			call frisbee_setEffect		;; efecto hacia arriba
 			jr 	vorb_pressed
 	v_not_pressed:
 
@@ -280,14 +280,14 @@ checkUserInput:
 			;; B is pressed
 			ld 	h, #0
 			ld 	h, #std_eff
-			call frisbee_setEffect
+			call frisbee_setEffect		;; efecto hacia arriba
 
 			vorb_pressed:
-			ld	h, Ent_vx_I(ix)
-			ld	l, Ent_vx_F(ix)
-			ld	d, Ent_vy_I(ix)
-			ld	e, Ent_vy_F(ix)
-			call frisbee_setVelocities
+			ld	h, Ent_vx_I(ix)		;;
+			ld	l, Ent_vx_F(ix)		;;
+			ld	d, Ent_vy_I(ix)		;;
+			ld	e, Ent_vy_F(ix)		;;
+			call frisbee_setVelocities	;; transferimos la velocidad de la entidad al frisbee
 
 	b_not_pressed:
 	ret
