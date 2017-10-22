@@ -63,11 +63,11 @@ Hexadecimal [16-Bits]
                               6 
                               7 
                               8 ;; .macro defineGame name, type, map, fTime
-   0313                       9 defineGame game, #0, #0x0000, #0x012C
+   0352                       9 defineGame game, #0, #0x0000, #0x012C
    0000                       1 	game_data::
-   0313 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
-   0314 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   0316 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
+   0352 00                    2 		game_type:	.db #0	;; Game Mode			(8 bits)
+   0353 00 00                 3 		game_map:	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
+   0355 2C 01                 4 		game_fTime:	.dw #0x012C	;; Final duration of each match	(16 bits)
                              10 
                              11 ;; .macro defineGame name, type, map, fTime
                              12 ;; defineGame gameaux, #0, #0x0000, #0x012C
@@ -75,9 +75,9 @@ Hexadecimal [16-Bits]
                              14 ;; ========================
                              15 ;; Programa principal
                              16 ;; ========================
-   0318                      17 _main::
-   0318 DD 21 13 03   [14]   18 	ld ix, #game_data
-   031C CD 31 04      [17]   19 	call menuStart
-   031F CD 3A 04      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
+   0357                      17 _main::
+   0357 DD 21 52 03   [14]   18 	ld ix, #game_data
+   035B CD 82 04      [17]   19 	call menuStart
+   035E CD 8B 04      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
                              21 
-   0322 18 F4         [12]   22 	jr (_main)
+   0361 18 F4         [12]   22 	jr (_main)

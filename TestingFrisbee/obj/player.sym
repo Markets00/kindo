@@ -41,40 +41,40 @@ Symbol Table
     Key_V   =  8006     |     Key_W   =  0807     |     Key_X   =  8007 
     Key_Y   =  0805     |     Key_Z   =  8008     |     MAX_VEL_=  0002 
     MAX_VEL_=  0004     |     MIN_VEL_=  FFFFFFFE     |     MIN_VEL_=  FFFFFFFC 
-  0 _cpct_ke   0000 GR  |   0 a_not_pr   00F2 R   |   0 cant_mov   00BC R
-  0 cant_mov   00D4 R   |   0 checkFri   006E R   |   0 checkUse   00D5 R
-  0 collisio   00A1 R   |   0 collisio   00B9 R   |   0 collisio   0089 R
-  0 collisio   00D1 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
-    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_sca   **** GX
-    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
-  0 d_not_pr   00E5 R   |   0 delta      006E R   |   0 enemy_ax   0025 R
-  0 enemy_ay   0027 R   |   0 enemy_cl   002A R   |   0 enemy_da   001B GR
-  0 enemy_h    001F R   |   0 enemy_id   002B R   |   0 enemy_st   0029 R
-  0 enemy_vx   0021 R   |   0 enemy_vy   0023 R   |   0 enemy_w    0020 R
-  0 enemy_x    001B R   |   0 enemy_y    001D R   |     entityCh   **** GX
-    entityDr   **** GX  |     entityEr   **** GX  |     entityUp   **** GX
-    entityUp   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+  0 _cpct_ke   0000 GR  |     _moveIA    **** GX  |   0 a_not_pr   0104 R
+  0 cant_mov   00CE R   |   0 cant_mov   00E6 R   |   0 checkFri   0080 R
+  0 checkUse   00E7 R   |   0 collisio   00B3 R   |   0 collisio   00CB R
+  0 collisio   009B R   |   0 collisio   00E3 R   |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_wai   **** GX  |   0 d_not_pr   00F7 R   |   0 delta      0080 R
+  0 enemy_ax   0025 R   |   0 enemy_ay   0027 R   |   0 enemy_cl   002A R
+  0 enemy_da   001B GR  |   0 enemy_h    001F R   |   0 enemy_id   002B R
+  0 enemy_st   0029 R   |   0 enemy_vx   0021 R   |   0 enemy_vy   0023 R
+  0 enemy_w    0020 R   |   0 enemy_x    001B R   |   0 enemy_y    001D R
+    entityCh   **** GX  |     entityDr   **** GX  |     entityEr   **** GX
+    entityUp   **** GX  |     entityUp   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
-    frisbee_   **** GX  |     frisbee_   **** GX  |   0 moveDown   008D R
-  0 moveLeft   00A5 R   |   0 moveRigh   0075 R   |   0 moveUp     00BD R
-  0 player_a   0014 R   |   0 player_a   0016 R   |   0 player_c   0019 R
+    frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+  0 moveDown   009F R   |   0 moveLeft   00B7 R   |   0 moveRigh   0087 R
+  0 moveUp     00CF R   |   0 player_a   0014 R   |   0 player_a   0016 R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 player_d   000A GR  |   0 player_d   005F GR  |   0 player_e   002C GR
-  0 player_h   000E R   |   0 player_i   001A R   |   0 player_s   0018 R
-  0 player_u   003B GR  |   0 player_v   0010 R   |   0 player_v   0012 R
-  0 player_w   000F R   |   0 player_x   000A R   |   0 player_y   000C R
-  0 s_not_pr   010C R   |     std_acc =  0010     |     std_eff =  0008 
-  0 update     006E R   |   0 w_not_pr   00FF R
+  0 player_c   0019 R   |   0 player_d   000A GR  |   0 player_d   0071 GR
+  0 player_e   002C GR  |   0 player_h   000E R   |   0 player_i   001A R
+  0 player_s   0018 R   |   0 player_u   003B GR  |   0 player_v   0010 R
+  0 player_v   0012 R   |   0 player_w   000F R   |   0 player_x   000A R
+  0 player_y   000C R   |   0 s_not_pr   011E R   |     std_acc =  0010 
+    std_eff =  0008     |   0 update     0080 R   |   0 w_not_pr   0111 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  10D   flags    0
+   0 _CODE      size  11F   flags    0
    1 _DATA      size    0   flags    0
 

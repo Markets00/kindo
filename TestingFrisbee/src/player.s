@@ -6,6 +6,7 @@ std_acc = 16 	;; standard acceleration per frame
 .include "entity.h.s"
 .include "frisbee.h.s"
 .include "keyboard/keyboard.s"
+.globl _moveIA
 
 ;; ====================================
 ;; ====================================
@@ -13,7 +14,7 @@ std_acc = 16 	;; standard acceleration per frame
 ;; ====================================
 ;; ====================================
 
-;; .macro defineEntity name, x, y, h, w, vx, vy, ax, ay, state, clr
+;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
 
 defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #1, #0xF0, #1
 
@@ -33,9 +34,25 @@ player_erase::
 
 	ret
 
+;; =========================================
+;; Actualiza el estado de los entities tipo
+;;	player
+;; Modifica: AF, IX
+;; =========================================
 player_update::
 	ld 	ix, #player_data
 	call checkUserInput
+
+	ld	hl, #frisbee_data
+	push 	hl
+	ld	hl, #player_data
+	push 	hl
+	ld	hl, #enemy_data
+	push 	hl
+	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
+	pop 	af
+	pop 	af
+	pop 	af
 
 	ld 	ix, #player_data
 	call entityUpdatePhysics

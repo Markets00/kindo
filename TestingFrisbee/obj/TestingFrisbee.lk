@@ -7,6 +7,7 @@
 -k /home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/share/sdcc/lib/z80
 -l /home/markets/git/cpctelera/cpctelera/cpctelera.lib
 -l z80
+obj/IA.rel
 obj/entity.rel
 obj/frisbee.rel
 obj/entity.h.rel
