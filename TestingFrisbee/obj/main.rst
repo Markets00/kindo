@@ -77,7 +77,7 @@ Hexadecimal [16-Bits]
                              16 ;; ========================
    0389                      17 _main::
    0389 DD 21 84 03   [14]   18 	ld ix, #game_data
-   038D CD 02 05      [17]   19 	call menuStart
-   0390 CD 0B 05      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
+   038D CD 39 05      [17]   19 	call menuStart
+   0390 CD 42 05      [17]   20 	call gameStart		;; inicia una partida con los valores de game_data
                              21 
    0393 18 F4         [12]   22 	jr (_main)

@@ -350,11 +350,11 @@ Hexadecimal [16-Bits]
    0373 4F            [ 4]  219 	ld 	c, a			;; C = frisbee_x
    0374 3A B5 02      [13]  220 	ld 	a, (frisbee_y) 
    0377 47            [ 4]  221 	ld 	b, a 			;; B = frisbee_y
-   0378 CD 1F 06      [17]  222 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
+   0378 CD 56 06      [17]  222 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
                             223 
    037B EB            [ 4]  224 	ex 	de, hl 			;; DE = frisbee screen pointer
    037C F1            [10]  225 	pop 	af 			;; A = User selected colour
    037D 01 02 08      [10]  226 	ld 	bc, #0x0802		;; 8x8 píxeles
-   0380 CD 72 05      [17]  227 	call cpct_drawSolidBox_asm
+   0380 CD A9 05      [17]  227 	call cpct_drawSolidBox_asm
                             228 
    0383 C9            [10]  229 	ret

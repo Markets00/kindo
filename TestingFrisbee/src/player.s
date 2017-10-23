@@ -5,6 +5,7 @@ std_acc = 16 	;; standard acceleration per frame
 .include "utility.h.s"
 .include "entity.h.s"
 .include "frisbee.h.s"
+.include "game.h.s"
 .include "keyboard/keyboard.s"
 .globl _moveIA
 
@@ -16,7 +17,7 @@ std_acc = 16 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
 
-defineEntity player, #0x0027, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
+defineEntity player, #0x0010, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
 
 defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xFF, #2
 
@@ -63,6 +64,12 @@ player_update::
 	call entityUpdatePosition
 	ld 	ix, #enemy_data
 	call entityUpdatePosition
+
+
+	ld 	ix, #player_data
+	call checkCenterCrossing
+	ld 	ix, #enemy_data
+	call checkCenterCrossing
 	ret
 
 player_draw::
@@ -205,6 +212,41 @@ moveUp:
 	cant_move_up:
 	ret
 
+
+;; ===========================================
+;; Chequea si un jugador pasa del centro del
+;; 	campo y lo corrige en caso necesario
+;; Entrada:
+;; 	IX <= pointer to entity data
+;; Modifica AF, BC, DE, HL
+;; ===========================================
+checkCenterCrossing:
+	ld 	a, Ent_id(ix)
+	cp 	#1
+	jr	z, player_1
+		cp	#2
+		jr	nz, invalid_id
+			;; player 2
+			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
+			cp	#CENTER_LIMIT
+			jr	nc, not_crossed				;; Ent_x <= CENTER_LIMIT? center crossed
+				;; center limit crossed
+				ld	Ent_x_I(ix), #CENTER_LIMIT
+
+	player_1:
+			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
+			add	a, Ent_w(ix)				;; A <= Ent_x + Ent_w
+			cp	#CENTER_LIMIT
+			jr	c, not_crossed				;; Ent_x + Ent_w > CENTER_LIMIT? center crossed
+				;; center limit crossed
+				ld	a, #CENTER_LIMIT
+				sub	Ent_w(ix)			;; A <= CENTER_LIMIT - Ent_w
+				ld	Ent_x_I(ix), a			;; Ent_x = CENTER_LIMIT - Ent_w
+
+
+	invalid_id:
+	not_crossed:
+	ret
 
 
 ;; ====================================

@@ -118,7 +118,7 @@ Hexadecimal [16-Bits]
    0101 11 00 C0      [10]   55 	ld 	de, #0xC000 		;; Video memory pointer
    0104 DD 4E 00      [19]   56 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    0107 DD 46 02      [19]   57 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   010A CD 1F 06      [17]   58 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   010A CD 56 06      [17]   58 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              59 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
@@ -129,7 +129,7 @@ Hexadecimal [16-Bits]
    010E DD 46 04      [19]   61 	ld 	b, Ent_h(ix) 		;; B = ent height
    0111 DD 4E 05      [19]   62 	ld 	c, Ent_w(ix) 		;; C = ent width
    0114 DD 7E 11      [19]   63 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0117 CD 72 05      [17]   64 	call cpct_drawSolidBox_asm
+   0117 CD A9 05      [17]   64 	call cpct_drawSolidBox_asm
                              65 
    011A C9            [10]   66 	ret
                              67 
@@ -143,13 +143,13 @@ Hexadecimal [16-Bits]
    011B 11 00 C0      [10]   75 	ld 	de, #0xC000 		;; Video memory  pointer
    011E DD 4E 00      [19]   76 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    0121 DD 46 02      [19]   77 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0124 CD 1F 06      [17]   78 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0124 CD 56 06      [17]   78 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              79 
    0127 EB            [ 4]   80 	ex 	de, hl 			;; DE = ent screen pointer
    0128 3E 00         [ 7]   81 	ld 	a, #0x00 		;; A = background color
    012A DD 46 04      [19]   82 	ld 	b, Ent_h(ix) 		;; B = ent height
    012D DD 4E 05      [19]   83 	ld 	c, Ent_w(ix) 		;; C = ent width
-   0130 CD 72 05      [17]   84 	call cpct_drawSolidBox_asm
+   0130 CD A9 05      [17]   84 	call cpct_drawSolidBox_asm
                              85 
    0133 C9            [10]   86 	ret
                              87 
