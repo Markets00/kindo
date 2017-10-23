@@ -1,5 +1,6 @@
 XL2
-H 1 areas 8 global symbols
+H 1 areas 9 global symbols
+S frisbee_checkGoal Ref0000
 S frisbee_update Ref0000
 S frisbee_erase Ref0000
 S frisbee_setEffect Ref0000

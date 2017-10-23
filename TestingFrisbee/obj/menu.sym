@@ -8,8 +8,9 @@ Symbol Table
     Key_Curs=  0200     |     Key_Curs=  0100     |     Key_Ente=  4000 
     Key_Spac=  8005     |   0 checkUse   0004 R   |     cpct_dis   **** GX
     cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
-    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |   0 initiali   0005 R   |   0 menuStar   0000 GR
+    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 initiali   0005 R   |   0 menuStar   0000 GR  |     negateHL   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

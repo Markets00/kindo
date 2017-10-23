@@ -13,3 +13,4 @@
 .globl cpct_setPalette_asm
 .globl cpct_memcpy_asm
 .globl negateHL
+.globl cpct_setVideoMemoryPage_asm

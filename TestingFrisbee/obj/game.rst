@@ -38,10 +38,12 @@ Hexadecimal [16-Bits]
                              10 .globl frisbee_setOff
                              11 .globl frisbee_setEffect
                              12 .globl frisbee_setVelocities
-                             13 	
-                     0010    14 .equ Frisbee_effect_I, 16
-                     0011    15 .equ Frisbee_effect_F, 17
-                     0008    16 .equ std_eff, 08
+                             13 .globl frisbee_checkGoal
+                             14 	
+                     0017    15 .equ Frisbee_effect_I, 23
+                     0018    16 .equ Frisbee_effect_F, 24
+                     0008    17 .equ std_eff, 0x0008
+                     FFF8    18 .equ std_N_eff, 0xFFF8
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
@@ -62,6 +64,8 @@ Hexadecimal [16-Bits]
                              12 .globl cpct_setVideoMode_asm
                              13 .globl cpct_setPalette_asm
                              14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
+                             16 .globl cpct_setVideoMemoryPage_asm
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
@@ -97,109 +101,156 @@ Hexadecimal [16-Bits]
                              34 ;; .equ mi_constante0, 0
                              35 ;; .equ mi_constante1, 1
                              36 	
-                             37 ;; ====================================
-                             38 ;; ====================================
-                             39 ;; PUBLIC FUNCTIONS
+   056E 00 80                37 videoPtr:	.dw 0x8000
+                             38 
+                             39 ;; ====================================
                              40 ;; ====================================
-                             41 ;; ====================================
-                             42 
-                             43 
-                             44 ;; ===================================
-                             45 ;; Inicia una partida dependiendo
-                             46 ;; 	de los atributos de game
-                             47 ;; Entrada:
-                             48 ;; 	IX => Pointer to game data 
-                             49 ;; Modifica IX
-                             50 ;; ===================================
-   0572                      51 gameStart::
-                             52 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             53 	;; Reading game data example
+                             41 ;; PUBLIC FUNCTIONS
+                             42 ;; ====================================
+                             43 ;; ====================================
+                             44 
+                             45 
+                             46 ;; ===================================
+                             47 ;; Inicia una partida dependiendo
+                             48 ;; 	de los atributos de game
+                             49 ;; Entrada:
+                             50 ;; 	IX => Pointer to game data 
+                             51 ;; Modifica IX
+                             52 ;; ===================================
+   0570                      53 gameStart::
                              54 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             55 	;;	ld 	h, Game_type(ix)	;; H <= Game_type
-                             56 	;;
-                             57 	;;	ld 	h, Game_map_L(ix)
-                             58 	;;	ld 	l, Game_map_H(ix) 	;; HL <= Game_map pointer (little endian)
-                             59 	;;
-                             60 	;;	ld 	h, Game_time_H(ix)
-                             61 	;;	ld 	l, Game_time_L(ix)	;; HL <= Game_time
+                             55 	;; Reading game data example
+                             56 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             57 	;;	ld 	h, Game_type(ix)	;; H <= Game_type
+                             58 	;;
+                             59 	;;	ld 	h, Game_map_L(ix)
+                             60 	;;	ld 	l, Game_map_H(ix) 	;; HL <= Game_map pointer (little endian)
+                             61 	;;
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 
 
-                             62 	
-                             63 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-                             64 	;; Modifying game data example
-                             65 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                             66 	;;	ld 	Game_type(ix), #0	;; Game_type <= 0
-                             67 	;;
-                             68 	;;	ld 	Game_map_L(ix), #0
-                             69 	;;	ld 	Game_map_H(ix), #0 	;; Game_map <= 0x0000 (little endian)
-                             70 	;;
-                             71 	;;	ld 	Game_time_H(ix), #0
-                             72 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
-                             73 
-                             74 
-   0572 CD 79 05      [17]   75 	call 	initializeGame
-                             76 	;; Configuration staff...
-                             77 	;; Configuration staff...
+                             62 	;;	ld 	h, Game_time_H(ix)
+                             63 	;;	ld 	l, Game_time_L(ix)	;; HL <= Game_time
+                             64 	
+                             65 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+                             66 	;; Modifying game data example
+                             67 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                             68 	;;	ld 	Game_type(ix), #0	;; Game_type <= 0
+                             69 	;;
+                             70 	;;	ld 	Game_map_L(ix), #0
+                             71 	;;	ld 	Game_map_H(ix), #0 	;; Game_map <= 0x0000 (little endian)
+                             72 	;;
+                             73 	;;	ld 	Game_time_H(ix), #0
+                             74 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
+                             75 
+                             76 
+   0570 CD 7B 05      [17]   77 	call 	initializeGame
                              78 	;; Configuration staff...
-   0575 CD 85 05      [17]   79 	call 	game_loop
-   0578 C9            [10]   80 	ret
-                             81 
-                             82 
-                             83 ;; ====================================
-                             84 ;; ====================================
-                             85 ;; PRIVATE FUNCTIONS
-                             86 ;; ====================================
-                             87 ;; ====================================
-                             88 
-                             89 
-                             90 ;; ========================
-                             91 ;; Initialize game
-                             92 ;; ========================
-   0579                      93 initializeGame:
-   0579 CD D4 05      [17]   94 	call cpct_disableFirmware_asm
-                             95 
-                             96 	;; Set video mode
-                             97 	;; ld 	c, #0
-                             98 	;; call cpct_setVideoMode_asm
+                             79 	;; Configuration staff...
+                             80 	;; Configuration staff...
+   0573 CD A8 05      [17]   81 	call 	game_loop
+   0576 C9            [10]   82 	ret
+                             83 
+                             84 
+                             85 ;; ==================================
+                             86 ;; Devuelve el puntero a video en HL
+                             87 ;; Devuelve:
+                             88 ;;	HL => Pointer to video memory
+                             89 ;; ==================================
+   0577                      90 getVideoPtr::
+   0577 2A 6E 05      [16]   91 	ld	hl, (videoPtr)
+   057A C9            [10]   92 	ret
+                             93 
+                             94 ;; ====================================
+                             95 ;; ====================================
+                             96 ;; PRIVATE FUNCTIONS
+                             97 ;; ====================================
+                             98 ;; ====================================
                              99 
-                            100 	;; Set palette
-                            101 	;; ld 	hl, #direccion_paleta
-                            102 	;; ld 	de, #16
-                            103 	;; call cpct_setPalette_asm
-                            104 	
-   057C DD 36 05 00   [19]  105 	ld 	Game_t1points(ix), #0
-   0580 DD 36 06 00   [19]  106 	ld 	Game_t2points(ix), #0		;; Initialize points to 0
-                            107 
-   0584 C9            [10]  108 	ret
-                            109 
+                            100 
+                            101 ;; ========================
+                            102 ;; Initialize game
+                            103 ;; ========================
+   057B                     104 initializeGame:
+   057B CD 0A 06      [17]  105 	call cpct_disableFirmware_asm
+                            106 
+                            107 	;; Set video mode
+                            108 	;; ld 	c, #0
+                            109 	;; call cpct_setVideoMode_asm
                             110 
-                            111 ;; ============================
-                            112 ;; Game loop until end of game
-                            113 ;; ============================
-   0585                     114 game_loop:
+                            111 	;; Set palette
+                            112 	;; ld 	hl, #direccion_paleta
+                            113 	;; ld 	de, #16
+                            114 	;; call cpct_setPalette_asm
                             115 
-                            116 	;; Wait VSYNC to modify VMEM without blinking
+                            116 	;; Clean from 8000 to BFFF
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 
 
-   0585 CD BC 05      [17]  117 	call cpct_waitVSYNC_asm
-                            118 
-                            119 	;; Erase entities
-   0588 CD 21 04      [17]  120 	call player_erase
-   058B CD 07 03      [17]  121 	call frisbee_erase
+   057E 21 00 80      [10]  117 	ld	hl, #0x8000			;; HL <= Copy pointer
+   0581 11 01 80      [10]  118 	ld	de, #0x8001			;; DE <= Write pointer
+   0584 36 00         [10]  119 	ld	(hl), #00			;; Set to 0 where HL points
+   0586 01 00 40      [10]  120 	ld	bc, #0x4000			;; BC <= Times to repeat
+   0589 ED B0         [21]  121 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
                             122 
-                            123 	;; Update entities
-   058E CD 30 04      [17]  124 	call player_update
-   0591 CD 2B 03      [17]  125 	call frisbee_update
-                            126 
-                            127 	;; Draw entities
-   0594 CD 74 04      [17]  128 	call player_draw
-   0597 CD 49 03      [17]  129 	call frisbee_draw
-                            130 
-   059A 18 E9         [12]  131 	jr (game_loop) 			;; Bucle infinito
-   059C C9            [10]  132 	ret
+   058B DD 36 05 00   [19]  123 	ld 	Game_t1points(ix), #0
+   058F DD 36 06 00   [19]  124 	ld 	Game_t2points(ix), #0		;; Initialize points to 0
+                            125 
+                            126 	
+   0593 C9            [10]  127 	ret
+                            128 
+                            129 
+   0594                     130 switchBuffers:
+                     0027   131 	mem_page = .+1
+   0594 2E 20         [ 7]  132 	ld 	l, #0x20
+   0596 CD E9 05      [17]  133 	call 	cpct_setVideoMemoryPage_asm
+   0599 21 95 05      [10]  134 	ld 	hl, #mem_page
+   059C 3E 10         [ 7]  135 	ld	a, #0x10
+   059E AE            [ 7]  136 	xor	(hl)
+   059F 77            [ 7]  137 	ld	(hl), a
+                            138 
+   05A0 21 6F 05      [10]  139 	ld	hl, #videoPtr+1
+   05A3 3E 40         [ 7]  140 	ld	a, #0x40
+   05A5 AE            [ 7]  141 	xor	(hl)
+   05A6 77            [ 7]  142 	ld	(hl), a
+                            143 
+                            144 
+   05A7 C9            [10]  145 	ret
+                            146 
+                            147 
+                            148 ;; ============================
+                            149 ;; Game loop until end of game
+                            150 ;; ============================
+   05A8                     151 game_loop:
+                            152 
+                            153 
+                            154 	;; Erase entities
+   05A8 CD 1D 04      [17]  155 	call player_erase
+   05AB CD 52 03      [17]  156 	call frisbee_erase
+                            157 
+                            158 	;; Update entities
+   05AE CD 2C 04      [17]  159 	call player_update
+   05B1 CD 76 03      [17]  160 	call frisbee_update
+                            161 
+                            162 	;; Draw entities
+   05B4 CD 70 04      [17]  163 	call player_draw
+   05B7 CD 91 03      [17]  164 	call frisbee_draw
+                            165 
+   05BA DD 21 F1 02   [14]  166 	ld	ix, #frisbee_data
+   05BE CD AD 03      [17]  167 	call frisbee_checkGoal
+                            168 
+                            169 	;; Wait VSYNC to modify VMEM without blinking
+   05C1 CD F2 05      [17]  170 	call cpct_waitVSYNC_asm
+   05C4 CD 94 05      [17]  171 	call switchBuffers
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+                            172 
+   05C7 18 DF         [12]  173 	jr (game_loop) 			;; Bucle infinito
+   05C9 C9            [10]  174 	ret

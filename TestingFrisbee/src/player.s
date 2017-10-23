@@ -1,4 +1,4 @@
-std_acc = 16 	;; standard acceleration per frame
+std_acc = 10 	;; standard acceleration per frame
 
 .area _DATA
 .area _CODE
@@ -17,9 +17,9 @@ std_acc = 16 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity player, #0x0010, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
+defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xF0, #1
 
-defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xFF, #2
+defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xFF, #2
 
 	
 ;; ====================================
@@ -219,7 +219,7 @@ checkCenterCrossing:
 ;; Modifica AF, BC, DE, HL, IX
 ;; ====================================
 checkUserInput:
-	call cpct_scanKeyboard_asm
+	call cpct_scanKeyboard_asm						;;;;; TO DO DESACOPLAR ESTE CÓDIGO PARA QUE JUEGUEN 2 JUGADORES ;;;;;;;;;;
 
 	ld 	hl, #Key_D			;; HL = D Keycode
 	call 	cpct_isKeyPressed_asm 		;; A = True/False

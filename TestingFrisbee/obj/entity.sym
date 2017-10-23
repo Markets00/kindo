@@ -7,34 +7,37 @@ Symbol Table
     .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
     Ent_N_F =  000F     |     Ent_N_I =  000E     |     Ent_ax_F=  000B 
     Ent_ax_I=  000A     |     Ent_ay_F=  000D     |     Ent_ay_I=  000C 
-    Ent_clr =  0011     |     Ent_h   =  0004     |     Ent_id  =  0012 
-    Ent_stat=  0010     |     Ent_vx_F=  0007     |     Ent_vx_I=  0006 
-    Ent_vy_F=  0009     |     Ent_vy_I=  0008     |     Ent_w   =  0005 
-    Ent_x_F =  0001     |     Ent_x_I =  0000     |     Ent_y_F =  0003 
-    Ent_y_I =  0002     |     Game_fTi=  0003     |     Game_fTi=  0004 
-    Game_map=  0002     |     Game_map=  0001     |     Game_t1p=  0005 
-    Game_t2p=  0006     |     Game_typ=  0000     |     LEFT_LIM=  0000 
-    MAX_VEL_=  0002     |     MAX_VEL_=  0004     |     MIN_VEL_=  FFFFFFFE 
-    MIN_VEL_=  FFFFFFFC     |     RIGHT_LI=  0050     |     TOP_LIMI=  000A 
-  0 bounce     01B1 R   |   0 can_dece   009A R   |   0 can_dece   00CB R
-  0 cant_acc   0051 R   |   0 cant_acc   006F R   |   0 cant_dec   00A0 R
-  0 cant_dec   00D1 R   |   0 check_bo   01A5 R   |   0 check_le   015F R
-  0 check_ri   0169 R   |   0 check_to   019B R   |   0 check_y    0175 R
-  0 collisio   0112 R   |   0 collisio   00FF R   |   0 collisio   0124 R
-  0 collisio   0136 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
-    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_mem   **** GX
-    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |   0 ent1_ptr   00E2 R   |   0 ent2_ptr   00E4 R
-  0 entityCh   00E6 GR  |   0 entityDr   0000 GR  |   0 entityEr   001A GR
-  0 entityUp   0033 GR  |   0 entityUp   013B GR  |     gameStar   **** GX
-  0 negateHL   01C1 GR  |   0 no_colli   0138 R   |   0 vx_negat   008D R
-  0 vy_negat   00BE R
+    Ent_clr =  0015     |     Ent_eras=  0011     |     Ent_eras=  0013 
+    Ent_h   =  0004     |     Ent_id  =  0016     |     Ent_last=  0010 
+    Ent_last=  0012     |     Ent_stat=  0014     |     Ent_vx_F=  0007 
+    Ent_vx_I=  0006     |     Ent_vy_F=  0009     |     Ent_vy_I=  0008 
+    Ent_w   =  0005     |     Ent_x_F =  0001     |     Ent_x_I =  0000 
+    Ent_y_F =  0003     |     Ent_y_I =  0002     |     Game_fTi=  0003 
+    Game_fTi=  0004     |     Game_map=  0002     |     Game_map=  0001 
+    Game_t1p=  0005     |     Game_t2p=  0006     |     Game_typ=  0000 
+    LEFT_LIM=  0000     |     MAX_VEL_=  0002     |     MAX_VEL_=  0003 
+    MIN_VEL_=  FFFFFFFE     |     MIN_VEL_=  FFFFFFFD     |     RIGHT_LI=  0050 
+    TOP_LIMI=  000A     |   0 bounce     01AF R   |   0 can_dece   00A2 R
+  0 can_dece   00D3 R   |   0 cant_acc   0059 R   |   0 cant_acc   0077 R
+  0 cant_dec   00A8 R   |   0 cant_dec   00D9 R   |   0 check_bo   01A4 R
+  0 check_le   0164 R   |   0 check_ri   016D R   |   0 check_to   019B R
+  0 check_y    0178 R   |   0 collisio   011A R   |   0 collisio   0107 R
+  0 collisio   012C R   |   0 collisio   013E R   |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 ent1_ptr   00EA R   |   0 ent2_ptr   00EC R   |   0 entityCh   00EE GR
+  0 entityDr   0000 GR  |   0 entityEr   0021 GR  |   0 entityUp   003B GR
+  0 entityUp   0143 GR  |     gameStar   **** GX  |     getVideo   **** GX
+  0 negateHL   01BF GR  |   0 no_colli   0140 R   |   0 setX       01C8 R
+  0 setY       01DC R   |   0 updateX    01CF R   |   0 updateY    01E3 R
+  0 vx_negat   0095 R   |   0 vy_negat   00C6 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  1CA   flags    0
+   0 _CODE      size  1F0   flags    0
    1 _DATA      size    0   flags    0
 

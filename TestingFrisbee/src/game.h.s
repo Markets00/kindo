@@ -4,6 +4,7 @@
 ;; ====================================
 ;; ====================================
 .globl gameStart
+.globl getVideoPtr
 
 .macro defineGame name, type, map, fTime, t1points, t2points
 	name'_data::

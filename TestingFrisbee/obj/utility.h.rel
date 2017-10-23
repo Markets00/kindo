@@ -1,9 +1,10 @@
 XL2
-H 1 areas B global symbols
+H 1 areas C global symbols
 S cpct_setPalette_asm Ref0000
 S cpct_isKeyPressed_asm Ref0000
 S negateHL Ref0000
 S .__.ABS. Def0000
+S cpct_setVideoMemoryPage_asm Ref0000
 S cpct_setVideoMode_asm Ref0000
 S cpct_waitVSYNC_asm Ref0000
 S cpct_memcpy_asm Ref0000

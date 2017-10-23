@@ -18,3 +18,4 @@ Hexadecimal [16-Bits]
                              13 .globl cpct_setPalette_asm
                              14 .globl cpct_memcpy_asm
                              15 .globl negateHL
+                             16 .globl cpct_setVideoMemoryPage_asm

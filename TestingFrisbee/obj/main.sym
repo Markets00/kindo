@@ -11,13 +11,13 @@ Symbol Table
     TOP_LIMI=  000A     |   0 _main      0007 GR  |     gameStar   **** GX
   0 game_dat   0000 GR  |   0 game_fTi   0003 GR  |   0 game_map   0001 GR
   0 game_t1p   0005 GR  |   0 game_t2p   0006 GR  |   0 game_typ   0000 GR
-    menuStar   **** GX
+    getVideo   **** GX  |     menuStar   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   13   flags    0
+   0 _CODE      size   16   flags    0
    1 _DATA      size    0   flags    0
 

@@ -34,6 +34,8 @@
 ;; .equ mi_constante0, 0
 ;; .equ mi_constante1, 1
 	
+videoPtr:	.dw 0x8000
+
 ;; ====================================
 ;; ====================================
 ;; PUBLIC FUNCTIONS
@@ -80,6 +82,15 @@ gameStart::
 	ret
 
 
+;; ==================================
+;; Devuelve el puntero a video en HL
+;; Devuelve:
+;;	HL => Pointer to video memory
+;; ==================================
+getVideoPtr::
+	ld	hl, (videoPtr)
+	ret
+
 ;; ====================================
 ;; ====================================
 ;; PRIVATE FUNCTIONS
@@ -101,9 +112,35 @@ initializeGame:
 	;; ld 	hl, #direccion_paleta
 	;; ld 	de, #16
 	;; call cpct_setPalette_asm
-	
+
+	;; Clean from 8000 to BFFF
+	ld	hl, #0x8000			;; HL <= Copy pointer
+	ld	de, #0x8001			;; DE <= Write pointer
+	ld	(hl), #00			;; Set to 0 where HL points
+	ld	bc, #0x4000			;; BC <= Times to repeat
+	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
+
 	ld 	Game_t1points(ix), #0
 	ld 	Game_t2points(ix), #0		;; Initialize points to 0
+
+	
+	ret
+
+
+switchBuffers:
+	mem_page = .+1
+	ld 	l, #0x20
+	call 	cpct_setVideoMemoryPage_asm
+	ld 	hl, #mem_page
+	ld	a, #0x10
+	xor	(hl)
+	ld	(hl), a
+
+	ld	hl, #videoPtr+1
+	ld	a, #0x40
+	xor	(hl)
+	ld	(hl), a
+
 
 	ret
 
@@ -113,8 +150,6 @@ initializeGame:
 ;; ============================
 game_loop:
 
-	;; Wait VSYNC to modify VMEM without blinking
-	call cpct_waitVSYNC_asm
 
 	;; Erase entities
 	call player_erase
@@ -127,6 +162,13 @@ game_loop:
 	;; Draw entities
 	call player_draw
 	call frisbee_draw
+
+	ld	ix, #frisbee_data
+	call frisbee_checkGoal
+
+	;; Wait VSYNC to modify VMEM without blinking
+	call cpct_waitVSYNC_asm
+	call switchBuffers
 
 	jr (game_loop) 			;; Bucle infinito
 	ret

@@ -40,12 +40,12 @@
                              40 ; code
                              41 ;--------------------------------------------------------
                              42 	.area _CODE
-                             43 ;src/IA.c:39: void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
+                             43 ;src/IA.c:47: void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
                              44 ;	---------------------------------
                              45 ; Function moveIA
                              46 ; ---------------------------------
    0000                      47 _moveIA::
-                             48 ;src/IA.c:48: }
+                             48 ;src/IA.c:56: }
    0000 C9            [10]   49 	ret
                              50 	.area _CODE
                              51 	.area _INITIALIZER

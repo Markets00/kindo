@@ -10,33 +10,37 @@
 ;; PUBLIC DATA
 ;; ====================================
 ;; ====================================
-.equ Ent_x_I, 	0	;; X coordinate, integer part
-.equ Ent_x_F, 	1	;; X coordinate, fractional part
-.equ Ent_y_I, 	2	;; Y coordinate, integer part
-.equ Ent_y_F, 	3	;; Y coordinate, fractional part
-.equ Ent_h, 	4	;; Height
-.equ Ent_w, 	5	;; Width
-.equ Ent_vx_I,	6	;; Velocity at X axis, integer part
-.equ Ent_vx_F,	7	;; Velocity at X axis, fractional part
-.equ Ent_vy_I,	8	;; Velocity at Y axis, integer part
-.equ Ent_vy_F,	9	;; Velocity at Y axis, fractional part
-.equ Ent_ax_I,	10	;; Acceleration at X axis, integer part
-.equ Ent_ax_F,	11	;; Acceleration at X axis, fractional part
-.equ Ent_ay_I,	12	;; Acceleration at Y axis, integer part
-.equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
-.equ Ent_N_I,	14	;; Normal force, integer part
-.equ Ent_N_F,	15	;; Normal force, fractional part
-.equ Ent_state,	16	;; Entity enabled/disabled
-.equ Ent_clr, 	17	;; Entity color pattern
-.equ Ent_id, 	18	;; Numeric ID
-			;; Frisbee 	0
-			;; Player1 	1
-			;; Enemy1	2
+.equ Ent_x_I, 		0	;; X coordinate, integer part
+.equ Ent_x_F, 		1	;; X coordinate, fractional part
+.equ Ent_y_I, 		2	;; Y coordinate, integer part
+.equ Ent_y_F, 		3	;; Y coordinate, fractional part
+.equ Ent_h, 		4	;; Height
+.equ Ent_w, 		5	;; Width
+.equ Ent_vx_I,		6	;; Velocity at X axis, integer part
+.equ Ent_vx_F,		7	;; Velocity at X axis, fractional part
+.equ Ent_vy_I,		8	;; Velocity at Y axis, integer part
+.equ Ent_vy_F,		9	;; Velocity at Y axis, fractional part
+.equ Ent_ax_I,		10	;; Acceleration at X axis, integer part
+.equ Ent_ax_F,		11	;; Acceleration at X axis, fractional part
+.equ Ent_ay_I,		12	;; Acceleration at Y axis, integer part
+.equ Ent_ay_F,		13	;; Acceleration at Y axis, fractional part
+.equ Ent_N_I,		14	;; Normal force, integer part
+.equ Ent_N_F,		15	;; Normal force, fractional part
+.equ Ent_last_x,	16	;; Last x rendered
+.equ Ent_erase_x,	17	;; x rendered at same buffer
+.equ Ent_last_y,	18	;; Last y rendered
+.equ Ent_erase_y,	19	;; y rendered at same buffer
+.equ Ent_state,		20	;; Entity enabled/disabled
+.equ Ent_clr, 		21	;; Entity color pattern
+.equ Ent_id, 		22	;; Numeric ID
+				;; Frisbee 	0
+				;; Player1 	1
+				;; Enemy1	2
 
 .equ MAX_VEL_X, 2 
 .equ MIN_VEL_X, -2
-.equ MAX_VEL_Y, 4
-.equ MIN_VEL_Y, -4
+.equ MAX_VEL_Y, 3
+.equ MIN_VEL_Y, -3
 
 
 ;; ====================================
@@ -52,9 +56,10 @@
 ;; Modifica AF, BC, DE, HL
 ;; ===================================
 entityDraw::
-	ld 	de, #0xC000 		;; Video memory pointer
-	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
-	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
+	call 	getVideoPtr		;; HL <= Video memory pointer
+	ex 	de, hl			;; DE <= HL (Video memory pointer)
+	ld 	c, Ent_x_I(ix) 		;; C = ent_x_I
+	ld 	b, Ent_y_I(ix) 		;; B = ent_y_I
 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
 	ex 	de, hl 			;; DE = ent screen pointer
@@ -63,6 +68,8 @@ entityDraw::
 	ld 	a, Ent_clr(ix)		;; A = ent colour
 	call cpct_drawSolidBox_asm
 
+	call updateX
+	call updateY
 	ret
 
 ;; ===================================
@@ -72,9 +79,10 @@ entityDraw::
 ;; Modifica AF, BC, DE, HL
 ;; ===================================
 entityErase::
-	ld 	de, #0xC000 		;; Video memory  pointer
-	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
-	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
+	call 	getVideoPtr		;; HL <= Video memory pointer
+	ex 	de, hl			;; DE <= HL (Video memory pointer)
+	ld 	c, Ent_erase_x(ix)	;; C = ent_erase_x
+	ld 	b, Ent_erase_y(ix)	;; B = ent_erase_y
 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
 	ex 	de, hl 			;; DE = ent screen pointer
@@ -328,21 +336,22 @@ entityUpdatePosition::
 		cp	b
 		jr 	c, check_right	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
 			;; can move
-			ld 	Ent_x_I(ix), h
-			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL (x + vx)
+			call setX 		;; Ent_x <= HL (x + vx)
 
 			jr check_y
 
 	check_left:
-		ld 	Ent_x_I(ix), #LEFT_LIMIT
-		ld 	Ent_x_F(ix), #0 		;; Ent_x <= LEFT_LIMIT
+		ld 	h, #LEFT_LIMIT
+		ld 	l, #0
+		call	setX 			;; Ent_x <= LEFT_LIMIT
 			jr check_y
 
 	check_right:
 		ld 	a, #RIGHT_LIMIT
 		sub	a, Ent_w(ix)
-		ld 	Ent_x_I(ix), a
-		ld 	Ent_x_F(ix), #0 		;; Ent_x <= RIGHT_LIMIT
+		ld 	h, a
+		ld 	l, #0
+		call	setX 			;; Ent_x <= RIGHT_LIMIT
 
 	check_y:
 	;; y' = y + vy_I*2
@@ -358,7 +367,6 @@ entityUpdatePosition::
 	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
 	cp 	#TOP_LIMIT
 	jp 	c, check_top		;; TOP_LIMIT > y_I + vy_I? can't move
-	;;jp 	m, cant_move_y
 		;; can move up
 		ld 	a, h
 		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
@@ -367,28 +375,24 @@ entityUpdatePosition::
 		cp	b
 		jp 	c, check_bot		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
 			;; can move
-			ld 	Ent_y_I(ix), h
-			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
+			call 	setY			;; Ent_y <= HL (y + vy)
 
 			ret
 
 	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
 
 	check_top:
-		ld 	Ent_y_I(ix), #TOP_LIMIT
-		ld 	Ent_y_F(ix), #0 		;; Ent_y <= TOP_LIMIT
-		;; ld	a, Ent_id(ix)
-		;; cp 	#0
-		;; jr 	nz, not_frisbee			;;Ent_id != 0?
-			jr bounce
+		ld 	h, #TOP_LIMIT
+		ld 	l, #0
+		call 	setY				;; Ent_y <= TOP_LIMIT
+		jr bounce
+
 	check_bot:
 		ld 	a, #BOTTOM_LIMIT
 		sub	a, Ent_h(ix)
-		ld 	Ent_y_I(ix), a
-		ld 	Ent_y_F(ix), #0 		;; Ent_y <= BOTTOM_LIMIT
-		;; ld	a, Ent_id(ix)
-		;; cp 	#0
-		;; jr 	nz, not_frisbee			;;Ent_id != 0?
+		ld 	h, a
+		ld 	l, #0
+		call 	setY				;; Ent_y <= BOTTOM_LIMIT
 
 	bounce:
 			ld 	h, Ent_vy_I(ix)
@@ -427,3 +431,65 @@ negateHL::
 ;; ====================================
 
 
+
+;; =========================================
+;; Modifica la x de la entidad a la pasada
+;; 	por parámetro
+;; Entrada:
+;; 	IX => Pointer to entity data
+;; 	HL => value we are going to set
+;; Modifica AF
+;; =========================================
+setX:
+	ld	Ent_x_I(ix), h
+	ld	Ent_x_F(ix), l		;; Ent_x_I <= HL
+
+	ret
+
+
+;; =========================================
+;; Modifica las de últimas posiciones X
+;	de la entidad
+;; Entrada:
+;; 	IX => Pointer to entity data
+;; Modifica AF
+;; =========================================
+updateX:
+	ld	a, Ent_last_x(ix)
+	ld 	Ent_erase_x(ix), a	;; Ent_erase_x <= Ent_last_x
+
+	ld	a, Ent_x_I(ix)
+	ld 	Ent_last_x(ix), a	;; Ent_last_x <= Ent_x_I
+	ret
+
+
+;; =========================================
+;; Modifica la y de la entidad a la pasada
+;; 	por parámetro
+;; Entrada:
+;; 	IX => Pointer to entity data
+;; 	HL => value we are going to set
+;; Modifica AF
+;; =========================================
+setY:
+
+	ld	Ent_y_I(ix), h
+	ld	Ent_y_F(ix), l		;; Ent_y_I <= HL
+
+	ret
+
+
+;; =========================================
+;; Modifica las de últimas posiciones Y
+;	de la entidad
+;; Entrada:
+;; 	IX => Pointer to entity data
+;; Modifica AF
+;; =========================================
+updateY:
+	ld	a, Ent_last_y(ix)
+	ld 	Ent_erase_y(ix), a	;; Ent_erase_y <= Ent_last_y
+
+	ld	a, Ent_y_I(ix)
+	ld 	Ent_last_y(ix), a	;; Ent_last_y <= Ent_y_I
+	ret

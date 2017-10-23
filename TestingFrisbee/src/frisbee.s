@@ -5,11 +5,8 @@
 .include "utility.h.s"
 .include "game.h.s"
 
-.equ Frisbee_effect_I, 19
-.equ Frisbee_effect_F, 20
-.equ std_eff, 0x0800
 
-frisbee_size = 21		;; Size of frisbee structure
+frisbee_size = 25		;; Size of frisbee structure
 
 ;; ====================================
 ;; ====================================
@@ -17,12 +14,18 @@ frisbee_size = 21		;; Size of frisbee structure
 ;; ====================================
 ;; ====================================
 
+.equ Frisbee_effect_I, 23
+.equ Frisbee_effect_F, 24
+.equ std_eff, 0x0008
+.equ std_N_eff, 0xFFF8
+
+
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity frisbee, #0x0027, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
+defineEntity frisbee, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
 	frisbee_effect: .dw #0xF8FF									;; effect
 
-defineEntity init, #0x0027, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
+defineEntity init, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
 	init_effect: .dw #0xF8FF									;; effect
 
 
@@ -49,15 +52,34 @@ frisbee_setOff::
 	ld 	(frisbee_state), a
 	ret
 
+;; ================================================
+;; Reinicia los datos de la entidad recibida en ix
+;; Recibe:
+;; 	IX <= pointer to entity data
+;; Modifica: HL, IX
+;; ================================================
 frisbee_restart::
-	;; Input Parameters (6 Bytes)
-	;; (2B DE) to	Pointer to the destination (first byte where bytes will be written)
-	;; (2B HL) from	Pointer to the source (first byte from which bytes will be read)
-	;; (2B BC) size	Number of bytes to be set (>= 1)
-	ld	de, #frisbee_data
+	ld	h, Ent_last_x(ix)	;; H <= last_x
+	ld	l, Ent_erase_x(ix)	;; L <= erase_x
+	push	hl			;; push last_x and erase_x
+
+	ld	h, Ent_last_y(ix)	;; H <= last_y
+	ld	l, Ent_erase_y(ix)	;; L <= erase_y
+	push	hl			;; push last_y and erase_y
+
+	.dw	0x54DD			;; ld	d, ixh	undocumented opcodes
+	.dw	0x5DDD			;; ld	e, ixl	undocumented opcodes
 	ld	hl, #init_data
 	ld	bc, #frisbee_size
 	call cpct_memcpy_asm		;; Ititialize Frisbee
+
+	pop	hl
+	ld	Ent_last_y(ix), h	;; last_y <= H
+	ld	Ent_erase_y(ix), l	;; erase_y <= L
+
+	pop	hl
+	ld	Ent_last_x(ix), h	;; last_x <= H
+	ld	Ent_erase_x(ix), l	;; erase_x <= L
 
 frisbee_erase::
 	ld 	ix, #frisbee_data
@@ -110,8 +132,6 @@ frisbee_update::
 		call frisbee_applyEffect 	
 		call entityUpdatePhysics
 		call entityUpdatePosition
-		call frisbee_checkGoal
-		;; call moveLeft
 		ret
 
 	not_active:
@@ -162,7 +182,7 @@ frisbee_applyEffect:
 ;; 	IX <= Pointer to entity data
 ;; Modifica A
 ;; ===========================================
-frisbee_checkGoal:
+frisbee_checkGoal::
 	ld 	a, Ent_x_I(ix)		;; A <= Ent_x_I
 	cp	#LEFT_LIMIT
 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
@@ -185,89 +205,4 @@ frisbee_checkGoal:
 		call frisbee_restart
 
 	no_right_goal:
-	ret
-
-
-;; =========================================
-;; Mueve el frisbee a la derecha un píxel
-;; Modifica A
-;; =========================================
-moveRight:
-	ld 	a, (frisbee_x) 		;; A = frisbee_x
-	cp 	#80-3 			;; A == right_limit - frisbee_width?
-	jr 	z, cant_move_right 		
-		inc 	a 		;; move right one pixel
-		ld 	(frisbee_x), a
-	cant_move_right:
-	ret
-
-;; =========================================
-;; Mueve el frisbee abajo un píxel
-;; Modifica A
-;; =========================================
-moveDown:
-	ld 	a, (frisbee_y) 		;; A = frisbee_x
-	cp 	#200-12 		;; A == bottom_limit - frisbee_height?
-	jr 	z, cant_move_down 		
-		inc 	a 		;; move down one pixel
-		ld 	(frisbee_y), a
-	cant_move_down:
-	ret
-
-;; ===========================================
-;; Mueve el frisbee a la izquierda un píxel
-;; Recibe:
-;; 	IX <= Pointer to entity data
-;; Modifica A
-;; ===========================================
-moveLeft:
-	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
-	cp 	#0 			;; A == left_limit?
-	jr 	nz, can_move_left 
-		ld 	a, #80-2 	;; restore initial position
-		ld 	Ent_x_I(IX), a
-		;; ld 	a, #80
-		;; ld 	(frisbee_y), a	
-		jr 	cant_move_left
-	can_move_left:	
-		ld	ix, #frisbee_data
-		ld 	Ent_ax_I(ix), #-1
-		ld 	Ent_ax_F(ix), #-128	;; Ent_ax <= FF(-1)80(-128) (-128)
-
-	cant_move_left:
-	ret
-
-;; =========================================
-;; Mueve el frisbee arriba un píxel
-;; Modifica A
-;; =========================================
-moveUp:
-	ld 	a, (frisbee_y) 		;; A = frisbee_y
-	cp 	#0 			;; A == top_limit?
-	jr 	z, cant_move_up 		
-		dec 	a 		;; move up one pixel
-		ld 	(frisbee_y), a
-	cant_move_up:
-	ret
-
-;; ================================================
-;; Pinta un cuadrado en pantalla del color elegido
-;; Entrada:
-;; 	A => Colour Pattern
-;; Modifica AF, BC, DE, HL
-;; ================================================
-drawFrisbee:
-	push 	af 
-	ld 	de, #0xC000 		;; Video memory  pointer
-	ld 	a, (frisbee_x) 
-	ld 	c, a			;; C = frisbee_x
-	ld 	a, (frisbee_y) 
-	ld 	b, a 			;; B = frisbee_y
-	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
-
-	ex 	de, hl 			;; DE = frisbee screen pointer
-	pop 	af 			;; A = User selected colour
-	ld 	bc, #0x0802		;; 8x8 píxeles
-	call cpct_drawSolidBox_asm
-
 	ret

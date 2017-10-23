@@ -25,6 +25,9 @@ Hexadecimal [16-Bits]
                              11 .globl cpct_disableFirmware_asm
                              12 .globl cpct_setVideoMode_asm
                              13 .globl cpct_setPalette_asm
+                             14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
+                             16 .globl cpct_setVideoMemoryPage_asm
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -55,12 +58,12 @@ Hexadecimal [16-Bits]
                              27 ;; PUBLIC FUNCTIONS
                              28 ;; ====================================
                              29 ;; ====================================
-   0569                      30 menuStart::
-   0569 CD 6E 05      [17]   31 	call 	initializeMenu
+   0565                      30 menuStart::
+   0565 CD 6A 05      [17]   31 	call 	initializeMenu
                              32 	;; Do stuff here...
                              33 	;; Do stuff here...
                              34 	;; Do stuff here...
-   056C C9            [10]   35 	ret
+   0568 C9            [10]   35 	ret
                              36 
                              37 
                              38 ;; ====================================
@@ -69,7 +72,7 @@ Hexadecimal [16-Bits]
                              41 ;; ====================================
                              42 ;; ====================================
                              43 
-   056D                      44 checkUserInput:
+   0569                      44 checkUserInput:
                              45 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              46 	;; Reading keyboard example
                              47 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -96,13 +99,13 @@ Hexadecimal [16-Bits]
                              63 	;; 		down_not_pressed:
                              64 	;; 		;; Down is not pressed code
                              65 
-   056D C9            [10]   66 	ret
+   0569 C9            [10]   66 	ret
                              67 
                              68 ;; ========================
                              69 ;; Initialize menu
                              70 ;; ========================
-   056E                      71 initializeMenu:
-   056E CD D4 05      [17]   72 	call cpct_disableFirmware_asm
+   056A                      71 initializeMenu:
+   056A CD 0A 06      [17]   72 	call cpct_disableFirmware_asm
                              73 
                              74 	;; Set video mode
                              75 	;; ld 	c, #0
@@ -113,4 +116,4 @@ Hexadecimal [16-Bits]
                              80 	;; ld 	de, #16
                              81 	;; call cpct_setPalette_asm
                              82 
-   0571 C9            [10]   83 	ret
+   056D C9            [10]   83 	ret

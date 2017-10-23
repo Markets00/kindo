@@ -15,8 +15,9 @@ Hexadecimal [16-Bits]
                              10 .globl frisbee_setOff
                              11 .globl frisbee_setEffect
                              12 .globl frisbee_setVelocities
-                             13 	
-                     0010    14 .equ Frisbee_effect_I, 16
-                     0011    15 .equ Frisbee_effect_F, 17
-                     0008    16 .equ std_eff, 0x0008
-                     FFF8    17 .equ std_N_eff, 0xFFF8
+                             13 .globl frisbee_checkGoal
+                             14 	
+                     0017    15 .equ Frisbee_effect_I, 23
+                     0018    16 .equ Frisbee_effect_F, 24
+                     0008    17 .equ std_eff, 0x0008
+                     FFF8    18 .equ std_N_eff, 0xFFF8

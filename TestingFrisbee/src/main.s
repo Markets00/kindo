@@ -15,6 +15,8 @@ defineGame game, #0, #0x0000, #0x012C, #0, #0
 ;; Programa principal
 ;; ========================
 _main::
+	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
+
 	ld ix, #game_data
 	call menuStart
 	call gameStart		;; inicia una partida con los valores de game_data
