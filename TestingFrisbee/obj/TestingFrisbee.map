@@ -19,20 +19,20 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__CABS                         
      00000000  s__DABS                         
      00000100  s__CODE                         
-     00000614  l__CODE                         
-     00000714  s__DATA                         
-     00000714  s__GSFINAL                      
-     00000714  s__GSINIT                       
-     00000714  s__HOME                         
-     00000714  s__INITIALIZED                  
-     00000714  s__INITIALIZER                  
+     00000636  l__CODE                         
+     00000736  s__DATA                         
+     00000736  s__GSFINAL                      
+     00000736  s__GSINIT                       
+     00000736  s__HOME                         
+     00000736  s__INITIALIZED                  
+     00000736  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00000614 =        1556. bytes (REL,CON)
+_CODE                               00000100    00000636 =        1590. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -49,53 +49,56 @@ _CODE                               00000100    00000614 =        1556. bytes (R
      00000329  frisbee_restart                    
      00000352  frisbee_erase                      
      0000035A  frisbee_setVelocities              
-     0000036B  frisbee_setEffect                  
-     00000376  frisbee_update                     
-     00000391  frisbee_draw                       
-     000003AD  frisbee_checkGoal                  
-     000003CF  game_data                          
-     000003CF  game_type                          
-     000003D0  game_map                           
-     000003D2  game_fTime                         
-     000003D4  game_t1points                      
-     000003D5  game_t2points                      
-     000003D6  _main                              
-     000003E5  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000003EF  player_data                        cpct_keyboard
-     00000406  enemy_data                         cpct_keyboard
-     0000041D  player_erase                       cpct_keyboard
-     0000042C  player_update                      cpct_keyboard
-     00000470  player_draw                        cpct_keyboard
-     00000565  menuStart                          
-     00000570  gameStart                          
-     00000577  getVideoPtr                        
-     000005CA  _cpct_isKeyPressed                 cpct_keyboard
-     000005CA  cpct_isKeyPressed_asm              cpct_keyboard
-     000005D6  cpct_setPalette_asm                cpct_video
-     000005E9  _cpct_setVideoMemoryPage           cpct_video
-     000005E9  cpct_setVideoMemoryPage_asm        cpct_video
-     000005F2  _cpct_waitVSYNC                    cpct_video
-     000005F2  cpct_waitVSYNC_asm                 cpct_video
-     000005FA  cpct_setVideoMode_asm              cpct_video
-     00000607  cpct_memcpy_asm                    cpct_memutils
-     0000060A  _cpct_disableFirmware              cpct_firmware
-     0000060A  _cpct_removeInterruptHandler       cpct_firmware
-     0000060A  cpct_disableFirmware_asm           cpct_firmware
-     0000060A  cpct_removeInterruptHandler_asm    cpct_firmware
-     0000061A  cpct_drawSolidBox_asm              cpct_sprites
-     000006C6  _cpct_mode_rom_status              cpct_firmware
-     000006C7  cpct_getScreenPtr_asm              cpct_video
-     000006E3  _cpct_scanKeyboard                 cpct_keyboard
+     00000385  frisbee_setEffect                  
+     00000390  frisbee_update                     
+     000003AB  frisbee_draw                       
+     000003C7  frisbee_checkGoal                  
+     000003E1  game_data                          
+     000003E1  game_type                          
+     000003E2  game_map                           
+     000003E4  game_fTime                         
+     000003E6  game_t1points                      
+     000003E7  game_t2points                      
+     000003E8  _main                              
+     000003F7  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00000401  player_data                        cpct_keyboard
+     00000418  enemy_data                         cpct_keyboard
+     0000042F  player_erase                       cpct_keyboard
+     0000043E  player_update                      cpct_keyboard
+     00000482  player_draw                        cpct_keyboard
+     00000577  menuStart                          
+     00000582  gameStart                          
+     00000589  getVideoPtr                        
+     0000058D  incTeam1Points                     
+     00000595  incTeam2Points                     
+     000005EC  _cpct_isKeyPressed                 cpct_keyboard
+     000005EC  cpct_isKeyPressed_asm              cpct_keyboard
+     000005F8  cpct_setPalette_asm                cpct_video
+     0000060B  _cpct_setVideoMemoryPage           cpct_video
+     0000060B  cpct_setVideoMemoryPage_asm        cpct_video
+     00000614  _cpct_waitVSYNC                    cpct_video
+     00000614  cpct_waitVSYNC_asm                 cpct_video
+     0000061C  cpct_setVideoMode_asm              cpct_video
+     00000629  cpct_memcpy_asm                    cpct_memutils
+     0000062C  _cpct_disableFirmware              cpct_firmware
+     0000062C  _cpct_removeInterruptHandler       cpct_firmware
+     0000062C  cpct_disableFirmware_asm           cpct_firmware
+     0000062C  cpct_removeInterruptHandler_asm    cpct_firmware
+     0000063C  cpct_drawSolidBox_asm              cpct_sprites
+     000006E8  _cpct_mode_rom_status              cpct_firmware
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00000614 =        1556. bytes (REL,CON)
+_CODE                               00000100    00000636 =        1590. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000006E3  cpct_scanKeyboard_asm              cpct_keyboard
+     000006E9  cpct_getScreenPtr_asm              cpct_video
+     00000705  _cpct_scanKeyboard                 cpct_keyboard
+     00000705  cpct_scanKeyboard_asm              cpct_keyboard
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 
 Files Linked                              [ module(s) ]

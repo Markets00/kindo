@@ -91,6 +91,8 @@ frisbee_erase::
 ;; ================================================
 ;; Modifica el valor de la velocidad del frisbee
 ;; 	en el eje X e Y, al recibido en HL y DE
+;;	Si la velocidad en el eje X es menor que 1
+;; 	la modifica a mínimo 1 (positivo y neg)
 ;; Recibe:
 ;; 	HL <= X axis velocity
 ;; 	DE <= Y axis velocity
@@ -98,6 +100,27 @@ frisbee_erase::
 ;; ================================================
 frisbee_setVelocities::
 	ld 	ix, #frisbee_data
+
+	ld	a, h
+	cp	#0
+	jp	m, negative_vx
+		;; positive vx
+		cp	#1
+		jr	c, less_than_one
+			;; vx greater than one
+			jr set_vels
+		less_than_one:
+			ld	hl, #0x0080
+			jr set_vels
+	negative_vx:
+		cp	#-1
+		jr	c, less_than_minus_one
+			;; vx greater than minus one
+			jr set_vels
+		less_than_minus_one:
+			ld	hl, #0xFF80
+
+	set_vels:
 	ld 	Ent_vx_I(ix), h
 	ld 	Ent_vx_F(ix), l
 	ld 	Ent_vy_I(ix), d
@@ -187,9 +210,7 @@ frisbee_checkGoal::
 	cp	#LEFT_LIMIT
 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
 		;; left goal
-		ld	a, (Game_t2points)
-		inc	a
-		ld	(Game_t2points), a	;; Inc team 2 points
+		call incTeam2Points
 		jr	goal
 
 	no_left_goal:
@@ -197,9 +218,7 @@ frisbee_checkGoal::
 		cp	#RIGHT_LIMIT
 		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
 			;; right goal
-			ld	a, (Game_t1points)
-			inc	a
-			ld	(Game_t1points), a 	;; Inc team 1 points
+			call incTeam1Points
 
 	goal:
 		call frisbee_restart

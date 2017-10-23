@@ -91,6 +91,27 @@ getVideoPtr::
 	ld	hl, (videoPtr)
 	ret
 
+
+;; ==================================
+;; Incrementa los puntos del equipo 1
+;; Modifica: A
+;; ==================================
+incTeam1Points::
+	ld	a, (Game_t1points)
+	inc	a
+	ld	(Game_t1points), a	;; Inc team 1 points
+	ret
+
+;; ==================================
+;; Incrementa los puntos del equipo 2
+;; Modifica: A
+;; ==================================
+incTeam2Points::
+	ld	a, (Game_t2points)
+	inc	a
+	ld	(Game_t2points), a	;; Inc team 2 points
+	ret
+
 ;; ====================================
 ;; ====================================
 ;; PRIVATE FUNCTIONS

@@ -23,24 +23,26 @@ Symbol Table
     cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
     cpct_wai   **** GX  |     entityCh   **** GX  |     entityDr   **** GX
     entityEr   **** GX  |     entityUp   **** GX  |     entityUp   **** GX
-  0 frisbee_   00A8 R   |   0 frisbee_   000A R   |   0 frisbee_   000C R
-  0 frisbee_   00BC GR  |   0 frisbee_   0015 R   |   0 frisbee_   0000 GR
-  0 frisbee_   00A0 GR  |   0 frisbee_   0017 R   |   0 frisbee_   0061 GR
+  0 frisbee_   00C2 R   |   0 frisbee_   000A R   |   0 frisbee_   000C R
+  0 frisbee_   00D6 GR  |   0 frisbee_   0015 R   |   0 frisbee_   0000 GR
+  0 frisbee_   00BA GR  |   0 frisbee_   0017 R   |   0 frisbee_   0061 GR
   0 frisbee_   0011 R   |   0 frisbee_   0013 R   |   0 frisbee_   0004 R
   0 frisbee_   0016 R   |   0 frisbee_   0010 R   |   0 frisbee_   0012 R
-  0 frisbee_   000E R   |   0 frisbee_   0038 GR  |   0 frisbee_   007A GR
+  0 frisbee_   000E R   |   0 frisbee_   0038 GR  |   0 frisbee_   0094 GR
   0 frisbee_   0032 GR  |   0 frisbee_   0069 GR  |     frisbee_=  0019 
-  0 frisbee_   0014 R   |   0 frisbee_   0085 GR  |   0 frisbee_   0006 R
+  0 frisbee_   0014 R   |   0 frisbee_   009F GR  |   0 frisbee_   0006 R
   0 frisbee_   0008 R   |   0 frisbee_   0005 R   |   0 frisbee_   0000 R
   0 frisbee_   0002 R   |     gameStar   **** GX  |     getVideo   **** GX
-  0 goal       00DA R   |   0 init_ax    0023 R   |   0 init_ay    0025 R
-  0 init_clr   002E R   |   0 init_dat   0019 GR  |   0 init_eff   0030 R
-  0 init_era   002A R   |   0 init_era   002C R   |   0 init_h     001D R
-  0 init_id    002F R   |   0 init_las   0029 R   |   0 init_las   002B R
-  0 init_nor   0027 R   |   0 init_sta   002D R   |   0 init_vx    001F R
-  0 init_vy    0021 R   |   0 init_w     001E R   |   0 init_x     0019 R
-  0 init_y     001B R   |     negateHL   **** GX  |   0 no_left_   00CC R
-  0 no_right   00DD R   |   0 not_acti   009A R   |     std_N_ef=  FFF8 
+  0 goal       00EC R   |     incTeam1   **** GX  |     incTeam2   **** GX
+  0 init_ax    0023 R   |   0 init_ay    0025 R   |   0 init_clr   002E R
+  0 init_dat   0019 GR  |   0 init_eff   0030 R   |   0 init_era   002A R
+  0 init_era   002C R   |   0 init_h     001D R   |   0 init_id    002F R
+  0 init_las   0029 R   |   0 init_las   002B R   |   0 init_nor   0027 R
+  0 init_sta   002D R   |   0 init_vx    001F R   |   0 init_vy    0021 R
+  0 init_w     001E R   |   0 init_x     0019 R   |   0 init_y     001B R
+  0 less_tha   0084 R   |   0 less_tha   0079 R   |     negateHL   **** GX
+  0 negative   007E R   |   0 no_left_   00E2 R   |   0 no_right   00EF R
+  0 not_acti   00B4 R   |   0 set_vels   0087 R   |     std_N_ef=  FFF8 
     std_eff =  0008 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -48,6 +50,6 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   DE   flags    0
+   0 _CODE      size   F0   flags    0
    1 _DATA      size    0   flags    0
 

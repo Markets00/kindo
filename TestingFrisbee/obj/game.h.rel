@@ -1,6 +1,8 @@
 XL2
-H 1 areas 3 global symbols
+H 1 areas 5 global symbols
 S .__.ABS. Def0000
 S gameStart Ref0000
 S getVideoPtr Ref0000
+S incTeam1Points Ref0000
+S incTeam2Points Ref0000
 A _CODE size 0 flags 0 addr 0

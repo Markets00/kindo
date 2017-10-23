@@ -15,17 +15,17 @@ Symbol Table
     cpct_wai   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
-  0 gameStar   0002 GR  |   0 game_loo   003A R   |   0 getVideo   0009 GR
-  0 initiali   000D R   |   0 mem_page=  0027 R   |     negateHL   **** GX
-    player_d   **** GX  |     player_e   **** GX  |     player_u   **** GX
-    std_N_ef=  FFF8     |     std_eff =  0008     |   0 switchBu   0026 R
-  0 videoPtr   0000 R
+  0 gameStar   0002 GR  |   0 game_loo   004A R   |   0 getVideo   0009 GR
+  0 incTeam1   000D GR  |   0 incTeam2   0015 GR  |   0 initiali   001D R
+  0 mem_page=  0037 R   |     negateHL   **** GX  |     player_d   **** GX
+    player_e   **** GX  |     player_u   **** GX  |     std_N_ef=  FFF8 
+    std_eff =  0008     |   0 switchBu   0036 R   |   0 videoPtr   0000 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   5C   flags    0
+   0 _CODE      size   6C   flags    0
    1 _DATA      size    0   flags    0
 

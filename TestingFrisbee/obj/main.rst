@@ -68,13 +68,13 @@ Hexadecimal [16-Bits]
                               6 
                               7 
                               8 ;; .macro defineGame name, type, map, fTime, t1points, t2points
-   03CF                       9 defineGame game, #0, #0x0000, #0x012C, #0, #0
+   03E1                       9 defineGame game, #0, #0x0000, #0x012C, #0, #0
    0000                       1 	game_data::
-   03CF 00                    2 		game_type::	.db #0	;; Game Mode			(8 bits)
-   03D0 00 00                 3 		game_map::	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
-   03D2 2C 01                 4 		game_fTime::	.dw #0x012C	;; Final duration of each match	(16 bits)
-   03D4 00                    5 		game_t1points:: .db #0 	;; Points of team 1		(8 bits)
-   03D5 00                    6 		game_t2points:: .db #0 	;; Points of team 2		(8 bits)
+   03E1 00                    2 		game_type::	.db #0	;; Game Mode			(8 bits)
+   03E2 00 00                 3 		game_map::	.dw #0x0000		;; Pointer to map of tiles	(16 bits little endian)
+   03E4 2C 01                 4 		game_fTime::	.dw #0x012C	;; Final duration of each match	(16 bits)
+   03E6 00                    5 		game_t1points:: .db #0 	;; Points of team 1		(8 bits)
+   03E7 00                    6 		game_t2points:: .db #0 	;; Points of team 2		(8 bits)
                              10 
                              11 ;; .macro defineGame name, type, map, fTime
                              12 ;; defineGame gameaux, #0, #0x0000, #0x012C
@@ -82,11 +82,11 @@ Hexadecimal [16-Bits]
                              14 ;; ========================
                              15 ;; Programa principal
                              16 ;; ========================
-   03D6                      17 _main::
-   03D6 31 00 80      [10]   18 	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
+   03E8                      17 _main::
+   03E8 31 00 80      [10]   18 	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
                              19 
-   03D9 DD 21 CF 03   [14]   20 	ld ix, #game_data
-   03DD CD 65 05      [17]   21 	call menuStart
-   03E0 CD 70 05      [17]   22 	call gameStart		;; inicia una partida con los valores de game_data
+   03EB DD 21 E1 03   [14]   20 	ld ix, #game_data
+   03EF CD 77 05      [17]   21 	call menuStart
+   03F2 CD 82 05      [17]   22 	call gameStart		;; inicia una partida con los valores de game_data
                              23 
-   03E3 18 F1         [12]   24 	jr (_main)
+   03F5 18 F1         [12]   24 	jr (_main)
