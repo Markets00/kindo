@@ -3,7 +3,7 @@ H 9 areas 2 global symbols
 M IA
 O -mz80
 S .__.ABS. Def0000
-A _CODE size 3F flags 0 addr 0
+A _CODE size 1 flags 0 addr 0
 S _moveIA Def0000
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -15,19 +15,5 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 DD E5 DD 21 00 00 DD 39 DD 5E 04 DD 56 05
-R 00 00 00 00
-T 0E 00 6B 62 23 23 4E DD 6E 08 DD 66 09 23 23 46
-R 00 00 00 00
-T 1C 00 21 0C 00 19 7B C6 0D 5F 7A CE 00 57 78 91
-R 00 00 00 00
-T 2A 00 30 07 36 FF 3E FC 12 18 09
-R 00 00 00 00
-T 33 00
-R 00 00 00 00
-T 33 00 79 90 30 05 36 00 3E 04 12
-R 00 00 00 00
-T 3C 00
-R 00 00 00 00
-T 3C 00 DD E1 C9
+T 00 00 C9
 R 00 00 00 00

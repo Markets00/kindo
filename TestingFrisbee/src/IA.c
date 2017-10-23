@@ -17,13 +17,10 @@
 // 		name'_id:	.db id		;; Numeric ID				(8 bits)
 // .endm
 typedef struct {
-	u8		x_I, x_F;	// X, parte entera y parte decimal
-	u8		y_I, y_F;	// Y, parte entera y parte decimal
+	u16		x, y;		// X e Y de la entidad
 	u8 		h, w;		// alto y ancho
-	u8		vx_I,vx_F;	// VX, parte entera y parte decimal
-	u8		vy_I,vy_F;	// VY, parte entera y parte decimal
-	u8		ax_I,ax_F;	// AX, parte entera y parte decimal
-	u8		ay_I,ay_F;	// AY, parte entera y parte decimal
+	i16		vx, vy;		// velocidad en el eje x e y
+	i16		ax, ay;		// aceleración en el eje x e y
 	u8		state;		// estado
 	u8		clr;		// patrón de color
 	u8		id;			// ID numérico
@@ -41,11 +38,11 @@ typedef struct {
 // ============================================
 void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
 	
-	if(myself->y_I > frisbee->y_I) {
-		myself->ay_I = 255;
-		myself->ay_F = -4;
-	} else if (myself->y_I < frisbee->y_I) {
-		myself->ay_I = 0;
-		myself->ay_F = 4;
-	}
+//	if(myself->y_I > frisbee->y_I) {
+//		myself->ay_I = 255;
+//		myself->ay_F = -4;
+//	} else if (myself->y_I < frisbee->y_I) {
+//		myself->ay_I = 0;
+//		myself->ay_F = 4;
+//	}
 }

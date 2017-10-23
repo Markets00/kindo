@@ -568,7 +568,7 @@ Hexadecimal [16-Bits]
    013F                     269 		just_v_pressed:
    013F 26 FF         [ 7]  270 			ld 	h, #-1
    0141 26 08         [ 7]  271 			ld 	h, #std_eff
-   0143 CD 00 00      [17]  272 			call frisbee_setEffect
+   0143 CD 00 00      [17]  272 			call frisbee_setEffect		;; efecto hacia arriba
    0146 18 11         [12]  273 			jr 	vorb_pressed
    0148                     274 	v_not_pressed:
                             275 
@@ -579,14 +579,14 @@ Hexadecimal [16-Bits]
                             280 			;; B is pressed
    0152 26 00         [ 7]  281 			ld 	h, #0
    0154 26 08         [ 7]  282 			ld 	h, #std_eff
-   0156 CD 00 00      [17]  283 			call frisbee_setEffect
+   0156 CD 00 00      [17]  283 			call frisbee_setEffect		;; efecto hacia arriba
                             284 
    0159                     285 			vorb_pressed:
-   0159 DD 66 06      [19]  286 			ld	h, Ent_vx_I(ix)
-   015C DD 6E 07      [19]  287 			ld	l, Ent_vx_F(ix)
-   015F DD 56 08      [19]  288 			ld	d, Ent_vy_I(ix)
-   0162 DD 5E 09      [19]  289 			ld	e, Ent_vy_F(ix)
-   0165 CD 00 00      [17]  290 			call frisbee_setVelocities
+   0159 DD 66 06      [19]  286 			ld	h, Ent_vx_I(ix)		;;
+   015C DD 6E 07      [19]  287 			ld	l, Ent_vx_F(ix)		;;
+   015F DD 56 08      [19]  288 			ld	d, Ent_vy_I(ix)		;;
+   0162 DD 5E 09      [19]  289 			ld	e, Ent_vy_F(ix)		;;
+   0165 CD 00 00      [17]  290 			call frisbee_setVelocities	;; transferimos la velocidad de la entidad al frisbee
                             291 
    0168                     292 	b_not_pressed:
    0168 C9            [10]  293 	ret

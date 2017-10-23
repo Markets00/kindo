@@ -40,60 +40,13 @@
                              40 ; code
                              41 ;--------------------------------------------------------
                              42 	.area _CODE
-                             43 ;src/IA.c:42: void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
+                             43 ;src/IA.c:39: void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
                              44 ;	---------------------------------
                              45 ; Function moveIA
                              46 ; ---------------------------------
    0000                      47 _moveIA::
-   0000 DD E5         [15]   48 	push	ix
-   0002 DD 21 00 00   [14]   49 	ld	ix,#0
-   0006 DD 39         [15]   50 	add	ix,sp
-                             51 ;src/IA.c:44: if(myself->y_I > frisbee->y_I) {
-   0008 DD 5E 04      [19]   52 	ld	e,4 (ix)
-   000B DD 56 05      [19]   53 	ld	d,5 (ix)
-   000E 6B            [ 4]   54 	ld	l, e
-   000F 62            [ 4]   55 	ld	h, d
-   0010 23            [ 6]   56 	inc	hl
-   0011 23            [ 6]   57 	inc	hl
-   0012 4E            [ 7]   58 	ld	c,(hl)
-   0013 DD 6E 08      [19]   59 	ld	l,8 (ix)
-   0016 DD 66 09      [19]   60 	ld	h,9 (ix)
-   0019 23            [ 6]   61 	inc	hl
-   001A 23            [ 6]   62 	inc	hl
-   001B 46            [ 7]   63 	ld	b,(hl)
-                             64 ;src/IA.c:45: myself->ay_I = 255;
-   001C 21 0C 00      [10]   65 	ld	hl,#0x000C
-   001F 19            [11]   66 	add	hl,de
-                             67 ;src/IA.c:46: myself->ay_F = -4;
-   0020 7B            [ 4]   68 	ld	a,e
-   0021 C6 0D         [ 7]   69 	add	a, #0x0D
-   0023 5F            [ 4]   70 	ld	e,a
-   0024 7A            [ 4]   71 	ld	a,d
-   0025 CE 00         [ 7]   72 	adc	a, #0x00
-   0027 57            [ 4]   73 	ld	d,a
-                             74 ;src/IA.c:44: if(myself->y_I > frisbee->y_I) {
-   0028 78            [ 4]   75 	ld	a,b
-   0029 91            [ 4]   76 	sub	a, c
-   002A 30 07         [12]   77 	jr	NC,00104$
-                             78 ;src/IA.c:45: myself->ay_I = 255;
-   002C 36 FF         [10]   79 	ld	(hl),#0xFF
-                             80 ;src/IA.c:46: myself->ay_F = -4;
-   002E 3E FC         [ 7]   81 	ld	a,#0xFC
-   0030 12            [ 7]   82 	ld	(de),a
-   0031 18 09         [12]   83 	jr	00106$
-   0033                      84 00104$:
-                             85 ;src/IA.c:47: } else if (myself->y_I < frisbee->y_I) {
-   0033 79            [ 4]   86 	ld	a,c
-   0034 90            [ 4]   87 	sub	a, b
-   0035 30 05         [12]   88 	jr	NC,00106$
-                             89 ;src/IA.c:48: myself->ay_I = 0;
-   0037 36 00         [10]   90 	ld	(hl),#0x00
-                             91 ;src/IA.c:49: myself->ay_F = 4;
-   0039 3E 04         [ 7]   92 	ld	a,#0x04
-   003B 12            [ 7]   93 	ld	(de),a
-   003C                      94 00106$:
-   003C DD E1         [14]   95 	pop	ix
-   003E C9            [10]   96 	ret
-                             97 	.area _CODE
-                             98 	.area _INITIALIZER
-                             99 	.area _CABS (ABS)
+                             48 ;src/IA.c:48: }
+   0000 C9            [10]   49 	ret
+                             50 	.area _CODE
+                             51 	.area _INITIALIZER
+                             52 	.area _CABS (ABS)
