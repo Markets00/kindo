@@ -320,19 +320,31 @@ entityUpdatePosition::
 
 	ld 	a, h 			;; B <= H (x_I + vx_I) integer part
 	cp 	#LEFT_LIMIT
-	jp 	m, cant_move_x		;; LIMIT_LEFT > x_I + vx_I? can't move
+	jp 	m, check_left		;; LIMIT_LEFT > x_I + vx_I? can't move
 		;; can move left
 		add 	Ent_w(ix) 		;; A <= w + x_I + vx_I
 		ld	b, a
 		ld 	a, #RIGHT_LIMIT
 		cp	b
-		jr 	c, cant_move_x	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
+		jr 	c, check_right	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
 			;; can move
 			ld 	Ent_x_I(ix), h
 			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL (x + vx)
 
-	cant_move_x:
+			jr check_y
 
+	check_left:
+		ld 	Ent_x_I(ix), #LEFT_LIMIT
+		ld 	Ent_x_F(ix), #0 		;; Ent_x <= LEFT_LIMIT
+			jr check_y
+
+	check_right:
+		ld 	a, #RIGHT_LIMIT
+		sub	a, Ent_w(ix)
+		ld 	Ent_x_I(ix), a
+		ld 	Ent_x_F(ix), #0 		;; Ent_x <= RIGHT_LIMIT
+
+	check_y:
 	;; y' = y + vy_I*2
 	ld 	d, Ent_vy_I(ix) 	
 	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
@@ -368,7 +380,7 @@ entityUpdatePosition::
 		;; ld	a, Ent_id(ix)
 		;; cp 	#0
 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
-			jr frisbee
+			jr bounce
 	check_bot:
 		ld 	a, #BOTTOM_LIMIT
 		sub	a, Ent_h(ix)
@@ -378,7 +390,7 @@ entityUpdatePosition::
 		;; cp 	#0
 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
 
-	frisbee:
+	bounce:
 			ld 	h, Ent_vy_I(ix)
 			ld 	l, Ent_vy_F(ix)		;; HL <= Ent_vy
 
@@ -387,17 +399,7 @@ entityUpdatePosition::
 			ld 	Ent_vy_I(ix), h
 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL negated
 
-
-	not_frisbee:
 		ret
-
-;; ====================================
-;; ====================================
-;; PRIVATE FUNCTIONS
-;; ====================================
-;; ====================================
-
-
 
 ;; =========================================
 ;; Inverts HL value
@@ -407,7 +409,7 @@ entityUpdatePosition::
 ;; Devuelve:
 ;; 	HL <= HL value negated
 ;; =========================================
-negateHL:
+negateHL::
 	ld 	a, #0			;;
 	xor	a			;;
 	sub	l			;;
@@ -417,3 +419,11 @@ negateHL:
 	ld	h,a			;; negate HL
 
 	ret
+
+;; ====================================
+;; ====================================
+;; PRIVATE FUNCTIONS
+;; ====================================
+;; ====================================
+
+

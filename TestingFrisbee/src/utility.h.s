@@ -11,3 +11,5 @@
 .globl cpct_disableFirmware_asm
 .globl cpct_setVideoMode_asm
 .globl cpct_setPalette_asm
+.globl cpct_memcpy_asm
+.globl negateHL

@@ -4,37 +4,48 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     Ent_N_F =  000F     |     Ent_N_I =  000E 
-    Ent_ax_F=  000B     |     Ent_ax_I=  000A     |     Ent_ay_F=  000D 
-    Ent_ay_I=  000C     |     Ent_clr =  0011     |     Ent_h   =  0004 
-    Ent_id  =  0012     |     Ent_stat=  0010     |     Ent_vx_F=  0007 
-    Ent_vx_I=  0006     |     Ent_vy_F=  0009     |     Ent_vy_I=  0008 
-    Ent_w   =  0005     |     Ent_x_F =  0001     |     Ent_x_I =  0000 
-    Ent_y_F =  0003     |     Ent_y_I =  0002     |     Frisbee_=  0014 
-    Frisbee_=  0013     |     MAX_VEL_=  0002     |     MAX_VEL_=  0004 
-    MIN_VEL_=  FFFFFFFE     |     MIN_VEL_=  FFFFFFFC     |   0 can_move   00A0 R
-  0 cant_acc   0079 R   |   0 cant_mov   0091 R   |   0 cant_mov   00AC R
-  0 cant_mov   0085 R   |   0 cant_mov   00B8 R   |     cpct_dis   **** GX
-    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
+    Ent_N_F =  000F     |     Ent_N_I =  000E     |     Ent_ax_F=  000B 
+    Ent_ax_I=  000A     |     Ent_ay_F=  000D     |     Ent_ay_I=  000C 
+    Ent_clr =  0011     |     Ent_h   =  0004     |     Ent_id  =  0012 
+    Ent_stat=  0010     |     Ent_vx_F=  0007     |     Ent_vx_I=  0006 
+    Ent_vy_F=  0009     |     Ent_vy_I=  0008     |     Ent_w   =  0005 
+    Ent_x_F =  0001     |     Ent_x_I =  0000     |     Ent_y_F =  0003 
+    Ent_y_I =  0002     |     Frisbee_=  0014     |     Frisbee_=  0013 
+    Game_fTi=  0003     |     Game_fTi=  0004     |     Game_map=  0002 
+    Game_map=  0001     |     Game_t1p=  0005     |     Game_t2p=  0006 
+    Game_typ=  0000     |     LEFT_LIM=  0000     |     MAX_VEL_=  0002 
+    MAX_VEL_=  0004     |     MIN_VEL_=  FFFFFFFE     |     MIN_VEL_=  FFFFFFFC 
+    RIGHT_LI=  0050     |     TOP_LIMI=  000A     |   0 can_move   00E2 R
+  0 cant_mov   00D3 R   |   0 cant_mov   00EE R   |   0 cant_mov   00C7 R
+  0 cant_mov   00FA R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_mem   **** GX
     cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |   0 drawFris   00B9 R   |     entityCh   **** GX
+    cpct_wai   **** GX  |   0 drawFris   00FB R   |     entityCh   **** GX
     entityDr   **** GX  |     entityEr   **** GX  |     entityUp   **** GX
-    entityUp   **** GX  |   0 frisbee_   005B R   |   0 frisbee_   000A R
-  0 frisbee_   000C R   |   0 frisbee_   0011 R   |   0 frisbee_   0000 GR
-  0 frisbee_   0053 GR  |   0 frisbee_   0013 R   |   0 frisbee_   001B GR
-  0 frisbee_   0004 R   |   0 frisbee_   0012 R   |   0 frisbee_   000E R
-  0 frisbee_   0034 GR  |   0 frisbee_   0015 GR  |   0 frisbee_   0023 GR
-  0 frisbee_   0010 R   |   0 frisbee_   0038 GR  |   0 frisbee_   0006 R
+    entityUp   **** GX  |   0 frisbee_   0086 R   |   0 frisbee_   000A R
+  0 frisbee_   000C R   |   0 frisbee_   009A R   |   0 frisbee_   0011 R
+  0 frisbee_   0000 GR  |   0 frisbee_   007E GR  |   0 frisbee_   0013 R
+  0 frisbee_   003C GR  |   0 frisbee_   0004 R   |   0 frisbee_   0012 R
+  0 frisbee_   000E R   |   0 frisbee_   0030 GR  |   0 frisbee_   0055 GR
+  0 frisbee_   002A GR  |   0 frisbee_   0044 GR  |     frisbee_=  0015 
+  0 frisbee_   0010 R   |   0 frisbee_   0060 GR  |   0 frisbee_   0006 R
   0 frisbee_   0008 R   |   0 frisbee_   0005 R   |   0 frisbee_   0000 R
-  0 frisbee_   0002 R   |   0 moveDown   0086 R   |   0 moveLeft   0092 R
-  0 moveRigh   007A R   |   0 moveUp     00AD R   |   0 not_acti   004D R
-    std_eff =  0008 
+  0 frisbee_   0002 R   |     gameStar   **** GX  |   0 goal       00B8 R
+  0 init_ax    001F R   |   0 init_ay    0021 R   |   0 init_clr   0026 R
+  0 init_dat   0015 GR  |   0 init_eff   0028 R   |   0 init_h     0019 R
+  0 init_id    0027 R   |   0 init_nor   0023 R   |   0 init_sta   0025 R
+  0 init_vx    001B R   |   0 init_vy    001D R   |   0 init_w     001A R
+  0 init_x     0015 R   |   0 init_y     0017 R   |   0 moveDown   00C8 R
+  0 moveLeft   00D4 R   |   0 moveRigh   00BC R   |   0 moveUp     00EF R
+    negateHL   **** GX  |   0 no_left_   00AA R   |   0 no_right   00BB R
+  0 not_acti   0078 R   |     std_eff =  0800 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   D1   flags    0
+   0 _CODE      size  113   flags    0
    1 _DATA      size    0   flags    0
 

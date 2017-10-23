@@ -19,20 +19,20 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__CABS                         
      00000000  s__DABS                         
      00000100  s__CODE                         
-     000005A3  l__CODE                         
-     000006A3  s__DATA                         
-     000006A3  s__GSFINAL                      
-     000006A3  s__GSINIT                       
-     000006A3  s__HOME                         
-     000006A3  s__INITIALIZED                  
-     000006A3  s__INITIALIZER                  
+     000005DE  l__CODE                         
+     000006DE  s__DATA                         
+     000006DE  s__GSFINAL                      
+     000006DE  s__GSINIT                       
+     000006DE  s__HOME                         
+     000006DE  s__INITIALIZED                  
+     000006DE  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    000005A3 =        1443. bytes (REL,CON)
+_CODE                               00000100    000005DE =        1502. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -42,38 +42,47 @@ _CODE                               00000100    000005A3 =        1443. bytes (R
      00000134  entityUpdatePhysics                
      000001E7  entityCheckCollision               
      0000023C  entityUpdatePosition               
-     000002B3  frisbee_data                       
-     000002C8  frisbee_setOff                     
-     000002CE  frisbee_erase                      
-     000002D6  frisbee_setVelocities              
-     000002E7  frisbee_setEffect                  
-     000002EB  frisbee_update                     
-     00000306  frisbee_draw                       
-     00000384  game_data                          
-     00000389  _main                              
-     00000395  _cpct_keyboardStatusBuffer         cpct_keyboard
-     0000039F  player_data                        cpct_keyboard
-     000003B2  enemy_data                         cpct_keyboard
-     000003C5  player_erase                       cpct_keyboard
-     000003D4  player_update                      cpct_keyboard
-     00000418  player_draw                        cpct_keyboard
-     00000539  menuStart                          
-     00000542  gameStart                          
-     00000565  _cpct_isKeyPressed                 cpct_keyboard
-     00000565  cpct_isKeyPressed_asm              cpct_keyboard
-     00000571  cpct_setPalette_asm                cpct_video
-     00000584  _cpct_waitVSYNC                    cpct_video
-     00000584  cpct_waitVSYNC_asm                 cpct_video
-     0000058C  cpct_setVideoMode_asm              cpct_video
-     00000599  _cpct_disableFirmware              cpct_firmware
-     00000599  _cpct_removeInterruptHandler       cpct_firmware
-     00000599  cpct_disableFirmware_asm           cpct_firmware
-     00000599  cpct_removeInterruptHandler_asm    cpct_firmware
-     000005A9  cpct_drawSolidBox_asm              cpct_sprites
-     00000655  _cpct_mode_rom_status              cpct_firmware
-     00000656  cpct_getScreenPtr_asm              cpct_video
-     00000672  _cpct_scanKeyboard                 cpct_keyboard
-     00000672  cpct_scanKeyboard_asm              cpct_keyboard
+     000002C2  negateHL                           
+     000002CB  frisbee_data                       
+     000002E0  init_data                          
+     000002F5  frisbee_setOff                     
+     000002FB  frisbee_restart                    
+     00000307  frisbee_erase                      
+     0000030F  frisbee_setVelocities              
+     00000320  frisbee_setEffect                  
+     0000032B  frisbee_update                     
+     00000349  frisbee_draw                       
+     000003DE  game_data                          
+     000003DE  game_type                          
+     000003DF  game_map                           
+     000003E1  game_fTime                         
+     000003E3  game_t1points                      
+     000003E4  game_t2points                      
+     000003E5  _main                              
+     000003F1  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000003FB  player_data                        cpct_keyboard
+     0000040E  enemy_data                         cpct_keyboard
+     00000421  player_erase                       cpct_keyboard
+     00000430  player_update                      cpct_keyboard
+     00000474  player_draw                        cpct_keyboard
+     00000569  menuStart                          
+     00000572  gameStart                          
+     0000059D  _cpct_isKeyPressed                 cpct_keyboard
+     0000059D  cpct_isKeyPressed_asm              cpct_keyboard
+     000005A9  cpct_setPalette_asm                cpct_video
+     000005BC  _cpct_waitVSYNC                    cpct_video
+     000005BC  cpct_waitVSYNC_asm                 cpct_video
+     000005C4  cpct_setVideoMode_asm              cpct_video
+     000005D1  cpct_memcpy_asm                    cpct_memutils
+     000005D4  _cpct_disableFirmware              cpct_firmware
+     000005D4  _cpct_removeInterruptHandler       cpct_firmware
+     000005D4  cpct_disableFirmware_asm           cpct_firmware
+     000005D4  cpct_removeInterruptHandler_asm    cpct_firmware
+     000005E4  cpct_drawSolidBox_asm              cpct_sprites
+     00000690  _cpct_mode_rom_status              cpct_firmware
+     00000691  cpct_getScreenPtr_asm              cpct_video
+     000006AD  _cpct_scanKeyboard                 cpct_keyboard
+     000006AD  cpct_scanKeyboard_asm              cpct_keyboard
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
@@ -104,6 +113,8 @@ Libraries Linked                          [ object file ]
                                           [ cpct_waitVSYNC.rel ]
 /home/markets/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_memcpy_asmbindings.rel ]
 /home/markets/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_removeInterruptHandler.rel ]
 /home/markets/git/cpctelera/cpctelera/cpctelera.lib

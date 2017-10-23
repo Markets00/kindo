@@ -5,8 +5,8 @@
 .include "menu.h.s"
 
 
-;; .macro defineGame name, type, map, fTime
-defineGame game, #0, #0x0000, #0x012C
+;; .macro defineGame name, type, map, fTime, t1points, t2points
+defineGame game, #0, #0x0000, #0x012C, #0, #0
 
 ;; .macro defineGame name, type, map, fTime
 ;; defineGame gameaux, #0, #0x0000, #0x012C

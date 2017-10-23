@@ -24,6 +24,8 @@ Hexadecimal [16-Bits]
                              11 .globl cpct_disableFirmware_asm
                              12 .globl cpct_setVideoMode_asm
                              13 .globl cpct_setPalette_asm
+                             14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -37,29 +39,33 @@ Hexadecimal [16-Bits]
                               5 ;; ====================================
                               6 .globl gameStart
                               7 
-                              8 .macro defineGame name, type, map, fTime
+                              8 .macro defineGame name, type, map, fTime, t1points, t2points
                               9 	name'_data::
-                             10 		name'_type:	.db type	;; Game Mode			(8 bits)
-                             11 		name'_map:	.dw map		;; Pointer to map of tiles	(16 bits little endian)
-                             12 		name'_fTime:	.dw fTime	;; Final duration of each match	(16 bits)
-                             13 .endm
-                             14 
-                             15 ;; ====================================
-                             16 ;; ====================================
-                             17 ;; GAME PUBLIC DATA
+                             10 		name'_type::	.db type	;; Game Mode			(8 bits)
+                             11 		name'_map::	.dw map		;; Pointer to map of tiles	(16 bits little endian)
+                             12 		name'_fTime::	.dw fTime	;; Final duration of each match	(16 bits)
+                             13 		name'_t1points:: .db t1points 	;; Points of team 1		(8 bits)
+                             14 		name'_t2points:: .db t2points 	;; Points of team 2		(8 bits)
+                             15 .endm
+                             16 
+                             17 ;; ====================================
                              18 ;; ====================================
-                             19 ;; ====================================
-                     0000    20 .equ Game_type, 	0	;; Game mode
-                     0001    21 .equ Game_map_L, 	1	;; Low part of pointer to game map
-                     0002    22 .equ Game_map_H, 	2	;; High part of pointer to game map
-                     0003    23 .equ Game_fTime_H, 	3	;; High part of final match time
-                     0004    24 .equ Game_fTime_L, 	4	;; Low part of final match time
-                             25 
-                     0050    26 .equ RIGHT_LIMIT,	80
-                     0000    27 .equ LEFT_LIMIT,	0
-                     000A    28 .equ TOP_LIMIT,	 	10
-                     00C8    29 .equ BOTTOM_LIMIT,	200
-                     0028    30 .equ CENTER_LIMIT,	40
+                             19 ;; GAME PUBLIC DATA
+                             20 ;; ====================================
+                             21 ;; ====================================
+                     0000    22 .equ Game_type, 	0	;; Game mode
+                     0001    23 .equ Game_map_L, 	1	;; Low part of pointer to game map
+                     0002    24 .equ Game_map_H, 	2	;; High part of pointer to game map
+                     0003    25 .equ Game_fTime_H, 	3	;; High part of final match time
+                     0004    26 .equ Game_fTime_L, 	4	;; Low part of final match time
+                     0005    27 .equ Game_t1points, 	5	;; Points of team 1
+                     0006    28 .equ Game_t2points, 	6	;; Points of team 2
+                             29 
+                     0050    30 .equ RIGHT_LIMIT,	80
+                     0000    31 .equ LEFT_LIMIT,	0
+                     000A    32 .equ TOP_LIMIT,	 	10
+                     00C8    33 .equ BOTTOM_LIMIT,	200
+                     0028    34 .equ CENTER_LIMIT,	40
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
@@ -118,7 +124,7 @@ Hexadecimal [16-Bits]
    0101 11 00 C0      [10]   55 	ld 	de, #0xC000 		;; Video memory pointer
    0104 DD 4E 00      [19]   56 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    0107 DD 46 02      [19]   57 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   010A CD 56 06      [17]   58 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   010A CD 91 06      [17]   58 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              59 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
@@ -129,7 +135,7 @@ Hexadecimal [16-Bits]
    010E DD 46 04      [19]   61 	ld 	b, Ent_h(ix) 		;; B = ent height
    0111 DD 4E 05      [19]   62 	ld 	c, Ent_w(ix) 		;; C = ent width
    0114 DD 7E 11      [19]   63 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0117 CD A9 05      [17]   64 	call cpct_drawSolidBox_asm
+   0117 CD E4 05      [17]   64 	call cpct_drawSolidBox_asm
                              65 
    011A C9            [10]   66 	ret
                              67 
@@ -143,13 +149,13 @@ Hexadecimal [16-Bits]
    011B 11 00 C0      [10]   75 	ld 	de, #0xC000 		;; Video memory  pointer
    011E DD 4E 00      [19]   76 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_H
    0121 DD 46 02      [19]   77 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_H
-   0124 CD 56 06      [17]   78 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   0124 CD 91 06      [17]   78 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              79 
    0127 EB            [ 4]   80 	ex 	de, hl 			;; DE = ent screen pointer
    0128 3E 00         [ 7]   81 	ld 	a, #0x00 		;; A = background color
    012A DD 46 04      [19]   82 	ld 	b, Ent_h(ix) 		;; B = ent height
    012D DD 4E 05      [19]   83 	ld 	c, Ent_w(ix) 		;; C = ent width
-   0130 CD A9 05      [17]   84 	call cpct_drawSolidBox_asm
+   0130 CD E4 05      [17]   84 	call cpct_drawSolidBox_asm
                              85 
    0133 C9            [10]   86 	ret
                              87 
@@ -220,7 +226,7 @@ Hexadecimal [16-Bits]
    017A DD 66 0E      [19]  147 			ld 	h, Ent_N_I(ix)
    017D DD 6E 0F      [19]  148 			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
                             149 
-   0180 CD AA 02      [17]  150 			call 	negateHL		;; HL <= -ent_N
+   0180 CD C2 02      [17]  150 			call 	negateHL		;; HL <= -ent_N
    0183 54            [ 4]  151 			ld 	d, h
    0184 5D            [ 4]  152 			ld 	e, l			;; DE <= -ent_N
                             153 
@@ -261,7 +267,7 @@ Hexadecimal [16-Bits]
    01AB DD 66 0E      [19]  183 			ld 	h, Ent_N_I(ix)
    01AE DD 6E 0F      [19]  184 			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
                             185 
-   01B1 CD AA 02      [17]  186 			call 	negateHL		;; HL <= -ent_N
+   01B1 CD C2 02      [17]  186 			call 	negateHL		;; HL <= -ent_N
    01B4 54            [ 4]  187 			ld 	d, h
    01B5 5D            [ 4]  188 			ld 	e, l			;; DE <= -ent_N
                             189 
@@ -408,110 +414,120 @@ Hexadecimal [16-Bits]
                             320 
    0249 7C            [ 4]  321 	ld 	a, h 			;; B <= H (x_I + vx_I) integer part
    024A FE 00         [ 7]  322 	cp 	#LEFT_LIMIT
-   024C FA 5E 02      [10]  323 	jp 	m, cant_move_x		;; LIMIT_LEFT > x_I + vx_I? can't move
+   024C FA 60 02      [10]  323 	jp 	m, check_left		;; LIMIT_LEFT > x_I + vx_I? can't move
                             324 		;; can move left
    024F DD 86 05      [19]  325 		add 	Ent_w(ix) 		;; A <= w + x_I + vx_I
    0252 47            [ 4]  326 		ld	b, a
    0253 3E 50         [ 7]  327 		ld 	a, #RIGHT_LIMIT
    0255 B8            [ 4]  328 		cp	b
-   0256 38 06         [12]  329 		jr 	c, cant_move_x	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
+   0256 38 12         [12]  329 		jr 	c, check_right	;; RIGHT_LIMIT < w + x_I + vx_I? can't move
                             330 			;; can move
    0258 DD 74 00      [19]  331 			ld 	Ent_x_I(ix), h
    025B DD 75 01      [19]  332 			ld 	Ent_x_F(ix), l 		;; Ent_x <= HL (x + vx)
                             333 
-   025E                     334 	cant_move_x:
+   025E 18 16         [12]  334 			jr check_y
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
 Hexadecimal [16-Bits]
 
 
 
                             335 
-                            336 	;; y' = y + vy_I*2
-   025E DD 56 08      [19]  337 	ld 	d, Ent_vy_I(ix) 	
-   0261 DD 5E 09      [19]  338 	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
-                            339 
-   0264 DD 66 02      [19]  340 	ld 	h, Ent_y_I(ix) 		;; 
-   0267 DD 6E 03      [19]  341 	ld 	l, Ent_y_F(ix)		;; HL <= Ent_y
-                            342 
-   026A 19            [11]  343 	add 	hl, de 			;; HL <= HL + DE (y + vy)
-   026B 19            [11]  344 	add 	hl, de 			;; HL <= HL + DE (y + vy)
-                            345 
-   026C 7C            [ 4]  346 	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
-   026D FE 0A         [ 7]  347 	cp 	#TOP_LIMIT
-   026F DA 84 02      [10]  348 	jp 	c, check_top		;; TOP_LIMIT > y_I + vy_I? can't move
-                            349 	;;jp 	m, cant_move_y
-                            350 		;; can move up
-   0272 7C            [ 4]  351 		ld 	a, h
-   0273 DD 86 04      [19]  352 		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
-   0276 47            [ 4]  353 		ld	b, a
-   0277 3E C8         [ 7]  354 		ld 	a, #BOTTOM_LIMIT
-   0279 B8            [ 4]  355 		cp	b
-   027A DA 8E 02      [10]  356 		jp 	c, check_bot		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
-                            357 			;; can move
-   027D DD 74 02      [19]  358 			ld 	Ent_y_I(ix), h
-   0280 DD 75 03      [19]  359 			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
-                            360 
-   0283 C9            [10]  361 			ret
-                            362 
-                            363 	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
-                            364 
-   0284                     365 	check_top:
-   0284 DD 36 02 0A   [19]  366 		ld 	Ent_y_I(ix), #TOP_LIMIT
-   0288 DD 36 03 00   [19]  367 		ld 	Ent_y_F(ix), #0 		;; Ent_y <= TOP_LIMIT
-                            368 		;; ld	a, Ent_id(ix)
-                            369 		;; cp 	#0
-                            370 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
-   028C 18 0C         [12]  371 			jr frisbee
-   028E                     372 	check_bot:
-   028E 3E C8         [ 7]  373 		ld 	a, #BOTTOM_LIMIT
-   0290 DD 96 04      [19]  374 		sub	a, Ent_h(ix)
-   0293 DD 77 02      [19]  375 		ld 	Ent_y_I(ix), a
-   0296 DD 36 03 00   [19]  376 		ld 	Ent_y_F(ix), #0 		;; Ent_y <= BOTTOM_LIMIT
-                            377 		;; ld	a, Ent_id(ix)
-                            378 		;; cp 	#0
-                            379 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
-                            380 
-   029A                     381 	frisbee:
-   029A DD 66 08      [19]  382 			ld 	h, Ent_vy_I(ix)
-   029D DD 6E 09      [19]  383 			ld 	l, Ent_vy_F(ix)		;; HL <= Ent_vy
-                            384 
-   02A0 CD AA 02      [17]  385 			call 	negateHL
-                            386 
-   02A3 DD 74 08      [19]  387 			ld 	Ent_vy_I(ix), h
-   02A6 DD 75 09      [19]  388 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL negated
-                            389 
+   0260                     336 	check_left:
+   0260 DD 36 00 00   [19]  337 		ld 	Ent_x_I(ix), #LEFT_LIMIT
+   0264 DD 36 01 00   [19]  338 		ld 	Ent_x_F(ix), #0 		;; Ent_x <= LEFT_LIMIT
+   0268 18 0C         [12]  339 			jr check_y
+                            340 
+   026A                     341 	check_right:
+   026A 3E 50         [ 7]  342 		ld 	a, #RIGHT_LIMIT
+   026C DD 96 05      [19]  343 		sub	a, Ent_w(ix)
+   026F DD 77 00      [19]  344 		ld 	Ent_x_I(ix), a
+   0272 DD 36 01 00   [19]  345 		ld 	Ent_x_F(ix), #0 		;; Ent_x <= RIGHT_LIMIT
+                            346 
+   0276                     347 	check_y:
+                            348 	;; y' = y + vy_I*2
+   0276 DD 56 08      [19]  349 	ld 	d, Ent_vy_I(ix) 	
+   0279 DD 5E 09      [19]  350 	ld 	e, Ent_vy_F(ix)		;; DE <= ent_vy
+                            351 
+   027C DD 66 02      [19]  352 	ld 	h, Ent_y_I(ix) 		;; 
+   027F DD 6E 03      [19]  353 	ld 	l, Ent_y_F(ix)		;; HL <= Ent_y
+                            354 
+   0282 19            [11]  355 	add 	hl, de 			;; HL <= HL + DE (y + vy)
+   0283 19            [11]  356 	add 	hl, de 			;; HL <= HL + DE (y + vy)
+                            357 
+   0284 7C            [ 4]  358 	ld 	a,h	 		;; A <= H (y_I + vy_I) integer part
+   0285 FE 0A         [ 7]  359 	cp 	#TOP_LIMIT
+   0287 DA 9C 02      [10]  360 	jp 	c, check_top		;; TOP_LIMIT > y_I + vy_I? can't move
+                            361 	;;jp 	m, cant_move_y
+                            362 		;; can move up
+   028A 7C            [ 4]  363 		ld 	a, h
+   028B DD 86 04      [19]  364 		add 	Ent_h(ix) 		;; A <= h + y_I + vy_I
+   028E 47            [ 4]  365 		ld	b, a
+   028F 3E C8         [ 7]  366 		ld 	a, #BOTTOM_LIMIT
+   0291 B8            [ 4]  367 		cp	b
+   0292 DA A6 02      [10]  368 		jp 	c, check_bot		;; BOTTOM_LIMIT < h + y_I + vy_I? can't move
+                            369 			;; can move
+   0295 DD 74 02      [19]  370 			ld 	Ent_y_I(ix), h
+   0298 DD 75 03      [19]  371 			ld 	Ent_y_F(ix), l 		;; Ent_y <= HL (y + vy)
+                            372 
+   029B C9            [10]  373 			ret
+                            374 
+                            375 	;; CONTROL STRUCTURES: http://tutorials.eeems.ca/ASMin28Days/lesson/day07.html
+                            376 
+   029C                     377 	check_top:
+   029C DD 36 02 0A   [19]  378 		ld 	Ent_y_I(ix), #TOP_LIMIT
+   02A0 DD 36 03 00   [19]  379 		ld 	Ent_y_F(ix), #0 		;; Ent_y <= TOP_LIMIT
+                            380 		;; ld	a, Ent_id(ix)
+                            381 		;; cp 	#0
+                            382 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
+   02A4 18 0C         [12]  383 			jr bounce
+   02A6                     384 	check_bot:
+   02A6 3E C8         [ 7]  385 		ld 	a, #BOTTOM_LIMIT
+   02A8 DD 96 04      [19]  386 		sub	a, Ent_h(ix)
+   02AB DD 77 02      [19]  387 		ld 	Ent_y_I(ix), a
+   02AE DD 36 03 00   [19]  388 		ld 	Ent_y_F(ix), #0 		;; Ent_y <= BOTTOM_LIMIT
+                            389 		;; ld	a, Ent_id(ix)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
 Hexadecimal [16-Bits]
 
 
 
-                            390 
-   02A9                     391 	not_frisbee:
-   02A9 C9            [10]  392 		ret
-                            393 
-                            394 ;; ====================================
-                            395 ;; ====================================
-                            396 ;; PRIVATE FUNCTIONS
-                            397 ;; ====================================
-                            398 ;; ====================================
-                            399 
-                            400 
+                            390 		;; cp 	#0
+                            391 		;; jr 	nz, not_frisbee			;;Ent_id != 0?
+                            392 
+   02B2                     393 	bounce:
+   02B2 DD 66 08      [19]  394 			ld 	h, Ent_vy_I(ix)
+   02B5 DD 6E 09      [19]  395 			ld 	l, Ent_vy_F(ix)		;; HL <= Ent_vy
+                            396 
+   02B8 CD C2 02      [17]  397 			call 	negateHL
+                            398 
+   02BB DD 74 08      [19]  399 			ld 	Ent_vy_I(ix), h
+   02BE DD 75 09      [19]  400 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL negated
                             401 
-                            402 ;; =========================================
-                            403 ;; Inverts HL value
-                            404 ;; Entrada:
-                            405 ;; 	HL => value we are going to negate
-                            406 ;; Modifica AF
-                            407 ;; Devuelve:
-                            408 ;; 	HL <= HL value negated
-                            409 ;; =========================================
-   02AA                     410 negateHL:
-   02AA 3E 00         [ 7]  411 	ld 	a, #0			;;
-   02AC AF            [ 4]  412 	xor	a			;;
-   02AD 95            [ 4]  413 	sub	l			;;
-   02AE 6F            [ 4]  414 	ld	l,a			;;
-   02AF 9F            [ 4]  415 	sbc	a,a			;;
-   02B0 94            [ 4]  416 	sub	h			;;
-   02B1 67            [ 4]  417 	ld	h,a			;; negate HL
-                            418 
-   02B2 C9            [10]  419 	ret
+   02C1 C9            [10]  402 		ret
+                            403 
+                            404 ;; =========================================
+                            405 ;; Inverts HL value
+                            406 ;; Entrada:
+                            407 ;; 	HL => value we are going to negate
+                            408 ;; Modifica AF
+                            409 ;; Devuelve:
+                            410 ;; 	HL <= HL value negated
+                            411 ;; =========================================
+   02C2                     412 negateHL::
+   02C2 3E 00         [ 7]  413 	ld 	a, #0			;;
+   02C4 AF            [ 4]  414 	xor	a			;;
+   02C5 95            [ 4]  415 	sub	l			;;
+   02C6 6F            [ 4]  416 	ld	l,a			;;
+   02C7 9F            [ 4]  417 	sbc	a,a			;;
+   02C8 94            [ 4]  418 	sub	h			;;
+   02C9 67            [ 4]  419 	ld	h,a			;; negate HL
+                            420 
+   02CA C9            [10]  421 	ret
+                            422 
+                            423 ;; ====================================
+                            424 ;; ====================================
+                            425 ;; PRIVATE FUNCTIONS
+                            426 ;; ====================================
+                            427 ;; ====================================
+                            428 
+                            429 

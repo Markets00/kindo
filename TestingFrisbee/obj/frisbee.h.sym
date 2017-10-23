@@ -7,7 +7,7 @@ Symbol Table
     .__.H$L.=  0000 L   |     Frisbee_=  0011     |     Frisbee_=  0010 
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
-    frisbee_   **** GX  |     std_eff =  0008 
+    frisbee_   **** GX  |     std_N_ef=  FFF8     |     std_eff =  0008 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

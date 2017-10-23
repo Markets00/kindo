@@ -15,7 +15,7 @@ std_acc = 16 	;; standard acceleration per frame
 ;; ====================================
 ;; ====================================
 
-;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
+;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
 defineEntity player, #0x0010, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
 
@@ -122,11 +122,11 @@ checkFrisbeeCollision:
 ;; Modifica A, IX
 ;; ===============================================
 moveRight:
-	push 	ix
-	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-	pop 	ix
-	cp 	#0			;; A == 0?
-	jr	nz, collision_right 	;; checkFrisbeeCollision != 0?
+	;; push 	ix
+	;; call 	checkFrisbeeCollision 	;; A == collision/no_collision
+	;; pop 	ix
+	;; cp 	#0			;; A == 0?
+	;; jr	nz, collision_right 	;; checkFrisbeeCollision != 0?
 
 		;; no_collision
 		ld 	Ent_ax_I(ix), #0
@@ -135,10 +135,10 @@ moveRight:
 
 		ret
 
-	collision_right:
-		call 	frisbee_setOff
-
-		ret
+	;;collision_right:
+	;;	call 	frisbee_setOff
+	;;
+	;;	ret
 
 ;; ===============================================
 ;; Acelera la entidad hacia abajo, si puede
@@ -147,22 +147,10 @@ moveRight:
 ;; Modifica A, IX
 ;; ===============================================
 moveDown:
-	push 	ix
-	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-	pop 	ix
-	cp 	#0			;; A == 0?
-	jr	nz, collision_down 	;; checkFrisbeeCollision != 0?
+	ld 	Ent_ay_I(ix), #0
+	ld 	Ent_ay_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
 
-		;; no_collision
-		ld 	Ent_ay_I(ix), #0
-		ld 	Ent_ay_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
-
-		ret
-
-	collision_down:
-		call 	frisbee_setOff
-
-		ret
+	ret
 
 ;; ===============================================
 ;; Acelera la entidad hacia la izquierda, si puede
@@ -171,21 +159,9 @@ moveDown:
 ;; Modifica A, IX
 ;; ===============================================
 moveLeft:
-	push 	ix
-	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-	pop 	ix
-	cp 	#0			;; A == 0?
-	jr	nz, collision_left 	;; checkFrisbeeCollision != 0?
+	ld 	Ent_ax_I(ix), #-1
+	ld 	Ent_ax_F(ix), #-std_acc	;; Ent_ax <= FF(-1)E2(-30) (-30)
 
-		;; no_collision
-		ld 	Ent_ax_I(ix), #-1
-		ld 	Ent_ax_F(ix), #-std_acc	;; Ent_ax <= FF(-1)E2(-30) (-30)
-
-		ret
-
-	collision_left:
-		call 	frisbee_setOff
-	cant_move_left:
 	ret
 
 ;; ===============================================
@@ -195,21 +171,9 @@ moveLeft:
 ;; Modifica A, IX
 ;; ===============================================
 moveUp:
-	push 	ix
-	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-	pop 	ix
-	cp 	#0			;; A == 0?
-	jr	nz, collision_up 	;; checkFrisbeeCollision != 0?
+	ld 	Ent_ay_I(ix), #-1
+	ld 	Ent_ay_F(ix), #-std_acc	;; Ent_ay <= FF(-1)E2(-30) (-30)
 
-		;; no_collision
-		ld 	Ent_ay_I(ix), #-1
-		ld 	Ent_ay_F(ix), #-std_acc	;; Ent_ay <= FF(-1)E2(-30) (-30)
-
-		ret
-
-	collision_up:
-		call 	frisbee_setOff
-	cant_move_up:
 	ret
 
 
@@ -243,7 +207,6 @@ checkCenterCrossing:
 				sub	Ent_w(ix)			;; A <= CENTER_LIMIT - Ent_w
 				ld	Ent_x_I(ix), a			;; Ent_x = CENTER_LIMIT - Ent_w
 
-
 	invalid_id:
 	not_crossed:
 	ret
@@ -253,7 +216,7 @@ checkCenterCrossing:
 ;; Lee la entrada del teclado
 ;; Entrada:
 ;; 	IX <= pointer to entity data
-;; Modifica AF, BC, DE, HL
+;; Modifica AF, BC, DE, HL, IX
 ;; ====================================
 checkUserInput:
 	call cpct_scanKeyboard_asm
@@ -291,6 +254,18 @@ checkUserInput:
 	s_not_pressed:
 
 
+	call checkVandB
+	ret
+
+
+;; ====================================
+;; Funcion auxiliar para leer V y B
+;;	de la entrada por teclado
+;; Entrada:
+;; 	IX <= pointer to entity data
+;; Modifica AF, BC, DE, HL
+;; ====================================
+checkVandB:
 	push 	ix
 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
 	pop 	ix
@@ -307,11 +282,14 @@ checkUserInput:
 			cp 	#0 				;; A == 0?
 			jr 	z, just_v_pressed
 				;; V and B are pressed
+				ld 	hl, #0			;; HL <= standard effect
+				call frisbee_setEffect		;; efecto hacia abajo
 				jr vorb_pressed
 			just_v_pressed:
-				ld 	h, #-1
-				ld 	h, #std_eff
+				ld 	hl, #std_N_eff		;; HL <= -standard effect
+				push 	ix
 				call frisbee_setEffect		;; efecto hacia arriba
+				pop 	ix
 				jr 	vorb_pressed
 		v_not_pressed:
 
@@ -320,17 +298,17 @@ checkUserInput:
 			cp 	#0 				;; A == 0?
 			jr 	z, b_not_pressed
 				;; B is pressed
-				ld 	h, #0
-				ld 	h, #std_eff
-				call frisbee_setEffect		;; efecto hacia arriba
+				ld 	hl, #std_eff		;; HL <= standard effect
+				push 	ix
+				call frisbee_setEffect		;; efecto hacia abajo
+				pop 	ix
 
 				vorb_pressed:
 				ld	h, Ent_vx_I(ix)		;;
 				ld	l, Ent_vx_F(ix)		;;
 				ld	d, Ent_vy_I(ix)		;;
 				ld	e, Ent_vy_F(ix)		;;
-				call frisbee_setVelocities	;; transferimos la velocidad de la entidad al frisbee
+				call frisbee_setVelocities	;; transferimos las velocidades de la entidad al frisbee
 
 	b_not_pressed:
 	ret
-

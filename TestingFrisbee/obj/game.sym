@@ -5,21 +5,24 @@ Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
     .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
-    Game_map=  0002     |     Game_map=  0001     |     Game_tim=  0003 
-    Game_tim=  0004     |     Game_typ=  0000     |     LEFT_LIM=  0000 
-    RIGHT_LI=  0050     |     TOP_LIMI=  000A     |     cpct_dis   **** GX
-    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
-    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+    Frisbee_=  0011     |     Frisbee_=  0010     |     Game_fTi=  0003 
+    Game_fTi=  0004     |     Game_map=  0002     |     Game_map=  0001 
+    Game_t1p=  0005     |     Game_t2p=  0006     |     Game_typ=  0000 
+    LEFT_LIM=  0000     |     RIGHT_LI=  0050     |     TOP_LIMI=  000A 
+    cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_get   **** GX
+    cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
-  0 gameStar   0000 GR  |   0 game_loo   000B R   |   0 initiali   0007 R
-    player_d   **** GX  |     player_e   **** GX  |     player_u   **** GX
+    frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+    frisbee_   **** GX  |   0 gameStar   0000 GR  |   0 game_loo   0013 R
+  0 initiali   0007 R   |     player_d   **** GX  |     player_e   **** GX
+    player_u   **** GX  |     std_eff =  0008 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   23   flags    0
+   0 _CODE      size   2B   flags    0
    1 _DATA      size    0   flags    0
 

@@ -1,17 +1,22 @@
 XL2
-H 2 areas 5 global symbols
+H 2 areas A global symbols
 S menuStart Ref0000
 S .__.ABS. Def0000
 S gameStart Ref0000
-A _CODE size 11 flags 0 addr 0
-S _main Def0005
+A _CODE size 13 flags 0 addr 0
+S _main Def0007
 S game_data Def0000
+S game_fTime Def0003
+S game_map Def0001
+S game_t1points Def0005
+S game_type Def0000
+S game_t2points Def0006
 A _DATA size 0 flags 0 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 00 00 00 2C 01
+T 00 00 00 00 00 2C 01 00 00
 R 00 00 00 00
-T 05 00
+T 07 00
 R 00 00 00 00
-T 05 00 DD 21 00 00 CD 00 00 CD 00 00 18 F4
+T 07 00 DD 21 00 00 CD 00 00 CD 00 00 18 F4
 R 00 00 00 00 00 04 00 00 02 07 00 00 02 0A 02 00

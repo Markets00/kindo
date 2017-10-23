@@ -3,20 +3,27 @@
 
 .include "entity.h.s"
 .include "utility.h.s"
+.include "game.h.s"
 
 .equ Frisbee_effect_I, 19
 .equ Frisbee_effect_F, 20
-.equ std_eff, 08
+.equ std_eff, 0x0800
+
+frisbee_size = 21		;; Size of frisbee structure
+
 ;; ====================================
 ;; ====================================
 ;; PUBLIC DATA
 ;; ====================================
 ;; ====================================
 
-;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
+;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
-	frisbee_effect: .dw #0x0800									;; effect
+defineEntity frisbee, #0x0027, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
+	frisbee_effect: .dw #0xF8FF									;; effect
+
+defineEntity init, #0x0027, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
+	init_effect: .dw #0xF8FF									;; effect
 
 
 
@@ -41,6 +48,16 @@ frisbee_setOff::
 	ld 	a, #0
 	ld 	(frisbee_state), a
 	ret
+
+frisbee_restart::
+	;; Input Parameters (6 Bytes)
+	;; (2B DE) to	Pointer to the destination (first byte where bytes will be written)
+	;; (2B HL) from	Pointer to the source (first byte from which bytes will be read)
+	;; (2B BC) size	Number of bytes to be set (>= 1)
+	ld	de, #frisbee_data
+	ld	hl, #init_data
+	ld	bc, #frisbee_size
+	call cpct_memcpy_asm		;; Ititialize Frisbee
 
 frisbee_erase::
 	ld 	ix, #frisbee_data
@@ -71,10 +88,11 @@ frisbee_setVelocities::
 ;; 	al recibido en HL
 ;; Recibe:
 ;; 	HL <= Effect value
-;; Modifica A
 ;; ===========================================
 frisbee_setEffect::
-	ld 	(frisbee_effect), hl
+	ld 	ix, #frisbee_data
+	ld 	Frisbee_effect_I(ix), h
+	ld 	Frisbee_effect_F(ix), l
 	ret
 
 ;; =========================================
@@ -92,6 +110,7 @@ frisbee_update::
 		call frisbee_applyEffect 	
 		call entityUpdatePhysics
 		call entityUpdatePosition
+		call frisbee_checkGoal
 		;; call moveLeft
 		ret
 
@@ -129,20 +148,45 @@ frisbee_applyEffect:
 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
 
 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
-	ld 	a, h
-	cp 	#MAX_VEL_Y
-	jp 	p, cant_accelerate_y
-		;; vy' < MIN_VEL_Y
-		cp 	#MIN_VEL_Y
-		jp 	m, cant_accelerate_y
-			;; vy' > MIN_VEL_Y
-			;; Can accelerate at Y axis
-			ld 	Ent_vy_I(ix), h
-			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
 
-	cant_accelerate_y:
+	ld 	Ent_vy_I(ix), h
+	ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
 
 	ret
+
+
+;; ===========================================
+;; Comprueba si el frisbee está en posición
+;;	de gol
+;; Recibe:
+;; 	IX <= Pointer to entity data
+;; Modifica A
+;; ===========================================
+frisbee_checkGoal:
+	ld 	a, Ent_x_I(ix)		;; A <= Ent_x_I
+	cp	#LEFT_LIMIT
+	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
+		;; left goal
+		ld	a, (Game_t2points)
+		inc	a
+		ld	(Game_t2points), a	;; Inc team 2 points
+		jr	goal
+
+	no_left_goal:
+		add 	a, Ent_w(ix)		;; A <= Ent_x + Ent_w
+		cp	#RIGHT_LIMIT
+		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
+			;; right goal
+			ld	a, (Game_t1points)
+			inc	a
+			ld	(Game_t1points), a 	;; Inc team 1 points
+
+	goal:
+		call frisbee_restart
+
+	no_right_goal:
+	ret
+
 
 ;; =========================================
 ;; Mueve el frisbee a la derecha un píxel

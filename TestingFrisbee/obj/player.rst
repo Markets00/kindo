@@ -26,6 +26,8 @@ Hexadecimal [16-Bits]
                              11 .globl cpct_disableFirmware_asm
                              12 .globl cpct_setVideoMode_asm
                              13 .globl cpct_setPalette_asm
+                             14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -118,7 +120,8 @@ Hexadecimal [16-Bits]
                              13 	
                      0010    14 .equ Frisbee_effect_I, 16
                      0011    15 .equ Frisbee_effect_F, 17
-                     0008    16 .equ std_eff, 08
+                     0008    16 .equ std_eff, 0x0008
+                     FFF8    17 .equ std_N_eff, 0xFFF8
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
@@ -132,29 +135,33 @@ Hexadecimal [16-Bits]
                               5 ;; ====================================
                               6 .globl gameStart
                               7 
-                              8 .macro defineGame name, type, map, fTime
+                              8 .macro defineGame name, type, map, fTime, t1points, t2points
                               9 	name'_data::
-                             10 		name'_type:	.db type	;; Game Mode			(8 bits)
-                             11 		name'_map:	.dw map		;; Pointer to map of tiles	(16 bits little endian)
-                             12 		name'_fTime:	.dw fTime	;; Final duration of each match	(16 bits)
-                             13 .endm
-                             14 
-                             15 ;; ====================================
-                             16 ;; ====================================
-                             17 ;; GAME PUBLIC DATA
+                             10 		name'_type::	.db type	;; Game Mode			(8 bits)
+                             11 		name'_map::	.dw map		;; Pointer to map of tiles	(16 bits little endian)
+                             12 		name'_fTime::	.dw fTime	;; Final duration of each match	(16 bits)
+                             13 		name'_t1points:: .db t1points 	;; Points of team 1		(8 bits)
+                             14 		name'_t2points:: .db t2points 	;; Points of team 2		(8 bits)
+                             15 .endm
+                             16 
+                             17 ;; ====================================
                              18 ;; ====================================
-                             19 ;; ====================================
-                     0000    20 .equ Game_type, 	0	;; Game mode
-                     0001    21 .equ Game_map_L, 	1	;; Low part of pointer to game map
-                     0002    22 .equ Game_map_H, 	2	;; High part of pointer to game map
-                     0003    23 .equ Game_fTime_H, 	3	;; High part of final match time
-                     0004    24 .equ Game_fTime_L, 	4	;; Low part of final match time
-                             25 
-                     0050    26 .equ RIGHT_LIMIT,	80
-                     0000    27 .equ LEFT_LIMIT,	0
-                     000A    28 .equ TOP_LIMIT,	 	10
-                     00C8    29 .equ BOTTOM_LIMIT,	200
-                     0028    30 .equ CENTER_LIMIT,	40
+                             19 ;; GAME PUBLIC DATA
+                             20 ;; ====================================
+                             21 ;; ====================================
+                     0000    22 .equ Game_type, 	0	;; Game mode
+                     0001    23 .equ Game_map_L, 	1	;; Low part of pointer to game map
+                     0002    24 .equ Game_map_H, 	2	;; High part of pointer to game map
+                     0003    25 .equ Game_fTime_H, 	3	;; High part of final match time
+                     0004    26 .equ Game_fTime_L, 	4	;; Low part of final match time
+                     0005    27 .equ Game_t1points, 	5	;; Points of team 1
+                     0006    28 .equ Game_t2points, 	6	;; Points of team 2
+                             29 
+                     0050    30 .equ RIGHT_LIMIT,	80
+                     0000    31 .equ LEFT_LIMIT,	0
+                     000A    32 .equ TOP_LIMIT,	 	10
+                     00C8    33 .equ BOTTOM_LIMIT,	200
+                     0028    34 .equ CENTER_LIMIT,	40
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
@@ -185,7 +192,7 @@ Hexadecimal [16-Bits]
                              22 ;;   16-byte aligned in memory to let functions use 8-bit maths for pointing
                              23 ;;   (alignment not working on user linking)
                              24 
-   0395                      25 _cpct_keyboardStatusBuffer:: .ds 10
+   03F1                      25 _cpct_keyboardStatusBuffer:: .ds 10
                              26 
                              27 ;;
                              28 ;; Assembly constant definitions for keyboard mapping
@@ -311,37 +318,37 @@ Hexadecimal [16-Bits]
                              15 ;; ====================================
                              16 ;; ====================================
                              17 
-                             18 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
+                             18 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
                              19 
-   039F                      20 defineEntity player, #0x0010, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
+   03FB                      20 defineEntity player, #0x0010, #0x0050, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xF0, #1
    000A                       1 	player_data::
-   039F 10 00                 2 		player_x:	.dw #0x0010		;; X coordinate			(16 bits)
-   03A1 50 00                 3 		player_y:	.dw #0x0050		;; Y coordinate			(16 bits)
-   03A3 10                    4 		player_h:	.db #16		;; Height			(8 bits)
-   03A4 04                    5 		player_w:	.db #4		;; Width			(8 bits)
-   03A5 00 00                 6 		player_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
-   03A7 00 00                 7 		player_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
-   03A9 00 00                 8 		player_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
-   03AB 00 00                 9 		player_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
-   03AD 00 08                10 		player_normal:	.dw #0x0800	;; Normal force			(16 bits)
-   03AF 01                   11 		player_state:	.db #1	;; Entity enabled/disabled	(8 bits)
-   03B0 F0                   12 		player_clr:	.db #0xF0		;; Entity color pattern		(8 bits)
-   03B1 01                   13 		player_id:	.db #1		;; Numeric ID			(8 bits)
+   03FB 10 00                 2 		player_x:	.dw #0x0010		;; X coordinate			(16 bits)
+   03FD 50 00                 3 		player_y:	.dw #0x0050		;; Y coordinate			(16 bits)
+   03FF 10                    4 		player_h:	.db #16		;; Height			(8 bits)
+   0400 04                    5 		player_w:	.db #4		;; Width			(8 bits)
+   0401 00 00                 6 		player_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   0403 00 00                 7 		player_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   0405 00 00                 8 		player_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   0407 00 00                 9 		player_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   0409 00 08                10 		player_normal:	.dw #0x0800	;; Normal force			(16 bits)
+   040B 01                   11 		player_state:	.db #1	;; Entity enabled/disabled	(8 bits)
+   040C F0                   12 		player_clr:	.db #0xF0		;; Entity color pattern		(8 bits)
+   040D 01                   13 		player_id:	.db #1		;; Numeric ID			(8 bits)
                              21 
-   03B2                      22 defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xFF, #2
+   040E                      22 defineEntity enemy, #0x0050-0x0004, #0x0064, #16, #4, #0000, #0000, #0000, #0000, #0x0800, #1, #0xFF, #2
    001D                       1 	enemy_data::
-   03B2 4C 00                 2 		enemy_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
-   03B4 64 00                 3 		enemy_y:	.dw #0x0064		;; Y coordinate			(16 bits)
-   03B6 10                    4 		enemy_h:	.db #16		;; Height			(8 bits)
-   03B7 04                    5 		enemy_w:	.db #4		;; Width			(8 bits)
-   03B8 00 00                 6 		enemy_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
-   03BA 00 00                 7 		enemy_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
-   03BC 00 00                 8 		enemy_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
-   03BE 00 00                 9 		enemy_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
-   03C0 00 08                10 		enemy_normal:	.dw #0x0800	;; Normal force			(16 bits)
-   03C2 01                   11 		enemy_state:	.db #1	;; Entity enabled/disabled	(8 bits)
-   03C3 FF                   12 		enemy_clr:	.db #0xFF		;; Entity color pattern		(8 bits)
-   03C4 02                   13 		enemy_id:	.db #2		;; Numeric ID			(8 bits)
+   040E 4C 00                 2 		enemy_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
+   0410 64 00                 3 		enemy_y:	.dw #0x0064		;; Y coordinate			(16 bits)
+   0412 10                    4 		enemy_h:	.db #16		;; Height			(8 bits)
+   0413 04                    5 		enemy_w:	.db #4		;; Width			(8 bits)
+   0414 00 00                 6 		enemy_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   0416 00 00                 7 		enemy_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   0418 00 00                 8 		enemy_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   041A 00 00                 9 		enemy_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   041C 00 08                10 		enemy_normal:	.dw #0x0800	;; Normal force			(16 bits)
+   041E 01                   11 		enemy_state:	.db #1	;; Entity enabled/disabled	(8 bits)
+   041F FF                   12 		enemy_clr:	.db #0xFF		;; Entity color pattern		(8 bits)
+   0420 02                   13 		enemy_id:	.db #2		;; Numeric ID			(8 bits)
                              23 
                              24 	
                              25 ;; ====================================
@@ -349,13 +356,13 @@ Hexadecimal [16-Bits]
                              27 ;; PUBLIC FUNCTIONS
                              28 ;; ====================================
                              29 ;; ====================================
-   03C5                      30 player_erase::
-   03C5 DD 21 9F 03   [14]   31 	ld 	ix, #player_data
-   03C9 CD 1B 01      [17]   32 	call 	entityErase		;; Erase player
-   03CC DD 21 B2 03   [14]   33 	ld 	ix, #enemy_data
-   03D0 CD 1B 01      [17]   34 	call 	entityErase		;; Erase enemy
+   0421                      30 player_erase::
+   0421 DD 21 FB 03   [14]   31 	ld 	ix, #player_data
+   0425 CD 1B 01      [17]   32 	call 	entityErase		;; Erase player
+   0428 DD 21 0E 04   [14]   33 	ld 	ix, #enemy_data
+   042C CD 1B 01      [17]   34 	call 	entityErase		;; Erase enemy
                              35 
-   03D3 C9            [10]   36 	ret
+   042F C9            [10]   36 	ret
                              37 
                              38 ;; =========================================
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
@@ -367,45 +374,45 @@ Hexadecimal [16-Bits]
                              40 ;;	player
                              41 ;; Modifica: AF, IX
                              42 ;; =========================================
-   03D4                      43 player_update::
-   03D4 DD 21 9F 03   [14]   44 	ld 	ix, #player_data
-   03D8 CD B7 04      [17]   45 	call checkUserInput
+   0430                      43 player_update::
+   0430 DD 21 FB 03   [14]   44 	ld 	ix, #player_data
+   0434 CD D7 04      [17]   45 	call checkUserInput
                              46 
-   03DB 21 B3 02      [10]   47 	ld	hl, #frisbee_data
-   03DE E5            [11]   48 	push 	hl
-   03DF 21 9F 03      [10]   49 	ld	hl, #player_data
-   03E2 E5            [11]   50 	push 	hl
-   03E3 21 B2 03      [10]   51 	ld	hl, #enemy_data
-   03E6 E5            [11]   52 	push 	hl
-   03E7 CD 00 01      [17]   53 	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
-   03EA F1            [10]   54 	pop 	af
-   03EB F1            [10]   55 	pop 	af
-   03EC F1            [10]   56 	pop 	af
+   0437 21 CB 02      [10]   47 	ld	hl, #frisbee_data
+   043A E5            [11]   48 	push 	hl
+   043B 21 FB 03      [10]   49 	ld	hl, #player_data
+   043E E5            [11]   50 	push 	hl
+   043F 21 0E 04      [10]   51 	ld	hl, #enemy_data
+   0442 E5            [11]   52 	push 	hl
+   0443 CD 00 01      [17]   53 	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
+   0446 F1            [10]   54 	pop 	af
+   0447 F1            [10]   55 	pop 	af
+   0448 F1            [10]   56 	pop 	af
                              57 
-   03ED DD 21 9F 03   [14]   58 	ld 	ix, #player_data
-   03F1 CD 34 01      [17]   59 	call entityUpdatePhysics
-   03F4 DD 21 B2 03   [14]   60 	ld 	ix, #enemy_data
-   03F8 CD 34 01      [17]   61 	call entityUpdatePhysics
+   0449 DD 21 FB 03   [14]   58 	ld 	ix, #player_data
+   044D CD 34 01      [17]   59 	call entityUpdatePhysics
+   0450 DD 21 0E 04   [14]   60 	ld 	ix, #enemy_data
+   0454 CD 34 01      [17]   61 	call entityUpdatePhysics
                              62 
-   03FB DD 21 9F 03   [14]   63 	ld 	ix, #player_data
-   03FF CD 3C 02      [17]   64 	call entityUpdatePosition
-   0402 DD 21 B2 03   [14]   65 	ld 	ix, #enemy_data
-   0406 CD 3C 02      [17]   66 	call entityUpdatePosition
+   0457 DD 21 FB 03   [14]   63 	ld 	ix, #player_data
+   045B CD 3C 02      [17]   64 	call entityUpdatePosition
+   045E DD 21 0E 04   [14]   65 	ld 	ix, #enemy_data
+   0462 CD 3C 02      [17]   66 	call entityUpdatePosition
                              67 
                              68 
-   0409 DD 21 9F 03   [14]   69 	ld 	ix, #player_data
-   040D CD 8E 04      [17]   70 	call checkCenterCrossing
-   0410 DD 21 B2 03   [14]   71 	ld 	ix, #enemy_data
-   0414 CD 8E 04      [17]   72 	call checkCenterCrossing
-   0417 C9            [10]   73 	ret
+   0465 DD 21 FB 03   [14]   69 	ld 	ix, #player_data
+   0469 CD AE 04      [17]   70 	call checkCenterCrossing
+   046C DD 21 0E 04   [14]   71 	ld 	ix, #enemy_data
+   0470 CD AE 04      [17]   72 	call checkCenterCrossing
+   0473 C9            [10]   73 	ret
                              74 
-   0418                      75 player_draw::
-   0418 DD 21 9F 03   [14]   76 	ld 	ix, #player_data
-   041C CD 01 01      [17]   77 	call 	entityDraw		;; Draw player
-   041F DD 21 B2 03   [14]   78 	ld 	ix, #enemy_data
-   0423 CD 01 01      [17]   79 	call 	entityDraw		;; Draw enemy
+   0474                      75 player_draw::
+   0474 DD 21 FB 03   [14]   76 	ld 	ix, #player_data
+   0478 CD 01 01      [17]   77 	call 	entityDraw		;; Draw player
+   047B DD 21 0E 04   [14]   78 	ld 	ix, #enemy_data
+   047F CD 01 01      [17]   79 	call 	entityDraw		;; Draw enemy
                              80 
-   0426 C9            [10]   81 	ret
+   0482 C9            [10]   81 	ret
                              82 	
                              83 ;; ====================================
                              84 ;; ====================================
@@ -423,10 +430,10 @@ Hexadecimal [16-Bits]
 
 
 
-   0427                      94 delta:
+   0483                      94 delta:
                              95 
                              96 
-   0427                      97 update:
+   0483                      97 update:
                              98 
                              99 
                             100 ;; =========================================
@@ -440,11 +447,11 @@ Hexadecimal [16-Bits]
                             108 ;; 	A <= 	0 si no hay colisión
                             109 ;; 		>1 si hay colisión
                             110 ;; =========================================
-   0427                     111 checkFrisbeeCollision:
-   0427 21 B3 02      [10]  112 	ld 	hl, #frisbee_data	;; HL <= frisbee_data
-   042A CD E7 01      [17]  113 	call 	entityCheckCollision 	;; A <= collison/no_collision
+   0483                     111 checkFrisbeeCollision:
+   0483 21 CB 02      [10]  112 	ld 	hl, #frisbee_data	;; HL <= frisbee_data
+   0486 CD E7 01      [17]  113 	call 	entityCheckCollision 	;; A <= collison/no_collision
                             114 
-   042D C9            [10]  115 	ret
+   0489 C9            [10]  115 	ret
                             116 
                             117 
                             118 ;; ===============================================
@@ -453,24 +460,24 @@ Hexadecimal [16-Bits]
                             121 ;; 	IX <= puntero a los datos de la entidad
                             122 ;; Modifica A, IX
                             123 ;; ===============================================
-   042E                     124 moveRight:
-   042E DD E5         [15]  125 	push 	ix
-   0430 CD 27 04      [17]  126 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-   0433 DD E1         [14]  127 	pop 	ix
-   0435 FE 00         [ 7]  128 	cp 	#0			;; A == 0?
-   0437 20 09         [12]  129 	jr	nz, collision_right 	;; checkFrisbeeCollision != 0?
+   048A                     124 moveRight:
+                            125 	;; push 	ix
+                            126 	;; call 	checkFrisbeeCollision 	;; A == collision/no_collision
+                            127 	;; pop 	ix
+                            128 	;; cp 	#0			;; A == 0?
+                            129 	;; jr	nz, collision_right 	;; checkFrisbeeCollision != 0?
                             130 
                             131 		;; no_collision
-   0439 DD 36 0A 00   [19]  132 		ld 	Ent_ax_I(ix), #0
-   043D DD 36 0B 10   [19]  133 		ld 	Ent_ax_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
+   048A DD 36 0A 00   [19]  132 		ld 	Ent_ax_I(ix), #0
+   048E DD 36 0B 10   [19]  133 		ld 	Ent_ax_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
                             134 
                             135 
-   0441 C9            [10]  136 		ret
+   0492 C9            [10]  136 		ret
                             137 
-   0442                     138 	collision_right:
-   0442 CD C8 02      [17]  139 		call 	frisbee_setOff
-                            140 
-   0445 C9            [10]  141 		ret
+                            138 	;;collision_right:
+                            139 	;;	call 	frisbee_setOff
+                            140 	;;
+                            141 	;;	ret
                             142 
                             143 ;; ===============================================
                             144 ;; Acelera la entidad hacia abajo, si puede
@@ -483,206 +490,184 @@ Hexadecimal [16-Bits]
 
 
 
-   0446                     149 moveDown:
-   0446 DD E5         [15]  150 	push 	ix
-   0448 CD 27 04      [17]  151 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-   044B DD E1         [14]  152 	pop 	ix
-   044D FE 00         [ 7]  153 	cp 	#0			;; A == 0?
-   044F 20 09         [12]  154 	jr	nz, collision_down 	;; checkFrisbeeCollision != 0?
-                            155 
-                            156 		;; no_collision
-   0451 DD 36 0C 00   [19]  157 		ld 	Ent_ay_I(ix), #0
-   0455 DD 36 0D 10   [19]  158 		ld 	Ent_ay_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
-                            159 
-   0459 C9            [10]  160 		ret
-                            161 
-   045A                     162 	collision_down:
-   045A CD C8 02      [17]  163 		call 	frisbee_setOff
+   0493                     149 moveDown:
+   0493 DD 36 0C 00   [19]  150 	ld 	Ent_ay_I(ix), #0
+   0497 DD 36 0D 10   [19]  151 	ld 	Ent_ay_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
+                            152 
+   049B C9            [10]  153 	ret
+                            154 
+                            155 ;; ===============================================
+                            156 ;; Acelera la entidad hacia la izquierda, si puede
+                            157 ;; Entrada:
+                            158 ;; 	IX <= puntero a los datos de la entidad
+                            159 ;; Modifica A, IX
+                            160 ;; ===============================================
+   049C                     161 moveLeft:
+   049C DD 36 0A FF   [19]  162 	ld 	Ent_ax_I(ix), #-1
+   04A0 DD 36 0B F0   [19]  163 	ld 	Ent_ax_F(ix), #-std_acc	;; Ent_ax <= FF(-1)E2(-30) (-30)
                             164 
-   045D C9            [10]  165 		ret
+   04A4 C9            [10]  165 	ret
                             166 
                             167 ;; ===============================================
-                            168 ;; Acelera la entidad hacia la izquierda, si puede
+                            168 ;; Acelera la entidad hacia arriba, si puede
                             169 ;; Entrada:
                             170 ;; 	IX <= puntero a los datos de la entidad
                             171 ;; Modifica A, IX
                             172 ;; ===============================================
-   045E                     173 moveLeft:
-   045E DD E5         [15]  174 	push 	ix
-   0460 CD 27 04      [17]  175 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-   0463 DD E1         [14]  176 	pop 	ix
-   0465 FE 00         [ 7]  177 	cp 	#0			;; A == 0?
-   0467 20 09         [12]  178 	jr	nz, collision_left 	;; checkFrisbeeCollision != 0?
+   04A5                     173 moveUp:
+   04A5 DD 36 0C FF   [19]  174 	ld 	Ent_ay_I(ix), #-1
+   04A9 DD 36 0D F0   [19]  175 	ld 	Ent_ay_F(ix), #-std_acc	;; Ent_ay <= FF(-1)E2(-30) (-30)
+                            176 
+   04AD C9            [10]  177 	ret
+                            178 
                             179 
-                            180 		;; no_collision
-   0469 DD 36 0A FF   [19]  181 		ld 	Ent_ax_I(ix), #-1
-   046D DD 36 0B F0   [19]  182 		ld 	Ent_ax_F(ix), #-std_acc	;; Ent_ax <= FF(-1)E2(-30) (-30)
-                            183 
-   0471 C9            [10]  184 		ret
-                            185 
-   0472                     186 	collision_left:
-   0472 CD C8 02      [17]  187 		call 	frisbee_setOff
-   0475                     188 	cant_move_left:
-   0475 C9            [10]  189 	ret
-                            190 
-                            191 ;; ===============================================
-                            192 ;; Acelera la entidad hacia arriba, si puede
-                            193 ;; Entrada:
-                            194 ;; 	IX <= puntero a los datos de la entidad
-                            195 ;; Modifica A, IX
-                            196 ;; ===============================================
-   0476                     197 moveUp:
-   0476 DD E5         [15]  198 	push 	ix
-   0478 CD 27 04      [17]  199 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-   047B DD E1         [14]  200 	pop 	ix
-   047D FE 00         [ 7]  201 	cp 	#0			;; A == 0?
-   047F 20 09         [12]  202 	jr	nz, collision_up 	;; checkFrisbeeCollision != 0?
-                            203 
+                            180 ;; ===========================================
+                            181 ;; Chequea si un jugador pasa del centro del
+                            182 ;; 	campo y lo corrige en caso necesario
+                            183 ;; Entrada:
+                            184 ;; 	IX <= pointer to entity data
+                            185 ;; Modifica AF, BC, DE, HL
+                            186 ;; ===========================================
+   04AE                     187 checkCenterCrossing:
+   04AE DD 7E 12      [19]  188 	ld 	a, Ent_id(ix)
+   04B1 FE 01         [ 7]  189 	cp 	#1
+   04B3 28 0F         [12]  190 	jr	z, player_1
+   04B5 FE 02         [ 7]  191 		cp	#2
+   04B7 20 1D         [12]  192 		jr	nz, invalid_id
+                            193 			;; player 2
+   04B9 DD 7E 00      [19]  194 			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
+   04BC FE 28         [ 7]  195 			cp	#CENTER_LIMIT
+   04BE 30 16         [12]  196 			jr	nc, not_crossed				;; Ent_x <= CENTER_LIMIT? center crossed
+                            197 				;; center limit crossed
+   04C0 DD 36 00 28   [19]  198 				ld	Ent_x_I(ix), #CENTER_LIMIT
+                            199 
+   04C4                     200 	player_1:
+   04C4 DD 7E 00      [19]  201 			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
+   04C7 DD 86 05      [19]  202 			add	a, Ent_w(ix)				;; A <= Ent_x + Ent_w
+   04CA FE 28         [ 7]  203 			cp	#CENTER_LIMIT
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
 Hexadecimal [16-Bits]
 
 
 
-                            204 		;; no_collision
-   0481 DD 36 0C FF   [19]  205 		ld 	Ent_ay_I(ix), #-1
-   0485 DD 36 0D F0   [19]  206 		ld 	Ent_ay_F(ix), #-std_acc	;; Ent_ay <= FF(-1)E2(-30) (-30)
-                            207 
-   0489 C9            [10]  208 		ret
+   04CC 38 08         [12]  204 			jr	c, not_crossed				;; Ent_x + Ent_w > CENTER_LIMIT? center crossed
+                            205 				;; center limit crossed
+   04CE 3E 28         [ 7]  206 				ld	a, #CENTER_LIMIT
+   04D0 DD 96 05      [19]  207 				sub	Ent_w(ix)			;; A <= CENTER_LIMIT - Ent_w
+   04D3 DD 77 00      [19]  208 				ld	Ent_x_I(ix), a			;; Ent_x = CENTER_LIMIT - Ent_w
                             209 
-   048A                     210 	collision_up:
-   048A CD C8 02      [17]  211 		call 	frisbee_setOff
-   048D                     212 	cant_move_up:
-   048D C9            [10]  213 	ret
+   04D6                     210 	invalid_id:
+   04D6                     211 	not_crossed:
+   04D6 C9            [10]  212 	ret
+                            213 
                             214 
-                            215 
-                            216 ;; ===========================================
-                            217 ;; Chequea si un jugador pasa del centro del
-                            218 ;; 	campo y lo corrige en caso necesario
-                            219 ;; Entrada:
-                            220 ;; 	IX <= pointer to entity data
-                            221 ;; Modifica AF, BC, DE, HL
-                            222 ;; ===========================================
-   048E                     223 checkCenterCrossing:
-   048E DD 7E 12      [19]  224 	ld 	a, Ent_id(ix)
-   0491 FE 01         [ 7]  225 	cp 	#1
-   0493 28 0F         [12]  226 	jr	z, player_1
-   0495 FE 02         [ 7]  227 		cp	#2
-   0497 20 1D         [12]  228 		jr	nz, invalid_id
-                            229 			;; player 2
-   0499 DD 7E 00      [19]  230 			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
-   049C FE 28         [ 7]  231 			cp	#CENTER_LIMIT
-   049E 30 16         [12]  232 			jr	nc, not_crossed				;; Ent_x <= CENTER_LIMIT? center crossed
-                            233 				;; center limit crossed
-   04A0 DD 36 00 28   [19]  234 				ld	Ent_x_I(ix), #CENTER_LIMIT
-                            235 
-   04A4                     236 	player_1:
-   04A4 DD 7E 00      [19]  237 			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
-   04A7 DD 86 05      [19]  238 			add	a, Ent_w(ix)				;; A <= Ent_x + Ent_w
-   04AA FE 28         [ 7]  239 			cp	#CENTER_LIMIT
-   04AC 38 08         [12]  240 			jr	c, not_crossed				;; Ent_x + Ent_w > CENTER_LIMIT? center crossed
-                            241 				;; center limit crossed
-   04AE 3E 28         [ 7]  242 				ld	a, #CENTER_LIMIT
-   04B0 DD 96 05      [19]  243 				sub	Ent_w(ix)			;; A <= CENTER_LIMIT - Ent_w
-   04B3 DD 77 00      [19]  244 				ld	Ent_x_I(ix), a			;; Ent_x = CENTER_LIMIT - Ent_w
-                            245 
-                            246 
-   04B6                     247 	invalid_id:
-   04B6                     248 	not_crossed:
-   04B6 C9            [10]  249 	ret
-                            250 
-                            251 
-                            252 ;; ====================================
-                            253 ;; Lee la entrada del teclado
-                            254 ;; Entrada:
-                            255 ;; 	IX <= pointer to entity data
-                            256 ;; Modifica AF, BC, DE, HL
-                            257 ;; ====================================
-   04B7                     258 checkUserInput:
+                            215 ;; ====================================
+                            216 ;; Lee la entrada del teclado
+                            217 ;; Entrada:
+                            218 ;; 	IX <= pointer to entity data
+                            219 ;; Modifica AF, BC, DE, HL, IX
+                            220 ;; ====================================
+   04D7                     221 checkUserInput:
+   04D7 CD AD 06      [17]  222 	call cpct_scanKeyboard_asm
+                            223 
+   04DA 21 07 20      [10]  224 	ld 	hl, #Key_D			;; HL = D Keycode
+   04DD CD 9D 05      [17]  225 	call 	cpct_isKeyPressed_asm 		;; A = True/False
+   04E0 FE 00         [ 7]  226 	cp 	#0 				;; A == 0?
+   04E2 28 03         [12]  227 	jr 	z, d_not_pressed
+                            228 		;; D is pressed
+   04E4 CD 8A 04      [17]  229 		call 	moveRight	
+   04E7                     230 	d_not_pressed:
+                            231 
+   04E7 21 08 20      [10]  232 	ld 	hl, #Key_A			;; HL = A Keycode
+   04EA CD 9D 05      [17]  233 	call 	cpct_isKeyPressed_asm 		;; A = True/False
+   04ED FE 00         [ 7]  234 	cp 	#0 				;; A == 0?
+   04EF 28 03         [12]  235 	jr 	z, a_not_pressed
+                            236 		;; A is pressed	
+   04F1 CD 9C 04      [17]  237 		call 	moveLeft
+   04F4                     238 	a_not_pressed:
+                            239 
+   04F4 21 07 08      [10]  240 	ld 	hl, #Key_W			;; HL = W Keycode
+   04F7 CD 9D 05      [17]  241 	call 	cpct_isKeyPressed_asm 		;; A = True/False
+   04FA FE 00         [ 7]  242 	cp 	#0 				;; A == 0?
+   04FC 28 03         [12]  243 	jr 	z, w_not_pressed
+                            244 		;; W is pressed
+   04FE CD A5 04      [17]  245 		call 	moveUp	
+   0501                     246 	w_not_pressed:
+                            247 
+   0501 21 07 10      [10]  248 	ld 	hl, #Key_S			;; HL = S Keycode
+   0504 CD 9D 05      [17]  249 	call 	cpct_isKeyPressed_asm 		;; A = True/False
+   0507 FE 00         [ 7]  250 	cp 	#0 				;; A == 0?
+   0509 28 03         [12]  251 	jr 	z, s_not_pressed
+                            252 		;; S is pressed	
+   050B CD 93 04      [17]  253 		call 	moveDown
+   050E                     254 	s_not_pressed:
+                            255 
+                            256 
+   050E CD 12 05      [17]  257 	call checkVandB
+   0511 C9            [10]  258 	ret
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
 Hexadecimal [16-Bits]
 
 
 
-   04B7 CD 72 06      [17]  259 	call cpct_scanKeyboard_asm
+                            259 
                             260 
-   04BA 21 07 20      [10]  261 	ld 	hl, #Key_D			;; HL = D Keycode
-   04BD CD 65 05      [17]  262 	call 	cpct_isKeyPressed_asm 		;; A = True/False
-   04C0 FE 00         [ 7]  263 	cp 	#0 				;; A == 0?
-   04C2 28 03         [12]  264 	jr 	z, d_not_pressed
-                            265 		;; D is pressed
-   04C4 CD 2E 04      [17]  266 		call 	moveRight	
-   04C7                     267 	d_not_pressed:
-                            268 
-   04C7 21 08 20      [10]  269 	ld 	hl, #Key_A			;; HL = A Keycode
-   04CA CD 65 05      [17]  270 	call 	cpct_isKeyPressed_asm 		;; A = True/False
-   04CD FE 00         [ 7]  271 	cp 	#0 				;; A == 0?
-   04CF 28 03         [12]  272 	jr 	z, a_not_pressed
-                            273 		;; A is pressed	
-   04D1 CD 5E 04      [17]  274 		call 	moveLeft
-   04D4                     275 	a_not_pressed:
-                            276 
-   04D4 21 07 08      [10]  277 	ld 	hl, #Key_W			;; HL = W Keycode
-   04D7 CD 65 05      [17]  278 	call 	cpct_isKeyPressed_asm 		;; A = True/False
-   04DA FE 00         [ 7]  279 	cp 	#0 				;; A == 0?
-   04DC 28 03         [12]  280 	jr 	z, w_not_pressed
-                            281 		;; W is pressed
-   04DE CD 76 04      [17]  282 		call 	moveUp	
-   04E1                     283 	w_not_pressed:
-                            284 
-   04E1 21 07 10      [10]  285 	ld 	hl, #Key_S			;; HL = S Keycode
-   04E4 CD 65 05      [17]  286 	call 	cpct_isKeyPressed_asm 		;; A = True/False
-   04E7 FE 00         [ 7]  287 	cp 	#0 				;; A == 0?
-   04E9 28 03         [12]  288 	jr 	z, s_not_pressed
-                            289 		;; S is pressed	
-   04EB CD 46 04      [17]  290 		call 	moveDown
-   04EE                     291 	s_not_pressed:
-                            292 
-                            293 
-   04EE DD E5         [15]  294 	push 	ix
-   04F0 CD 27 04      [17]  295 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
-   04F3 DD E1         [14]  296 	pop 	ix
-   04F5 FE 00         [ 7]  297 	cp 	#0			;; A == 0?
-   04F7 28 3F         [12]  298 	jr	z, b_not_pressed 	;; checkFrisbeeCollision == 0?
-                            299 
-   04F9 21 06 80      [10]  300 		ld 	hl, #Key_V			;; HL = V Keycode
-   04FC CD 65 05      [17]  301 		call 	cpct_isKeyPressed_asm 		;; A = True/False
-   04FF FE 00         [ 7]  302 		cp 	#0 				;; A == 0?
-   0501 28 15         [12]  303 		jr 	z, v_not_pressed
-                            304 			;; V is pressed	
-   0503 21 06 40      [10]  305 			ld 	hl, #Key_B			;; HL = B Keycode
-   0506 CD 65 05      [17]  306 			call 	cpct_isKeyPressed_asm 		;; A = True/False
-   0509 FE 00         [ 7]  307 			cp 	#0 				;; A == 0?
-   050B 28 02         [12]  308 			jr 	z, just_v_pressed
-                            309 				;; V and B are pressed
-   050D 18 1A         [12]  310 				jr vorb_pressed
-   050F                     311 			just_v_pressed:
-   050F 26 FF         [ 7]  312 				ld 	h, #-1
-   0511 26 08         [ 7]  313 				ld 	h, #std_eff
+                            261 ;; ====================================
+                            262 ;; Funcion auxiliar para leer V y B
+                            263 ;;	de la entrada por teclado
+                            264 ;; Entrada:
+                            265 ;; 	IX <= pointer to entity data
+                            266 ;; Modifica AF, BC, DE, HL
+                            267 ;; ====================================
+   0512                     268 checkVandB:
+   0512 DD E5         [15]  269 	push 	ix
+   0514 CD 83 04      [17]  270 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
+   0517 DD E1         [14]  271 	pop 	ix
+   0519 FE 00         [ 7]  272 	cp 	#0			;; A == 0?
+   051B 28 4B         [12]  273 	jr	z, b_not_pressed 	;; checkFrisbeeCollision == 0?
+                            274 
+   051D 21 06 80      [10]  275 		ld 	hl, #Key_V			;; HL = V Keycode
+   0520 CD 9D 05      [17]  276 		call 	cpct_isKeyPressed_asm 		;; A = True/False
+   0523 FE 00         [ 7]  277 		cp 	#0 				;; A == 0?
+   0525 28 1E         [12]  278 		jr 	z, v_not_pressed
+                            279 			;; V is pressed	
+   0527 21 06 40      [10]  280 			ld 	hl, #Key_B			;; HL = B Keycode
+   052A CD 9D 05      [17]  281 			call 	cpct_isKeyPressed_asm 		;; A = True/False
+   052D FE 00         [ 7]  282 			cp 	#0 				;; A == 0?
+   052F 28 08         [12]  283 			jr 	z, just_v_pressed
+                            284 				;; V and B are pressed
+   0531 21 00 00      [10]  285 				ld 	hl, #0			;; HL <= standard effect
+   0534 CD 20 03      [17]  286 				call frisbee_setEffect		;; efecto hacia abajo
+   0537 18 20         [12]  287 				jr vorb_pressed
+   0539                     288 			just_v_pressed:
+   0539 21 F8 FF      [10]  289 				ld 	hl, #std_N_eff		;; HL <= -standard effect
+   053C DD E5         [15]  290 				push 	ix
+   053E CD 20 03      [17]  291 				call frisbee_setEffect		;; efecto hacia arriba
+   0541 DD E1         [14]  292 				pop 	ix
+   0543 18 14         [12]  293 				jr 	vorb_pressed
+   0545                     294 		v_not_pressed:
+                            295 
+   0545 21 06 40      [10]  296 			ld 	hl, #Key_B			;; HL = B Keycode
+   0548 CD 9D 05      [17]  297 			call 	cpct_isKeyPressed_asm 		;; A = True/False
+   054B FE 00         [ 7]  298 			cp 	#0 				;; A == 0?
+   054D 28 19         [12]  299 			jr 	z, b_not_pressed
+                            300 				;; B is pressed
+   054F 21 08 00      [10]  301 				ld 	hl, #std_eff		;; HL <= standard effect
+   0552 DD E5         [15]  302 				push 	ix
+   0554 CD 20 03      [17]  303 				call frisbee_setEffect		;; efecto hacia abajo
+   0557 DD E1         [14]  304 				pop 	ix
+                            305 
+   0559                     306 				vorb_pressed:
+   0559 DD 66 06      [19]  307 				ld	h, Ent_vx_I(ix)		;;
+   055C DD 6E 07      [19]  308 				ld	l, Ent_vx_F(ix)		;;
+   055F DD 56 08      [19]  309 				ld	d, Ent_vy_I(ix)		;;
+   0562 DD 5E 09      [19]  310 				ld	e, Ent_vy_F(ix)		;;
+   0565 CD 0F 03      [17]  311 				call frisbee_setVelocities	;; transferimos las velocidades de la entidad al frisbee
+                            312 
+   0568                     313 	b_not_pressed:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
 Hexadecimal [16-Bits]
 
 
 
-   0513 CD E7 02      [17]  314 				call frisbee_setEffect		;; efecto hacia arriba
-   0516 18 11         [12]  315 				jr 	vorb_pressed
-   0518                     316 		v_not_pressed:
-                            317 
-   0518 21 06 40      [10]  318 			ld 	hl, #Key_B			;; HL = B Keycode
-   051B CD 65 05      [17]  319 			call 	cpct_isKeyPressed_asm 		;; A = True/False
-   051E FE 00         [ 7]  320 			cp 	#0 				;; A == 0?
-   0520 28 16         [12]  321 			jr 	z, b_not_pressed
-                            322 				;; B is pressed
-   0522 26 00         [ 7]  323 				ld 	h, #0
-   0524 26 08         [ 7]  324 				ld 	h, #std_eff
-   0526 CD E7 02      [17]  325 				call frisbee_setEffect		;; efecto hacia arriba
-                            326 
-   0529                     327 				vorb_pressed:
-   0529 DD 66 06      [19]  328 				ld	h, Ent_vx_I(ix)		;;
-   052C DD 6E 07      [19]  329 				ld	l, Ent_vx_F(ix)		;;
-   052F DD 56 08      [19]  330 				ld	d, Ent_vy_I(ix)		;;
-   0532 DD 5E 09      [19]  331 				ld	e, Ent_vy_F(ix)		;;
-   0535 CD D6 02      [17]  332 				call frisbee_setVelocities	;; transferimos la velocidad de la entidad al frisbee
-                            333 
-   0538                     334 	b_not_pressed:
-   0538 C9            [10]  335 	ret
-                            336 
+   0568 C9            [10]  314 	ret

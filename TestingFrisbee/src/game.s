@@ -14,8 +14,10 @@
 .equ Game_type, 	0	;; Game mode
 .equ Game_map_L, 	1	;; Low part of pointer to game map
 .equ Game_map_H, 	2	;; High part of pointer to game map
-.equ Game_time_H, 	3	;; High part of match time
-.equ Game_time_L, 	4	;; Low part of match time
+.equ Game_fTime_H, 	3	;; High part of final match time
+.equ Game_fTime_L, 	4	;; Low part of final match time
+.equ Game_t1points, 	5	;; Points of team 1
+.equ Game_t2points, 	6	;; Points of team 2
 
 .equ RIGHT_LIMIT,	80
 .equ LEFT_LIMIT,	0
@@ -31,7 +33,6 @@
 
 ;; .equ mi_constante0, 0
 ;; .equ mi_constante1, 1
-
 	
 ;; ====================================
 ;; ====================================
@@ -70,6 +71,7 @@ gameStart::
 	;;	ld 	Game_time_H(ix), #0
 	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
 
+
 	call 	initializeGame
 	;; Configuration staff...
 	;; Configuration staff...
@@ -99,6 +101,9 @@ initializeGame:
 	;; ld 	hl, #direccion_paleta
 	;; ld 	de, #16
 	;; call cpct_setPalette_asm
+	
+	ld 	Game_t1points(ix), #0
+	ld 	Game_t2points(ix), #0		;; Initialize points to 0
 
 	ret
 
