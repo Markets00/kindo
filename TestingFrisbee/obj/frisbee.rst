@@ -23,7 +23,7 @@ Hexadecimal [16-Bits]
                               9 .globl entityUpdatePhysics
                              10 .globl entityUpdatePosition
                              11 
-                             12 .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr, id
+                             12 .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
                              13 	name'_data::
                              14 		name'_x:	.dw x		;; X coordinate			(16 bits)
                              15 		name'_y:	.dw y		;; Y coordinate			(16 bits)
@@ -33,40 +33,51 @@ Hexadecimal [16-Bits]
                              19 		name'_vy:	.dw vy		;; Velocity at Y axis		(16 bits)
                              20 		name'_ax:	.dw ax		;; Acceleration at X axis	(16 bits)
                              21 		name'_ay:	.dw ay		;; Acceleration at Y axis	(16 bits)
-                             22 		name'_state:	.db state	;; Entity enabled/disabled	(8 bits)
-                             23 		name'_clr:	.db clr		;; Entity color pattern		(8 bits)
-                             24 		name'_id:	.db id		;; Numeric ID			(8 bits)
-                             25 .endm
-                             26 
+                             22 		name'_normal:	.dw normal	;; Normal force			(16 bits)
+                             23 		name'_state:	.db state	;; Entity enabled/disabled	(8 bits)
+                             24 		name'_clr:	.db clr		;; Entity color pattern		(8 bits)
+                             25 		name'_id:	.db id		;; Numeric ID			(8 bits)
+                             26 .endm
                              27 
-                             28 ;; ====================================
+                             28 
                              29 ;; ====================================
-                             30 ;; ENTITY PUBLIC DATA
-                             31 ;; ====================================
+                             30 ;; ====================================
+                             31 ;; ENTITY PUBLIC DATA
                              32 ;; ====================================
-                     0000    33 .equ Ent_x_I, 	0	;; X coordinate, integer part
-                     0001    34 .equ Ent_x_F, 	1	;; X coordinate, fractional part
-                     0002    35 .equ Ent_y_I, 	2	;; Y coordinate, integer part
-                     0003    36 .equ Ent_y_F, 	3	;; Y coordinate, fractional part
-                     0004    37 .equ Ent_h, 	4	;; Height
-                     0005    38 .equ Ent_w, 	5	;; Width
-                     0006    39 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part
-                     0007    40 .equ Ent_vx_F,	7	;; Velocity at X axis, fractional part
-                     0008    41 .equ Ent_vy_I,	8	;; Velocity at Y axis, integer part
-                     0009    42 .equ Ent_vy_F,	9	;; Velocity at Y axis, fractional part
-                     000A    43 .equ Ent_ax_I,	10	;; Acceleration at X axis, integer part
-                     000B    44 .equ Ent_ax_F,	11	;; Acceleration at X axis, fractional part
-                     000C    45 .equ Ent_ay_I,	12	;; Acceleration at Y axis, integer part
-                     000D    46 .equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
-                     000E    47 .equ Ent_state,	14	;; Entity enabled/disabled
-                     000F    48 .equ Ent_clr, 	15	;; Entity color pattern
-                     0010    49 .equ Ent_id, 	16	;; Numeric ID
-                             50 
-                     0002    51 .equ MAX_VEL_X, 2 
-                     FFFFFFFE    52 .equ MIN_VEL_X, -2
-                     0004    53 .equ MAX_VEL_Y, 4
-                     FFFFFFFC    54 .equ MIN_VEL_Y, -4
+                             33 ;; ====================================
+                     0000    34 .equ Ent_x_I, 	0	;; X coordinate, integer part
+                     0001    35 .equ Ent_x_F, 	1	;; X coordinate, fractional part
+                     0002    36 .equ Ent_y_I, 	2	;; Y coordinate, integer part
+                     0003    37 .equ Ent_y_F, 	3	;; Y coordinate, fractional part
+                     0004    38 .equ Ent_h, 	4	;; Height
+                     0005    39 .equ Ent_w, 	5	;; Width
+                     0006    40 .equ Ent_vx_I,	6	;; Velocity at X axis, integer part
+                     0007    41 .equ Ent_vx_F,	7	;; Velocity at X axis, fractional part
+                     0008    42 .equ Ent_vy_I,	8	;; Velocity at Y axis, integer part
+                     0009    43 .equ Ent_vy_F,	9	;; Velocity at Y axis, fractional part
+                     000A    44 .equ Ent_ax_I,	10	;; Acceleration at X axis, integer part
+                     000B    45 .equ Ent_ax_F,	11	;; Acceleration at X axis, fractional part
+                     000C    46 .equ Ent_ay_I,	12	;; Acceleration at Y axis, integer part
+                     000D    47 .equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
+                     000E    48 .equ Ent_N_I,	14	;; Normal force, integer part
+                     000F    49 .equ Ent_N_F,	15	;; Normal force, fractional part
+                     0010    50 .equ Ent_state,	16	;; Entity enabled/disabled
+                     0011    51 .equ Ent_clr, 	17	;; Entity color pattern
+                     0012    52 .equ Ent_id, 	18	;; Numeric ID
+                             53 			;; Frisbee 	0
+                             54 			;; Player1 	1
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             55 			;; Enemy1	2
+                             56 
+                     0002    57 .equ MAX_VEL_X, 2 
+                     FFFFFFFE    58 .equ MIN_VEL_X, -2
+                     0004    59 .equ MAX_VEL_Y, 4
+                     FFFFFFFC    60 .equ MIN_VEL_Y, -4
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 
@@ -85,14 +96,14 @@ Hexadecimal [16-Bits]
                              11 .globl cpct_disableFirmware_asm
                              12 .globl cpct_setVideoMode_asm
                              13 .globl cpct_setPalette_asm
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
 
 
                               6 
-                     0011     7 .equ Frisbee_effect_I, 17
-                     0012     8 .equ Frisbee_effect_F, 18
+                     0013     7 .equ Frisbee_effect_I, 19
+                     0014     8 .equ Frisbee_effect_F, 20
                      0008     9 .equ std_eff, 08
                              10 ;; ====================================
                              11 ;; ====================================
@@ -102,20 +113,21 @@ Hexadecimal [16-Bits]
                              15 
                              16 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
                              17 
-   024D                      18 defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #1, #0x0F, #0
+   02B3                      18 defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
    0000                       1 	frisbee_data::
-   024D 4E 00                 2 		frisbee_x:	.dw #0x0050-0x0002		;; X coordinate			(16 bits)
-   024F 54 00                 3 		frisbee_y:	.dw #0x0054		;; Y coordinate			(16 bits)
-   0251 08                    4 		frisbee_h:	.db #8		;; Height			(8 bits)
-   0252 02                    5 		frisbee_w:	.db #2		;; Width			(8 bits)
-   0253 FF 10                 6 		frisbee_vx:	.dw #0x10FF		;; Velocity at X axis 		(16 bits)
-   0255 00 00                 7 		frisbee_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
-   0257 00 00                 8 		frisbee_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
-   0259 00 00                 9 		frisbee_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
-   025B 01                   10 		frisbee_state:	.db #1	;; Entity enabled/disabled	(8 bits)
-   025C 0F                   11 		frisbee_clr:	.db #0x0F		;; Entity color pattern		(8 bits)
-   025D 00                   12 		frisbee_id:	.db #0		;; Numeric ID			(8 bits)
-   025E 00 08                19 	frisbee_effect: .dw #0x0800									;; effect
+   02B3 4E 00                 2 		frisbee_x:	.dw #0x0050-0x0002		;; X coordinate			(16 bits)
+   02B5 54 00                 3 		frisbee_y:	.dw #0x0054		;; Y coordinate			(16 bits)
+   02B7 08                    4 		frisbee_h:	.db #8		;; Height			(8 bits)
+   02B8 02                    5 		frisbee_w:	.db #2		;; Width			(8 bits)
+   02B9 FF 10                 6 		frisbee_vx:	.dw #0x10FF		;; Velocity at X axis 		(16 bits)
+   02BB 00 00                 7 		frisbee_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   02BD 00 00                 8 		frisbee_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   02BF 00 00                 9 		frisbee_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   02C1 00 01                10 		frisbee_normal:	.dw #0x0100	;; Normal force			(16 bits)
+   02C3 01                   11 		frisbee_state:	.db #1	;; Entity enabled/disabled	(8 bits)
+   02C4 0F                   12 		frisbee_clr:	.db #0x0F		;; Entity color pattern		(8 bits)
+   02C5 00                   13 		frisbee_id:	.db #0		;; Numeric ID			(8 bits)
+   02C6 00 08                19 	frisbee_effect: .dw #0x0800									;; effect
                              20 
                              21 
                              22 
@@ -136,21 +148,21 @@ Hexadecimal [16-Bits]
                              37 ;; Desactiva el frisbee
                              38 ;; Modifica A
                              39 ;; =========================================
-   0260                      40 frisbee_setOff::
-   0260 3E 00         [ 7]   41 	ld 	a, #0
-   0262 32 5B 02      [13]   42 	ld 	(frisbee_state), a
-   0265 C9            [10]   43 	ret
+   02C8                      40 frisbee_setOff::
+   02C8 3E 00         [ 7]   41 	ld 	a, #0
+   02CA 32 C3 02      [13]   42 	ld 	(frisbee_state), a
+   02CD C9            [10]   43 	ret
                              44 
-   0266                      45 frisbee_erase::
-   0266 DD 21 4D 02   [14]   46 	ld 	ix, #frisbee_data
-   026A CD 1B 01      [17]   47 	call entityErase		;; Pintar cuadrado azul fondo
-                             48 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+   02CE                      45 frisbee_erase::
+   02CE DD 21 B3 02   [14]   46 	ld 	ix, #frisbee_data
+   02D2 CD 1B 01      [17]   47 	call entityErase		;; Pintar cuadrado azul fondo
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 
 
-   026D C9            [10]   49 	ret
+                             48 
+   02D5 C9            [10]   49 	ret
                              50 
                              51 
                              52 ;; ================================================
@@ -161,13 +173,13 @@ Hexadecimal [16-Bits]
                              57 ;; 	DE <= Y axis velocity
                              58 ;; Modifica: HL, IX
                              59 ;; ================================================
-   026E                      60 frisbee_setVelocities::
-   026E DD 21 4D 02   [14]   61 	ld 	ix, #frisbee_data
-   0272 DD 74 06      [19]   62 	ld 	Ent_vx_I(ix), h
-   0275 DD 75 07      [19]   63 	ld 	Ent_vx_F(ix), l
-   0278 DD 72 08      [19]   64 	ld 	Ent_vy_I(ix), d
-   027B DD 73 09      [19]   65 	ld 	Ent_vy_F(ix), e
-   027E C9            [10]   66 	ret
+   02D6                      60 frisbee_setVelocities::
+   02D6 DD 21 B3 02   [14]   61 	ld 	ix, #frisbee_data
+   02DA DD 74 06      [19]   62 	ld 	Ent_vx_I(ix), h
+   02DD DD 75 07      [19]   63 	ld 	Ent_vx_F(ix), l
+   02E0 DD 72 08      [19]   64 	ld 	Ent_vy_I(ix), d
+   02E3 DD 73 09      [19]   65 	ld 	Ent_vy_F(ix), e
+   02E6 C9            [10]   66 	ret
                              67 
                              68 
                              69 ;; ===========================================
@@ -177,44 +189,44 @@ Hexadecimal [16-Bits]
                              73 ;; 	HL <= Effect value
                              74 ;; Modifica A
                              75 ;; ===========================================
-   027F                      76 frisbee_setEffect::
-   027F 22 5E 02      [16]   77 	ld 	(frisbee_effect), hl
-   0282 C9            [10]   78 	ret
+   02E7                      76 frisbee_setEffect::
+   02E7 22 C6 02      [16]   77 	ld 	(frisbee_effect), hl
+   02EA C9            [10]   78 	ret
                              79 
                              80 ;; =========================================
                              81 ;; Actualiza el estado del frisbee
                              82 ;; Modifica A
                              83 ;; =========================================
-   0283                      84 frisbee_update::
+   02EB                      84 frisbee_update::
                              85 
-   0283 3A 5B 02      [13]   86 	ld 	a, (frisbee_state)	;; A <= frisbee_state
-   0286 FE 01         [ 7]   87 	cp 	#1
-   0288 20 0E         [12]   88 	jr 	nz, not_active		;; A != 1?
+   02EB 3A C3 02      [13]   86 	ld 	a, (frisbee_state)	;; A <= frisbee_state
+   02EE FE 01         [ 7]   87 	cp 	#1
+   02F0 20 0E         [12]   88 	jr 	nz, not_active		;; A != 1?
                              89 	
                              90 		;; Active
-   028A DD 21 4D 02   [14]   91 		ld 	ix, #frisbee_data
-   028E CD A6 02      [17]   92 		call frisbee_applyEffect 	
-   0291 CD 34 01      [17]   93 		call entityUpdatePhysics
-   0294 CD DA 01      [17]   94 		call entityUpdatePosition
+   02F2 DD 21 B3 02   [14]   91 		ld 	ix, #frisbee_data
+   02F6 CD 0E 03      [17]   92 		call frisbee_applyEffect 	
+   02F9 CD 34 01      [17]   93 		call entityUpdatePhysics
+   02FC CD 3C 02      [17]   94 		call entityUpdatePosition
                              95 		;; call moveLeft
-   0297 C9            [10]   96 		ret
+   02FF C9            [10]   96 		ret
                              97 
-   0298                      98 	not_active:
-   0298 3E 01         [ 7]   99 		ld 	a, #1
-   029A 32 5B 02      [13]  100 		ld 	(frisbee_state), a
-   029D C9            [10]  101 	ret
+   0300                      98 	not_active:
+   0300 3E 01         [ 7]   99 		ld 	a, #1
+   0302 32 C3 02      [13]  100 		ld 	(frisbee_state), a
+   0305 C9            [10]  101 	ret
                             102 
-   029E                     103 frisbee_draw::
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 
 
+   0306                     103 frisbee_draw::
                             104 
-   029E DD 21 4D 02   [14]  105 	ld 	ix, #frisbee_data
-   02A2 CD 01 01      [17]  106 	call entityDraw 		;; Pintar cuadrado azul cian
+   0306 DD 21 B3 02   [14]  105 	ld 	ix, #frisbee_data
+   030A CD 01 01      [17]  106 	call entityDraw 		;; Pintar cuadrado azul cian
                             107 
-   02A5 C9            [10]  108 	ret
+   030D C9            [10]  108 	ret
                             109 	
                             110 ;; ====================================
                             111 ;; ====================================
@@ -229,60 +241,60 @@ Hexadecimal [16-Bits]
                             120 ;; 	IX <= Pointer to entity data
                             121 ;; Modifica A
                             122 ;; ===========================================
-   02A6                     123 frisbee_applyEffect:
+   030E                     123 frisbee_applyEffect:
                             124 
                             125 	;; vy' = vy + ay
-   02A6 DD 66 08      [19]  126 	ld 	h, Ent_vy_I(ix)
-   02A9 DD 6E 09      [19]  127 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
-   02AC DD 56 11      [19]  128 	ld 	d, Frisbee_effect_I(ix)
-   02AF DD 5E 12      [19]  129 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
+   030E DD 66 08      [19]  126 	ld 	h, Ent_vy_I(ix)
+   0311 DD 6E 09      [19]  127 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+   0314 DD 56 13      [19]  128 	ld 	d, Frisbee_effect_I(ix)
+   0317 DD 5E 14      [19]  129 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
                             130 
-   02B2 19            [11]  131 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
-   02B3 7C            [ 4]  132 	ld 	a, h
-   02B4 FE 04         [ 7]  133 	cp 	#MAX_VEL_Y
-   02B6 F2 C4 02      [10]  134 	jp 	p, cant_accelerate_y
+   031A 19            [11]  131 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
+   031B 7C            [ 4]  132 	ld 	a, h
+   031C FE 04         [ 7]  133 	cp 	#MAX_VEL_Y
+   031E F2 2C 03      [10]  134 	jp 	p, cant_accelerate_y
                             135 		;; vy' < MIN_VEL_Y
-   02B9 FE FC         [ 7]  136 		cp 	#MIN_VEL_Y
-   02BB FA C4 02      [10]  137 		jp 	m, cant_accelerate_y
+   0321 FE FC         [ 7]  136 		cp 	#MIN_VEL_Y
+   0323 FA 2C 03      [10]  137 		jp 	m, cant_accelerate_y
                             138 			;; vy' > MIN_VEL_Y
                             139 			;; Can accelerate at Y axis
-   02BE DD 74 08      [19]  140 			ld 	Ent_vy_I(ix), h
-   02C1 DD 75 09      [19]  141 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+   0326 DD 74 08      [19]  140 			ld 	Ent_vy_I(ix), h
+   0329 DD 75 09      [19]  141 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
                             142 
-   02C4                     143 	cant_accelerate_y:
+   032C                     143 	cant_accelerate_y:
                             144 
-   02C4 C9            [10]  145 	ret
+   032C C9            [10]  145 	ret
                             146 
                             147 ;; =========================================
                             148 ;; Mueve el frisbee a la derecha un píxel
                             149 ;; Modifica A
                             150 ;; =========================================
-   02C5                     151 moveRight:
-   02C5 3A 4D 02      [13]  152 	ld 	a, (frisbee_x) 		;; A = frisbee_x
-   02C8 FE 4D         [ 7]  153 	cp 	#80-3 			;; A == right_limit - frisbee_width?
-   02CA 28 04         [12]  154 	jr 	z, cant_move_right 		
-   02CC 3C            [ 4]  155 		inc 	a 		;; move right one pixel
-   02CD 32 4D 02      [13]  156 		ld 	(frisbee_x), a
-   02D0                     157 	cant_move_right:
-   02D0 C9            [10]  158 	ret
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+   032D                     151 moveRight:
+   032D 3A B3 02      [13]  152 	ld 	a, (frisbee_x) 		;; A = frisbee_x
+   0330 FE 4D         [ 7]  153 	cp 	#80-3 			;; A == right_limit - frisbee_width?
+   0332 28 04         [12]  154 	jr 	z, cant_move_right 		
+   0334 3C            [ 4]  155 		inc 	a 		;; move right one pixel
+   0335 32 B3 02      [13]  156 		ld 	(frisbee_x), a
+   0338                     157 	cant_move_right:
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 
 
+   0338 C9            [10]  158 	ret
                             159 
                             160 ;; =========================================
                             161 ;; Mueve el frisbee abajo un píxel
                             162 ;; Modifica A
                             163 ;; =========================================
-   02D1                     164 moveDown:
-   02D1 3A 4F 02      [13]  165 	ld 	a, (frisbee_y) 		;; A = frisbee_x
-   02D4 FE BC         [ 7]  166 	cp 	#200-12 		;; A == bottom_limit - frisbee_height?
-   02D6 28 04         [12]  167 	jr 	z, cant_move_down 		
-   02D8 3C            [ 4]  168 		inc 	a 		;; move down one pixel
-   02D9 32 4F 02      [13]  169 		ld 	(frisbee_y), a
-   02DC                     170 	cant_move_down:
-   02DC C9            [10]  171 	ret
+   0339                     164 moveDown:
+   0339 3A B5 02      [13]  165 	ld 	a, (frisbee_y) 		;; A = frisbee_x
+   033C FE BC         [ 7]  166 	cp 	#200-12 		;; A == bottom_limit - frisbee_height?
+   033E 28 04         [12]  167 	jr 	z, cant_move_down 		
+   0340 3C            [ 4]  168 		inc 	a 		;; move down one pixel
+   0341 32 B5 02      [13]  169 		ld 	(frisbee_y), a
+   0344                     170 	cant_move_down:
+   0344 C9            [10]  171 	ret
                             172 
                             173 ;; ===========================================
                             174 ;; Mueve el frisbee a la izquierda un píxel
@@ -290,59 +302,59 @@ Hexadecimal [16-Bits]
                             176 ;; 	IX <= Pointer to entity data
                             177 ;; Modifica A
                             178 ;; ===========================================
-   02DD                     179 moveLeft:
-   02DD DD 7E 00      [19]  180 	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
-   02E0 FE 00         [ 7]  181 	cp 	#0 			;; A == left_limit?
-   02E2 20 07         [12]  182 	jr 	nz, can_move_left 
-   02E4 3E 4E         [ 7]  183 		ld 	a, #80-2 	;; restore initial position
-   02E6 DD 77 00      [19]  184 		ld 	Ent_x_I(IX), a
+   0345                     179 moveLeft:
+   0345 DD 7E 00      [19]  180 	ld 	a, Ent_x_I(IX) 		;; A = frisbee_x
+   0348 FE 00         [ 7]  181 	cp 	#0 			;; A == left_limit?
+   034A 20 07         [12]  182 	jr 	nz, can_move_left 
+   034C 3E 4E         [ 7]  183 		ld 	a, #80-2 	;; restore initial position
+   034E DD 77 00      [19]  184 		ld 	Ent_x_I(IX), a
                             185 		;; ld 	a, #80
                             186 		;; ld 	(frisbee_y), a	
-   02E9 18 0C         [12]  187 		jr 	cant_move_left
-   02EB                     188 	can_move_left:	
-   02EB DD 21 4D 02   [14]  189 		ld	ix, #frisbee_data
-   02EF DD 36 0A FF   [19]  190 		ld 	Ent_ax_I(ix), #-1
-   02F3 DD 36 0B 80   [19]  191 		ld 	Ent_ax_F(ix), #-128	;; Ent_ax <= FF(-1)80(-128) (-128)
+   0351 18 0C         [12]  187 		jr 	cant_move_left
+   0353                     188 	can_move_left:	
+   0353 DD 21 B3 02   [14]  189 		ld	ix, #frisbee_data
+   0357 DD 36 0A FF   [19]  190 		ld 	Ent_ax_I(ix), #-1
+   035B DD 36 0B 80   [19]  191 		ld 	Ent_ax_F(ix), #-128	;; Ent_ax <= FF(-1)80(-128) (-128)
                             192 
-   02F7                     193 	cant_move_left:
-   02F7 C9            [10]  194 	ret
+   035F                     193 	cant_move_left:
+   035F C9            [10]  194 	ret
                             195 
                             196 ;; =========================================
                             197 ;; Mueve el frisbee arriba un píxel
                             198 ;; Modifica A
                             199 ;; =========================================
-   02F8                     200 moveUp:
-   02F8 3A 4F 02      [13]  201 	ld 	a, (frisbee_y) 		;; A = frisbee_y
-   02FB FE 00         [ 7]  202 	cp 	#0 			;; A == top_limit?
-   02FD 28 04         [12]  203 	jr 	z, cant_move_up 		
-   02FF 3D            [ 4]  204 		dec 	a 		;; move up one pixel
-   0300 32 4F 02      [13]  205 		ld 	(frisbee_y), a
-   0303                     206 	cant_move_up:
-   0303 C9            [10]  207 	ret
+   0360                     200 moveUp:
+   0360 3A B5 02      [13]  201 	ld 	a, (frisbee_y) 		;; A = frisbee_y
+   0363 FE 00         [ 7]  202 	cp 	#0 			;; A == top_limit?
+   0365 28 04         [12]  203 	jr 	z, cant_move_up 		
+   0367 3D            [ 4]  204 		dec 	a 		;; move up one pixel
+   0368 32 B5 02      [13]  205 		ld 	(frisbee_y), a
+   036B                     206 	cant_move_up:
+   036B C9            [10]  207 	ret
                             208 
                             209 ;; ================================================
                             210 ;; Pinta un cuadrado en pantalla del color elegido
                             211 ;; Entrada:
                             212 ;; 	A => Colour Pattern
-                            213 ;; Modifica AF, BC, DE, HL
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
 Hexadecimal [16-Bits]
 
 
 
+                            213 ;; Modifica AF, BC, DE, HL
                             214 ;; ================================================
-   0304                     215 drawFrisbee:
-   0304 F5            [11]  216 	push 	af 
-   0305 11 00 C0      [10]  217 	ld 	de, #0xC000 		;; Video memory  pointer
-   0308 3A 4D 02      [13]  218 	ld 	a, (frisbee_x) 
-   030B 4F            [ 4]  219 	ld 	c, a			;; C = frisbee_x
-   030C 3A 4F 02      [13]  220 	ld 	a, (frisbee_y) 
-   030F 47            [ 4]  221 	ld 	b, a 			;; B = frisbee_y
-   0310 CD B3 05      [17]  222 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
+   036C                     215 drawFrisbee:
+   036C F5            [11]  216 	push 	af 
+   036D 11 00 C0      [10]  217 	ld 	de, #0xC000 		;; Video memory  pointer
+   0370 3A B3 02      [13]  218 	ld 	a, (frisbee_x) 
+   0373 4F            [ 4]  219 	ld 	c, a			;; C = frisbee_x
+   0374 3A B5 02      [13]  220 	ld 	a, (frisbee_y) 
+   0377 47            [ 4]  221 	ld 	b, a 			;; B = frisbee_y
+   0378 CD 1F 06      [17]  222 	call cpct_getScreenPtr_asm 	;; HL = frisbee screen pointer
                             223 
-   0313 EB            [ 4]  224 	ex 	de, hl 			;; DE = frisbee screen pointer
-   0314 F1            [10]  225 	pop 	af 			;; A = User selected colour
-   0315 01 02 08      [10]  226 	ld 	bc, #0x0802		;; 8x8 píxeles
-   0318 CD 06 05      [17]  227 	call cpct_drawSolidBox_asm
+   037B EB            [ 4]  224 	ex 	de, hl 			;; DE = frisbee screen pointer
+   037C F1            [10]  225 	pop 	af 			;; A = User selected colour
+   037D 01 02 08      [10]  226 	ld 	bc, #0x0802		;; 8x8 píxeles
+   0380 CD 72 05      [17]  227 	call cpct_drawSolidBox_asm
                             228 
-   031B C9            [10]  229 	ret
+   0383 C9            [10]  229 	ret

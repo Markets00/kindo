@@ -4,8 +4,8 @@
 .include "entity.h.s"
 .include "utility.h.s"
 
-.equ Frisbee_effect_I, 17
-.equ Frisbee_effect_F, 18
+.equ Frisbee_effect_I, 19
+.equ Frisbee_effect_F, 20
 .equ std_eff, 08
 ;; ====================================
 ;; ====================================
@@ -15,7 +15,7 @@
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, state, clr
 
-defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #1, #0x0F, #0
+defineEntity frisbee, #0x0050-0x0002, #0x0054, #8, #2, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
 	frisbee_effect: .dw #0x0800									;; effect
 
 

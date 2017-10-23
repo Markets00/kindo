@@ -24,9 +24,11 @@
 .equ Ent_ax_F,	11	;; Acceleration at X axis, fractional part
 .equ Ent_ay_I,	12	;; Acceleration at Y axis, integer part
 .equ Ent_ay_F,	13	;; Acceleration at Y axis, fractional part
-.equ Ent_state,	14	;; Entity enabled/disabled
-.equ Ent_clr, 	15	;; Entity color pattern
-.equ Ent_id, 	16	;; Numeric ID
+.equ Ent_N_I,	14	;; Normal force, integer part
+.equ Ent_N_F,	15	;; Normal force, fractional part
+.equ Ent_state,	16	;; Entity enabled/disabled
+.equ Ent_clr, 	17	;; Entity color pattern
+.equ Ent_id, 	18	;; Numeric ID
 			;; Frisbee 	0
 			;; Player1 	1
 			;; Enemy1	2
@@ -133,6 +135,78 @@ entityUpdatePhysics::
 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
 
 	cant_accelerate_y:
+
+	;; Apply deceleration X axis
+	ld 	a, Ent_vx_I(ix)		;; A <= vx_I
+	cp 	#0
+	jr 	z, cant_decelerate_x	;; vx_I == 0?
+		;; vx_I != 0
+		jp	m, vx_negative
+			;; vx positive
+
+			ld 	h, Ent_N_I(ix)
+			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
+
+			call 	negateHL		;; HL <= -ent_N
+			ld 	d, h
+			ld 	e, l			;; DE <= -ent_N
+
+			ld 	h, Ent_vx_I(ix)
+			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+
+			add 	hl, de
+
+			jr can_decelerate_x
+
+		vx_negative:
+			ld 	h, Ent_vx_I(ix)
+			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+			ld 	d, Ent_N_I(ix)
+			ld 	e, Ent_N_F(ix)		;; DE <= ent_N
+
+			add 	hl, de
+
+			can_decelerate_x:
+				ld 	Ent_vx_I(ix), h
+				ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+
+	cant_decelerate_x:
+
+	;; Apply deceleration Y axis
+	ld 	a, Ent_vy_I(ix)		;; A <= vy_I
+	cp 	#0
+	jr 	z, cant_decelerate_y	;; vy_I == 0?
+		;; vy_I != 0
+		jp	m, vy_negative
+			;; vy positive
+
+			ld 	h, Ent_N_I(ix)
+			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
+
+			call 	negateHL		;; HL <= -ent_N
+			ld 	d, h
+			ld 	e, l			;; DE <= -ent_N
+
+			ld 	h, Ent_vy_I(ix)
+			ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+
+			add 	hl, de
+
+			jr can_decelerate_y
+
+		vy_negative:
+			ld 	h, Ent_vy_I(ix)
+			ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+			ld 	d, Ent_N_I(ix)
+			ld 	e, Ent_N_F(ix)		;; DE <= ent_N
+
+			add 	hl, de
+
+			can_decelerate_y:
+				ld 	Ent_vy_I(ix), h
+				ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+
+	cant_decelerate_y:
 
 	ld 	Ent_ax_I(ix), #0	;; 
 	ld 	Ent_ax_F(ix), #0	;; ax = 0
@@ -308,13 +382,7 @@ entityUpdatePosition::
 			ld 	h, Ent_vy_I(ix)
 			ld 	l, Ent_vy_F(ix)		;; HL <= Ent_vy
 
-			ld 	a, #0			;;
-			xor	a			;;
-			sub	l			;;
-			ld	l,a			;;
-			sbc	a,a			;;
-			sub	h			;;
-			ld	h,a			;; negate HL
+			call 	negateHL
 
 			ld 	Ent_vy_I(ix), h
 			ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL negated
@@ -329,3 +397,23 @@ entityUpdatePosition::
 ;; ====================================
 ;; ====================================
 
+
+
+;; =========================================
+;; Inverts HL value
+;; Entrada:
+;; 	HL => value we are going to negate
+;; Modifica AF
+;; Devuelve:
+;; 	HL <= HL value negated
+;; =========================================
+negateHL:
+	ld 	a, #0			;;
+	xor	a			;;
+	sub	l			;;
+	ld	l,a			;;
+	sbc	a,a			;;
+	sub	h			;;
+	ld	h,a			;; negate HL
+
+	ret
