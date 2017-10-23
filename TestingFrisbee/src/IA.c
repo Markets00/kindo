@@ -27,6 +27,7 @@ typedef struct {
 	u8 		h, w;			// alto y ancho
 	i16		vx, vy;			// velocidad en el eje x e y
 	i16		ax, ay;			// aceleración en el eje x e y
+	i16		normal;			// fuerza normal (deceleración)
 	u8		last_x,erase_x;	// última x dibujada y la que se debe borrar en el buffer
 	u8		last_y,erase_y;	// última y dibujada y la que se debe borrar en el buffer
 	u8		state;			// estado
