@@ -147,49 +147,72 @@ entityUpdatePhysics::
 	;; Apply deceleration X axis
 	ld 	a, Ent_vx_I(ix)		;; A <= vx_I
 	cp 	#0
-	;;jr 	z, cant_decelerate_x	;; vx_I == 0?
-		;; vx_I != 0
-	jp	m, vx_negative
-		;; vx positive
+	jr	z, check_ax
 
-		ld 	h, Ent_N_I(ix)
-		ld 	l, Ent_N_F(ix)		;; HL <= ent_N
+	check_vx:
+		ld 	a, Ent_vx_I(ix)		;; A <= vx_I
+		cp 	#0
+		jp	m, vx_negative
+			;; vx positive
 
-		call 	negateHL		;; HL <= -ent_N
+			ld 	h, Ent_N_I(ix)
+			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
 
-		ld 	d, h
-		ld 	e, l			;; DE <= -ent_N
+			call 	negateHL		;; HL <= -ent_N
 
-		ld 	h, Ent_vx_I(ix)
-		ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+			ld 	d, h
+			ld 	e, l			;; DE <= -ent_N
 
-		add 	hl, de
-		jr	c, can_decelerate_x
+			ld 	h, Ent_vx_I(ix)
+			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
 
-		jr can_decelerate_x
+			add 	hl, de
+			jr	c, can_decelerate_x
 
-	vx_negative:
-		jr 	z, cant_decelerate_x	;; vx_I == 0?
+			jr cant_decelerate_x
 
-		ld 	h, Ent_vx_I(ix)
-		ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
-		ld 	d, Ent_N_I(ix)
-		ld 	e, Ent_N_F(ix)		;; DE <= ent_N
+		vx_negative:
+			jr 	z, cant_decelerate_x	;; vx_I == 0?
 
-		add 	hl, de
-		jr	c, can_decelerate_x
+			ld 	h, Ent_vx_I(ix)
+			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+			ld 	d, Ent_N_I(ix)
+			ld 	e, Ent_N_F(ix)		;; DE <= ent_N
 
-		can_decelerate_x:
-			ld 	Ent_vx_I(ix), h
-			ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+			add 	hl, de
+			jr	c, can_decelerate_x
+
+			can_decelerate_x:
+				ld 	Ent_vx_I(ix), h
+				ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+
+				jr cant_decelerate_x
+	check_ax:
+		ld	a, Ent_ax_I(ix)
+		cp 	#0
+		jr	nz, check_vx
+		ld	a, Ent_ax_F(ix)
+		cp 	#0
+		jr	nz, check_vx
+			;; vx_I == 0 && ax == 0
+			ld	a, Ent_id(ix)
+			cp	#0
+			jr	z, cant_decelerate_x	;; If Ent_id == frisbee_id, cant_decelerate_x
+
+			ld	Ent_vx_I(ix), #0
+			ld	Ent_vx_F(ix), #0	;; Ent_vx <= 0
+
 
 	cant_decelerate_x:
 
 	;; Apply deceleration Y axis
 	ld 	a, Ent_vy_I(ix)		;; A <= vy_I
 	cp 	#0
-	;;jr 	z, cant_decelerate_y	;; vy_I == 0?
-		;; vy_I != 0
+	jr	z, check_ay
+
+	check_vy:
+		ld 	a, Ent_vy_I(ix)		;; A <= vy_I
+		cp 	#0
 		jp	m, vy_negative
 
 			;; vy positive
@@ -207,7 +230,7 @@ entityUpdatePhysics::
 			add 	hl, de
 			jr	c, can_decelerate_y
 
-			jr can_decelerate_y
+			jr cant_decelerate_y
 
 		vy_negative:
 			ld 	h, Ent_vy_I(ix)
@@ -221,6 +244,23 @@ entityUpdatePhysics::
 			can_decelerate_y:
 				ld 	Ent_vy_I(ix), h
 				ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
+
+
+				jr cant_decelerate_y
+	check_ay:
+		ld	a, Ent_ay_I(ix)
+		cp 	#0
+		jr	nz, check_vy
+		ld	a, Ent_ay_F(ix)
+		cp 	#0
+		jr	nz, check_vy
+			;; vy_I == 0 && ay == 0
+			ld	a, Ent_id(ix)
+			cp	#0
+			jr	z, cant_decelerate_y	;; If Ent_id == frisbee_id, cant_decelerate_y
+			
+			ld	Ent_vy_I(ix), #0
+			ld	Ent_vy_F(ix), #0	;; Ent_vy <= 0
 
 	cant_decelerate_y:
 

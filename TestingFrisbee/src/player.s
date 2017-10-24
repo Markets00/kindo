@@ -49,19 +49,10 @@ player_update::
 	ld 	ix, #player_data
 	call checkUserInput
 
-	ld 	ix, #enemy_data
-	call checkUserInput
+;;	ld 	ix, #enemy_data
+;;	call checkUserInput
 
-;;	ld	hl, #frisbee_data
-;;	push 	hl
-;;	ld	hl, #player_data
-;;	push 	hl
-;;	ld	hl, #enemy_data
-;;	push 	hl
-;;	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
-;;	pop 	af
-;;	pop 	af
-;;	pop 	af
+	call move_IA
 
 	ld 	ix, #player_data
 	call entityUpdatePhysics
@@ -104,6 +95,33 @@ delta:
 
 update:
 
+
+move_IA:
+	ld	hl, #frisbee_data
+	push 	hl
+	ld	hl, #player_data
+	push 	hl
+	ld	hl, #enemy_data
+	push 	hl
+	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
+	pop 	af
+	pop 	af
+	pop 	af
+
+	ld	ix, #enemy_data
+
+	ld	h, Ent_ax_I(ix)		;; 
+	ld	l, Ent_ax_F(ix)		;; 
+	ld	Ent_ax_I(ix), l		;; 
+	ld	Ent_ax_F(ix), h		;; Swap ax_I and ax_F due to C variables formatting
+
+	ld	h, Ent_ay_I(ix)		;; 
+	ld	l, Ent_ay_F(ix)		;; 
+	ld	Ent_ay_I(ix), l		;; 
+	ld	Ent_ay_F(ix), h		;; Swap ay_I and ay_F due to C variables formatting
+
+
+	ret
 
 ;; =========================================
 ;; Comprueba si la entidad colisiona con 

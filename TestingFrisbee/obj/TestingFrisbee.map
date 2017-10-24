@@ -19,20 +19,20 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__CABS                         
      00000000  s__DABS                         
      00000100  s__CODE                         
-     00000F83  l__CODE                         
-     00001083  s__DATA                         
-     00001083  s__GSFINAL                      
-     00001083  s__GSINIT                       
-     00001083  s__HOME                         
-     00001083  s__INITIALIZED                  
-     00001083  s__INITIALIZER                  
+     00000FFA  l__CODE                         
+     000010FA  s__DATA                         
+     000010FA  s__GSFINAL                      
+     000010FA  s__GSINIT                       
+     000010FA  s__HOME                         
+     000010FA  s__INITIALIZED                  
+     000010FA  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00000F83 =        3971. bytes (REL,CON)
+_CODE                               00000100    00000FFA =        4090. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -40,81 +40,81 @@ _CODE                               00000100    00000F83 =        3971. bytes (R
      00000117  entityDraw                         
      00000138  entityErase                        
      00000152  entityUpdatePhysics                
-     0000020B  entityCheckCollision               
-     00000260  entityUpdatePosition               
-     000002DC  negateHL                           
-     0000030D  frisbee_data                       
-     00000326  init_data                          
-     0000033F  frisbee_setOff                     
-     00000345  frisbee_restart                    
-     0000036E  frisbee_erase                      
-     00000376  frisbee_setVelocities              
-     000003AD  frisbee_setEffect                  
-     000003B8  frisbee_update                     
-     000003D3  frisbee_draw                       
-     000003EF  frisbee_checkGoal                  
-     00000411  _main                              
-     0000041C  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00000426  player_data                        cpct_keyboard
-     0000043D  enemy_data                         cpct_keyboard
-     00000454  player_2_data                      cpct_keyboard
-     0000046B  enemy_2_data                       cpct_keyboard
-     00000482  player_erase                       cpct_keyboard
-     00000491  player_update                      cpct_keyboard
-     000004CA  player_draw                        cpct_keyboard
-     0000065E  menuStart                          
-     00000667  game_data                          
-     00000672  gameStart                          
-     00000679  getVideoPtr                        
-     0000067D  incTeam1Points                     
-     0000068C  incTeam2Points                     
-     0000069F  play_music                         
-     000006AF  stop_music                         
-     00000710  _cpct_isKeyPressed                 cpct_keyboard
-     00000710  cpct_isKeyPressed_asm              cpct_keyboard
-     0000071C  cpct_setPalette_asm                cpct_video
-     0000072F  _cpct_akp_digidrumStatus           cpct_audio
-     00000730  _cpct_akp_songLoopTimes            cpct_audio
-     00000731  _cpct_akp_musicPlay                cpct_audio
-     00000731  cpct_akp_musicPlay_asm             cpct_audio
-     00000E34  _cpct_akp_musicInit                cpct_audio
-     00000E3B  cpct_akp_musicInit_asm             cpct_audio
-     00000E94  _cpct_akp_stop                     cpct_audio
-     00000E94  cpct_akp_stop_asm                  cpct_audio
-     00000EA7  _cpct_akp_SFXGetInstrument         cpct_audio
-     00000EAC  cpct_akp_SFXGetInstrument_asm      cpct_audio
-     00000EC0  _cpct_akp_SFXInit                  cpct_audio
-     00000EC7  cpct_akp_SFXInit_asm               cpct_audio
-     00000ECE  _cpct_akp_SFXStopAll               cpct_audio
+     00000257  entityCheckCollision               
+     000002AC  entityUpdatePosition               
+     00000328  negateHL                           
+     00000359  frisbee_data                       
+     00000372  init_data                          
+     0000038B  frisbee_setOff                     
+     00000391  frisbee_restart                    
+     000003BA  frisbee_erase                      
+     000003C2  frisbee_setVelocities              
+     000003F9  frisbee_setEffect                  
+     00000404  frisbee_update                     
+     0000041F  frisbee_draw                       
+     0000043B  frisbee_checkGoal                  
+     0000045D  _main                              
+     00000468  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00000472  player_data                        cpct_keyboard
+     00000489  enemy_data                         cpct_keyboard
+     000004A0  player_2_data                      cpct_keyboard
+     000004B7  enemy_2_data                       cpct_keyboard
+     000004CE  player_erase                       cpct_keyboard
+     000004DD  player_update                      cpct_keyboard
+     00000512  player_draw                        cpct_keyboard
+     000006D5  menuStart                          
+     000006DE  game_data                          
+     000006E9  gameStart                          
+     000006F0  getVideoPtr                        
+     000006F4  incTeam1Points                     
+     00000703  incTeam2Points                     
+     00000716  play_music                         
+     00000726  stop_music                         
+     00000787  _cpct_isKeyPressed                 cpct_keyboard
+     00000787  cpct_isKeyPressed_asm              cpct_keyboard
+     00000793  cpct_setPalette_asm                cpct_video
+     000007A6  _cpct_akp_digidrumStatus           cpct_audio
+     000007A7  _cpct_akp_songLoopTimes            cpct_audio
+     000007A8  _cpct_akp_musicPlay                cpct_audio
+     000007A8  cpct_akp_musicPlay_asm             cpct_audio
+     00000EAB  _cpct_akp_musicInit                cpct_audio
+     00000EB2  cpct_akp_musicInit_asm             cpct_audio
+     00000F0B  _cpct_akp_stop                     cpct_audio
+     00000F0B  cpct_akp_stop_asm                  cpct_audio
+     00000F1E  _cpct_akp_SFXGetInstrument         cpct_audio
+     00000F23  cpct_akp_SFXGetInstrument_asm      cpct_audio
+     00000F37  _cpct_akp_SFXInit                  cpct_audio
+     00000F3E  cpct_akp_SFXInit_asm               cpct_audio
+     00000F45  _cpct_akp_SFXStopAll               cpct_audio
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00000F83 =        3971. bytes (REL,CON)
+_CODE                               00000100    00000FFA =        4090. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000ECE  cpct_akp_SFXStopAll_asm            cpct_audio
-     00000EDB  _cpct_akp_SFXPlay                  cpct_audio
-     00000EED  cpct_akp_SFXPlay_asm               cpct_audio
-     00000F3A  _cpct_akp_SFXStop                  cpct_audio
-     00000F3F  cpct_akp_SFXStop_asm               cpct_audio
-     00000F58  _cpct_setVideoMemoryPage           cpct_video
-     00000F58  cpct_setVideoMemoryPage_asm        cpct_video
-     00000F61  _cpct_waitVSYNC                    cpct_video
-     00000F61  cpct_waitVSYNC_asm                 cpct_video
-     00000F69  cpct_setVideoMode_asm              cpct_video
-     00000F76  cpct_memcpy_asm                    cpct_memutils
-     00000F79  _cpct_disableFirmware              cpct_firmware
-     00000F79  _cpct_removeInterruptHandler       cpct_firmware
-     00000F79  cpct_disableFirmware_asm           cpct_firmware
-     00000F79  cpct_removeInterruptHandler_asm    cpct_firmware
-     00000F89  cpct_drawSolidBox_asm              cpct_sprites
-     00001035  _cpct_mode_rom_status              cpct_firmware
-     00001036  cpct_getScreenPtr_asm              cpct_video
-     00001052  _cpct_scanKeyboard                 cpct_keyboard
-     00001052  cpct_scanKeyboard_asm              cpct_keyboard
+     00000F45  cpct_akp_SFXStopAll_asm            cpct_audio
+     00000F52  _cpct_akp_SFXPlay                  cpct_audio
+     00000F64  cpct_akp_SFXPlay_asm               cpct_audio
+     00000FB1  _cpct_akp_SFXStop                  cpct_audio
+     00000FB6  cpct_akp_SFXStop_asm               cpct_audio
+     00000FCF  _cpct_setVideoMemoryPage           cpct_video
+     00000FCF  cpct_setVideoMemoryPage_asm        cpct_video
+     00000FD8  _cpct_waitVSYNC                    cpct_video
+     00000FD8  cpct_waitVSYNC_asm                 cpct_video
+     00000FE0  cpct_setVideoMode_asm              cpct_video
+     00000FED  cpct_memcpy_asm                    cpct_memutils
+     00000FF0  _cpct_disableFirmware              cpct_firmware
+     00000FF0  _cpct_removeInterruptHandler       cpct_firmware
+     00000FF0  cpct_disableFirmware_asm           cpct_firmware
+     00000FF0  cpct_removeInterruptHandler_asm    cpct_firmware
+     00001000  cpct_drawSolidBox_asm              cpct_sprites
+     000010AC  _cpct_mode_rom_status              cpct_firmware
+     000010AD  cpct_getScreenPtr_asm              cpct_video
+     000010C9  _cpct_scanKeyboard                 cpct_keyboard
+     000010C9  cpct_scanKeyboard_asm              cpct_keyboard
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 

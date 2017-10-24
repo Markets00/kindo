@@ -46,8 +46,9 @@ typedef struct {
 // Modifica 
 // ============================================
 void moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee) {
-	i16 acc = -2 * 256;
+	i16 acc = -3.5 * 256;
 
+// 2 128
 //	myself->ax = -2 * 256;
 //	myself->ay = -2 * 256;
 	myself->ax = acc;
