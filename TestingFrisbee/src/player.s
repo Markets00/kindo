@@ -1,4 +1,4 @@
-std_acc = 10 	;; standard acceleration per frame
+std_acc = 32 	;; standard acceleration per frame
 
 .area _DATA
 .area _CODE
@@ -17,10 +17,15 @@ std_acc = 10 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xF0, #1
+defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #0xF0, #1
 
-defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xFF, #2
+defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #0xFF, #2
 
+
+defineEntity player_2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xF0, #1
+
+
+defineEntity enemy_2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xFF, #2
 	
 ;; ====================================
 ;; ====================================
@@ -194,11 +199,12 @@ checkCenterCrossing:
 		cp	#2
 		jr	nz, invalid_id
 			;; player 2
-			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
-			cp	#CENTER_LIMIT
-			jr	nc, not_crossed				;; Ent_x <= CENTER_LIMIT? center crossed
+			ld	a, #CENTER_LIMIT				;; A <= Ent_x, integer part
+			cp	Ent_x_I(ix)
+			jr	c, not_crossed				;; Ent_x <= CENTER_LIMIT? center crossed
 				;; center limit crossed
 				ld	Ent_x_I(ix), #CENTER_LIMIT
+				jr not_crossed
 
 	player_1:
 			ld	a, Ent_x_I(ix)				;; A <= Ent_x, integer part
@@ -331,7 +337,9 @@ checkVandB:
 				jr 	z, just_v_pressed
 					;; V and B are pressed
 					ld 	hl, #0			;; HL <= standard effect
+					push 	ix
 					call frisbee_setEffect		;; efecto hacia abajo
+					pop 	ix
 					jr vorb_pressed
 				just_v_pressed:
 					ld 	hl, #std_N_eff		;; HL <= -standard effect
@@ -352,6 +360,7 @@ checkVandB:
 					pop 	ix
 
 					vorb_pressed:
+					ld	a, Ent_id(ix)		;;
 					ld	h, Ent_vx_I(ix)		;;
 					ld	l, Ent_vx_F(ix)		;;
 					ld	d, Ent_vy_I(ix)		;;
@@ -393,6 +402,7 @@ checkVandB:
 					pop 	ix
 
 					ioro_pressed:
+					ld	a, Ent_id(ix)		;;
 					ld	h, Ent_vx_I(ix)		;;
 					ld	l, Ent_vx_F(ix)		;;
 					ld	d, Ent_vy_I(ix)		;;

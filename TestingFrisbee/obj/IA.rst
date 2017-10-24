@@ -45,8 +45,23 @@
                              45 ; Function moveIA
                              46 ; ---------------------------------
    0100                      47 _moveIA::
-                             48 ;src/IA.c:57: }
-   0100 C9            [10]   49 	ret
-                             50 	.area _CODE
-                             51 	.area _INITIALIZER
-                             52 	.area _CABS (ABS)
+                             48 ;src/IA.c:53: myself->ax = acc;
+   0100 D1            [10]   49 	pop	de
+   0101 C1            [10]   50 	pop	bc
+   0102 C5            [11]   51 	push	bc
+   0103 D5            [11]   52 	push	de
+   0104 21 0A 00      [10]   53 	ld	hl,#0x000A
+   0107 09            [11]   54 	add	hl,bc
+   0108 36 00         [10]   55 	ld	(hl),#0x00
+   010A 23            [ 6]   56 	inc	hl
+   010B 36 FE         [10]   57 	ld	(hl),#0xFE
+                             58 ;src/IA.c:54: myself->ay = acc;
+   010D 21 0C 00      [10]   59 	ld	hl,#0x000C
+   0110 09            [11]   60 	add	hl,bc
+   0111 36 00         [10]   61 	ld	(hl),#0x00
+   0113 23            [ 6]   62 	inc	hl
+   0114 36 FE         [10]   63 	ld	(hl),#0xFE
+   0116 C9            [10]   64 	ret
+                             65 	.area _CODE
+                             66 	.area _INITIALIZER
+                             67 	.area _CABS (ABS)

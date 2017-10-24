@@ -19,3 +19,5 @@ Hexadecimal [16-Bits]
                              14 .globl cpct_memcpy_asm
                              15 .globl negateHL
                              16 .globl cpct_setVideoMemoryPage_asm
+                             17 .globl cpct_akp_musicPlay_asm
+                             18 .globl cpct_akp_stop_asm

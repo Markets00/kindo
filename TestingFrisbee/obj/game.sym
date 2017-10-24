@@ -4,32 +4,29 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
-    Frisbee_=  0018     |     Frisbee_=  0017     |     Game_fTi=  0003 
-    Game_fTi=  0004     |     Game_map=  0002     |     Game_map=  0001 
-    Game_max=  0007     |     Game_t1p=  0005     |     Game_t2p=  0006 
-    Game_typ=  0000     |     LEFT_LIM=  0000     |     RIGHT_LI=  0050 
-    TOP_LIMI=  000A     |     cpct_dis   **** GX  |     cpct_dra   **** GX
-    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_mem   **** GX
-    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_set   **** GX  |     cpct_wai   **** GX  |     frisbee_   **** GX
+    .__.H$L.=  0000 L   |     Frisbee_=  0018     |     Frisbee_=  0017 
+    cpct_akp   **** GX  |     cpct_akp   **** GX  |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
-    frisbee_   **** GX  |   0 gameStar   000A GR  |   0 game_dat   0000 GR
-  0 game_fTi   0003 GR  |   0 game_loo   0068 R   |   0 game_map   0001 GR
-  0 game_max   0007 GR  |   0 game_t1p   0005 GR  |   0 game_t2p   0006 GR
-  0 game_typ   0000 GR  |   0 getVideo   0011 GR  |   0 incTeam1   0015 GR
-  0 incTeam2   0028 GR  |   0 initiali   003B R   |   0 max_t1_p   0027 R
-  0 max_t2_p   003A R   |   0 mem_page=  0055 R   |     negateHL   **** GX
+    frisbee_   **** GX  |     frisbee_   **** GX  |   0 gameStar   000B GR
+  0 game_dat   0000 GR  |   0 game_fTi   0003 R   |   0 game_int   0008 R
+  0 game_loo   0087 R   |   0 game_map   0001 R   |   0 game_max   0007 R
+  0 game_t1p   0005 R   |   0 game_t2p   0006 R   |   0 game_typ   0000 R
+  0 getVideo   0012 GR  |   0 incTeam1   0016 GR  |   0 incTeam2   0025 GR
+  0 initiali   0058 R   |   0 max_t1_p   0024 R   |   0 max_t2_p   0037 R
+  0 mem_page=  0074 R   |     negateHL   **** GX  |   0 play_mus   0038 GR
     player_d   **** GX  |     player_e   **** GX  |     player_u   **** GX
-    std_N_ef=  FFF8     |     std_eff =  0008     |   0 switchBu   0054 R
-  0 videoPtr   0008 R
+    std_N_ef=  FFF8     |     std_eff =  0008     |   0 stop_mus   0048 GR
+  0 switchBu   0073 R   |   0 videoPtr   0009 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   8A   flags    0
+   0 _CODE      size   A9   flags    0
    1 _DATA      size    0   flags    0
 

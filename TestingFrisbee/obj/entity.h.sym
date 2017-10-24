@@ -12,7 +12,7 @@ Symbol Table
     Ent_vx_F=  0007     |     Ent_vx_I=  0006     |     Ent_vy_F=  0009 
     Ent_vy_I=  0008     |     Ent_w   =  0005     |     Ent_x_F =  0001 
     Ent_x_I =  0000     |     Ent_y_F =  0003     |     Ent_y_I =  0002 
-    MAX_VEL_=  0002     |     MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFE 
+    MAX_VEL_=  0003     |     MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFD 
     MIN_VEL_=  FFFFFFFD     |     entityCh   **** GX  |     entityDr   **** GX
     entityEr   **** GX  |     entityUp   **** GX  |     entityUp   **** GX
 

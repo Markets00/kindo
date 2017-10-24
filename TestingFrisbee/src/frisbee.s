@@ -7,7 +7,8 @@
 
 
 frisbee_size = 25		;; Size of frisbee structure
-
+pos_min_vel = 0x00D0
+neg_min_vel = 0xFF30
 ;; ====================================
 ;; ====================================
 ;; PUBLIC DATA
@@ -22,7 +23,7 @@ frisbee_size = 25		;; Size of frisbee structure
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity frisbee, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
+defineEntity frisbee, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0100, #0x0100, #1, #0x0F, #0
 	frisbee_effect: .dw #0xF8FF									;; effect
 
 defineEntity init, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #0x0F, #0
@@ -94,31 +95,44 @@ frisbee_erase::
 ;;	Si la velocidad en el eje X es menor que 1
 ;; 	la modifica a mínimo 1 (positivo y neg)
 ;; Recibe:
+;;	 A <= entity ID
 ;; 	HL <= X axis velocity
 ;; 	DE <= Y axis velocity
-;; Modifica: HL, IX
+;; Modifica: A, HL, IX
 ;; ================================================
 frisbee_setVelocities::
 	ld 	ix, #frisbee_data
 
-	ld	a, h
-	cp	#0
-	jp	m, negative_vx
-		;; positive vx
+	cp 	#1
+	jr	z, player_1				;; Ent_id == 1?
+		;; player 2
+		ld	a, h
+		cp 	#0
+		jp	p, less_than_minus_one		;; Is VX positive? 
+
+		ld	a, #1
+		cp	h
+		jr	nc, less_than_minus_one
+			;; vx greater than minus one
+			jr set_vels
+		less_than_minus_one:
+			ld	hl, #neg_min_vel
+			jr set_vels
+	negative_vx:
+
+	player_1:
+		ld	a, h
+		cp 	#0
+		jp	m, less_than_one		;; Is VX negative? 
+
+		ld	a, h
 		cp	#1
 		jr	c, less_than_one
 			;; vx greater than one
 			jr set_vels
 		less_than_one:
-			ld	hl, #0x0080
-			jr set_vels
-	negative_vx:
-		cp	#-1
-		jr	c, less_than_minus_one
-			;; vx greater than minus one
-			jr set_vels
-		less_than_minus_one:
-			ld	hl, #0xFF80
+			ld	hl, #pos_min_vel
+
 
 	set_vels:
 	ld 	Ent_vx_I(ix), h
@@ -126,6 +140,8 @@ frisbee_setVelocities::
 	ld 	Ent_vy_I(ix), d
 	ld 	Ent_vy_F(ix), e
 	ret
+
+
 
 
 ;; ===========================================

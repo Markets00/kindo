@@ -37,8 +37,8 @@
 				;; Player1 	1
 				;; Enemy1	2
 
-.equ MAX_VEL_X, 2 
-.equ MIN_VEL_X, -2
+.equ MAX_VEL_X, 3 
+.equ MIN_VEL_X, -3
 .equ MAX_VEL_Y, 3
 .equ MIN_VEL_Y, -3
 
@@ -147,51 +147,57 @@ entityUpdatePhysics::
 	;; Apply deceleration X axis
 	ld 	a, Ent_vx_I(ix)		;; A <= vx_I
 	cp 	#0
-	jr 	z, cant_decelerate_x	;; vx_I == 0?
+	;;jr 	z, cant_decelerate_x	;; vx_I == 0?
 		;; vx_I != 0
-		jp	m, vx_negative
-			;; vx positive
+	jp	m, vx_negative
+		;; vx positive
 
-			ld 	h, Ent_N_I(ix)
-			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
+		ld 	h, Ent_N_I(ix)
+		ld 	l, Ent_N_F(ix)		;; HL <= ent_N
 
-			call 	negateHL		;; HL <= -ent_N
-			ld 	d, h
-			ld 	e, l			;; DE <= -ent_N
+		call 	negateHL		;; HL <= -ent_N
 
-			ld 	h, Ent_vx_I(ix)
-			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+		ld 	d, h
+		ld 	e, l			;; DE <= -ent_N
 
-			add 	hl, de
+		ld 	h, Ent_vx_I(ix)
+		ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
 
-			jr can_decelerate_x
+		add 	hl, de
+		jr	c, can_decelerate_x
 
-		vx_negative:
-			ld 	h, Ent_vx_I(ix)
-			ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
-			ld 	d, Ent_N_I(ix)
-			ld 	e, Ent_N_F(ix)		;; DE <= ent_N
+		jr can_decelerate_x
 
-			add 	hl, de
+	vx_negative:
+		jr 	z, cant_decelerate_x	;; vx_I == 0?
 
-			can_decelerate_x:
-				ld 	Ent_vx_I(ix), h
-				ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
+		ld 	h, Ent_vx_I(ix)
+		ld 	l, Ent_vx_F(ix)		;; HL <= ent_vx
+		ld 	d, Ent_N_I(ix)
+		ld 	e, Ent_N_F(ix)		;; DE <= ent_N
+
+		add 	hl, de
+		jr	c, can_decelerate_x
+
+		can_decelerate_x:
+			ld 	Ent_vx_I(ix), h
+			ld 	Ent_vx_F(ix), l		;; Ent_vx <= HL
 
 	cant_decelerate_x:
 
 	;; Apply deceleration Y axis
 	ld 	a, Ent_vy_I(ix)		;; A <= vy_I
 	cp 	#0
-	jr 	z, cant_decelerate_y	;; vy_I == 0?
+	;;jr 	z, cant_decelerate_y	;; vy_I == 0?
 		;; vy_I != 0
 		jp	m, vy_negative
-			;; vy positive
 
+			;; vy positive
 			ld 	h, Ent_N_I(ix)
 			ld 	l, Ent_N_F(ix)		;; HL <= ent_N
 
 			call 	negateHL		;; HL <= -ent_N
+
 			ld 	d, h
 			ld 	e, l			;; DE <= -ent_N
 
@@ -199,6 +205,7 @@ entityUpdatePhysics::
 			ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
 
 			add 	hl, de
+			jr	c, can_decelerate_y
 
 			jr can_decelerate_y
 
@@ -209,6 +216,7 @@ entityUpdatePhysics::
 			ld 	e, Ent_N_F(ix)		;; DE <= ent_N
 
 			add 	hl, de
+			jr	c, can_decelerate_y
 
 			can_decelerate_y:
 				ld 	Ent_vy_I(ix), h
@@ -409,7 +417,7 @@ entityUpdatePosition::
 ;; Inverts HL value
 ;; Entrada:
 ;; 	HL => value we are going to negate
-;; Modifica AF
+;; Modifica AF, HL
 ;; Devuelve:
 ;; 	HL <= HL value negated
 ;; =========================================

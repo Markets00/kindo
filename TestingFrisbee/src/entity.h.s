@@ -62,7 +62,7 @@
 				;; Player1 	1
 				;; Enemy1	2
 
-.equ MAX_VEL_X, 2 
-.equ MIN_VEL_X, -2
+.equ MAX_VEL_X, 3 
+.equ MIN_VEL_X, -3
 .equ MAX_VEL_Y, 3
 .equ MIN_VEL_Y, -3

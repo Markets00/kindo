@@ -13,85 +13,96 @@ Symbol Table
     Ent_vx_I=  0006     |     Ent_vy_F=  0009     |     Ent_vy_I=  0008 
     Ent_w   =  0005     |     Ent_x_F =  0001     |     Ent_x_I =  0000 
     Ent_y_F =  0003     |     Ent_y_I =  0002     |     Frisbee_=  0018 
-    Frisbee_=  0017     |     Game_fTi=  0003     |     Game_fTi=  0004 
-    Game_map=  0002     |     Game_map=  0001     |     Game_t1p=  0005 
-    Game_t2p=  0006     |     Game_typ=  0000     |     Joy0_Dow=  0209 
-    Joy0_Fir=  1009     |     Joy0_Fir=  2009     |     Joy0_Fir=  4009 
-    Joy0_Lef=  0409     |     Joy0_Rig=  0809     |     Joy0_Up =  0109 
-    Joy1_Dow=  0206     |     Joy1_Fir=  1006     |     Joy1_Fir=  2006 
-    Joy1_Fir=  4006     |     Joy1_Lef=  0406     |     Joy1_Rig=  0806 
-    Joy1_Up =  0106     |     Key_0   =  0104     |     Key_1   =  0108 
-    Key_2   =  0208     |     Key_3   =  0207     |     Key_4   =  0107 
-    Key_5   =  0206     |     Key_6   =  0106     |     Key_7   =  0205 
-    Key_8   =  0105     |     Key_9   =  0204     |     Key_A   =  2008 
-    Key_At  =  0403     |     Key_B   =  4006     |     Key_Back=  4002 
-    Key_C   =  4007     |     Key_Caps=  4008     |     Key_Care=  0103 
-    Key_Clos=  0802     |     Key_Clr =  0102     |     Key_Colo=  2003 
-    Key_Comm=  8004     |     Key_Cont=  8002     |     Key_Copy=  0201 
-    Key_Curs=  0400     |     Key_Curs=  0101     |     Key_Curs=  0200 
-    Key_Curs=  0100     |     Key_D   =  2007     |     Key_Del =  8009 
-    Key_Dot =  8003     |     Key_E   =  0407     |     Key_Ente=  4000 
-    Key_Esc =  0408     |     Key_F   =  2006     |     Key_F0  =  8001 
-    Key_F1  =  2001     |     Key_F2  =  4001     |     Key_F3  =  2000 
-    Key_F4  =  1002     |     Key_F5  =  1001     |     Key_F6  =  1000 
-    Key_F7  =  0401     |     Key_F8  =  0801     |     Key_F9  =  0800 
-    Key_FDot=  8000     |     Key_G   =  1006     |     Key_H   =  1005 
-    Key_Hyph=  0203     |     Key_I   =  0804     |     Key_J   =  2005 
-    Key_K   =  2004     |     Key_L   =  1004     |     Key_M   =  4004 
-    Key_N   =  4005     |     Key_O   =  0404     |     Key_Open=  0202 
-    Key_P   =  0803     |     Key_Q   =  0808     |     Key_R   =  0406 
-    Key_Retu=  0402     |     Key_S   =  1007     |     Key_Semi=  1003 
-    Key_Shif=  2002     |     Key_Slas=  4003     |     Key_Spac=  8005 
-    Key_T   =  0806     |     Key_Tab =  1008     |     Key_U   =  0405 
-    Key_V   =  8006     |     Key_W   =  0807     |     Key_X   =  8007 
-    Key_Y   =  0805     |     Key_Z   =  8008     |     LEFT_LIM=  0000 
-    MAX_VEL_=  0002     |     MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFE 
-    MIN_VEL_=  FFFFFFFD     |     RIGHT_LI=  0050     |     TOP_LIMI=  000A 
-  0 _cpct_ke   0000 GR  |     _moveIA    **** GX  |   0 a_not_pr   0108 R
-  0 b_not_pr   0207 R   |   0 checkCen   00BA R   |   0 checkFri   008F R
-  0 checkUse   00E3 R   |   0 checkVan   015C R   |     cpct_dis   **** GX
-    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
-    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
-    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
-  0 d_not_pr   00FB R   |   0 delta      008F R   |   0 eight_no   014B R
-  0 enemy_ax   002B R   |   0 enemy_ay   002D R   |   0 enemy_cl   0036 R
-  0 enemy_da   0021 GR  |   0 enemy_er   0032 R   |   0 enemy_er   0034 R
-  0 enemy_h    0025 R   |   0 enemy_id   0037 R   |   0 enemy_la   0031 R
-  0 enemy_la   0033 R   |   0 enemy_no   002F R   |   0 enemy_st   0035 R
+    Frisbee_=  0017     |     Joy0_Dow=  0209     |     Joy0_Fir=  1009 
+    Joy0_Fir=  2009     |     Joy0_Fir=  4009     |     Joy0_Lef=  0409 
+    Joy0_Rig=  0809     |     Joy0_Up =  0109     |     Joy1_Dow=  0206 
+    Joy1_Fir=  1006     |     Joy1_Fir=  2006     |     Joy1_Fir=  4006 
+    Joy1_Lef=  0406     |     Joy1_Rig=  0806     |     Joy1_Up =  0106 
+    Key_0   =  0104     |     Key_1   =  0108     |     Key_2   =  0208 
+    Key_3   =  0207     |     Key_4   =  0107     |     Key_5   =  0206 
+    Key_6   =  0106     |     Key_7   =  0205     |     Key_8   =  0105 
+    Key_9   =  0204     |     Key_A   =  2008     |     Key_At  =  0403 
+    Key_B   =  4006     |     Key_Back=  4002     |     Key_C   =  4007 
+    Key_Caps=  4008     |     Key_Care=  0103     |     Key_Clos=  0802 
+    Key_Clr =  0102     |     Key_Colo=  2003     |     Key_Comm=  8004 
+    Key_Cont=  8002     |     Key_Copy=  0201     |     Key_Curs=  0400 
+    Key_Curs=  0101     |     Key_Curs=  0200     |     Key_Curs=  0100 
+    Key_D   =  2007     |     Key_Del =  8009     |     Key_Dot =  8003 
+    Key_E   =  0407     |     Key_Ente=  4000     |     Key_Esc =  0408 
+    Key_F   =  2006     |     Key_F0  =  8001     |     Key_F1  =  2001 
+    Key_F2  =  4001     |     Key_F3  =  2000     |     Key_F4  =  1002 
+    Key_F5  =  1001     |     Key_F6  =  1000     |     Key_F7  =  0401 
+    Key_F8  =  0801     |     Key_F9  =  0800     |     Key_FDot=  8000 
+    Key_G   =  1006     |     Key_H   =  1005     |     Key_Hyph=  0203 
+    Key_I   =  0804     |     Key_J   =  2005     |     Key_K   =  2004 
+    Key_L   =  1004     |     Key_M   =  4004     |     Key_N   =  4005 
+    Key_O   =  0404     |     Key_Open=  0202     |     Key_P   =  0803 
+    Key_Q   =  0808     |     Key_R   =  0406     |     Key_Retu=  0402 
+    Key_S   =  1007     |     Key_Semi=  1003     |     Key_Shif=  2002 
+    Key_Slas=  4003     |     Key_Spac=  8005     |     Key_T   =  0806 
+    Key_Tab =  1008     |     Key_U   =  0405     |     Key_V   =  8006 
+    Key_W   =  0807     |     Key_X   =  8007     |     Key_Y   =  0805 
+    Key_Z   =  8008     |     LEFT_LIM=  0000     |     MAX_VEL_=  0003 
+    MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFD     |     MIN_VEL_=  FFFFFFFD 
+    RIGHT_LI=  0050     |     TOP_LIMI=  000A     |   0 _cpct_ke   0000 GR
+    _moveIA    **** GX  |   0 a_not_pr   0138 R   |   0 b_not_pr   0241 R
+  0 checkCen   00E8 R   |   0 checkFri   00BD R   |   0 checkUse   0113 R
+  0 checkVan   018C R   |     cpct_akp   **** GX  |     cpct_akp   **** GX
+    cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_get   **** GX
+    cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_wai   **** GX  |   0 d_not_pr   012B R   |   0 delta      00BD R
+  0 eight_no   017B R   |   0 enemy_2_   0059 R   |   0 enemy_2_   005B R
+  0 enemy_2_   0064 R   |   0 enemy_2_   004F GR  |   0 enemy_2_   0060 R
+  0 enemy_2_   0062 R   |   0 enemy_2_   0053 R   |   0 enemy_2_   0065 R
+  0 enemy_2_   005F R   |   0 enemy_2_   0061 R   |   0 enemy_2_   005D R
+  0 enemy_2_   0063 R   |   0 enemy_2_   0055 R   |   0 enemy_2_   0057 R
+  0 enemy_2_   0054 R   |   0 enemy_2_   004F R   |   0 enemy_2_   0051 R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
+  0 enemy_ax   002B R   |   0 enemy_ay   002D R   |   0 enemy_cl   0036 R
+  0 enemy_da   0021 GR  |   0 enemy_er   0032 R   |   0 enemy_er   0034 R
+  0 enemy_h    0025 R   |   0 enemy_id   0037 R   |   0 enemy_la   0031 R
+  0 enemy_la   0033 R   |   0 enemy_no   002F R   |   0 enemy_st   0035 R
   0 enemy_vx   0027 R   |   0 enemy_vy   0029 R   |   0 enemy_w    0026 R
   0 enemy_x    0021 R   |   0 enemy_y    0023 R   |     entityCh   **** GX
     entityDr   **** GX  |     entityEr   **** GX  |     entityUp   **** GX
-    entityUp   **** GX  |   0 five_not   0158 R   |   0 four_not   013E R
+    entityUp   **** GX  |   0 five_not   0188 R   |   0 four_not   016E R
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     gameStar   **** GX
-    getVideo   **** GX  |   0 i_not_pr   01E4 R   |     incTeam1   **** GX
-    incTeam2   **** GX  |   0 invalid_   00E2 R   |   0 ioro_pre   01F8 R
-  0 just_i_p   01D8 R   |   0 just_v_p   018B R   |   0 moveDown   009F R
-  0 moveLeft   00A8 R   |   0 moveRigh   0096 R   |   0 moveUp     00B1 R
-    negateHL   **** GX  |   0 no_colli   0207 R   |   0 not_cros   00E2 R
-  0 o_not_pr   0207 R   |   0 player_1   00D0 R   |   0 player_2   0124 R
-  0 player_2   01BC R   |   0 player_a   0014 R   |   0 player_a   0016 R
-  0 player_c   001F R   |   0 player_d   000A GR  |   0 player_d   0080 GR
-  0 player_e   0038 GR  |   0 player_e   001B R   |   0 player_e   001D R
-  0 player_h   000E R   |   0 player_i   0020 R   |   0 player_l   001A R
-  0 player_l   001C R   |   0 player_n   0018 R   |   0 player_s   001E R
-  0 player_u   0047 GR  |   0 player_v   0010 R   |   0 player_v   0012 R
-  0 player_w   000F R   |   0 player_x   000A R   |   0 player_y   000C R
-  0 s_not_pr   0122 R   |   0 six_not_   0131 R   |     std_N_ef=  FFF8 
-    std_acc =  000A     |     std_eff =  0008     |   0 update     008F R
-  0 v_not_pr   0197 R   |   0 vorb_pre   01AB R   |   0 w_not_pr   0115 R
+    game_dat   **** GX  |     getVideo   **** GX  |   0 i_not_pr   021B R
+    incTeam1   **** GX  |     incTeam2   **** GX  |   0 invalid_   0112 R
+  0 ioro_pre   022F R   |   0 just_i_p   020F R   |   0 just_v_p   01BF R
+  0 moveDown   00CD R   |   0 moveLeft   00D6 R   |   0 moveRigh   00C4 R
+  0 moveUp     00DF R   |     negateHL   **** GX  |   0 no_colli   0241 R
+  0 not_cros   0112 R   |   0 o_not_pr   0241 R   |     play_mus   **** GX
+  0 player_1   0100 R   |   0 player_2   0154 R   |   0 player_2   0042 R
+  0 player_2   0044 R   |   0 player_2   004D R   |   0 player_2   0038 GR
+  0 player_2   0049 R   |   0 player_2   004B R   |   0 player_2   003C R
+  0 player_2   004E R   |   0 player_2   0048 R   |   0 player_2   004A R
+  0 player_2   0046 R   |   0 player_2   004C R   |   0 player_2   01F3 R
+  0 player_2   003E R   |   0 player_2   0040 R   |   0 player_2   003D R
+  0 player_2   0038 R   |   0 player_2   003A R   |   0 player_a   0014 R
+  0 player_a   0016 R   |   0 player_c   001F R   |   0 player_d   000A GR
+  0 player_d   00AE GR  |   0 player_e   0066 GR  |   0 player_e   001B R
+  0 player_e   001D R   |   0 player_h   000E R   |   0 player_i   0020 R
+  0 player_l   001A R   |   0 player_l   001C R   |   0 player_n   0018 R
+  0 player_s   001E R   |   0 player_u   0075 GR  |   0 player_v   0010 R
+  0 player_v   0012 R   |   0 player_w   000F R   |   0 player_x   000A R
+  0 player_y   000C R   |   0 s_not_pr   0152 R   |   0 six_not_   0161 R
+    std_N_ef=  FFF8     |     std_acc =  0020     |     std_eff =  0008 
+    stop_mus   **** GX  |   0 update     00BD R   |   0 v_not_pr   01CB R
+  0 vorb_pre   01DF R   |   0 w_not_pr   0145 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  208   flags    0
+   0 _CODE      size  242   flags    0
    1 _DATA      size    0   flags    0
 

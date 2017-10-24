@@ -76,10 +76,10 @@ Hexadecimal [16-Bits]
                              11 ;; ========================
                              12 ;; Programa principal
                              13 ;; ========================
-   03E9                      14 _main::
-   03E9 31 00 80      [10]   15 	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
+   0411                      14 _main::
+   0411 31 00 80      [10]   15 	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
                              16 
-   03EC CD FC 05      [17]   17 	call menuStart
-   03EF CD 0F 06      [17]   18 	call gameStart		;; inicia una partida con los valores de game_data
+   0414 CD 5E 06      [17]   17 	call menuStart
+   0417 CD 72 06      [17]   18 	call gameStart		;; inicia una partida con los valores de game_data
                              19 
-   03F2 18 F5         [12]   20 	jr (_main)
+   041A 18 F5         [12]   20 	jr (_main)

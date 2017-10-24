@@ -72,7 +72,7 @@ Hexadecimal [16-Bits]
                              62 				;; Player1 	1
                              63 				;; Enemy1	2
                              64 
-                     0002    65 .equ MAX_VEL_X, 2 
-                     FFFFFFFE    66 .equ MIN_VEL_X, -2
+                     0003    65 .equ MAX_VEL_X, 3 
+                     FFFFFFFD    66 .equ MIN_VEL_X, -3
                      0003    67 .equ MAX_VEL_Y, 3
                      FFFFFFFD    68 .equ MIN_VEL_Y, -3

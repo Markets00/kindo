@@ -14,3 +14,5 @@
 .globl cpct_memcpy_asm
 .globl negateHL
 .globl cpct_setVideoMemoryPage_asm
+.globl cpct_akp_musicPlay_asm
+.globl cpct_akp_stop_asm
