@@ -6,10 +6,10 @@ Symbol Table
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
     .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
     Game_fTi=  0003     |     Game_fTi=  0004     |     Game_map=  0002 
-    Game_map=  0001     |     Game_t1p=  0005     |     Game_t2p=  0006 
-    Game_typ=  0000     |     LEFT_LIM=  0000     |     RIGHT_LI=  0050 
-    TOP_LIMI=  000A     |     gameStar   **** GX  |     getVideo   **** GX
-    incTeam1   **** GX  |     incTeam2   **** GX
+    Game_map=  0001     |     Game_max=  0007     |     Game_t1p=  0005 
+    Game_t2p=  0006     |     Game_typ=  0000     |     LEFT_LIM=  0000 
+    RIGHT_LI=  0050     |     TOP_LIMI=  000A     |     gameStar   **** GX
+    getVideo   **** GX  |     incTeam1   **** GX  |     incTeam2   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

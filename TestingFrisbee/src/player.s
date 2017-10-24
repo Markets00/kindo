@@ -44,16 +44,19 @@ player_update::
 	ld 	ix, #player_data
 	call checkUserInput
 
-	ld	hl, #frisbee_data
-	push 	hl
-	ld	hl, #player_data
-	push 	hl
-	ld	hl, #enemy_data
-	push 	hl
-	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
-	pop 	af
-	pop 	af
-	pop 	af
+	ld 	ix, #enemy_data
+	call checkUserInput
+
+;;	ld	hl, #frisbee_data
+;;	push 	hl
+;;	ld	hl, #player_data
+;;	push 	hl
+;;	ld	hl, #enemy_data
+;;	push 	hl
+;;	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
+;;	pop 	af
+;;	pop 	af
+;;	pop 	af
 
 	ld 	ix, #player_data
 	call entityUpdatePhysics
@@ -221,37 +224,76 @@ checkCenterCrossing:
 checkUserInput:
 	call cpct_scanKeyboard_asm						;;;;; TO DO DESACOPLAR ESTE CÓDIGO PARA QUE JUEGUEN 2 JUGADORES ;;;;;;;;;;
 
-	ld 	hl, #Key_D			;; HL = D Keycode
-	call 	cpct_isKeyPressed_asm 		;; A = True/False
-	cp 	#0 				;; A == 0?
-	jr 	z, d_not_pressed
-		;; D is pressed
-		call 	moveRight	
-	d_not_pressed:
+	ld 	a, Ent_id(ix)
+	cp	#1
+	jp	nz, player_2
+		;; Player 1
+		ld 	hl, #Key_D			;; HL = D Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, d_not_pressed
+			;; D is pressed
+			call 	moveRight	
+		d_not_pressed:
 
-	ld 	hl, #Key_A			;; HL = A Keycode
-	call 	cpct_isKeyPressed_asm 		;; A = True/False
-	cp 	#0 				;; A == 0?
-	jr 	z, a_not_pressed
-		;; A is pressed	
-		call 	moveLeft
-	a_not_pressed:
+		ld 	hl, #Key_A			;; HL = A Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, a_not_pressed
+			;; A is pressed	
+			call 	moveLeft
+		a_not_pressed:
 
-	ld 	hl, #Key_W			;; HL = W Keycode
-	call 	cpct_isKeyPressed_asm 		;; A = True/False
-	cp 	#0 				;; A == 0?
-	jr 	z, w_not_pressed
-		;; W is pressed
-		call 	moveUp	
-	w_not_pressed:
+		ld 	hl, #Key_W			;; HL = W Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, w_not_pressed
+			;; W is pressed
+			call 	moveUp	
+		w_not_pressed:
 
-	ld 	hl, #Key_S			;; HL = S Keycode
-	call 	cpct_isKeyPressed_asm 		;; A = True/False
-	cp 	#0 				;; A == 0?
-	jr 	z, s_not_pressed
-		;; S is pressed	
-		call 	moveDown
-	s_not_pressed:
+		ld 	hl, #Key_S			;; HL = S Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, s_not_pressed
+			;; S is pressed	
+			call 	moveDown
+		s_not_pressed:
+		jr five_not_pressed
+
+	player_2:
+		ld 	hl, #Key_F6			;; HL = F6 Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, six_not_pressed
+			;; D is pressed
+			call 	moveRight	
+		six_not_pressed:
+
+		ld 	hl, #Key_F4			;; HL = F4 Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, four_not_pressed
+			;; A is pressed	
+			call 	moveLeft
+		four_not_pressed:
+
+		ld 	hl, #Key_F8			;; HL = F8 Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, eight_not_pressed
+			;; W is pressed
+			call 	moveUp	
+		eight_not_pressed:
+
+		ld 	hl, #Key_F5			;; HL = F5 Keycode
+		call 	cpct_isKeyPressed_asm 		;; A = True/False
+		cp 	#0 				;; A == 0?
+		jr 	z, five_not_pressed
+			;; S is pressed	
+			call 	moveDown
+		five_not_pressed:
+
 
 
 	call checkVandB
@@ -270,45 +312,95 @@ checkVandB:
 	call 	checkFrisbeeCollision 	;; A == collision/no_collision
 	pop 	ix
 	cp 	#0			;; A == 0?
-	jr	z, b_not_pressed 	;; checkFrisbeeCollision == 0?
+	jp	z, no_collision 	;; checkFrisbeeCollision == 0?
+		;; There is collision
 
-		ld 	hl, #Key_V			;; HL = V Keycode
-		call 	cpct_isKeyPressed_asm 		;; A = True/False
-		cp 	#0 				;; A == 0?
-		jr 	z, v_not_pressed
-			;; V is pressed	
-			ld 	hl, #Key_B			;; HL = B Keycode
+		ld 	a, Ent_id(ix)
+		cp	#1
+		jr	nz, player_2_vorb
+			;; Player 1
+
+			ld 	hl, #Key_V			;; HL = V Keycode
 			call 	cpct_isKeyPressed_asm 		;; A = True/False
 			cp 	#0 				;; A == 0?
-			jr 	z, just_v_pressed
-				;; V and B are pressed
-				ld 	hl, #0			;; HL <= standard effect
-				call frisbee_setEffect		;; efecto hacia abajo
-				jr vorb_pressed
-			just_v_pressed:
-				ld 	hl, #std_N_eff		;; HL <= -standard effect
-				push 	ix
-				call frisbee_setEffect		;; efecto hacia arriba
-				pop 	ix
-				jr 	vorb_pressed
-		v_not_pressed:
+			jr 	z, v_not_pressed
+				;; V is pressed	
+				ld 	hl, #Key_B			;; HL = B Keycode
+				call 	cpct_isKeyPressed_asm 		;; A = True/False
+				cp 	#0 				;; A == 0?
+				jr 	z, just_v_pressed
+					;; V and B are pressed
+					ld 	hl, #0			;; HL <= standard effect
+					call frisbee_setEffect		;; efecto hacia abajo
+					jr vorb_pressed
+				just_v_pressed:
+					ld 	hl, #std_N_eff		;; HL <= -standard effect
+					push 	ix
+					call frisbee_setEffect		;; efecto hacia arriba
+					pop 	ix
+					jr 	vorb_pressed
+			v_not_pressed:
 
-			ld 	hl, #Key_B			;; HL = B Keycode
+				ld 	hl, #Key_B			;; HL = B Keycode
+				call 	cpct_isKeyPressed_asm 		;; A = True/False
+				cp 	#0 				;; A == 0?
+				jr 	z, b_not_pressed
+					;; B is pressed
+					ld 	hl, #std_eff		;; HL <= standard effect
+					push 	ix
+					call frisbee_setEffect		;; efecto hacia abajo
+					pop 	ix
+
+					vorb_pressed:
+					ld	h, Ent_vx_I(ix)		;;
+					ld	l, Ent_vx_F(ix)		;;
+					ld	d, Ent_vy_I(ix)		;;
+					ld	e, Ent_vy_F(ix)		;;
+					call frisbee_setVelocities	;; transferimos las velocidades de la entidad al frisbee
+
+					jr o_not_pressed
+	player_2_vorb:
+
+			ld 	hl, #Key_I			;; HL = I Keycode
 			call 	cpct_isKeyPressed_asm 		;; A = True/False
 			cp 	#0 				;; A == 0?
-			jr 	z, b_not_pressed
-				;; B is pressed
-				ld 	hl, #std_eff		;; HL <= standard effect
-				push 	ix
-				call frisbee_setEffect		;; efecto hacia abajo
-				pop 	ix
+			jr 	z, i_not_pressed
+				;; I is pressed	
+				ld 	hl, #Key_O			;; HL = O Keycode
+				call 	cpct_isKeyPressed_asm 		;; A = True/False
+				cp 	#0 				;; A == 0?
+				jr 	z, just_i_pressed
+					;; I and O are pressed
+					ld 	hl, #0			;; HL <= standard effect
+					call frisbee_setEffect		;; efecto hacia abajo
+					jr ioro_pressed
+				just_i_pressed:
+					ld 	hl, #std_N_eff		;; HL <= -standard effect
+					push 	ix
+					call frisbee_setEffect		;; efecto hacia arriba
+					pop 	ix
+					jr 	ioro_pressed
+			i_not_pressed:
 
-				vorb_pressed:
-				ld	h, Ent_vx_I(ix)		;;
-				ld	l, Ent_vx_F(ix)		;;
-				ld	d, Ent_vy_I(ix)		;;
-				ld	e, Ent_vy_F(ix)		;;
-				call frisbee_setVelocities	;; transferimos las velocidades de la entidad al frisbee
+				ld 	hl, #Key_O			;; HL = O Keycode
+				call 	cpct_isKeyPressed_asm 		;; A = True/False
+				cp 	#0 				;; A == 0?
+				jr 	z, o_not_pressed
+					;; O is pressed
+					ld 	hl, #std_eff		;; HL <= standard effect
+					push 	ix
+					call frisbee_setEffect		;; efecto hacia abajo
+					pop 	ix
 
+					ioro_pressed:
+					ld	h, Ent_vx_I(ix)		;;
+					ld	l, Ent_vx_F(ix)		;;
+					ld	d, Ent_vy_I(ix)		;;
+					ld	e, Ent_vy_F(ix)		;;
+					call frisbee_setVelocities	;; transferimos las velocidades de la entidad al frisbee
+
+
+	no_collision:
 	b_not_pressed:
+	o_not_pressed:
 	ret

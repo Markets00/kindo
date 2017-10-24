@@ -21,7 +21,7 @@ S cpct_disableFirmware_asm Ref0000
 S cpct_drawSolidBox_asm Ref0000
 S cpct_scanKeyboard_asm Ref0000
 S cpct_getScreenPtr_asm Ref0000
-A _CODE size F0 flags 0 addr 0
+A _CODE size F8 flags 0 addr 0
 S frisbee_checkGoal Def00D6
 S frisbee_update Def009F
 S frisbee_restart Def0038
@@ -109,17 +109,19 @@ T D0 00 74 08 DD 75 09 C9
 R 00 00 00 00
 T D6 00
 R 00 00 00 00
-T D6 00 DD 7E 00 FE 00 20 05 CD 00 00 18 0A
-R 00 00 00 00 02 0A 0D 00
-T E2 00
+T D6 00 DD 7E 00 FE 00 20 09 DD E5 CD 00 00 DD E1
+R 00 00 00 00 02 0C 0D 00
+T E4 00 18 0E
 R 00 00 00 00
-T E2 00 DD 86 05 FE 50 20 06 CD 00 00
-R 00 00 00 00 02 0A 0C 00
-T EC 00
+T E6 00
 R 00 00 00 00
-T EC 00 CD 38 00
+T E6 00 DD 86 05 FE 50 20 0A DD E5 CD 00 00 DD E1
+R 00 00 00 00 02 0C 0C 00
+T F4 00
+R 00 00 00 00
+T F4 00 CD 38 00
 R 00 00 00 00 00 03 00 00
-T EF 00
+T F7 00
 R 00 00 00 00
-T EF 00 C9
+T F7 00 C9
 R 00 00 00 00

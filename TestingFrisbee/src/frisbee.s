@@ -210,7 +210,9 @@ frisbee_checkGoal::
 	cp	#LEFT_LIMIT
 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
 		;; left goal
+		push ix
 		call incTeam2Points
+		pop ix
 		jr	goal
 
 	no_left_goal:
@@ -218,8 +220,9 @@ frisbee_checkGoal::
 		cp	#RIGHT_LIMIT
 		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
 			;; right goal
+			push ix
 			call incTeam1Points
-
+			pop ix
 	goal:
 		call frisbee_restart
 

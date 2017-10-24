@@ -4,6 +4,7 @@
 .include "player.h.s"
 .include "frisbee.h.s"
 .include "utility.h.s"
+.include "game.h.s"
 	
 ;; ====================================
 ;; ====================================
@@ -11,19 +12,25 @@
 ;; ====================================
 ;; ====================================
 
-.equ Game_type, 	0	;; Game mode
-.equ Game_map_L, 	1	;; Low part of pointer to game map
-.equ Game_map_H, 	2	;; High part of pointer to game map
-.equ Game_fTime_H, 	3	;; High part of final match time
-.equ Game_fTime_L, 	4	;; Low part of final match time
-.equ Game_t1points, 	5	;; Points of team 1
-.equ Game_t2points, 	6	;; Points of team 2
+;; .equ Game_type, 	0	;; Game mode
+;; .equ Game_map_L, 	1	;; Low part of pointer to game map
+;; .equ Game_map_H, 	2	;; High part of pointer to game map
+;; .equ Game_fTime_H, 	3	;; High part of final match time
+;; .equ Game_fTime_L, 	4	;; Low part of final match time
+;; .equ Game_t1points, 	5	;; Points of team 1
+;; .equ Game_t2points, 	6	;; Points of team 2
+;; .equ Game_max_points, 	7	;; maximum of points
+;; 
+;; .equ RIGHT_LIMIT,	80
+;; .equ LEFT_LIMIT,	0
+;; .equ TOP_LIMIT,	 	10
+;; .equ BOTTOM_LIMIT,	200
+;; .equ CENTER_LIMIT,	40
 
-.equ RIGHT_LIMIT,	80
-.equ LEFT_LIMIT,	0
-.equ TOP_LIMIT,	 	10
-.equ BOTTOM_LIMIT,	200
-.equ CENTER_LIMIT,	40
+
+
+;; .macro defineGame name, type, map, fTime
+defineGame game, #0, #0x0000, #0x012C
 
 ;; ====================================
 ;; ====================================
@@ -46,9 +53,6 @@ videoPtr:	.dw 0x8000
 ;; ===================================
 ;; Inicia una partida dependiendo
 ;; 	de los atributos de game
-;; Entrada:
-;; 	IX => Pointer to game data 
-;; Modifica IX
 ;; ===================================
 gameStart::
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -94,23 +98,41 @@ getVideoPtr::
 
 ;; ==================================
 ;; Incrementa los puntos del equipo 1
-;; Modifica: A
+;; Modifica: A, IX
 ;; ==================================
 incTeam1Points::
-	ld	a, (Game_t1points)
-	inc	a
-	ld	(Game_t1points), a	;; Inc team 1 points
-	ret
+	ld 	ix, #game_data
+	ld	a, Game_max_points(ix)
+	ld 	b, a				;; B <= Max points
+
+	ld	a, Game_t1points(ix)
+	inc	a				;; A <= Team 1 points + 1
+
+	cp 	b
+	jr	z, max_t1_points		;; t1Points+1 == max_points? 
+		ld	Game_t1points(ix), a	;; Inc team 1 points
+
+	max_t1_points:
+		ret
 
 ;; ==================================
 ;; Incrementa los puntos del equipo 2
-;; Modifica: A
+;; Modifica: A, IX
 ;; ==================================
 incTeam2Points::
-	ld	a, (Game_t2points)
-	inc	a
-	ld	(Game_t2points), a	;; Inc team 2 points
-	ret
+	ld 	ix, #game_data
+	ld	a, Game_max_points(ix)
+	ld 	b, a				;; B <= Max points
+
+	ld	a, Game_t2points(ix)
+	inc	a				;; A <= Team 1 points + 1
+
+	cp 	b
+	jr	z, max_t2_points		;; t1Points+1 == max_points? 
+		ld	Game_t1points(ix), a	;; Inc team 1 points
+
+	max_t2_points:
+		ret
 
 ;; ====================================
 ;; ====================================

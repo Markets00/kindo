@@ -123,33 +123,35 @@ Hexadecimal [16-Bits]
                               8 .globl incTeam1Points
                               9 .globl incTeam2Points
                              10 
-                             11 .macro defineGame name, type, map, fTime, t1points, t2points
+                             11 .macro defineGame name, type, map, fTime
                              12 	name'_data::
-                             13 		name'_type::	.db type	;; Game Mode			(8 bits)
-                             14 		name'_map::	.dw map		;; Pointer to map of tiles	(16 bits little endian)
-                             15 		name'_fTime::	.dw fTime	;; Final duration of each match	(16 bits)
-                             16 		name'_t1points:: .db t1points 	;; Points of team 1		(8 bits)
-                             17 		name'_t2points:: .db t2points 	;; Points of team 2		(8 bits)
-                             18 .endm
-                             19 
-                             20 ;; ====================================
+                             13 		name'_type::		.db type	;; Game Mode			(8 bits)
+                             14 		name'_map::		.dw map		;; Pointer to map of tiles	(16 bits little endian)
+                             15 		name'_fTime::		.dw fTime	;; Final duration of each match	(16 bits)
+                             16 		name'_t1points:: 	.db 0 		;; Points of team 1		(8 bits)
+                             17 		name'_t2points:: 	.db 0 		;; Points of team 2		(8 bits)
+                             18 		name'_maxPoints:: 	.db 100 	;; Quantity of points to win	(8 bits)
+                             19 .endm
+                             20 
                              21 ;; ====================================
-                             22 ;; GAME PUBLIC DATA
-                             23 ;; ====================================
+                             22 ;; ====================================
+                             23 ;; GAME PUBLIC DATA
                              24 ;; ====================================
-                     0000    25 .equ Game_type, 	0	;; Game mode
-                     0001    26 .equ Game_map_L, 	1	;; Low part of pointer to game map
-                     0002    27 .equ Game_map_H, 	2	;; High part of pointer to game map
-                     0003    28 .equ Game_fTime_H, 	3	;; High part of final match time
-                     0004    29 .equ Game_fTime_L, 	4	;; Low part of final match time
-                     0005    30 .equ Game_t1points, 	5	;; Points of team 1
-                     0006    31 .equ Game_t2points, 	6	;; Points of team 2
-                             32 
-                     0050    33 .equ RIGHT_LIMIT,	80
-                     0000    34 .equ LEFT_LIMIT,	0
-                     000A    35 .equ TOP_LIMIT,	 	10
-                     00C8    36 .equ BOTTOM_LIMIT,	200
-                     0028    37 .equ CENTER_LIMIT,	40
+                             25 ;; ====================================
+                     0000    26 .equ Game_type, 	0	;; Game mode
+                     0001    27 .equ Game_map_L, 	1	;; Low part of pointer to game map
+                     0002    28 .equ Game_map_H, 	2	;; High part of pointer to game map
+                     0003    29 .equ Game_fTime_H, 	3	;; High part of final match time
+                     0004    30 .equ Game_fTime_L, 	4	;; Low part of final match time
+                     0005    31 .equ Game_t1points, 	5	;; Points of team 1
+                     0006    32 .equ Game_t2points, 	6	;; Points of team 2
+                     0007    33 .equ Game_max_points, 	7	;; maximum of points
+                             34 
+                     0050    35 .equ RIGHT_LIMIT,	80
+                     0000    36 .equ LEFT_LIMIT,	0
+                     000A    37 .equ TOP_LIMIT,	 	10
+                     00C8    38 .equ BOTTOM_LIMIT,	200
+                     0028    39 .equ CENTER_LIMIT,	40
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
@@ -286,145 +288,150 @@ Hexadecimal [16-Bits]
                              91 ;; ================================================
                              92 ;; Modifica el valor de la velocidad del frisbee
                              93 ;; 	en el eje X e Y, al recibido en HL y DE
-                             94 ;; Recibe:
-                             95 ;; 	HL <= X axis velocity
-                             96 ;; 	DE <= Y axis velocity
-                             97 ;; Modifica: HL, IX
-                             98 ;; ================================================
-   0069                      99 frisbee_setVelocities::
-   0069 DD 21 00 00   [14]  100 	ld 	ix, #frisbee_data
-                            101 
-   006D 7C            [ 4]  102 	ld	a, h
-   006E FE 00         [ 7]  103 	cp	#0
-   0070 FA 7E 00      [10]  104 	jp	m, negative_vx
-                            105 		;; positive vx
-   0073 FE 01         [ 7]  106 		cp	#1
-   0075 38 02         [12]  107 		jr	c, less_than_one
-                            108 			;; vx greater than one
-   0077 18 0E         [12]  109 			jr set_vels
-   0079                     110 		less_than_one:
-   0079 21 80 00      [10]  111 			ld	hl, #0x0080
-   007C 18 09         [12]  112 			jr set_vels
-   007E                     113 	negative_vx:
-   007E FE FF         [ 7]  114 		cp	#-1
-   0080 38 02         [12]  115 		jr	c, less_than_minus_one
-                            116 			;; vx greater than minus one
-   0082 18 03         [12]  117 			jr set_vels
-   0084                     118 		less_than_minus_one:
-   0084 21 80 FF      [10]  119 			ld	hl, #0xFF80
-                            120 
-   0087                     121 	set_vels:
-   0087 DD 74 06      [19]  122 	ld 	Ent_vx_I(ix), h
-   008A DD 75 07      [19]  123 	ld 	Ent_vx_F(ix), l
-   008D DD 72 08      [19]  124 	ld 	Ent_vy_I(ix), d
-   0090 DD 73 09      [19]  125 	ld 	Ent_vy_F(ix), e
-   0093 C9            [10]  126 	ret
-                            127 
-                            128 
-                            129 ;; ===========================================
-                            130 ;; Modifica el valor del efecto del frisbee
-                            131 ;; 	al recibido en HL
-                            132 ;; Recibe:
-                            133 ;; 	HL <= Effect value
-                            134 ;; ===========================================
-   0094                     135 frisbee_setEffect::
-   0094 DD 21 00 00   [14]  136 	ld 	ix, #frisbee_data
-   0098 DD 74 17      [19]  137 	ld 	Frisbee_effect_I(ix), h
+                             94 ;;	Si la velocidad en el eje X es menor que 1
+                             95 ;; 	la modifica a mínimo 1 (positivo y neg)
+                             96 ;; Recibe:
+                             97 ;; 	HL <= X axis velocity
+                             98 ;; 	DE <= Y axis velocity
+                             99 ;; Modifica: HL, IX
+                            100 ;; ================================================
+   0069                     101 frisbee_setVelocities::
+   0069 DD 21 00 00   [14]  102 	ld 	ix, #frisbee_data
+                            103 
+   006D 7C            [ 4]  104 	ld	a, h
+   006E FE 00         [ 7]  105 	cp	#0
+   0070 FA 7E 00      [10]  106 	jp	m, negative_vx
+                            107 		;; positive vx
+   0073 FE 01         [ 7]  108 		cp	#1
+   0075 38 02         [12]  109 		jr	c, less_than_one
+                            110 			;; vx greater than one
+   0077 18 0E         [12]  111 			jr set_vels
+   0079                     112 		less_than_one:
+   0079 21 80 00      [10]  113 			ld	hl, #0x0080
+   007C 18 09         [12]  114 			jr set_vels
+   007E                     115 	negative_vx:
+   007E FE FF         [ 7]  116 		cp	#-1
+   0080 38 02         [12]  117 		jr	c, less_than_minus_one
+                            118 			;; vx greater than minus one
+   0082 18 03         [12]  119 			jr set_vels
+   0084                     120 		less_than_minus_one:
+   0084 21 80 FF      [10]  121 			ld	hl, #0xFF80
+                            122 
+   0087                     123 	set_vels:
+   0087 DD 74 06      [19]  124 	ld 	Ent_vx_I(ix), h
+   008A DD 75 07      [19]  125 	ld 	Ent_vx_F(ix), l
+   008D DD 72 08      [19]  126 	ld 	Ent_vy_I(ix), d
+   0090 DD 73 09      [19]  127 	ld 	Ent_vy_F(ix), e
+   0093 C9            [10]  128 	ret
+                            129 
+                            130 
+                            131 ;; ===========================================
+                            132 ;; Modifica el valor del efecto del frisbee
+                            133 ;; 	al recibido en HL
+                            134 ;; Recibe:
+                            135 ;; 	HL <= Effect value
+                            136 ;; ===========================================
+   0094                     137 frisbee_setEffect::
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
 Hexadecimal [16-Bits]
 
 
 
-   009B DD 75 18      [19]  138 	ld 	Frisbee_effect_F(ix), l
-   009E C9            [10]  139 	ret
-                            140 
-                            141 ;; =========================================
-                            142 ;; Actualiza el estado del frisbee
-                            143 ;; Modifica A
-                            144 ;; =========================================
-   009F                     145 frisbee_update::
-                            146 
-   009F 3A 14 00      [13]  147 	ld 	a, (frisbee_state)	;; A <= frisbee_state
-   00A2 FE 01         [ 7]  148 	cp 	#1
-   00A4 20 0E         [12]  149 	jr 	nz, not_active		;; A != 1?
-                            150 	
-                            151 		;; Active
-   00A6 DD 21 00 00   [14]  152 		ld 	ix, #frisbee_data
-   00AA CD C2 00      [17]  153 		call frisbee_applyEffect 	
-   00AD CD 00 00      [17]  154 		call entityUpdatePhysics
-   00B0 CD 00 00      [17]  155 		call entityUpdatePosition
-   00B3 C9            [10]  156 		ret
-                            157 
-   00B4                     158 	not_active:
-   00B4 3E 01         [ 7]  159 		ld 	a, #1
-   00B6 32 14 00      [13]  160 		ld 	(frisbee_state), a
-   00B9 C9            [10]  161 	ret
-                            162 
-   00BA                     163 frisbee_draw::
+   0094 DD 21 00 00   [14]  138 	ld 	ix, #frisbee_data
+   0098 DD 74 17      [19]  139 	ld 	Frisbee_effect_I(ix), h
+   009B DD 75 18      [19]  140 	ld 	Frisbee_effect_F(ix), l
+   009E C9            [10]  141 	ret
+                            142 
+                            143 ;; =========================================
+                            144 ;; Actualiza el estado del frisbee
+                            145 ;; Modifica A
+                            146 ;; =========================================
+   009F                     147 frisbee_update::
+                            148 
+   009F 3A 14 00      [13]  149 	ld 	a, (frisbee_state)	;; A <= frisbee_state
+   00A2 FE 01         [ 7]  150 	cp 	#1
+   00A4 20 0E         [12]  151 	jr 	nz, not_active		;; A != 1?
+                            152 	
+                            153 		;; Active
+   00A6 DD 21 00 00   [14]  154 		ld 	ix, #frisbee_data
+   00AA CD C2 00      [17]  155 		call frisbee_applyEffect 	
+   00AD CD 00 00      [17]  156 		call entityUpdatePhysics
+   00B0 CD 00 00      [17]  157 		call entityUpdatePosition
+   00B3 C9            [10]  158 		ret
+                            159 
+   00B4                     160 	not_active:
+   00B4 3E 01         [ 7]  161 		ld 	a, #1
+   00B6 32 14 00      [13]  162 		ld 	(frisbee_state), a
+   00B9 C9            [10]  163 	ret
                             164 
-   00BA DD 21 00 00   [14]  165 	ld 	ix, #frisbee_data
-   00BE CD 00 00      [17]  166 	call entityDraw 		;; Pintar cuadrado azul cian
-                            167 
-   00C1 C9            [10]  168 	ret
-                            169 	
-                            170 ;; ====================================
-                            171 ;; ====================================
-                            172 ;; PRIVATE FUNCTIONS
+   00BA                     165 frisbee_draw::
+                            166 
+   00BA DD 21 00 00   [14]  167 	ld 	ix, #frisbee_data
+   00BE CD 00 00      [17]  168 	call entityDraw 		;; Pintar cuadrado azul cian
+                            169 
+   00C1 C9            [10]  170 	ret
+                            171 	
+                            172 ;; ====================================
                             173 ;; ====================================
-                            174 ;; ====================================
-                            175 
-                            176 
-                            177 ;; ===========================================
-                            178 ;; Mueve el frisbee a la izquierda un píxel
-                            179 ;; Recibe:
-                            180 ;; 	IX <= Pointer to entity data
-                            181 ;; Modifica A
-                            182 ;; ===========================================
-   00C2                     183 frisbee_applyEffect:
-                            184 
-                            185 	;; vy' = vy + ay
-   00C2 DD 66 08      [19]  186 	ld 	h, Ent_vy_I(ix)
-   00C5 DD 6E 09      [19]  187 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
-   00C8 DD 56 17      [19]  188 	ld 	d, Frisbee_effect_I(ix)
-   00CB DD 5E 18      [19]  189 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
-                            190 
-   00CE 19            [11]  191 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
+                            174 ;; PRIVATE FUNCTIONS
+                            175 ;; ====================================
+                            176 ;; ====================================
+                            177 
+                            178 
+                            179 ;; ===========================================
+                            180 ;; Mueve el frisbee a la izquierda un píxel
+                            181 ;; Recibe:
+                            182 ;; 	IX <= Pointer to entity data
+                            183 ;; Modifica A
+                            184 ;; ===========================================
+   00C2                     185 frisbee_applyEffect:
+                            186 
+                            187 	;; vy' = vy + ay
+   00C2 DD 66 08      [19]  188 	ld 	h, Ent_vy_I(ix)
+   00C5 DD 6E 09      [19]  189 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy
+   00C8 DD 56 17      [19]  190 	ld 	d, Frisbee_effect_I(ix)
+   00CB DD 5E 18      [19]  191 	ld 	e, Frisbee_effect_F(ix)	;; DE <= frisbee_effect
                             192 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
 Hexadecimal [16-Bits]
 
 
 
-   00CF DD 74 08      [19]  193 	ld 	Ent_vy_I(ix), h
-   00D2 DD 75 09      [19]  194 	ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
-                            195 
-   00D5 C9            [10]  196 	ret
+   00CE 19            [11]  193 	add 	hl, de 			;; HL <= HL + DE (ent_vy + frisbee_effect)
+                            194 
+   00CF DD 74 08      [19]  195 	ld 	Ent_vy_I(ix), h
+   00D2 DD 75 09      [19]  196 	ld 	Ent_vy_F(ix), l		;; Ent_vy <= HL
                             197 
-                            198 
-                            199 ;; ===========================================
-                            200 ;; Comprueba si el frisbee está en posición
-                            201 ;;	de gol
-                            202 ;; Recibe:
-                            203 ;; 	IX <= Pointer to entity data
-                            204 ;; Modifica A
-                            205 ;; ===========================================
-   00D6                     206 frisbee_checkGoal::
-   00D6 DD 7E 00      [19]  207 	ld 	a, Ent_x_I(ix)		;; A <= Ent_x_I
-   00D9 FE 00         [ 7]  208 	cp	#LEFT_LIMIT
-   00DB 20 05         [12]  209 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
-                            210 		;; left goal
-   00DD CD 00 00      [17]  211 		call incTeam2Points
-   00E0 18 0A         [12]  212 		jr	goal
-                            213 
-   00E2                     214 	no_left_goal:
-   00E2 DD 86 05      [19]  215 		add 	a, Ent_w(ix)		;; A <= Ent_x + Ent_w
-   00E5 FE 50         [ 7]  216 		cp	#RIGHT_LIMIT
-   00E7 20 06         [12]  217 		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
-                            218 			;; right goal
-   00E9 CD 00 00      [17]  219 			call incTeam1Points
-                            220 
-   00EC                     221 	goal:
-   00EC CD 38 00      [17]  222 		call frisbee_restart
-                            223 
-   00EF                     224 	no_right_goal:
-   00EF C9            [10]  225 	ret
+   00D5 C9            [10]  198 	ret
+                            199 
+                            200 
+                            201 ;; ===========================================
+                            202 ;; Comprueba si el frisbee está en posición
+                            203 ;;	de gol
+                            204 ;; Recibe:
+                            205 ;; 	IX <= Pointer to entity data
+                            206 ;; Modifica A
+                            207 ;; ===========================================
+   00D6                     208 frisbee_checkGoal::
+   00D6 DD 7E 00      [19]  209 	ld 	a, Ent_x_I(ix)		;; A <= Ent_x_I
+   00D9 FE 00         [ 7]  210 	cp	#LEFT_LIMIT
+   00DB 20 09         [12]  211 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
+                            212 		;; left goal
+   00DD DD E5         [15]  213 		push ix
+   00DF CD 00 00      [17]  214 		call incTeam2Points
+   00E2 DD E1         [14]  215 		pop ix
+   00E4 18 0E         [12]  216 		jr	goal
+                            217 
+   00E6                     218 	no_left_goal:
+   00E6 DD 86 05      [19]  219 		add 	a, Ent_w(ix)		;; A <= Ent_x + Ent_w
+   00E9 FE 50         [ 7]  220 		cp	#RIGHT_LIMIT
+   00EB 20 0A         [12]  221 		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
+                            222 			;; right goal
+   00ED DD E5         [15]  223 			push ix
+   00EF CD 00 00      [17]  224 			call incTeam1Points
+   00F2 DD E1         [14]  225 			pop ix
+   00F4                     226 	goal:
+   00F4 CD 38 00      [17]  227 		call frisbee_restart
+                            228 
+   00F7                     229 	no_right_goal:
+   00F7 C9            [10]  230 	ret
