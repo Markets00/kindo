@@ -58,12 +58,12 @@ Hexadecimal [16-Bits]
                              27 ;; PUBLIC FUNCTIONS
                              28 ;; ====================================
                              29 ;; ====================================
-   06D5                      30 menuStart::
-   06D5 CD DA 06      [17]   31 	call 	initializeMenu
+   0EFB                      30 menuStart::
+   0EFB CD 00 0F      [17]   31 	call 	initializeMenu
                              32 	;; Do stuff here...
                              33 	;; Do stuff here...
                              34 	;; Do stuff here...
-   06D8 C9            [10]   35 	ret
+   0EFE C9            [10]   35 	ret
                              36 
                              37 
                              38 ;; ====================================
@@ -72,7 +72,7 @@ Hexadecimal [16-Bits]
                              41 ;; ====================================
                              42 ;; ====================================
                              43 
-   06D9                      44 checkUserInput:
+   0EFF                      44 checkUserInput:
                              45 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                              46 	;; Reading keyboard example
                              47 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -99,13 +99,13 @@ Hexadecimal [16-Bits]
                              63 	;; 		down_not_pressed:
                              64 	;; 		;; Down is not pressed code
                              65 
-   06D9 C9            [10]   66 	ret
+   0EFF C9            [10]   66 	ret
                              67 
                              68 ;; ========================
                              69 ;; Initialize menu
                              70 ;; ========================
-   06DA                      71 initializeMenu:
-   06DA CD F0 0F      [17]   72 	call cpct_disableFirmware_asm
+   0F00                      71 initializeMenu:
+   0F00 CD 73 18      [17]   72 	call cpct_disableFirmware_asm
                              73 
                              74 	;; Set video mode
                              75 	;; ld 	c, #0
@@ -116,4 +116,4 @@ Hexadecimal [16-Bits]
                              80 	;; ld 	de, #16
                              81 	;; call cpct_setPalette_asm
                              82 
-   06DD C9            [10]   83 	ret
+   0F03 C9            [10]   83 	ret

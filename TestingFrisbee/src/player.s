@@ -95,34 +95,69 @@ delta:
 
 update:
 
+;; =========================================
+;; Invierte los datos para poder operarlos
+;;	en C
+;; Entrada:
+;;	IX <= Pointer to entity data
+;;	Modifica: BC
+;; =========================================
+invert_variables:
+	;; Inverts X
+	ld	b,	Ent_x_I(ix)
+	ld	c,	Ent_x_F(ix)
+	ld	Ent_x_I(ix), c
+	ld	Ent_x_F(ix), b
 
-move_IA:
-	ld	hl, #frisbee_data
-	push 	hl
-	ld	hl, #player_data
-	push 	hl
-	ld	hl, #enemy_data
-	push 	hl
-	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
-	pop 	af
-	pop 	af
-	pop 	af
+	;; Inverts Y
+	ld	b,	Ent_y_I(ix)
+	ld	c,	Ent_y_F(ix)
+	ld	Ent_y_I(ix), c
+	ld	Ent_y_F(ix), b
 
-	ld	ix, #enemy_data
+	;; Inverts AX
+	ld	b, Ent_ax_I(ix)		 
+	ld	c, Ent_ax_F(ix)		 
+	ld	Ent_ax_I(ix), c		 
+	ld	Ent_ax_F(ix), b		
 
-	ld	h, Ent_ax_I(ix)		;; 
-	ld	l, Ent_ax_F(ix)		;; 
-	ld	Ent_ax_I(ix), l		;; 
-	ld	Ent_ax_F(ix), h		;; Swap ax_I and ax_F due to C variables formatting
+	;; Inverts AY
+	ld	b, Ent_ay_I(ix)		 
+	ld	c, Ent_ay_F(ix)		 
+	ld	Ent_ay_I(ix), c		 
+	ld	Ent_ay_F(ix), b		
 
-	ld	h, Ent_ay_I(ix)		;; 
-	ld	l, Ent_ay_F(ix)		;; 
-	ld	Ent_ay_I(ix), l		;; 
-	ld	Ent_ay_F(ix), h		;; Swap ay_I and ay_F due to C variables formatting
-
+	;; FALTARIA EFECTO, CUIDAO
 
 	ret
 
+move_IA:
+
+	ld	ix, #frisbee_data
+	push 	ix
+	call 	invert_variables
+	ld	ix, #player_data
+	push 	ix
+	call 	invert_variables
+	ld	ix, #enemy_data
+	push 	ix
+	call 	invert_variables
+	call _moveIA			;; moveIA(TEntity* myself, TEntity* enemy, TEntity* frisbee)
+	
+	pop 	ix
+	pop 	ix
+	pop 	ix
+
+	ld	ix, #frisbee_data
+	call 	invert_variables
+	ld	ix, #player_data
+	call 	invert_variables
+	ld	ix, #enemy_data
+	call 	invert_variables
+
+
+	ret
+	
 ;; =========================================
 ;; Comprueba si la entidad colisiona con 
 ;; 	el frisbee

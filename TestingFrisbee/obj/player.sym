@@ -45,14 +45,14 @@ Symbol Table
     Key_Z   =  8008     |     LEFT_LIM=  0000     |     MAX_VEL_=  0003 
     MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFD     |     MIN_VEL_=  FFFFFFFD 
     RIGHT_LI=  0050     |     TOP_LIMI=  000A     |   0 _cpct_ke   0000 GR
-    _moveIA    **** GX  |   0 a_not_pr   0163 R   |   0 b_not_pr   026C R
-  0 checkCen   0113 R   |   0 checkFri   00E8 R   |   0 checkUse   013E R
-  0 checkVan   01B7 R   |     cpct_akp   **** GX  |     cpct_akp   **** GX
+    _moveIA    **** GX  |   0 a_not_pr   019F R   |   0 b_not_pr   02A8 R
+  0 checkCen   014F R   |   0 checkFri   0124 R   |   0 checkUse   017A R
+  0 checkVan   01F3 R   |     cpct_akp   **** GX  |     cpct_akp   **** GX
     cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_get   **** GX
     cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_sca   **** GX
     cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
-    cpct_wai   **** GX  |   0 d_not_pr   0156 R   |   0 delta      00B9 R
-  0 eight_no   01A6 R   |   0 enemy_2_   0059 R   |   0 enemy_2_   005B R
+    cpct_wai   **** GX  |   0 d_not_pr   0192 R   |   0 delta      00B9 R
+  0 eight_no   01E2 R   |   0 enemy_2_   0059 R   |   0 enemy_2_   005B R
   0 enemy_2_   0064 R   |   0 enemy_2_   004F GR  |   0 enemy_2_   0060 R
   0 enemy_2_   0062 R   |   0 enemy_2_   0053 R   |   0 enemy_2_   0065 R
   0 enemy_2_   005F R   |   0 enemy_2_   0061 R   |   0 enemy_2_   005D R
@@ -70,39 +70,40 @@ Symbol Table
   0 enemy_vx   0027 R   |   0 enemy_vy   0029 R   |   0 enemy_w    0026 R
   0 enemy_x    0021 R   |   0 enemy_y    0023 R   |     entityCh   **** GX
     entityDr   **** GX  |     entityEr   **** GX  |     entityUp   **** GX
-    entityUp   **** GX  |   0 five_not   01B3 R   |   0 four_not   0199 R
+    entityUp   **** GX  |   0 five_not   01EF R   |   0 four_not   01D5 R
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
     frisbee_   **** GX  |     frisbee_   **** GX  |     gameStar   **** GX
-    game_dat   **** GX  |     getVideo   **** GX  |   0 i_not_pr   0246 R
-    incTeam1   **** GX  |     incTeam2   **** GX  |   0 invalid_   013D R
-  0 ioro_pre   025A R   |   0 just_i_p   023A R   |   0 just_v_p   01EA R
-  0 moveDown   00F8 R   |   0 moveLeft   0101 R   |   0 moveRigh   00EF R
-  0 moveUp     010A R   |   0 move_IA    00B9 R   |     negateHL   **** GX
-  0 no_colli   026C R   |   0 not_cros   013D R   |   0 o_not_pr   026C R
-    play_mus   **** GX  |   0 player_1   012B R   |   0 player_2   017F R
-  0 player_2   0042 R   |   0 player_2   0044 R   |   0 player_2   004D R
-  0 player_2   0038 GR  |   0 player_2   0049 R   |   0 player_2   004B R
-  0 player_2   003C R   |   0 player_2   004E R   |   0 player_2   0048 R
-  0 player_2   004A R   |   0 player_2   0046 R   |   0 player_2   004C R
-  0 player_2   021E R   |   0 player_2   003E R   |   0 player_2   0040 R
-  0 player_2   003D R   |   0 player_2   0038 R   |   0 player_2   003A R
-  0 player_a   0014 R   |   0 player_a   0016 R   |   0 player_c   001F R
-  0 player_d   000A GR  |   0 player_d   00AA GR  |   0 player_e   0066 GR
-  0 player_e   001B R   |   0 player_e   001D R   |   0 player_h   000E R
-  0 player_i   0020 R   |   0 player_l   001A R   |   0 player_l   001C R
-  0 player_n   0018 R   |   0 player_s   001E R   |   0 player_u   0075 GR
-  0 player_v   0010 R   |   0 player_v   0012 R   |   0 player_w   000F R
-  0 player_x   000A R   |   0 player_y   000C R   |   0 s_not_pr   017D R
-  0 six_not_   018C R   |     std_N_ef=  FFF8     |     std_acc =  0020 
-    std_eff =  0008     |     stop_mus   **** GX  |   0 update     00B9 R
-  0 v_not_pr   01F6 R   |   0 vorb_pre   020A R   |   0 w_not_pr   0170 R
+    game_dat   **** GX  |     getVideo   **** GX  |   0 i_not_pr   0282 R
+    incTeam1   **** GX  |     incTeam2   **** GX  |   0 invalid_   0179 R
+  0 invert_v   00B9 R   |   0 ioro_pre   0296 R   |   0 just_i_p   0276 R
+  0 just_v_p   0226 R   |   0 moveDown   0134 R   |   0 moveLeft   013D R
+  0 moveRigh   012B R   |   0 moveUp     0146 R   |   0 move_IA    00EA R
+    negateHL   **** GX  |   0 no_colli   02A8 R   |   0 not_cros   0179 R
+  0 o_not_pr   02A8 R   |     play_mus   **** GX  |   0 player_1   0167 R
+  0 player_2   01BB R   |   0 player_2   0042 R   |   0 player_2   0044 R
+  0 player_2   004D R   |   0 player_2   0038 GR  |   0 player_2   0049 R
+  0 player_2   004B R   |   0 player_2   003C R   |   0 player_2   004E R
+  0 player_2   0048 R   |   0 player_2   004A R   |   0 player_2   0046 R
+  0 player_2   004C R   |   0 player_2   025A R   |   0 player_2   003E R
+  0 player_2   0040 R   |   0 player_2   003D R   |   0 player_2   0038 R
+  0 player_2   003A R   |   0 player_a   0014 R   |   0 player_a   0016 R
+  0 player_c   001F R   |   0 player_d   000A GR  |   0 player_d   00AA GR
+  0 player_e   0066 GR  |   0 player_e   001B R   |   0 player_e   001D R
+  0 player_h   000E R   |   0 player_i   0020 R   |   0 player_l   001A R
+  0 player_l   001C R   |   0 player_n   0018 R   |   0 player_s   001E R
+  0 player_u   0075 GR  |   0 player_v   0010 R   |   0 player_v   0012 R
+  0 player_w   000F R   |   0 player_x   000A R   |   0 player_y   000C R
+  0 s_not_pr   01B9 R   |   0 six_not_   01C8 R   |     std_N_ef=  FFF8 
+    std_acc =  0020     |     std_eff =  0008     |     stop_mus   **** GX
+  0 update     00B9 R   |   0 v_not_pr   0232 R   |   0 vorb_pre   0246 R
+  0 w_not_pr   01AC R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  26D   flags    0
+   0 _CODE      size  2A9   flags    0
    1 _DATA      size    0   flags    0
 
