@@ -11,8 +11,6 @@
 .globl enemy_data
 .globl player_2_data
 .globl enemy_2_data
-.globl play_music	;; alomejor son privados
-.globl stop_music	;; alomejor son privados
 .globl game_data
 
 ;; ====================================

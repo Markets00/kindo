@@ -1,9 +1,0 @@
-XL2
-H 1 areas 6 global symbols
-S _sprite_robot_1_0 Ref0000
-S _sprite_robot_2_0 Ref0000
-S _sprite_robot_1_1 Ref0000
-S _sprite_robot_2_1 Ref0000
-S .__.ABS. Def0000
-S player_update Ref0000
-A _CODE size 0 flags 0 addr 0
