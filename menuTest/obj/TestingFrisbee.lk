@@ -1,0 +1,25 @@
+-mjwx
+-i obj/TestingFrisbee.ihx
+-b _CODE = 0x0100
+-b _DATA = 0x0000
+-u
+-k /home/pablo/cpctelera/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/bin/../share/sdcc/lib/z80
+-k /home/pablo/cpctelera/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
+-l /home/pablo/cpctelera/cpctelera/cpctelera/cpctelera.lib
+-l z80
+obj/IA.rel
+obj/entity.rel
+obj/frisbee.rel
+obj/entity.h.rel
+obj/game.h.rel
+obj/player.h.rel
+obj/utility.h.rel
+obj/main.rel
+obj/menu.h.rel
+obj/frisbee.h.rel
+obj/credits.rel
+obj/player.rel
+obj/menu.rel
+obj/game.rel
+
+-e

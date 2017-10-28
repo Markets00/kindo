@@ -1,0 +1,67 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     Ent_N_F =  000F     |     Ent_N_I =  000E 
+    Ent_ax_F=  000B     |     Ent_ax_I=  000A     |     Ent_ay_F=  000D 
+    Ent_ay_I=  000C     |     Ent_clr =  0015     |     Ent_eras=  0011 
+    Ent_eras=  0013     |     Ent_h   =  0004     |     Ent_id  =  0016 
+    Ent_last=  0010     |     Ent_last=  0012     |     Ent_stat=  0014 
+    Ent_vx_F=  0007     |     Ent_vx_I=  0006     |     Ent_vy_F=  0009 
+    Ent_vy_I=  0008     |     Ent_w   =  0005     |     Ent_x_F =  0001 
+    Ent_x_I =  0000     |     Ent_y_F =  0003     |     Ent_y_I =  0002 
+    Frisbee_=  0018     |     Frisbee_=  0017     |     MAX_VEL_=  0003 
+    MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFD     |     MIN_VEL_=  FFFFFFFD 
+    cpct_akp   **** GX  |     cpct_akp   **** GX  |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 enemy_2_   004F R   |   0 enemy_2_   0051 R   |   0 enemy_2_   005A R
+  0 enemy_2_   0045 GR  |   0 enemy_2_   0056 R   |   0 enemy_2_   0058 R
+  0 enemy_2_   0049 R   |   0 enemy_2_   005B R   |   0 enemy_2_   0055 R
+  0 enemy_2_   0057 R   |   0 enemy_2_   0053 R   |   0 enemy_2_   0059 R
+  0 enemy_2_   004B R   |   0 enemy_2_   004D R   |   0 enemy_2_   004A R
+  0 enemy_2_   0045 R   |   0 enemy_2_   0047 R   |   0 enemy_ax   0021 R
+  0 enemy_ay   0023 R   |   0 enemy_cl   002C R   |   0 enemy_da   0017 GR
+  0 enemy_er   0028 R   |   0 enemy_er   002A R   |   0 enemy_h    001B R
+  0 enemy_id   002D R   |   0 enemy_la   0027 R   |   0 enemy_la   0029 R
+  0 enemy_no   0025 R   |   0 enemy_st   002B R   |   0 enemy_vx   001D R
+  0 enemy_vy   001F R   |   0 enemy_w    001C R   |   0 enemy_x    0017 R
+  0 enemy_y    0019 R   |     entityCh   **** GX  |     entityDr   **** GX
+    entityEr   **** GX  |     entityUp   **** GX  |     entityUp   **** GX
+  0 exit       015C R   |     frisbee_   **** GX  |     frisbee_   **** GX
+    frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+    frisbee_   **** GX  |     frisbee_   **** GX  |     frisbee_   **** GX
+  0 gameStar   006C GR  |   0 game_Win   005E R   |   0 game_dat   005C GR
+  0 game_int   0067 R   |   0 game_loo   00E6 R   |   0 game_map   0065 R
+  0 game_max   005F R   |   0 game_max   0063 R   |   0 game_mus   0069 R
+  0 game_mus   0068 R   |   0 game_num   005D R   |   0 game_t1S   0060 R
+  0 game_t2S   0061 R   |   0 game_tim   0062 R   |   0 game_typ   005C GR
+  0 getVideo   007E GR  |   0 incTeam1   0082 GR  |   0 incTeam2   008E GR
+  0 initiali   00BA R   |   0 mem_page=  00D3 R   |     negateHL   **** GX
+  0 play_mus   009A GR  |   0 player_2   0038 R   |   0 player_2   003A R
+  0 player_2   0043 R   |   0 player_2   002E GR  |   0 player_2   003F R
+  0 player_2   0041 R   |   0 player_2   0032 R   |   0 player_2   0044 R
+  0 player_2   003E R   |   0 player_2   0040 R   |   0 player_2   003C R
+  0 player_2   0042 R   |   0 player_2   0034 R   |   0 player_2   0036 R
+  0 player_2   0033 R   |   0 player_2   002E R   |   0 player_2   0030 R
+  0 player_a   000A R   |   0 player_a   000C R   |   0 player_c   0015 R
+  0 player_d   0000 GR  |   0 player_e   0011 R   |   0 player_e   0013 R
+  0 player_h   0004 R   |   0 player_i   0016 R   |   0 player_l   0010 R
+  0 player_l   0012 R   |   0 player_n   000E R   |   0 player_s   0014 R
+    player_u   **** GX  |   0 player_v   0006 R   |   0 player_v   0008 R
+  0 player_w   0005 R   |   0 player_x   0000 R   |   0 player_y   0002 R
+  0 scoreEnd   0147 R   |     std_N_ef=  FFF8     |     std_eff =  0008 
+  0 stop_mus   00AA GR  |   0 switchBu   00D2 R   |   0 t2_win     007D R
+  0 timeWinn   013B R   |   0 timesUP    0147 R   |   0 videoPtr   006A R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  15D   flags    0
+   1 _DATA      size    0   flags    0
+
