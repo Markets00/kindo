@@ -13,6 +13,7 @@ obj/frisbee.rel
 obj/entity.h.rel
 obj/game.h.rel
 obj/player.h.rel
+obj/animation.rel
 obj/utility.h.rel
 obj/main.rel
 obj/menu.h.rel

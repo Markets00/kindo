@@ -250,7 +250,7 @@ Hexadecimal [16-Bits]
    0B8B DD 5D                72 	.dw	0x5DDD			;; ld	e, ixl	undocumented opcodes
    0B8D 21 5C 0B      [10]   73 	ld	hl, #init_data
    0B90 01 19 00      [10]   74 	ld	bc, #frisbee_size
-   0B93 CD 70 18      [17]   75 	call cpct_memcpy_asm		;; Ititialize Frisbee
+   0B93 CD 46 18      [17]   75 	call cpct_memcpy_asm		;; Ititialize Frisbee
                              76 
    0B96 E1            [10]   77 	pop	hl
    0B97 DD 74 12      [19]   78 	ld	Ent_last_y(ix), h	;; last_y <= H
@@ -420,7 +420,7 @@ Hexadecimal [16-Bits]
    0C2A 20 09         [12]  227 	jr	nz, no_left_goal	;; Ent_x != LEFT_LIMIT? no goal
                             228 		;; left goal
    0C2C DD E5         [15]  229 		push ix
-   0C2E CD 29 0F      [17]  230 		call incTeam2Points
+   0C2E CD FF 0E      [17]  230 		call incTeam2Points
    0C31 DD E1         [14]  231 		pop ix
    0C33 18 0E         [12]  232 		jr	goal
                             233 
@@ -430,7 +430,7 @@ Hexadecimal [16-Bits]
    0C3A 20 0A         [12]  237 		jr	nz, no_right_goal	;; Ent_x + Ent_w != RIGHT_LIMIT? no goal
                             238 			;; right goal
    0C3C DD E5         [15]  239 			push ix
-   0C3E CD 1A 0F      [17]  240 			call incTeam1Points
+   0C3E CD F0 0E      [17]  240 			call incTeam1Points
    0C41 DD E1         [14]  241 			pop ix
    0C43                     242 	goal:
    0C43 CD 7B 0B      [17]  243 		call frisbee_restart

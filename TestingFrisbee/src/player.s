@@ -1,7 +1,11 @@
-std_acc = 32 	;; standard acceleration per frame
+std_acc = 40 	;; standard acceleration per frame
 
-.area _DATA
-.area _CODE
+P_HEIGHT 	= 20
+P_WIDTH 	= 5
+
+MID_HEIGHT	= P_HEIGHT/2
+MID_WIDTH	= P_WIDTH/2
+
 .include "utility.h.s"
 .include "entity.h.s"
 .include "frisbee.h.s"
@@ -17,15 +21,13 @@ std_acc = 32 	;; standard acceleration per frame
 
 ;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
 
-defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #0xF0, #1
+defineEntity player, #0x0010, #0x0050, #P_HEIGHT, #P_WIDTH, #0000, #0000, #0000, #0000, #0x1000, #1, #0xF0, #1
 
-defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #0xFF, #2
-
-
-defineEntity player_2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xF0, #1
+defineEntity enemy, #0x0050-0x0004, #0x0064, #P_HEIGHT, #P_WIDTH, #0000, #0000, #0000, #0000, #0x1000, #1, #0xFF, #2
 
 
-defineEntity enemy_2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x0400, #1, #0xFF, #2
+; defineEntity player_2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x0300, #1, #0xF0, #1
+; defineEntity enemy_2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x0300, #1, #0xFF, #2
 	
 ;; ====================================
 ;; ====================================
@@ -41,6 +43,38 @@ player_erase::
 	ret
 
 ;; =========================================
+;; Actualiza el estado del player recibido
+;; 	en IX
+;; Entrada:
+;;	IX => Pointer to player data
+;; Modifica: AF, BC, DE, HL, IX
+;; =========================================
+player_update::
+	call checkUserInput
+
+
+
+	ld	a, Ent_id(ix)
+	cp	#2
+	jr	z, check_IA		;; Ent_id == 2? check IA
+	cp	#4
+	jr	z, check_IA		;; Ent_id == 4? check IA
+		;; check input
+		call checkUserInput
+		jr continue_updating
+
+	check_IA:
+		call move_IA
+
+	continue_updating:
+
+	call entityUpdatePhysics
+	call entityUpdatePosition
+	call checkCenterCrossing
+	
+	ret
+
+;; =========================================
 ;; Actualiza el estado de los entities tipo
 ;;	player
 ;; Modifica: AF, IX
@@ -49,10 +83,10 @@ player_update::
 	ld 	ix, #player_data
 	call checkUserInput
 
-;;	ld 	ix, #enemy_data
-;;	call checkUserInput
+	ld 	ix, #enemy_data
+	call checkUserInput
 
-	call move_IA
+;	call move_IA
 
 	ld 	ix, #player_data
 	call entityUpdatePhysics
@@ -92,8 +126,7 @@ player_draw::
 ;; =========================================
 delta:
 
-
-update:
+update_state:
 
 ;; =========================================
 ;; Invierte los datos para poder operarlos
@@ -278,7 +311,7 @@ checkCenterCrossing:
 ;; Lee la entrada del teclado
 ;; Entrada:
 ;; 	IX <= pointer to entity data
-;; Modifica AF, BC, DE, HL, IX
+;; Modifica AF, BC, DE, HL
 ;; ====================================
 checkUserInput:
 	call cpct_scanKeyboard_asm						;;;;; TO DO DESACOPLAR ESTE CÓDIGO PARA QUE JUEGUEN 2 JUGADORES ;;;;;;;;;;

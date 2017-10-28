@@ -21,3 +21,4 @@ Hexadecimal [16-Bits]
                              16 .globl cpct_setVideoMemoryPage_asm
                              17 .globl cpct_akp_musicPlay_asm
                              18 .globl cpct_akp_stop_asm
+                             19 .globl cpct_drawSprite_asm

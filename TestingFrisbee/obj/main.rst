@@ -79,7 +79,7 @@ Hexadecimal [16-Bits]
    0C47                      14 _main::
    0C47 31 00 80      [10]   15 	ld 	sp, #0x8000 			;; Set stack pointer to 8000 to enable double buffer
                              16 
-   0C4A CD FB 0E      [17]   17 	call menuStart
-   0C4D CD 0F 0F      [17]   18 	call gameStart		;; inicia una partida con los valores de game_data
+   0C4A CD D1 0E      [17]   17 	call menuStart
+   0C4D CD E5 0E      [17]   18 	call gameStart		;; inicia una partida con los valores de game_data
                              19 
    0C50 18 F5         [12]   20 	jr (_main)

@@ -9,3 +9,8 @@ Hexadecimal [16-Bits]
                               4 ;; =========================
                               5 ;; =========================
                               6 .globl player_update
+                              7 
+                              8 .globl _sprite_robot_1_0
+                              9 .globl _sprite_robot_1_1
+                             10 .globl _sprite_robot_2_0
+                             11 .globl _sprite_robot_2_1

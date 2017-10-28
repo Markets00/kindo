@@ -117,7 +117,7 @@ Hexadecimal [16-Bits]
                              56 ;; Modifica AF, BC, DE, HL
                              57 ;; ===================================
    0901                      58 entityDraw::
-   0901 CD 16 0F      [17]   59 	call 	getVideoPtr		;; HL <= Video memory pointer
+   0901 CD EC 0E      [17]   59 	call 	getVideoPtr		;; HL <= Video memory pointer
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
@@ -126,13 +126,13 @@ Hexadecimal [16-Bits]
    0904 EB            [ 4]   60 	ex 	de, hl			;; DE <= HL (Video memory pointer)
    0905 DD 4E 00      [19]   61 	ld 	c, Ent_x_I(ix) 		;; C = ent_x_I
    0908 DD 46 02      [19]   62 	ld 	b, Ent_y_I(ix) 		;; B = ent_y_I
-   090B CD 30 19      [17]   63 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   090B CD 06 19      [17]   63 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              64 
    090E EB            [ 4]   65 	ex 	de, hl 			;; DE = ent screen pointer
    090F DD 46 04      [19]   66 	ld 	b, Ent_h(ix) 		;; B = ent height
    0912 DD 4E 05      [19]   67 	ld 	c, Ent_w(ix) 		;; C = ent width
    0915 DD 7E 15      [19]   68 	ld 	a, Ent_clr(ix)		;; A = ent colour
-   0918 CD 83 18      [17]   69 	call cpct_drawSolidBox_asm
+   0918 CD 59 18      [17]   69 	call cpct_drawSolidBox_asm
                              70 
    091B CD 22 0B      [17]   71 	call updateX
    091E CD 36 0B      [17]   72 	call updateY
@@ -145,17 +145,17 @@ Hexadecimal [16-Bits]
                              79 ;; Modifica AF, BC, DE, HL
                              80 ;; ===================================
    0922                      81 entityErase::
-   0922 CD 16 0F      [17]   82 	call 	getVideoPtr		;; HL <= Video memory pointer
+   0922 CD EC 0E      [17]   82 	call 	getVideoPtr		;; HL <= Video memory pointer
    0925 EB            [ 4]   83 	ex 	de, hl			;; DE <= HL (Video memory pointer)
    0926 DD 4E 11      [19]   84 	ld 	c, Ent_erase_x(ix)	;; C = ent_erase_x
    0929 DD 46 13      [19]   85 	ld 	b, Ent_erase_y(ix)	;; B = ent_erase_y
-   092C CD 30 19      [17]   86 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+   092C CD 06 19      [17]   86 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
                              87 
    092F EB            [ 4]   88 	ex 	de, hl 			;; DE = ent screen pointer
    0930 3E 00         [ 7]   89 	ld 	a, #0x00 		;; A = background color
    0932 DD 46 04      [19]   90 	ld 	b, Ent_h(ix) 		;; B = ent height
    0935 DD 4E 05      [19]   91 	ld 	c, Ent_w(ix) 		;; C = ent width
-   0938 CD 83 18      [17]   92 	call cpct_drawSolidBox_asm
+   0938 CD 59 18      [17]   92 	call cpct_drawSolidBox_asm
                              93 
    093B C9            [10]   94 	ret
                              95 

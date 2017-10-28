@@ -38,18 +38,18 @@
                              38 ; ram data
                              39 ;--------------------------------------------------------
                              40 	.area _DATA
-   197D                      41 _aceleracion::
-   197D                      42 	.ds 6
+   1953                      41 _aceleracion::
+   1953                      42 	.ds 6
                              43 ;--------------------------------------------------------
                              44 ; ram data
                              45 ;--------------------------------------------------------
                              46 	.area _INITIALIZED
-   1983                      47 _vRulesx::
-   1983                      48 	.ds 6
-   1989                      49 _vRulesy::
-   1989                      50 	.ds 6
-   198F                      51 _fmems::
-   198F                      52 	.ds 6
+   1959                      47 _vRulesx::
+   1959                      48 	.ds 6
+   195F                      49 _vRulesy::
+   195F                      50 	.ds 6
+   1965                      51 _fmems::
+   1965                      52 	.ds 6
                              53 ;--------------------------------------------------------
                              54 ; absolute external ram data
                              55 ;--------------------------------------------------------
@@ -120,7 +120,7 @@
    014E 23            [ 6]  120 	inc	hl
    014F 36 00         [10]  121 	ld	(hl),#0x00
                             122 ;src/IA.c:133: while(i<3)
-   0151 01 7D 19      [10]  123 	ld	bc,#_aceleracion+0
+   0151 01 53 19      [10]  123 	ld	bc,#_aceleracion+0
    0154 1E 00         [ 7]  124 	ld	e,#0x00
    0156                     125 00102$:
    0156 7B            [ 4]  126 	ld	a,e
@@ -177,7 +177,7 @@
    01AA 23            [ 6]  177 	inc	hl
    01AB 36 00         [10]  178 	ld	(hl),#0x00
                             179 ;src/IA.c:141: while(i<3)
-   01AD 01 7D 19      [10]  180 	ld	bc,#_aceleracion+0
+   01AD 01 53 19      [10]  180 	ld	bc,#_aceleracion+0
    01B0                     181 00106$:
    01B0 7B            [ 4]  182 	ld	a,e
    01B1 D6 03         [ 7]  183 	sub	a, #0x03
@@ -235,7 +235,7 @@
    01F6 6B            [ 4]  235 	ld	l,e
    01F7 26 00         [ 7]  236 	ld	h,#0x00
    01F9 29            [11]  237 	add	hl, hl
-   01FA FD 21 7D 19   [14]  238 	ld	iy,#_aceleracion
+   01FA FD 21 53 19   [14]  238 	ld	iy,#_aceleracion
    01FE C5            [11]  239 	push	bc
    01FF 4D            [ 4]  240 	ld	c, l
    0200 44            [ 4]  241 	ld	b, h
@@ -402,7 +402,7 @@
    0310 21 00 01      [10]  402 	ld	hl,#0x0100
    0313 E5            [11]  403 	push	hl
                             404 ;src/IA.c:162: if(c->tipo == 0){
-   0314 CD AD 0F      [17]  405 	call	__divuint
+   0314 CD 83 0F      [17]  405 	call	__divuint
    0317 F1            [10]  406 	pop	af
    0318 F1            [10]  407 	pop	af
    0319 DD 74 F1      [19]  408 	ld	-15 (ix),h
@@ -480,7 +480,7 @@
    0390 E5            [11]  480 	push	hl
    0391 21 00 01      [10]  481 	ld	hl,#0x0100
    0394 E5            [11]  482 	push	hl
-   0395 CD AD 0F      [17]  483 	call	__divuint
+   0395 CD 83 0F      [17]  483 	call	__divuint
    0398 F1            [10]  484 	pop	af
    0399 F1            [10]  485 	pop	af
    039A 4D            [ 4]  486 	ld	c,l
@@ -520,7 +520,7 @@
    03CF D5            [11]  520 	push	de
    03D0 E5            [11]  521 	push	hl
    03D1 C5            [11]  522 	push	bc
-   03D2 CD 36 18      [17]  523 	call	__mulint
+   03D2 CD 0C 18      [17]  523 	call	__mulint
    03D5 F1            [10]  524 	pop	af
    03D6 F1            [10]  525 	pop	af
    03D7 4D            [ 4]  526 	ld	c,l
@@ -573,7 +573,7 @@
    0420 DD 6E F0      [19]  573 	ld	l,-16 (ix)
    0423 DD 66 F1      [19]  574 	ld	h,-15 (ix)
    0426 E5            [11]  575 	push	hl
-   0427 CD 36 18      [17]  576 	call	__mulint
+   0427 CD 0C 18      [17]  576 	call	__mulint
    042A F1            [10]  577 	pop	af
    042B F1            [10]  578 	pop	af
    042C 4D            [ 4]  579 	ld	c,l
@@ -672,7 +672,7 @@
    04B8 DD 6E F0      [19]  672 	ld	l,-16 (ix)
    04BB DD 66 F1      [19]  673 	ld	h,-15 (ix)
    04BE E5            [11]  674 	push	hl
-   04BF CD 36 18      [17]  675 	call	__mulint
+   04BF CD 0C 18      [17]  675 	call	__mulint
    04C2 F1            [10]  676 	pop	af
    04C3 F1            [10]  677 	pop	af
    04C4 4D            [ 4]  678 	ld	c,l
@@ -759,7 +759,7 @@
    0539 E5            [11]  759 	push	hl
    053A 21 00 01      [10]  760 	ld	hl,#0x0100
    053D E5            [11]  761 	push	hl
-   053E CD AD 0F      [17]  762 	call	__divuint
+   053E CD 83 0F      [17]  762 	call	__divuint
    0541 F1            [10]  763 	pop	af
    0542 F1            [10]  764 	pop	af
    0543 4D            [ 4]  765 	ld	c,l
@@ -792,7 +792,7 @@
    0569 D5            [11]  792 	push	de
    056A E5            [11]  793 	push	hl
    056B C5            [11]  794 	push	bc
-   056C CD 36 18      [17]  795 	call	__mulint
+   056C CD 0C 18      [17]  795 	call	__mulint
    056F F1            [10]  796 	pop	af
    0570 F1            [10]  797 	pop	af
    0571 4D            [ 4]  798 	ld	c,l
@@ -871,7 +871,7 @@
    05E0 26 00         [ 7]  871 	ld	h,#0x00
    05E2 29            [11]  872 	add	hl, hl
    05E3 EB            [ 4]  873 	ex	de,hl
-   05E4 21 8F 19      [10]  874 	ld	hl,#_fmems
+   05E4 21 65 19      [10]  874 	ld	hl,#_fmems
    05E7 19            [11]  875 	add	hl,de
    05E8 7E            [ 7]  876 	ld	a,(hl)
    05E9 DD 77 FE      [19]  877 	ld	-2 (ix),a
@@ -922,14 +922,14 @@
    0630 5E            [ 7]  922 	ld	e,(hl)
    0631 23            [ 6]  923 	inc	hl
    0632 56            [ 7]  924 	ld	d,(hl)
-   0633 21 7D 19      [10]  925 	ld	hl,#_aceleracion
+   0633 21 53 19      [10]  925 	ld	hl,#_aceleracion
    0636 09            [11]  926 	add	hl,bc
    0637 4E            [ 7]  927 	ld	c,(hl)
    0638 23            [ 6]  928 	inc	hl
    0639 46            [ 7]  929 	ld	b,(hl)
    063A C5            [11]  930 	push	bc
    063B D5            [11]  931 	push	de
-   063C CD 36 18      [17]  932 	call	__mulint
+   063C CD 0C 18      [17]  932 	call	__mulint
    063F F1            [10]  933 	pop	af
    0640 F1            [10]  934 	pop	af
    0641 4D            [ 4]  935 	ld	c,l
@@ -1016,7 +1016,7 @@
    06BB DD 6E FD      [19] 1016 	ld	l,-3 (ix)
    06BE 26 00         [ 7] 1017 	ld	h,#0x00
    06C0 29            [11] 1018 	add	hl, hl
-   06C1 01 83 19      [10] 1019 	ld	bc,#_vRulesx
+   06C1 01 59 19      [10] 1019 	ld	bc,#_vRulesx
    06C4 09            [11] 1020 	add	hl,bc
    06C5 4D            [ 4] 1021 	ld	c,l
    06C6 44            [ 4] 1022 	ld	b,h
@@ -1063,7 +1063,7 @@
    06F9 DD 66 FF      [19] 1063 	ld	h,-1 (ix)
    06FC E5            [11] 1064 	push	hl
    06FD C5            [11] 1065 	push	bc
-   06FE CD 36 18      [17] 1066 	call	__mulint
+   06FE CD 0C 18      [17] 1066 	call	__mulint
    0701 F1            [10] 1067 	pop	af
    0702 F1            [10] 1068 	pop	af
    0703 4D            [ 4] 1069 	ld	c,l
@@ -1419,16 +1419,16 @@
    0900 C9            [10] 1419 	ret
                            1420 	.area _CODE
                            1421 	.area _INITIALIZER
-   1995                    1422 __xinit__vRulesx:
-   1995 58 02              1423 	.dw _rulex
-   1997 5C 02              1424 	.dw _rulex1
-   1999 60 02              1425 	.dw _rulex2
-   199B                    1426 __xinit__vRulesy:
-   199B 64 02              1427 	.dw _ruley
-   199D 68 02              1428 	.dw _ruley1
-   199F 6C 02              1429 	.dw _ruley2
-   19A1                    1430 __xinit__fmems:
-   19A1 42 02              1431 	.dw _acelPo
-   19A3 4D 02              1432 	.dw _acelMed
-   19A5 37 02              1433 	.dw _acelMu
+   196B                    1422 __xinit__vRulesx:
+   196B 58 02              1423 	.dw _rulex
+   196D 5C 02              1424 	.dw _rulex1
+   196F 60 02              1425 	.dw _rulex2
+   1971                    1426 __xinit__vRulesy:
+   1971 64 02              1427 	.dw _ruley
+   1973 68 02              1428 	.dw _ruley1
+   1975 6C 02              1429 	.dw _ruley2
+   1977                    1430 __xinit__fmems:
+   1977 42 02              1431 	.dw _acelPo
+   1979 4D 02              1432 	.dw _acelMed
+   197B 37 02              1433 	.dw _acelMu
                            1434 	.area _CABS (ABS)
