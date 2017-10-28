@@ -19,12 +19,19 @@
 #include <cpctelera.h>
 #include "shit.h"
 #include "tileset.h"
+#include "FRISBIFEO.h"
+#include "roboz2.h"
 
 #define ORIGIN_X 0
 #define ORIGIN_Y 0
 #define ORIGIN_MAP cpctm_screenPtr(CPCT_VMEM_START, ORIGIN_X, ORIGIN_Y)
 
 //u8* map;
+
+void dibujaCosa(const u8 * sprite) {
+	u8* pvmem = cpct_getScreenPtr(CPCT_VMEM_START, 0, 0); 
+	cpct_drawSprite (sprite, CPCT_VMEM_START, G_ROBOZ2_0_W, G_ROBOZ2_0_H );
+}
 
 void main(void) {
 
@@ -37,6 +44,131 @@ void main(void) {
 
 	//map = cpct_getScreenPtr(CPCT_VMEM_START, ORIGIN_X, ORIGIN_Y);
 	cpct_etm_drawTileBox2x4(0, 0, g_shit_W, g_shit_H, g_shit_H, ORIGIN_MAP, g_shit);
+   
    // Loop forever
-   while (1);
+   while (1) {
+   		dibujaCosa(g_roboz2_0);
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		dibujaCosa(g_roboz2_1);
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   		cpct_waitVSYNC();
+   }
+
 }

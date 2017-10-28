@@ -7,7 +7,7 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           cpct_firmware
+     00000000  .__.ABS.                           cpct_video
      00000000  l__CABS                         
      00000000  l__DABS                         
      00000000  l__DATA                         
@@ -18,74 +18,91 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  l__INITIALIZER                  
      00000000  s__CABS                         
      00000000  s__DABS                         
-     00000F83  l__CODE                         
+     0000132C  l__CODE                         
      00004000  s__CODE                         
-     00004F83  s__DATA                         
-     00004F83  s__GSFINAL                      
-     00004F83  s__GSINIT                       
-     00004F83  s__HOME                         
-     00004F83  s__INITIALIZED                  
-     00004F83  s__INITIALIZER                  
+     0000532C  s__DATA                         
+     0000532C  s__GSFINAL                      
+     0000532C  s__GSINIT                       
+     0000532C  s__HOME                         
+     0000532C  s__INITIALIZED                  
+     0000532C  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00000F83 =        3971. bytes (REL,CON)
+_CODE                               00004000    0000132C =        4908. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00004000  _g_shit                            shit
-     00004E10  _g_palette                         tileset
-     00004E20  _g_tileset                         tileset
-     00004E24  _g_tileset_0                       tileset
-     00004E2C  _g_tileset_1                       tileset
-     00004E34  _main                              main
-     00004E6C  _cpct_setPalette                   cpct_video
-     00004E83  _cpct_setPALColour                 cpct_video
-     00004E8F  _cpct_etm_drawTileBox2x4           cpct_easytilemaps
-     00004F1E  _cpct_etm_setTileset2x4            cpct_easytilemaps
-     00004F1E  cpct_etm_setTileset2x4_asm         cpct_easytilemaps
-     00004F22  _cpct_etm_drawTileRow2x4           cpct_easytilemaps
-     00004F29  cpct_etm_drawTileRow2x4_asm        cpct_easytilemaps
-     00004F2B  dtr_restore_ptileset               cpct_easytilemaps
-     00004F43  _cpct_setVideoMode                 cpct_video
-     00004F51  _cpct_disableFirmware              cpct_firmware
-     00004F51  _cpct_removeInterruptHandler       cpct_firmware
-     00004F51  cpct_disableFirmware_asm           cpct_firmware
-     00004F51  cpct_removeInterruptHandler_asm    cpct_firmware
-     00004F61  cpct_drawTileAligned2x4_f_asm      cpct_sprites
-     00004F82  _cpct_mode_rom_status              cpct_firmware
+     00004E10  _g_roboz2_0                        roboz2
+     00004E74  _g_roboz2_1                        roboz2
+     00004ED8  _g_palette                         tileset
+     00004EE8  _g_tileset                         tileset
+     00004EEC  _g_tileset_0                       tileset
+     00004EF4  _g_tileset_1                       tileset
+     00004EFC  _g_FRISBIFEO_0                     FRISBIFEO
+     00004F3C  _g_FRISBIFEO_1                     FRISBIFEO
+     00004F7C  _dibujaCosa                        main
+     00004F97  _main                              main
+     00005148  _cpct_setPalette                   cpct_video
+     0000515F  _cpct_setPALColour                 cpct_video
+     0000516B  _cpct_drawSprite                   cpct_sprites
+     00005210  _cpct_etm_drawTileBox2x4           cpct_easytilemaps
+     0000529F  _cpct_etm_setTileset2x4            cpct_easytilemaps
+     0000529F  cpct_etm_setTileset2x4_asm         cpct_easytilemaps
+     000052A3  _cpct_etm_drawTileRow2x4           cpct_easytilemaps
+     000052AA  cpct_etm_drawTileRow2x4_asm        cpct_easytilemaps
+     000052AC  dtr_restore_ptileset               cpct_easytilemaps
+     000052C4  _cpct_waitVSYNC                    cpct_video
+     000052C4  cpct_waitVSYNC_asm                 cpct_video
+     000052CC  _cpct_setVideoMode                 cpct_video
+     000052DA  _cpct_disableFirmware              cpct_firmware
+     000052DA  _cpct_removeInterruptHandler       cpct_firmware
+     000052DA  cpct_disableFirmware_asm           cpct_firmware
+     000052DA  cpct_removeInterruptHandler_asm    cpct_firmware
+     000052EA  cpct_drawTileAligned2x4_f_asm      cpct_sprites
+     0000530B  _cpct_mode_rom_status              cpct_firmware
+     0000530C  _cpct_getScreenPtr                 cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 
 Files Linked                              [ module(s) ]
 
 obj/shit.rel                              [ shit ]
+obj/roboz2.rel                            [ roboz2 ]
 obj/tileset.rel                           [ tileset ]
+obj/FRISBIFEO.rel                         [ FRISBIFEO ]
 obj/main.rel                              [ main ]
 
 
 Libraries Linked                          [ object file ]
 
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPalette_cbindings.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPALColour_cbindings.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSprite_cbindings.rel ]
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_etm_drawTileBox2x4_cbinding ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_etm_setTileset2x4.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_etm_drawTileRow2x4.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_cbindings.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_removeInterruptHandler.rel ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawTileAligned2x4_f_asmbin ]
-/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
                                           [ cpc_mode_rom_status.rel ]
+/home/eu/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_cbindings.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 

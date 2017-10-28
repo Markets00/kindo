@@ -3,12 +3,14 @@
 -b _CODE = 0x4000
 -b _DATA = 0x0000
 -u
--k /home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80
--k /home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/share/sdcc/lib/z80
--l /home/markets/git/cpctelera/cpctelera/cpctelera.lib
+-k /home/eu/git/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/bin/../share/sdcc/lib/z80
+-k /home/eu/git/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
+-l /home/eu/git/cpctelera/cpctelera/cpctelera.lib
 -l z80
 obj/shit.rel
+obj/roboz2.rel
 obj/tileset.rel
+obj/FRISBIFEO.rel
 obj/main.rel
 
 -e

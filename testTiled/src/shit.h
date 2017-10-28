@@ -1,5 +1,5 @@
 //
-// File assets/tiles/shit.tmx converted to csv using cpct_tmx2csv [20171015 20:55:34 CEST]
+// File assets/tiles/shit.tmx converted to csv using cpct_tmx2csv [20171027 20:38:54 CEST]
 //   * Width:  80 columns (80 bytes, 8 bits per column)
 //   * Height: 45 rows
 //   * Bytes:  3600 bytes (80 x 45)
