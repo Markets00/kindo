@@ -17,3 +17,4 @@
 .globl cpct_akp_musicPlay_asm
 .globl cpct_akp_stop_asm
 .globl cpct_drawSprite_asm
+.globl cpct_setInterruptHandler_asm

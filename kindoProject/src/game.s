@@ -330,13 +330,13 @@ configureMatch:
 initializeGame:
 
 	;; Set video mode
-	;; ld 	c, #0
-	;; call cpct_setVideoMode_asm
+	ld 	c, #0
+	call cpct_setVideoMode_asm
 
 	;; Set palette
-	;; ld 	hl, #direccion_paleta
-	;; ld 	de, #16
-	;; call cpct_setPalette_asm
+	ld 	hl, #_sprite_palette
+	ld 	de, #16
+	call cpct_setPalette_asm
 
 	;; Clean from 8000 to BFFF
 	ld	hl, #0x8000			;; HL <= Copy pointer
