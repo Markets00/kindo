@@ -9,10 +9,8 @@
 .globl entityUpdatePhysics
 .globl entityUpdatePosition
 
-	
-.globl _sprite_palette
 
-.macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, sprite, id
+.macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, sprites_ptr, id
 	name'_data::
 		name'_x:	.dw x		;; X coordinate			(16 bits)
 		name'_y:	.dw y		;; Y coordinate			(16 bits)
@@ -27,8 +25,11 @@
 		name'_erase_x:	.db x		;; x rendered at same buffer	(8 bits)
 		name'_last_y:	.db y		;; Last y rendered		(8 bits)
 		name'_erase_y:	.db y		;; y rendered at same buffer	(8 bits)
-		name'_state:	.db state	;; Entity enabled/disabled	(8 bits)
-		name'_sprite:	.dw sprite	;; Entity sprite		(16 bits)
+		name'_state:	.db #0		;; Entity animation state	(8 bits)
+		name'_lastState:.db #0		;; Last entity animation state	(8 bits)
+		name'_signal:	.db #-1		;; Signal recived for animations(8 bits)
+		name'_sprite:	.db #0		;; Entity sprite index		(8 bits)
+		name'_sprites_ptr: .dw sprites_ptr ;; Pointer to sprites	(16 bits)
 		name'_id:	.db id		;; Numeric ID			(8 bits)
 .endm
 
@@ -38,6 +39,11 @@
 ;; ENTITY PUBLIC DATA
 ;; ====================================
 ;; ====================================
+
+.globl robot_1_sprites
+.globl robot_2_sprites
+.globl frisbee_sprites
+
 .equ Ent_x_I, 		0	;; X coordinate, integer part
 .equ Ent_x_F, 		1	;; X coordinate, fractional part
 .equ Ent_y_I, 		2	;; Y coordinate, integer part
@@ -58,10 +64,13 @@
 .equ Ent_erase_x,	17	;; x rendered at same buffer
 .equ Ent_last_y,	18	;; Last y rendered
 .equ Ent_erase_y,	19	;; y rendered at same buffer
-.equ Ent_state,		20	;; Entity enabled/disabled
-.equ Ent_sprite_H, 	21	;; Pointer to sprite, high part
-.equ Ent_sprite_L, 	22	;; Pointer to sprite, low part
-.equ Ent_id, 		23	;; Numeric ID
+.equ Ent_state,		20	;; Entity animation state
+.equ Ent_lastState,	21	;; Last entity animation state
+.equ Ent_signal,	22	;; Signar for animations
+.equ Ent_sprite, 	23	;; Entity sprite index
+.equ Ent_sprites_ptr_H, 24	;; Pointer to sprite, high part
+.equ Ent_sprites_ptr_L, 25	;; Pointer to sprite, high part
+.equ Ent_id, 		26	;; Numeric ID
 				;; Frisbee 	0
 				;; Player1 	1
 				;; Enemy1	2
@@ -70,3 +79,4 @@
 .equ MIN_VEL_X, -3
 .equ MAX_VEL_Y, 3
 .equ MIN_VEL_Y, -3
+

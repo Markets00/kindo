@@ -1,6 +1,7 @@
 .area _DATA
 .area _CODE
 .include "utility.h.s"
+.include "sprites.h.s"
 .include "game.h.s"
 
 
@@ -30,10 +31,13 @@
 .equ Ent_erase_x,	17	;; x rendered at same buffer
 .equ Ent_last_y,	18	;; Last y rendered
 .equ Ent_erase_y,	19	;; y rendered at same buffer
-.equ Ent_state,		20	;; Entity enabled/disabled
-.equ Ent_sprite_H, 	21	;; Pointer to sprite, high part
-.equ Ent_sprite_L, 	22	;; Pointer to sprite, low part
-.equ Ent_id, 		23	;; Numeric ID
+.equ Ent_state,		20	;; Entity animation state
+.equ Ent_lastState,	21	;; Last entity animation state
+.equ Ent_signal,	22	;; Signar for animations
+.equ Ent_sprite, 	23	;; Entity sprite index
+.equ Ent_sprites_ptr_H, 24	;; Pointer to sprite, high part
+.equ Ent_sprites_ptr_L, 25	;; Pointer to sprite, high part
+.equ Ent_id, 		26	;; Numeric ID
 				;; Frisbee 	0
 				;; Player1 	1
 				;; Enemy1	2
@@ -42,6 +46,18 @@
 .equ MIN_VEL_X, -3
 .equ MAX_VEL_Y, 3
 .equ MIN_VEL_Y, -3
+
+robot_1_sprites::
+	.dw	#_sprite_robot_1_0
+	.dw	#_sprite_robot_1_1
+
+robot_2_sprites::
+	.dw	#_sprite_robot_2_0
+	.dw	#_sprite_robot_2_1
+
+frisbee_sprites::
+	.dw	#_sprite_frisbee_1_0
+	.dw	#_sprite_frisbee_1_1
 
 
 ;; ====================================
@@ -64,8 +80,28 @@ entityDraw::
 	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
 	ex 	de, hl 			;; DE = ent screen pointer
-	ld	h, Ent_sprite_L(ix)	;;
-	ld	l, Ent_sprite_H(ix)	;; HL = sprite pointer
+
+	ld	h, Ent_sprites_ptr_L(ix)	;;
+	ld	l, Ent_sprites_ptr_H(ix)	;; HL <= Pointer to sprites vector
+
+	ld	a, Ent_sprite(ix)	;; A <= sprite index
+
+	index_loop:
+	cp	#0
+	jr	z, load_sprite		;; A == 0?
+		;; A (sprite) != 0
+		inc 	hl
+		inc 	hl		;; HL points 2 bytes ahead
+		dec 	a		;; a--
+		jr index_loop
+
+	load_sprite:
+	ld 	b, (hl)			;;
+	inc 	hl			;;
+	ld	c, (hl)			;; BC <= Sprite pointer
+	ld 	h, c			;;
+	ld 	l, b			;; HL <= BC
+
 	ld 	b, Ent_h(ix) 		;; B = ent height
 	ld 	c, Ent_w(ix) 		;; C = ent width
 	call cpct_drawSprite_asm

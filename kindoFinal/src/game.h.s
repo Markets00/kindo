@@ -9,8 +9,8 @@
 .globl incTeam2Points
 .globl player_data
 .globl enemy_data
-.globl player_2_data
-.globl enemy_2_data
+.globl player2_data
+.globl enemy2_data
 .globl game_data
 
 ;; ====================================

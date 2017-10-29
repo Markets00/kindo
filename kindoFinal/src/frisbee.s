@@ -8,7 +8,6 @@
 .globl _sprite_frisbee_1_0
 .globl _sprite_frisbee_1_1
 
-frisbee_size = 26		;; Size of frisbee structure
 pos_min_vel = 0x00D0
 neg_min_vel = 0xFF30
 ;; ====================================
@@ -17,18 +16,20 @@ neg_min_vel = 0xFF30
 ;; ====================================
 ;; ====================================
 
-.equ Frisbee_effect_I, 24
-.equ Frisbee_effect_F, 25
+frisbee_size = 29		;; Size of frisbee structure
+
+.equ Frisbee_effect_I, 27
+.equ Frisbee_effect_F, 28
 .equ std_eff, 0x0008
 .equ std_N_eff, 0xFFF8
 
 
-;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, state, clr, id
+;; .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, sprites_ptr, id
 
-defineEntity frisbee, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0100, #0x0100, #1, #_sprite_frisbee_1_0, #0
+defineEntity frisbee, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0100, #0x0100, #frisbee_sprites, #0
 	frisbee_effect: .dw #0xF8FF									;; effect
 
-defineEntity init, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #1, #_sprite_frisbee_1_0, #0
+defineEntity init, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0100, #frisbee_sprites, #0
 	init_effect: .dw #0xF8FF									;; effect
 
 

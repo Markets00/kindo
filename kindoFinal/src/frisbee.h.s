@@ -15,7 +15,7 @@
 .globl _sprite_frisbee_1_0
 .globl _sprite_frisbee_1_1
 	
-.equ Frisbee_effect_I, 24
-.equ Frisbee_effect_F, 25
+.equ Frisbee_effect_I, 27
+.equ Frisbee_effect_F, 28
 .equ std_eff, 0x0008
 .equ std_N_eff, 0xFFF8

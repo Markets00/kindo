@@ -5,6 +5,7 @@
 .include "frisbee.h.s"
 .include "utility.h.s"
 .include "entity.h.s"
+.include "sprites.h.s"
 	
 ;; ====================================
 ;; ====================================
@@ -12,35 +13,16 @@
 ;; ====================================
 ;; ====================================
 
-.globl _sprite_palette
-.globl _sprite_robot_1_0
-.globl _sprite_robot_1_1
-.globl _sprite_robot_2_0
-.globl _sprite_robot_2_1
-
-;; ":"
-.globl _sprite_points
-;; "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
 
 number_w = 3
 number_h = 7
-.globl _sprite_numbers_09
-.globl _sprite_numbers_08
-.globl _sprite_numbers_07
-.globl _sprite_numbers_06
-.globl _sprite_numbers_05
-.globl _sprite_numbers_04
-.globl _sprite_numbers_03
-.globl _sprite_numbers_02
-.globl _sprite_numbers_01
-.globl _sprite_numbers_00
 
-;;    .macro name,   x,       y,       h,   w,  vx,    vy,    ax,    ay,    normal,  state, sprite,  			id
-defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1,    #_sprite_robot_1_0, 	#1
-defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #_sprite_robot_2_0, 	#2
+;;defineEntity name, 	x,	y,	 h, w, 	vx, 	vy, 	ax, 	ay, normal, 	sprites_ptr, 		id
+defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 		#1
+defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#2
 
-defineEntity player_2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1,    #_sprite_robot_1_0, 	#1
-defineEntity enemy_2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #1, #_sprite_robot_2_0, 	#2
+defineEntity player2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 	#3
+defineEntity enemy2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#4
 
 game_data::
 	game_type::         .db #0 ;; Game Mode (8 bits)
