@@ -12,7 +12,10 @@
 .globl player2_data
 .globl enemy2_data
 .globl game_data
-
+.globl paletteM1
+.globl paletteM2
+;;.globl paletteM0
+.globl blackPaletteM1
 ;; ====================================
 ;; ====================================
 ;; GAME PUBLIC DATA

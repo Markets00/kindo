@@ -13,6 +13,36 @@
 ;; ====================================
 ;; ====================================
 
+paletteM2::	.db #0x4B	;; White
+			.db #0x54	;; Black
+
+paletteM1::	.db #0x4C	;; Red
+			.db #0x40	;; Grey
+			.db #0x4B	;; White
+			.db #0x54	;; Black
+
+blackPaletteM1::	.db #0x54	;; Black
+					.db #0x54	;; Black
+					.db #0x54	;; Black
+					.db #0x54	;; Black
+
+;;paletteM0::	.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;; 
+;;			.db # ;;  
+;;			.db #0x4B ;; White
+;;			.db #0x54 ;; Black 
+
 
 number_w = 3
 number_h = 7
@@ -461,11 +491,11 @@ initializeGame:
 	ld 	de, #16
 	call cpct_setPalette_asm
 
-	;; Clean from 8000 to BFFF
+	;; Clean from 8000 to FFFF
 	ld	hl, #0x8000			;; HL <= Copy pointer
 	ld	de, #0x8001			;; DE <= Write pointer
 	ld	(hl), #00			;; Set to 0 where HL points
-	ld	bc, #0x4000			;; BC <= Times to repeat
+	ld	bc, #0x8000			;; BC <= Times to repeat
 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
 
 	ld	hl, #game_t1Score

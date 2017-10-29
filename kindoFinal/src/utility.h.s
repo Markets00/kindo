@@ -18,3 +18,6 @@
 .globl cpct_akp_stop_asm
 .globl cpct_drawSprite_asm
 .globl cpct_setInterruptHandler_asm
+.globl cpct_setPALColour_asm
+.globl cpct_drawStringM2_asm
+.globl cpct_drawStringM1_asm
