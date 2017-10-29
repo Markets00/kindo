@@ -11,9 +11,6 @@
 .globl frisbee_setEffect
 .globl frisbee_setVelocities
 .globl frisbee_checkGoal
-
-.globl _sprite_frisbee_1_0
-.globl _sprite_frisbee_1_1
 	
 .equ Frisbee_effect_I, 27
 .equ Frisbee_effect_F, 28

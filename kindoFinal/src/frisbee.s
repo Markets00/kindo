@@ -4,6 +4,7 @@
 .include "entity.h.s"
 .include "utility.h.s"
 .include "game.h.s"
+.include "sprites.h.s"
 
 .globl _sprite_frisbee_1_0
 .globl _sprite_frisbee_1_1

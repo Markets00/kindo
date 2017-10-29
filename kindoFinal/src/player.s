@@ -7,13 +7,8 @@ std_acc = 32 	;; standard acceleration per frame
 .include "frisbee.h.s"
 .include "game.h.s"
 .include "keyboard/keyboard.s"
+.include "sprites.h.s"
 .globl _moveIA
-	
-.globl _sprite_palette
-.globl _sprite_robot_1_0
-.globl _sprite_robot_1_1
-.globl _sprite_robot_2_0
-.globl _sprite_robot_2_1
 
 ;; ====================================
 ;; ====================================
@@ -42,7 +37,6 @@ player_erase::
 ;; Modifica: AF, BC, DE, HL, IX
 ;; =========================================
 player_update::
-	call checkUserInput
 
 	ld	a, Ent_id(ix)
 	cp	#2
@@ -70,15 +64,1462 @@ player_update::
 ;; ====================================
 ;; ====================================
 
+;; =============================================
+;; Actualiza el sprite que se tiene que
+;; 	dibujar en este frame
+;; Entrada:
+;;	IX <= Pointer to player data
+;; Modifica: 
+;; Devuelve:
+;; 	A => 1 that state have to update physics
+;;	  => 0 that state not update physics
+;; =============================================
+update_player_animation::
+	call 	animation_delta
+	ld 	Ent_signal(ix), #-1
+	ret
+
 ;; =========================================
 ;; Determina el siguiente estado de
 ;;	la entidad
 ;; Entrada:
 ;; =========================================
-delta:
+
+animation_delta:
+	ld	a, Ent_state(ix)
+
+	cp	#0
+	jr	nz, not_zero
+		;; STATE 0  ;;
+		call origin_state
+		ret
+	not_zero:
+	cp	#1
+	jr	nz, not_one
+		;; STATE 1 - Step up first state ;;
+		call stepUp1_state
+		ret
+	not_one:
+	cp	#2
+	jr	nz, not_two
+		;; STATE 2 ;;
+
+		ret
+	not_two:
+	cp	#3
+	jr	nz, not_three
+		;; STATE 3 ;;
+
+		ret
+	not_three:
+	cp	#4
+	jr	nz, not_four
+		;; STATE 1 ;;
+
+		ret
+	not_four:
+	cp	#5
+	jr	nz, not_five
+		;; STATE 1 ;;
+
+		ret
+	not_five:
+	cp	#6
+	jr	nz, not_six
+		;; STATE 6 ;;
+
+		ret
+	not_six:
+	cp	#7
+	jr	nz, not_seven
+		;; STATE 7 ;;
+
+		ret
+	not_seven:
+	cp	#8
+	jr	nz, not_eight
+		;; STATE 8 ;;
+
+		ret
+	not_eight:
+	cp	#9
+	jr	nz, not_nine
+		;; STATE 2 ;;
+
+		ret
+	not_nine:
+	cp	#10
+	jr	nz, not_ten
+		;; STATE 10 ;;
+
+		ret
+	not_ten:
+	cp	#11
+	jr	nz, not_eleven
+		;; STATE 11 ;;
+
+		ret
+	not_eleven:
+	cp	#12
+	jr	nz, not_twelve
+		;; STATE 12 ;;
+
+		ret
+	not_twelve:
+	cp	#13
+	jr	nz, not_thirteen
+		;; STATE 13 ;;
+
+		ret
+	not_thirteen:
+	cp	#14
+	jr	nz, not_fourteen
+		;; STATE 14 ;;
+
+		ret
+	not_fourteen:
+	cp	#15
+	jr	nz, not_fiveteen
+		;; STATE 15 ;;
+
+		ret
+	not_fiveteen:
+	cp	#16
+	jr	nz, not_sixteen
+		;; STATE 16 ;;
+
+		ret
+	not_sixteen:
+	cp	#17
+	jr	nz, not_seventeen
+		;; STATE 17 ;;
+
+		ret
+	not_seventeen:
+	cp	#18
+	jr	nz, not_eighteen
+		;; STATE 18 ;;
+
+		ret
+	not_eighteen:
+	cp	#19
+	jr	nz, not_nineteen
+		;; STATE 19 ;;
+
+		ret
+	not_nineteen:
+	cp	#20
+	jr	nz, not_twenty
+		;; STATE 20 ;;
+
+		ret
+	not_twenty:
+	cp	#21
+	jr	nz, not_twenty_one
+		;; STATE 21 ;;
+
+		ret
+	not_twenty_one:
+	cp	#22
+	jr	nz, not_twenty_two
+		;; STATE 22 ;;
+
+		ret
+	not_twenty_two:
+	cp	#23
+	jr	nz, not_twenty_three
+		;; STATE 23 ;;
+
+		ret
+	not_twenty_three:
+	cp	#24
+	jr	nz, not_twenty_four
+		;; STATE 24 ;;
+
+		ret
+	not_twenty_four:
+	cp	#25
+	jr	nz, not_twenty_five
+		;; STATE 25 ;;
+
+		ret
+	not_twenty_five:
+	cp	#26
+	jr	nz, not_twenty_six
+		;; STATE 26 ;;
+
+		ret
+	not_twenty_six:
+	cp	#27
+	jr	nz, not_twenty_seven
+		;; STATE 27 ;;
+
+		ret
+	not_twenty_seven:
+	cp	#28
+	jr	nz, not_twenty_eight
+		;; STATE 28 ;;
+
+		ret
+	not_twenty_eight:
+	cp	#29
+	jr	nz, not_twenty_nine
+		;; STATE 29 ;;
+
+		ret
+	not_twenty_nine:
+	cp	#30
+	jr	nz, not_thirty
+		;; STATE 30 - Step up second state ;;
+		call stepUp2_state
+		ret
+	not_thirty:
+	cp	#31
+	jr	nz, not_thirty_one
+		;; STATE 31 - Step up third state ;;
+		call stepUp3_state
+		ret
+	not_thirty_one:
+	cp	#32
+	jr	nz, not_thirty_two
+		;; STATE 31 ;;
+
+		ret
+	not_thirty_two:
+	cp	#33
+	jr	nz, not_thirty_three
+		;; STATE 33 ;;
+
+		ret
+	not_thirty_three:
+	cp	#34
+	jr	nz, not_thirty_four
+		;; STATE 34 ;;
+
+		ret
+	not_thirty_four:
+	cp	#35
+	jr	nz, not_thirty_five
+		;; STATE 35 ;;
+
+		ret
+	not_thirty_five:
+	cp	#36
+	jr	nz, not_thirty_six
+		;; STATE 36 ;;
+
+		ret
+	not_thirty_six:
+	cp	#37
+	jr	nz, not_thirty_seven
+		;; STATE 37 ;;
+
+		ret
+	not_thirty_seven:
+	cp	#38
+	jr	nz, not_thirty_eight
+		;; STATE 38 ;;
+
+		ret
+	not_thirty_eight:
+	cp	#39
+	jr	nz, not_thirty_nine
+		;; STATE 39 ;;
+
+		ret
+	not_thirty_nine:
+	cp	#40
+	jr	nz, not_fourty
+		;; STATE 40 ;;
+
+		ret
+	not_fourty:
+	cp	#41
+	jr	nz, not_fourty_one
+		;; STATE 41 ;;
+
+		ret
+	not_fourty_one:
+	cp	#42
+	jr	nz, not_fourty_two
+		;; STATE 42 ;;
+
+		ret
+	not_fourty_two:
+	cp	#43
+	jr	nz, not_fourty_three
+		;; STATE 43 ;;
+
+		ret
+	not_fourty_three:
+	cp	#44
+	jr	nz, not_fourty_four
+		;; STATE 44 ;;
+
+		ret
+	not_fourty_four:
+	cp	#45
+	jr	nz, not_fourty_five
+		;; STATE 45 ;;
+
+		ret
+	not_fourty_five:
+
+	ret
+
+;; ======================================
+;; 		Origin State #0
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+origin_state:
+	ld	a, Ent_signal(ix)
+	cp	#1
+	jr	nz, origin_not_one
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #1
+		jp origin_exit
+	origin_not_one:
+	cp	#2
+	jr	nz, origin_not_two
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #2
+		jp origin_exit
+	origin_not_two:
+	cp	#3
+	jr	nz, origin_not_three
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #3
+		jp origin_exit
+	origin_not_three:
+	cp	#4
+	jr	nz, origin_not_four
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #4
+		jp origin_exit
+	origin_not_four:
+	cp	#5
+	jr	nz, origin_not_five
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #5
+		jp origin_exit
+	origin_not_five:
+	cp	#6
+	jr	nz, origin_not_six
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #6
+		jp origin_exit
+	origin_not_six:
+	cp	#7
+	jr	nz, origin_not_seven
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #7
+		jp origin_exit
+	origin_not_seven:
+	cp	#8
+	jr	nz, origin_not_eight
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #8
+		jp origin_exit
+	origin_not_eight:
+	cp	#9
+	jr	nz, origin_not_nine
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #16
+		jp origin_exit
+	origin_not_nine:
+	cp	#10
+	jr	nz, origin_not_ten
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #9
+		jp origin_exit
+	origin_not_ten:
+	cp	#11
+	jr	nz, origin_not_eleven
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #23
+		jp origin_exit
+	origin_not_eleven:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0
+
+	origin_exit:
+	ld 	a, #1
+
+	ret
+
+;; =======================================
+;; =======================================
+;; == 		MOVE UP STATES		==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 		Step up 1 State #1
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUp1_state:
+	ld Ent_sprite(ix), #0	;; Next sprite <= 0
+	ld	a, Ent_signal(ix)
+	cp	#1
+	jr 	nz, stepUp1_else
+		;; Move up
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #30	;; Next state <= 30
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUp1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+
+	ret
 
 
-update:
+;; ======================================
+;; 		Step up 2 State #30
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUp2_state:
+	ld Ent_sprite(ix), #1		;; Next sprite <= 1
+	ld	a, Ent_signal(ix)
+	cp	#1
+	jr 	nz, stepUp2_else
+		;; Move up
+		ld a, Ent_lastState(ix)
+		cp #1
+		jr z, goto_state_31
+			;; GO TO 1
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #1	;; Next state <= 1
+		goto_state_31:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #31	;; Next state <= 30
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUp2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 		Step up 3 State #31
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUp3_state:
+	ld Ent_sprite(ix), #2		;; Next sprite <= 2
+	ld	a, Ent_signal(ix)
+	cp	#1
+	jr 	nz, stepUp3_else
+		;; Move up
+		ld Ent_sprite(ix), #0	;; Next sprite <= 1
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #30	;; Next state <= 30
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUp3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+;; =======================================
+;; =======================================
+;; == 		MOVE DOWN STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 		Step down 1 State #2
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDown1_state:
+	ld Ent_sprite(ix), #3		;; Next sprite <= 3
+	ld	a, Ent_signal(ix)
+	cp	#2
+	jr 	nz, stepDown1_else
+		;; Move Down
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #32	;; Next state <= 32
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDown1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+
+	ret
+
+
+;; ======================================
+;; 	Step down 2 State #32
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDown2_state:
+	ld Ent_sprite(ix), #4	;; Next sprite <= 4
+	ld	a, Ent_signal(ix)
+	cp	#2
+	jr 	nz, stepDown2_else
+		;; Move down
+		ld a, Ent_lastState(ix)
+		cp #2
+		jr z, goto_state_33
+			;; GO TO 2
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #2	;; Next state <= 2
+		goto_state_33:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #33	;; Next state <= 33
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDown2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step down 3 State #33
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDown3_state:
+	ld Ent_sprite(ix), #5	;; Next sprite <= 5
+	ld	a, Ent_signal(ix)
+	cp	#2
+	jr 	nz, stepDown3_else
+		;; Move down
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #32	;; Next state <= 32
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDown3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; =======================================
+;; =======================================
+;; == 		MOVE RIGHT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step Right 1 State #3
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepRight1_state:
+	ld Ent_sprite(ix), #6		;; Next sprite <= 6
+	ld	a, Ent_signal(ix)
+	cp	#3
+	jr 	nz, stepRight1_else
+		;; Move Right
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #34	;; Next state <= 34
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepRight1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step Right 2 State #34
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepRight2_state:
+	ld Ent_sprite(ix), #7			;; Next sprite <= 7
+	ld	a, Ent_signal(ix)
+	cp	#3
+	jr 	nz, stepRight2_else
+		;; Move Right
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_35
+			;; GO TO 3
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #3	;; Next state <= 3
+		goto_state_35:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #35	;; Next state <= 35
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepRight2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step Right 3 State #35
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepRight3_state:
+	ld Ent_sprite(ix), #8		;; Next sprite <= 8
+	ld	a, Ent_signal(ix)
+	cp	#3
+	jr 	nz, stepRight3_else
+		;; Move Right
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #34	;; Next state <= 34
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepRight3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; =======================================
+;; =======================================
+;; == 		MOVE LEFT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step Left 1 State #4
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepLeft1_state:
+	ld Ent_sprite(ix), #9		;; Next sprite <= 9
+	ld	a, Ent_signal(ix)
+	cp	#4
+	jr 	nz, stepLeft1_else
+		;; Move Left
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #36	;; Next state <= 36
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepLeft1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step Left 2 State #36
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepLeft2_state:
+	ld Ent_sprite(ix), #10			;; Next sprite <= 10
+	ld	a, Ent_signal(ix)
+	cp	#4
+	jr 	nz, stepLeft2_else
+		;; Move Left
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_37
+			;; GO TO 4
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #4	;; Next state <= 4
+		goto_state_37:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #37	;; Next state <= 37
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepLeft2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step Left 3 State #37
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepLeft3_state:
+	ld Ent_sprite(ix), #11		;; Next sprite <= 11
+	ld	a, Ent_signal(ix)
+	cp	#4
+	jr 	nz, stepLeft3_else
+		;; Move Left
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #36	;; Next state <= 36
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepLeft3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; =======================================
+;; =======================================
+;; == 	    MOVE UP RIGHT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step UpRight 1 State #5
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpRight1_state:
+	ld Ent_sprite(ix), #12		;; Next sprite <= 12
+	ld	a, Ent_signal(ix)
+	cp	#5
+	jr 	nz, stepUpRight1_else
+		;; Move UpRight
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #38	;; Next state <= 38
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpRight1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step UpRight 2 State #38
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpRight2_state:
+	ld Ent_sprite(ix), #13			;; Next sprite <= 13
+	ld	a, Ent_signal(ix)
+	cp	#5
+	jr 	nz, stepUpRight2_else
+		;; Move UpRight
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_39
+			;; GO TO 5
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #5	;; Next state <= 5
+		goto_state_39:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #39	;; Next state <= 39
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpRight2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step UpRight 3 State #39
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpRight3_state:
+	ld Ent_sprite(ix), #14		;; Next sprite <= 14
+	ld	a, Ent_signal(ix)
+	cp	#5
+	jr 	nz, stepUpRight3_else
+		;; Move UpRight
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #38	;; Next state <= 38
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpRight3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    MOVE UP LEFT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step UpLeft 1 State #6
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpLeft1_state:
+	ld Ent_sprite(ix), #15		;; Next sprite <= 15
+	ld	a, Ent_signal(ix)
+	cp	#6
+	jr 	nz, stepUpLeft1_else
+		;; Move UpLeft
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #40	;; Next state <= 40
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpLeft1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step UpLeft 2 State #40
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpLeft2_state:
+	ld Ent_sprite(ix), #16			;; Next sprite <= 16
+	ld	a, Ent_signal(ix)
+	cp	#6
+	jr 	nz, stepUpLeft2_else
+		;; Move UpLeft
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_41
+			;; GO TO 6
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #6	;; Next state <= 6
+		goto_state_41:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #41	;; Next state <= 41
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpLeft2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step UpLeft 3 State #41
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepUpLeft3_state:
+	ld Ent_sprite(ix), #17		;; Next sprite <= 17
+	ld	a, Ent_signal(ix)
+	cp	#6
+	jr 	nz, stepUpLeft3_else
+		;; Move UpLeft
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #40	;; Next state <= 40
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepUpLeft3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    MOVE DOWN RIGHT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step DownRight 1 State #7
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownRight1_state:
+	ld Ent_sprite(ix), #18		;; Next sprite <= 18
+	ld	a, Ent_signal(ix)
+	cp	#7
+	jr 	nz, stepDownRight1_else
+		;; Move DownRight
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #42	;; Next state <= 42
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownRight1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step DownRight 2 State #42
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownRight2_state:
+	ld Ent_sprite(ix), #19			;; Next sprite <= 19
+	ld	a, Ent_signal(ix)
+	cp	#7
+	jr 	nz, stepDownRight2_else
+		;; Move DownRight
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_43
+			;; GO TO 7
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #7	;; Next state <= 7
+		goto_state_43:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #43	;; Next state <= 43
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownRight2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step DownRight 3 State #43
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownRight3_state:
+	ld Ent_sprite(ix), #20		;; Next sprite <= 20
+	ld	a, Ent_signal(ix)
+	cp	#7
+	jr 	nz, stepDownRight3_else
+		;; Move DownRight
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #42	;; Next state <= 42
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownRight3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    MOVE DOWN LEFT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Step DownLeft 1 State #8
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownLeft1_state:
+	ld Ent_sprite(ix), #21		;; Next sprite <= 21
+	ld	a, Ent_signal(ix)
+	cp	#8
+	jr 	nz, stepDownLeft1_else
+		;; Move DownLeft
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #44	;; Next state <= 44
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownLeft1_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step DownLeft 2 State #44
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownLeft2_state:
+	ld Ent_sprite(ix), #22			;; Next sprite <= 22
+	ld	a, Ent_signal(ix)
+	cp	#8
+	jr 	nz, stepDownLeft2_else
+		;; Move DownLeft
+		ld a, Ent_lastState(ix)
+		cp #3
+		jr z, goto_state_45
+			;; GO TO 8
+			ld a, Ent_state(ix)	;;
+			ld Ent_lastState(ix), a	;; LastState <= current state
+			ld Ent_state(ix), #8	;; Next state <= 8
+		goto_state_45:
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #45	;; Next state <= 45
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownLeft2_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+;; ======================================
+;; 	Step DownLeft 3 State #45
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+stepDownLeft3_state:
+	ld Ent_sprite(ix), #23		;; Next sprite <= 23
+	ld	a, Ent_signal(ix)
+	cp	#8
+	jr 	nz, stepDownLeft3_else
+		;; Move DownLeft
+		ld a, Ent_state(ix)	;;
+		ld Ent_lastState(ix), a	;; LastState <= current state
+		ld Ent_state(ix), #44	;; Next state <= 44
+
+		ld a, #1		;; A <= Update physics
+		ret
+	stepDownLeft3_else:
+	;; else
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+	ld a, #1		;; A <= Update physics
+	ret
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    THROW DOWN STATES		==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Throw Down 1 State #9
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown1_state:
+	ld Ent_sprite(ix), #24	;; Next sprite <= 24
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #10	;; Next state <= 10
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 2 State #10
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown2_state:
+	ld Ent_sprite(ix), #25	;; Next sprite <= 25
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #11	;; Next state <= 11
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 3 State #11
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown3_state:
+	ld Ent_sprite(ix), #26	;; Next sprite <= 26
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #12	;; Next state <= 12
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 4 State #12
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown4_state:
+	ld Ent_sprite(ix), #27	;; Next sprite <= 27
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #13	;; Next state <= 13
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 5 State #13
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown5_state:
+	ld Ent_sprite(ix), #28	;; Next sprite <= 28
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #14	;; Next state <= 14
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 6 State #14
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown6_state:
+	ld Ent_sprite(ix), #29	;; Next sprite <= 29
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #15	;; Next state <= 15
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Down 7 State #15
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwDown7_state:
+	ld Ent_sprite(ix), #30	;; Next sprite <= 30
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    THROW UP STATES		==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Throw Up 1 State #16
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp1_state:
+	ld Ent_sprite(ix), #24	;; Next sprite <= 24
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #17	;; Next state <= 17
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 2 State #17
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp2_state:
+	ld Ent_sprite(ix), #31	;; Next sprite <= 31
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #18	;; Next state <= 18
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 3 State #18
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp3_state:
+	ld Ent_sprite(ix), #30	;; Next sprite <= 30
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #19	;; Next state <= 19
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 4 State #19
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp4_state:
+	ld Ent_sprite(ix), #29	;; Next sprite <= 29
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #20	;; Next state <= 20
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 5 State #20
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp5_state:
+	ld Ent_sprite(ix), #28	;; Next sprite <= 28
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #21	;; Next state <= 21
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 6 State #21
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp6_state:
+	ld Ent_sprite(ix), #27	;; Next sprite <= 27
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #15	;; Next state <= 15
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Up 7 State #22
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwUp7_state:
+	ld Ent_sprite(ix), #26	;; Next sprite <= 26
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+
+
+;; =======================================
+;; =======================================
+;; == 	    THROW STRAIGHT STATES	==
+;; =======================================
+;; =======================================
+
+;; ======================================
+;; 	Throw Straight 1 State #23
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight1_state:
+	ld Ent_sprite(ix), #24	;; Next sprite <= 24
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #24	;; Next state <= 24
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 2 State #24
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight2_state:
+	ld Ent_sprite(ix), #31	;; Next sprite <= 31
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #25	;; Next state <= 25
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 3 State #25
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight3_state:
+	ld Ent_sprite(ix), #30	;; Next sprite <= 30
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #26	;; Next state <= 26
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 4 State #26
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight4_state:
+	ld Ent_sprite(ix), #29	;; Next sprite <= 29
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #27	;; Next state <= 27
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 5 State #27
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight5_state:
+	ld Ent_sprite(ix), #28	;; Next sprite <= 28
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #28	;; Next state <= 28
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 6 State #28
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight6_state:
+	ld Ent_sprite(ix), #29	;; Next sprite <= 29
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #29	;; Next state <= 29
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
+;; ======================================
+;; 	Throw Straight 7 State #29
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+throwStraight7_state:
+	ld Ent_sprite(ix), #30	;; Next sprite <= 30
+	ld a, Ent_state(ix)	;;
+	ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+
+	ld a, #0		;; A <= Not update physics
+	ret
+
 
 ;; =========================================
 ;; Invierte los datos para poder operarlos
@@ -168,23 +1609,9 @@ checkFrisbeeCollision:
 ;; Modifica A, IX
 ;; ===============================================
 moveRight:
-	;; push 	ix
-	;; call 	checkFrisbeeCollision 	;; A == collision/no_collision
-	;; pop 	ix
-	;; cp 	#0			;; A == 0?
-	;; jr	nz, collision_right 	;; checkFrisbeeCollision != 0?
-
-		;; no_collision
-		ld 	Ent_ax_I(ix), #0
-		ld 	Ent_ax_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
-
-
-		ret
-
-	;;collision_right:
-	;;	call 	frisbee_setOff
-	;;
-	;;	ret
+	ld 	Ent_ax_I(ix), #0
+	ld 	Ent_ax_F(ix), #std_acc	;; Ent_ay <= 00(0)E2(30) (30)
+	ret
 
 ;; ===============================================
 ;; Acelera la entidad hacia abajo, si puede
