@@ -29,7 +29,7 @@ call setPaletteBlackM1			;; Sets the palette to black on mode 1.
 	ld	bc, #0x4000			;; BC <= Times to repeat
 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
 
-	;;call menuStart
+	call menuStart
 	call gameStart		;; inicia una partida con los valores de game_data
 
 	;;jr (_main)

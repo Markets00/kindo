@@ -40,11 +40,8 @@ winCondString: 			.asciz "Win Condition"
 .equ menuPos_6, 0xCD00
 .equ menuPos_7, 0xCDF0
 
-.equ sumPos, 0xF0 			;; Sums to the next position (or substrct to the previous one)
-.equ subPos, #-240
-cursorPos: 	.dw 0xC88F		;; Saves the cursor position
-.equ minCursorPos, 0xC88F	;; Saves the MIN position posible of the cursor.
-.equ maxCursorPos, 0xC97F	;; 2 ;; Saves the MIN position posible of the cursor.
+;; .equ minCursorPos, 0xC88F	;; Saves the MIN position posible of the cursor.
+;; .equ maxCursorPos, 0xC97F	;; 2 ;; Saves the MIN position posible of the cursor.
 ;;.equ maxCursorPos, 0xCA6F	;; 3 ;; Saves the MAX position posible of the cursor.
 ;;.equ maxCursorPos, 0xCB5F	;; 4 ;; Saves the MAX position posible of the cursor.
 
@@ -66,9 +63,7 @@ menuStart::
 	ld 	c, #2		;; C = ent width
 	call cpct_drawSprite_asm
 
-	ld a, #0		;; Saving on i the iterator
-	call moveCursor
-	pop af
+	call checkSelection
 	;; if i == 0 -> play
 	;; if i == 1 -> options
 
@@ -77,24 +72,142 @@ menuStart::
 	;; Do stuff here...
 	ret 
 
-;; reDrawCursor::
-;; 
-;; 	ld de, #cursorPos
-;; 	ld a, #0xFF
-;; 	ld c, #2
-;; 	ld b, #8
-;; 
-;; 	call cpct_drawSolidBox_asm
-;; 
-;; 	ld	hl, _sprite_frisbeeMenu
-;; 	ld 	de, (nextCursorPos)
-;; 	ld 	b, #8		;; B = ent height
-;; 	ld 	c, #2		;; C = ent width
-;; 	call cpct_drawSprite_asm
-;; 
-;; 	ret
 
-;; Entrada: A <= N times
+
+cursor_W 	= 2
+cursor_H 	= 8
+max_index_value	= 6
+addPosition	= 0xF0 			;; Sums to the next position (or substrct to the previous one)
+subPosition	= #-240
+cursorPos: 	.dw 0xC88F		;; Saves the cursor position
+
+
+;; =======================================
+;; Mueve el índice a la posición indicada
+;; Modifica: AF, BC, DE, HL
+;; Devuelve:
+;;	A <= Selected index [0 - 6]
+;; =======================================
+checkSelection:: 
+	ld	a, #0			;; Initialize A to 0 as starting index
+
+	selection_waitting:
+		push 	af
+
+		call 	cpct_scanKeyboard_asm
+
+		ld 	hl, #Key_Enter
+		call 	cpct_isKeyPressed_asm	;; A <= True/False
+		cp 	#0 
+		jr 	z, enter_not_pressed	;; Is enter key pressed?
+			pop af			;; A <= final index selected
+			ret
+
+		enter_not_pressed:
+			pop af			;; A <= index value
+			call checkCursor	;; check cursor movement
+			jr selection_waitting
+
+	ret
+
+;; =======================================
+;; Mueve el índice a la posición indicada
+;; Entrada:
+;;	HL <= pointer to new position
+;; Modifica: AF, BC, DE, HL
+;; =======================================
+reDrawCursor::
+	push hl
+
+	ld de, (cursorPos)		;; alomejor esto no compila
+	ld a, #0xFF
+	ld b, #cursor_H
+	ld c, #cursor_W
+	call cpct_drawSolidBox_asm	;; Erase last index position
+
+	pop hl
+	ld (cursorPos), hl		;; Update cursorPos to the new position after erasing
+
+	ex 	de, hl			;; DE <= pointer to new position
+	ld	hl, #_sprite_frisbeeMenu;; HL <= cursor sprite pointer
+	ld 	b, #cursor_H		;; B = height
+	ld 	c, #cursor_W		;; C = width
+	call cpct_drawSprite_asm
+
+	ret
+
+
+;; =================================
+;; Chequea si el índice debe moverse
+;; Entrada:
+;;	A <= starting index
+;; Modifica: AF, BC, DE, HL
+;; Devuelve:
+;; 	A => selected index
+;; =================================
+checkCursor::
+	push 	af			;; Save the index at the stack
+	ld 	hl, #Key_CursorUp
+	call 	cpct_isKeyPressed_asm	;; A <= True/False
+	cp 	#0 
+	jr 	z, up_not_pressed	;; Is up key pressed?
+		;; Up pressed
+			pop af
+			dec a
+			jp	m, cant_dec_index
+				;; decrement index
+				push af				;; Save the index
+
+				ld 	hl, (cursorPos)		;; HL <= Cursor position
+				ld	de, #subPosition	;; DE <= Negative value to substract to cursor position
+				add	hl, de			;; HL <= Cursor position - SubPosition
+				call 	reDrawCursor
+
+				ld	a, #10
+				call 	wait_X_halts
+
+				pop af				;; Restore the index before looping
+				ret
+			cant_dec_index:
+				inc a 				;; Restore index value
+				ret
+	up_not_pressed:
+	ld 	hl, #Key_CursorDown
+	call 	cpct_isKeyPressed_asm	;; A <= True/False
+	cp 	#0 
+	jr 	z, down_not_pressed	;; Is down key pressed?
+		;; Down pressed
+			pop 	af
+			inc 	a
+			cp  	#max_index_value
+			jp	p, cant_inc_index
+				;; increment index
+				push af				;; Save the index
+
+				ld 	hl, (cursorPos)		;; HL <= Cursor position
+				ld	de, #addPosition	;; DE <= Positive value to add to cursor position
+				add	hl, de			;; HL <= Cursor position + AddPosition
+				call 	reDrawCursor
+
+				ld	a, #10
+				call 	wait_X_halts
+
+				pop af				;; Restore the index before looping
+				ret
+			cant_inc_index:
+				dec a 				;; Restore index value
+				ret
+	down_not_pressed:
+		;; Any key pressed
+		pop af
+	ret
+
+;; =================================
+;; Espera 8 halts, N veces
+;; Entrada:
+;;	A <= N times
+;; Modifica: A
+;; =================================
 wait_X_halts::
 	dec a
 	jr z, wait_halts_exit
@@ -107,94 +220,6 @@ wait_X_halts::
 		halt
 		jr wait_X_halts
 	wait_halts_exit:
-	ret
-
-moveCursor::
-	push af 		;; Saving iterator on the stack
-
-	ld	hl, #_sprite_frisbeeMenu
-	ld 	de, (cursorPos)
-	ld 	b, #8 		;; B = ent height
-	ld 	c, #2		;; C = ent width
-	call cpct_drawSprite_asm
-
-	pop af
-	moveCursor_iterator:
-		push af
-		call cpct_scanKeyboard_asm
-		ld 	hl, #Key_Enter				;; HL <- Key_Enter
-		call 	cpct_isKeyPressed_asm	;; A = True/False
-		cp 	#0 							;; A == 0?
-		jr 	nz, moveCursor_exit			;; If ENTER , then exit.
-			;; Enter not pressed
-			ld hl, #Key_CursorUp
-			call 	cpct_isKeyPressed_asm	;; A = True/False
-			cp 	#0 							;; A == 0?
-			jr 	z, checkDown_Movement		;; checkUp_Movement
-				;; else: You hitted UP
-				pop af 						;; Charge the iterator
-				cp #0
-				jr z, moveCursor_iterator2
-					;; You can go UP
-					dec a 					;; a--
-					push af
-					;; **TODO**: Repintar cursor
-						ld hl, (cursorPos)
-						ex de, hl
-						ld a, #0xFF
-						ld c, #2
-						ld b, #8
-
-						call cpct_drawSolidBox_asm ;; Destroyed Register values AF, BC, DE, HL
-
-						ld hl, (cursorPos)
-						ld de, #subPos
-						add hl, de
-						ex de, hl
-
-						ld	hl, #_sprite_frisbeeMenu
-						ld 	b, #8		;; B = ent height
-						ld 	c, #2		;; C = ent width
-						call cpct_drawSprite_asm
-
-						jr moveCursor_iterator2
-
-			checkDown_Movement:
-				ld hl, #Key_CursorDown
-				call 	cpct_isKeyPressed_asm	;; A = True/False
-				cp #0
-				jr 	z, moveCursor_iterator2		;; Iterate
-					;; You hitted DOWN
-					pop af 						;; Charge the iterator
-					cp #2						;; a - 2 !!! (MAXIMUM OPTION ON MENU)
-					jp p, moveCursor_iterator2	;; a==2
-						;; You can go down
-						inc a
-						push af
-						;; **TODO**: Repintar cursor
-						ld hl, (cursorPos)
-						ex de, hl
-						ld a, #0xFF
-						ld c, #2
-						ld b, #8
-
-						call cpct_drawSolidBox_asm ;; Destroyed Register values AF, BC, DE, HL
-
-						ld hl, (cursorPos)
-						ld de, #sumPos
-						add hl, de
-						ex de, hl
-
-						ld	hl, #_sprite_frisbeeMenu
-						ld 	b, #8		;; B = ent height
-						ld 	c, #2		;; C = ent width
-						call cpct_drawSprite_asm
-
-	moveCursor_iterator2:
-		ld a, #5
-		call wait_X_halts
-		jr moveCursor_iterator
-	moveCursor_exit:
 	ret
 
 ;; Sets the palette to mode 0
