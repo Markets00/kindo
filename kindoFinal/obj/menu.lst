@@ -1,0 +1,488 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .area _DATA
+                              2 .area _CODE
+                              3 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              4 .include "utility.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; INCLUDED CPCTELERA FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl cpct_waitVSYNC_asm
+                              7 .globl cpct_drawSolidBox_asm
+                              8 .globl cpct_getScreenPtr_asm
+                              9 .globl cpct_scanKeyboard_asm
+                             10 .globl cpct_isKeyPressed_asm
+                             11 .globl cpct_disableFirmware_asm
+                             12 .globl cpct_setVideoMode_asm
+                             13 .globl cpct_setPalette_asm
+                             14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
+                             16 .globl cpct_setVideoMemoryPage_asm
+                             17 .globl cpct_akp_musicPlay_asm
+                             18 .globl cpct_akp_stop_asm
+                             19 .globl cpct_drawSprite_asm
+                             20 .globl cpct_setInterruptHandler_asm
+                             21 .globl cpct_setPALColour_asm
+                             22 .globl cpct_drawStringM2_asm
+                             23 .globl cpct_drawStringM1_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              5 .include "game.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; GAME PUBLIC FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl gameStart
+                              7 .globl getVideoPtr
+                              8 .globl incTeam1Points
+                              9 .globl incTeam2Points
+                             10 .globl player_data
+                             11 .globl enemy_data
+                             12 .globl player2_data
+                             13 .globl enemy2_data
+                             14 .globl game_data
+                             15 .globl paletteM1
+                             16 .globl paletteM2
+                             17 ;;.globl paletteM0
+                             18 .globl blackPaletteM1
+                             19 ;; ====================================
+                             20 ;; ====================================
+                             21 ;; GAME PUBLIC DATA
+                             22 ;; ====================================
+                             23 ;; ====================================
+                     0050    24 .equ RIGHT_LIMIT,	80
+                     0000    25 .equ LEFT_LIMIT,	0
+                     001E    26 .equ TOP_LIMIT,	 	30
+                     00C8    27 .equ BOTTOM_LIMIT,	200
+                     0028    28 .equ CENTER_LIMIT,	40
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                              6 
+                              7 ;; definición de las teclas que necesitaremos
+                     0100     8   Key_CursorUp     = 0x0100
+                     0101     9   Key_CursorLeft   = 0x0101
+                     0400    10   Key_CursorDown   = 0x0400
+                     0200    11   Key_CursorRight  = 0x0200
+                     8005    12   Key_Space        = 0x8005
+                     4000    13   Key_Enter        = 0x4000
+                             14 
+                             15 ;; ====================================
+                             16 ;; ====================================
+                             17 ;; PRIVATE DATA
+                             18 ;; ====================================
+                             19 ;; ====================================
+                             20 
+                             21 ;; .equ mi_constante0, 0
+                             22 ;; .equ mi_constante1, 1
+   0000 4D 65 6E 75 00       23 menuString:				.asciz "Menu"
+   0005 50 6C 61 79 00       24 playString:				.asciz "Play"
+   000A 4F 70 74 69 6F 6E    25 optionsString:			.asciz "Options"
+        73 00
+   0012 43 72 65 64 69 74    26 creditsString:			.asciz "Credits"
+        73 00
+   001A 49 6E 74 72 75 63    27 menuInstrucString:		.asciz "Intructions"
+        74 69 6F 6E 73 00
+                             28 
+   0026 3C 00                29 leftArrowCharacter: 	.asciz "<"
+   0028 3E 00                30 rightArrowCharacter:	.asciz ">"
+   002A 54 69 6D 65 00       31 timeString: 			.asciz "Time"
+   002F 53 63 6F 72 65 00    32 scoreString:			.asciz "Score"
+   0035 57 69 6E 20 43 6F    33 winCondString: 			.asciz "Win Condition"
+        6E 64 69 74 69 6F
+        6E 00
+                             34 
+                     C850    35 .equ menuPos_1, 0xC850
+                     C940    36 .equ menuPos_2, 0xC940
+                     CA30    37 .equ menuPos_3, 0xCA30
+                     CB20    38 .equ menuPos_4, 0xCB20
+                     CC10    39 .equ menuPos_5, 0xCC10
+                     CD00    40 .equ menuPos_6, 0xCD00
+                     CDF0    41 .equ menuPos_7, 0xCDF0
+                             42 
+                     00F0    43 .equ sumPos, 0xF0 			;; Sums to the next position (or substrct to the previous one)
+                     FFFFFF10    44 .equ subPos, #-240
+   0043 8F C8                45 cursorPos: 	.dw 0xC88F		;; Saves the cursor position
+                     C88F    46 .equ minCursorPos, 0xC88F	;; Saves the MIN position posible of the cursor.
+                     C97F    47 .equ maxCursorPos, 0xC97F	;; 2 ;; Saves the MIN position posible of the cursor.
+                             48 ;;.equ maxCursorPos, 0xCA6F	;; 3 ;; Saves the MAX position posible of the cursor.
+                             49 ;;.equ maxCursorPos, 0xCB5F	;; 4 ;; Saves the MAX position posible of the cursor.
+                             50 
+                     C6E0    51 .equ instrPos, 0xC6E0
+                             52 
+                             53 .globl _sprite_frisbeeMenu
+                             54 
+                             55 ;; ====================================
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             56 ;; ====================================
+                             57 ;; PUBLIC FUNCTIONS
+                             58 ;; ====================================
+                             59 ;; ====================================
+   0045                      60 menuStart::
+   0045 CD 3D 01      [17]   61 	call 	initializeMenu
+                             62 
+   0048 21 00 00      [10]   63 	ld	hl, #_sprite_frisbeeMenu
+   004B ED 5B 43 00   [20]   64 	ld 	de, (cursorPos)
+   004F 06 08         [ 7]   65 	ld 	b, #8 		;; B = ent height
+   0051 0E 02         [ 7]   66 	ld 	c, #2		;; C = ent width
+   0053 CD 00 00      [17]   67 	call cpct_drawSprite_asm
+                             68 
+   0056 3E 00         [ 7]   69 	ld a, #0		;; Saving on i the iterator
+   0058 CD 6A 00      [17]   70 	call moveCursor
+   005B F1            [10]   71 	pop af
+                             72 	;; if i == 0 -> play
+                             73 	;; if i == 1 -> options
+                             74 
+                             75 	;; Do stuff here...
+                             76 	;; Do stuff here...
+                             77 	;; Do stuff here...
+   005C C9            [10]   78 	ret 
+                             79 
+                             80 ;; reDrawCursor::
+                             81 ;; 
+                             82 ;; 	ld de, #cursorPos
+                             83 ;; 	ld a, #0xFF
+                             84 ;; 	ld c, #2
+                             85 ;; 	ld b, #8
+                             86 ;; 
+                             87 ;; 	call cpct_drawSolidBox_asm
+                             88 ;; 
+                             89 ;; 	ld	hl, _sprite_frisbeeMenu
+                             90 ;; 	ld 	de, (nextCursorPos)
+                             91 ;; 	ld 	b, #8		;; B = ent height
+                             92 ;; 	ld 	c, #2		;; C = ent width
+                             93 ;; 	call cpct_drawSprite_asm
+                             94 ;; 
+                             95 ;; 	ret
+                             96 
+                             97 ;; Entrada: A <= N times
+   005D                      98 wait_X_halts::
+   005D 3D            [ 4]   99 	dec a
+   005E 28 09         [12]  100 	jr z, wait_halts_exit
+   0060 76            [ 4]  101 		halt
+   0061 76            [ 4]  102 		halt
+   0062 76            [ 4]  103 		halt
+   0063 76            [ 4]  104 		halt
+   0064 76            [ 4]  105 		halt
+   0065 76            [ 4]  106 		halt
+   0066 76            [ 4]  107 		halt
+   0067 18 F4         [12]  108 		jr wait_X_halts
+   0069                     109 	wait_halts_exit:
+   0069 C9            [10]  110 	ret
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                            111 
+   006A                     112 moveCursor::
+   006A F5            [11]  113 	push af 		;; Saving iterator on the stack
+                            114 
+   006B 21 00 00      [10]  115 	ld	hl, #_sprite_frisbeeMenu
+   006E ED 5B 43 00   [20]  116 	ld 	de, (cursorPos)
+   0072 06 08         [ 7]  117 	ld 	b, #8 		;; B = ent height
+   0074 0E 02         [ 7]  118 	ld 	c, #2		;; C = ent width
+   0076 CD 00 00      [17]  119 	call cpct_drawSprite_asm
+                            120 
+   0079 F1            [10]  121 	pop af
+   007A                     122 	moveCursor_iterator:
+   007A F5            [11]  123 		push af
+   007B CD 00 00      [17]  124 		call cpct_scanKeyboard_asm
+   007E 21 00 40      [10]  125 		ld 	hl, #Key_Enter				;; HL <- Key_Enter
+   0081 CD 00 00      [17]  126 		call 	cpct_isKeyPressed_asm	;; A = True/False
+   0084 FE 00         [ 7]  127 		cp 	#0 							;; A == 0?
+   0086 20 6A         [12]  128 		jr 	nz, moveCursor_exit			;; If ENTER , then exit.
+                            129 			;; Enter not pressed
+   0088 21 00 01      [10]  130 			ld hl, #Key_CursorUp
+   008B CD 00 00      [17]  131 			call 	cpct_isKeyPressed_asm	;; A = True/False
+   008E FE 00         [ 7]  132 			cp 	#0 							;; A == 0?
+   0090 28 28         [12]  133 			jr 	z, checkDown_Movement		;; checkUp_Movement
+                            134 				;; else: You hitted UP
+   0092 F1            [10]  135 				pop af 						;; Charge the iterator
+   0093 FE 00         [ 7]  136 				cp #0
+   0095 28 54         [12]  137 				jr z, moveCursor_iterator2
+                            138 					;; You can go UP
+   0097 3D            [ 4]  139 					dec a 					;; a--
+   0098 F5            [11]  140 					push af
+                            141 					;; **TODO**: Repintar cursor
+   0099 2A 43 00      [16]  142 						ld hl, (cursorPos)
+   009C EB            [ 4]  143 						ex de, hl
+   009D 3E FF         [ 7]  144 						ld a, #0xFF
+   009F 0E 02         [ 7]  145 						ld c, #2
+   00A1 06 08         [ 7]  146 						ld b, #8
+                            147 
+   00A3 CD 00 00      [17]  148 						call cpct_drawSolidBox_asm ;; Destroyed Register values AF, BC, DE, HL
+                            149 
+   00A6 2A 43 00      [16]  150 						ld hl, (cursorPos)
+   00A9 11 10 FF      [10]  151 						ld de, #subPos
+   00AC 19            [11]  152 						add hl, de
+   00AD EB            [ 4]  153 						ex de, hl
+                            154 
+   00AE 21 00 00      [10]  155 						ld	hl, #_sprite_frisbeeMenu
+   00B1 06 08         [ 7]  156 						ld 	b, #8		;; B = ent height
+   00B3 0E 02         [ 7]  157 						ld 	c, #2		;; C = ent width
+   00B5 CD 00 00      [17]  158 						call cpct_drawSprite_asm
+                            159 
+   00B8 18 31         [12]  160 						jr moveCursor_iterator2
+                            161 
+   00BA                     162 			checkDown_Movement:
+   00BA 21 00 04      [10]  163 				ld hl, #Key_CursorDown
+   00BD CD 00 00      [17]  164 				call 	cpct_isKeyPressed_asm	;; A = True/False
+   00C0 FE 00         [ 7]  165 				cp #0
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+   00C2 28 27         [12]  166 				jr 	z, moveCursor_iterator2		;; Iterate
+                            167 					;; You hitted DOWN
+   00C4 F1            [10]  168 					pop af 						;; Charge the iterator
+   00C5 FE 02         [ 7]  169 					cp #2						;; a - 2 !!! (MAXIMUM OPTION ON MENU)
+   00C7 F2 EB 00      [10]  170 					jp p, moveCursor_iterator2	;; a==2
+                            171 						;; You can go down
+   00CA 3C            [ 4]  172 						inc a
+   00CB F5            [11]  173 						push af
+                            174 						;; **TODO**: Repintar cursor
+   00CC 2A 43 00      [16]  175 						ld hl, (cursorPos)
+   00CF EB            [ 4]  176 						ex de, hl
+   00D0 3E FF         [ 7]  177 						ld a, #0xFF
+   00D2 0E 02         [ 7]  178 						ld c, #2
+   00D4 06 08         [ 7]  179 						ld b, #8
+                            180 
+   00D6 CD 00 00      [17]  181 						call cpct_drawSolidBox_asm ;; Destroyed Register values AF, BC, DE, HL
+                            182 
+   00D9 2A 43 00      [16]  183 						ld hl, (cursorPos)
+   00DC 11 F0 00      [10]  184 						ld de, #sumPos
+   00DF 19            [11]  185 						add hl, de
+   00E0 EB            [ 4]  186 						ex de, hl
+                            187 
+   00E1 21 00 00      [10]  188 						ld	hl, #_sprite_frisbeeMenu
+   00E4 06 08         [ 7]  189 						ld 	b, #8		;; B = ent height
+   00E6 0E 02         [ 7]  190 						ld 	c, #2		;; C = ent width
+   00E8 CD 00 00      [17]  191 						call cpct_drawSprite_asm
+                            192 
+   00EB                     193 	moveCursor_iterator2:
+   00EB 3E 05         [ 7]  194 		ld a, #5
+   00ED CD 5D 00      [17]  195 		call wait_X_halts
+   00F0 18 88         [12]  196 		jr moveCursor_iterator
+   00F2                     197 	moveCursor_exit:
+   00F2 C9            [10]  198 	ret
+                            199 
+                            200 ;; Sets the palette to mode 0
+                            201 ;;setPaletteM0::
+                            202 ;;	ld c, #0					;; Mode 0
+                            203 ;;	call cpct_setVideoMode_asm
+                            204 ;;
+                            205 ;;	ld hl, #paletteM0			;; hl <- paletteM0
+                            206 ;;	ld de, #16 					;; 16 Colours
+                            207 ;;	call cpct_setPalette_asm
+                            208 ;;
+                            209 ;;	ret
+                            210 
+                            211 ;; Sets the palette to mode 1
+   00F3                     212 setPaletteM1::
+   00F3 0E 01         [ 7]  213 	ld c, #1					;; Mode 1
+   00F5 CD 00 00      [17]  214 	call cpct_setVideoMode_asm
+                            215 
+   00F8 21 00 00      [10]  216 	ld hl, #paletteM1			;; hl <- paletteM1
+   00FB 11 04 00      [10]  217 	ld de, #4 					;; 4 Colours
+   00FE CD 00 00      [17]  218 	call cpct_setPalette_asm
+                            219 
+   0101 C9            [10]  220 	ret
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+                            221 
+                            222 ;; Sets the palette to black on mode 1
+   0102                     223 setPaletteBlackM1::
+   0102 0E 01         [ 7]  224 	ld c, #1					;; Mode 1
+   0104 CD 00 00      [17]  225 	call cpct_setVideoMode_asm
+                            226 
+   0107 21 00 00      [10]  227 	ld hl, #blackPaletteM1		;; hl <- blackPaletteM1
+   010A 11 04 00      [10]  228 	ld de, #4 					;; 4 Colours
+   010D CD 00 00      [17]  229 	call cpct_setPalette_asm
+                            230 
+   0110 C9            [10]  231 	ret
+                            232 
+   0111                     233 menuOptions::
+                            234 
+                            235 	;; Clean from C000 to EFFF
+   0111 21 00 C0      [10]  236 	ld	hl, #0xC000			;; HL <= Copy pointer
+   0114 11 01 C0      [10]  237 	ld	de, #0xC001			;; DE <= Write pointer
+   0117 36 FF         [10]  238 	ld	(hl), #0xFF			;; Set to 0 where HL points
+   0119 01 00 40      [10]  239 	ld	bc, #0x4000			;; BC <= Times to repeat
+   011C ED B0         [21]  240 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
+                            241 
+                            242 	;; Print Menu
+   011E 21 35 00      [10]  243 	ld hl, #winCondString
+   0121 11 00 C0      [10]  244 	ld de, #0xC000
+   0124 0E 02         [ 7]  245 	ld c, #2
+   0126 06 03         [ 7]  246 	ld b, #3
+   0128 CD 00 00      [17]  247 	call cpct_drawStringM1_asm
+                            248 
+   012B                     249 	menuOptions_iterate:
+   012B CD 00 00      [17]  250 	call cpct_scanKeyboard_asm
+   012E 21 00 40      [10]  251 	ld 	hl, #Key_Enter				;; HL <- Key_Space
+   0131 CD 00 00      [17]  252 	call 	cpct_isKeyPressed_asm	;; A = True/False
+   0134 FE 00         [ 7]  253 	cp 	#0 							;; A == 0?
+   0136 28 F3         [12]  254 	jr 	z, menuOptions_iterate				;; Iterate
+   0138 C3 45 00      [10]  255 		jp menuStart				;; Go Options (HL presed)
+                            256 
+   013B C9            [10]  257 	ret
+                            258 
+                            259 
+                            260 ;; ====================================
+                            261 ;; ====================================
+                            262 ;; PRIVATE FUNCTIONS
+                            263 ;; ====================================
+                            264 ;; ====================================
+                            265 
+   013C                     266 checkUserInput:
+                            267 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            268 	;; Reading keyboard example
+                            269 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            270 	;; 	call cpct_scanKeyboard_asm
+                            271 	;; 	ld 	hl, #Key_CursorUp	;; HL = CursorUp Keycode
+                            272 	;; 	call 	cpct_isKeyPressed_asm 	;; A = True/False
+                            273 	;; 	cp 	#0 			;; A == 0?
+                            274 	;; 	jr 	z, up_not_pressed
+                            275 	;; 		;; Up is pressed code
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+                            276 	;; 		call 	moveUp	
+                            277 	;; 	up_not_pressed:
+                            278 	;; 		;; Up is not pressed code
+                            279 	;; 		ld 	hl, #Key_CursorDown		;; HL = CursorDown Keycode
+                            280 	;; 		call 	cpct_isKeyPressed_asm 		;; A = True/False
+                            281 	;; 		cp 	#0 				;; A == 0?
+                            282 	;; 		jr 	z, down_not_pressed
+                            283 	;; 			;; Down is pressed code
+                            284 	;; 			call 	moveDown	
+                            285 	;; 		down_not_pressed:
+                            286 	;; 		;; Down is not pressed code
+                            287 
+   013C C9            [10]  288 	ret
+                            289 
+                            290 ;; ========================
+                            291 ;; Write the menu strings
+                            292 ;; ========================
+   013D                     293 initializeMenu:
+   013D CD F3 00      [17]  294 	call setPaletteM1
+                            295 
+                            296 	;; Clean from C000 to EFFF
+   0140 21 00 C0      [10]  297 	ld	hl, #0xC000			;; HL <= Copy pointer
+   0143 11 01 C0      [10]  298 	ld	de, #0xC001			;; DE <= Write pointer
+   0146 36 FF         [10]  299 	ld	(hl), #0xFF			;; Set to 0 where HL points
+   0148 01 00 40      [10]  300 	ld	bc, #0x4000			;; BC <= Times to repeat
+   014B ED B0         [21]  301 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
+                            302 
+                            303 	;; Print Menu
+   014D 21 00 00      [10]  304 	ld hl, #menuString
+   0150 11 00 C0      [10]  305 	ld de, #0xC000
+   0153 0E 02         [ 7]  306 	ld c, #2
+   0155 06 03         [ 7]  307 	ld b, #3
+   0157 CD 00 00      [17]  308 	call cpct_drawStringM1_asm
+                            309 
+                            310 	;; Print Play
+   015A 21 05 00      [10]  311 	ld hl, #playString
+   015D 11 50 C8      [10]  312 	ld de, #menuPos_1
+   0160 0E 02         [ 7]  313 	ld c, #2
+   0162 06 03         [ 7]  314 	ld b, #3
+   0164 CD 00 00      [17]  315 	call cpct_drawStringM1_asm
+                            316 
+                            317 	;; Print Options
+   0167 21 0A 00      [10]  318 	ld hl, #optionsString
+   016A 11 40 C9      [10]  319 	ld de, #menuPos_2
+   016D 0E 02         [ 7]  320 	ld c, #2
+   016F 06 03         [ 7]  321 	ld b, #3
+   0171 CD 00 00      [17]  322 	call cpct_drawStringM1_asm
+                            323 
+   0174 21 00 00      [10]  324 	ld hl, #menuString
+   0177 11 30 CA      [10]  325 	ld de, #menuPos_3
+   017A 0E 02         [ 7]  326 	ld c, #2
+   017C 06 03         [ 7]  327 	ld b, #3
+   017E CD 00 00      [17]  328 	call cpct_drawStringM1_asm
+                            329 
+   0181 21 05 00      [10]  330 	ld hl, #playString
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+   0184 11 20 CB      [10]  331 	ld de, #menuPos_4
+   0187 0E 02         [ 7]  332 	ld c, #2
+   0189 06 03         [ 7]  333 	ld b, #3
+   018B CD 00 00      [17]  334 	call cpct_drawStringM1_asm
+                            335 
+   018E 21 0A 00      [10]  336 	ld hl, #optionsString
+   0191 11 10 CC      [10]  337 	ld de, #menuPos_5
+   0194 0E 02         [ 7]  338 	ld c, #2
+   0196 06 03         [ 7]  339 	ld b, #3
+   0198 CD 00 00      [17]  340 	call cpct_drawStringM1_asm
+                            341 
+   019B 21 00 00      [10]  342 	ld hl, #menuString
+   019E 11 00 CD      [10]  343 	ld de, #menuPos_6
+   01A1 0E 02         [ 7]  344 	ld c, #2
+   01A3 06 03         [ 7]  345 	ld b, #3
+   01A5 CD 00 00      [17]  346 	call cpct_drawStringM1_asm
+                            347 
+   01A8 21 05 00      [10]  348 	ld hl, #playString
+   01AB 11 F0 CD      [10]  349 	ld de, #menuPos_7
+   01AE 0E 02         [ 7]  350 	ld c, #2
+   01B0 06 03         [ 7]  351 	ld b, #3
+   01B2 CD 00 00      [17]  352 	call cpct_drawStringM1_asm
+                            353 
+   01B5 21 1A 00      [10]  354 	ld hl, #menuInstrucString
+   01B8 11 E0 C6      [10]  355 	ld de, #instrPos
+   01BB 0E 02         [ 7]  356 	ld c, #2
+   01BD 06 03         [ 7]  357 	ld b, #3
+   01BF CD 00 00      [17]  358 	call cpct_drawStringM1_asm
+                            359 	;; Set video mode
+                            360 	;; ld 	c, #1 ;; Set mode 1.
+                            361 	;; call cpct_setVideoMode_as
+                            362 
+                            363 	;; Set palette
+                            364 	;; ld 	hl, #direccion_paleta
+                            365 	;; ld 	de, #16
+                            366 	;; call cpct_setPalette_asm
+                            367 
+   01C2 C9            [10]  368 	ret
+                            369 
+                            370 
+                            371 ;; ========================
+                            372 ;; Print Credits
+                            373 ;; ========================
+   01C3                     374 printCreditLine:
+                            375 	;;ld hl, #elString
+                            376 	;;ld de, #video_memory
+                            377 	;;ld c, #Color_Letra
+                            378 	;;cd b, #Color_fondo
+                            379 ;;
+                            380 	;;call cpct_drawStringM1_asm
+                            381 
+   01C3 C9            [10]  382 	ret

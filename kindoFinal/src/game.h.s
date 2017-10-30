@@ -23,6 +23,6 @@
 ;; ====================================
 .equ RIGHT_LIMIT,	80
 .equ LEFT_LIMIT,	0
-.equ TOP_LIMIT,	 	20
+.equ TOP_LIMIT,	 	30
 .equ BOTTOM_LIMIT,	200
 .equ CENTER_LIMIT,	40

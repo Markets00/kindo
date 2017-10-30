@@ -48,14 +48,6 @@ defineEntity init, #0x0027, #0x0054, #16, #4, #0x10FF, #0000, #0000, #0000, #0x0
 ;; ====================================
 ;; ====================================
 
-;; =========================================
-;; Desactiva el frisbee
-;; Modifica A
-;; =========================================
-frisbee_setOff::
-	ld 	a, #0
-	ld 	(frisbee_state), a
-	ret
 
 ;; ================================================
 ;; Reinicia los datos de la entidad recibida en ix
@@ -165,11 +157,9 @@ frisbee_setEffect::
 ;; Modifica A
 ;; =========================================
 frisbee_update::
-
-	ld 	a, (frisbee_state)	;; A <= frisbee_state
-	cp 	#1
-	jr 	nz, not_active		;; A != 1?
-	
+	call update_frisbee_animation	;; A <= update / not update
+	cp 	#0
+	jr 	z, not_active		;; A == 0? not active
 		;; Active
 		ld 	ix, #frisbee_data
 		call frisbee_applyEffect 	
@@ -189,12 +179,96 @@ frisbee_draw::
 
 	ret
 	
+;; =========================================
+;; Desactiva el frisbee
+;; Modifica A
+;; Entrada:
+;; 	A <= State number to set
+;; =========================================
+frisbee_setState::
+	ld 	(frisbee_state), a
+	ret
+
+;; =============================================
+;; Actualiza el sprite que se tiene que
+;; 	dibujar en este frame
+;; Entrada:
+;;	IX <= Pointer to player data
+;; Modifica: 
+;; Devuelve:
+;; 	A => 1 that state have to update physics
+;;	  => 0 that state not update physics
+;; =============================================
+update_frisbee_animation::
+	call 	animation_delta
+	ld 	Ent_signal(ix), #-1
+	ret
+
 ;; ====================================
 ;; ====================================
 ;; PRIVATE FUNCTIONS
 ;; ====================================
 ;; ====================================
 
+;; =========================================
+;; Determina el siguiente estado de
+;;	la entidad
+;; Entrada:
+;;	IX <= Pointer to player data
+;; =========================================
+animation_delta:
+	ld	a, Ent_state(ix)
+
+	cp	#-1
+	jr	z, anim_disabled
+		;; Firsbee active
+		cp	#0
+		jr	nz, not_zero
+			;; STATE 0 - frisbee step 1 state ;;
+			call frisbee0_state
+			ret
+		not_zero:
+		cp	#1
+		jr	nz, not_one
+			;; STATE 1 - frisbee step 2 state ;;
+			call frisbee1_state
+			ret
+		not_one:
+
+		ret
+	anim_disabled:
+
+	ld a, #0	;; A <= Not update physics
+	ret
+
+
+;; ======================================
+;; 	Frisbee 1 State #1
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+frisbee0_state:
+	ld Ent_sprite(ix), #0	;; Next sprite <= 30
+	;; ld a, Ent_state(ix)	;;
+	;; ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #1	;; Next state <= 0
+
+	ld a, #1		;; A <= Update physics
+	ret
+
+;; ======================================
+;; 	Frisbee 1 State #1
+;; Entrada:  IX <= Pointer to player data
+;; Devuelve: A <= Not Update/Update
+;; ======================================
+frisbee1_state:
+	ld Ent_sprite(ix), #1	;; Next sprite <= 30
+	;; ld a, Ent_state(ix)	;;
+	;; ld Ent_lastState(ix), a	;; LastState <= current state
+	ld Ent_state(ix), #0	;; Next state <= 0
+
+	ld a, #1		;; A <= Update physics
+	ret
 
 ;; ===========================================
 ;; Mueve el frisbee a la izquierda un píxel
@@ -203,7 +277,6 @@ frisbee_draw::
 ;; Modifica A
 ;; ===========================================
 frisbee_applyEffect:
-
 	;; vy' = vy + ay
 	ld 	h, Ent_vy_I(ix)
 	ld 	l, Ent_vy_F(ix)		;; HL <= ent_vy

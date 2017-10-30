@@ -1,0 +1,47 @@
+XL2
+H 2 areas 23 global symbols
+S cpct_setInterruptHandler_asm Ref0000
+S menuStart Ref0000
+S cpct_setPalette_asm Ref0000
+S cpct_isKeyPressed_asm Ref0000
+S cpct_setPALColour_asm Ref0000
+S player_data Ref0000
+S negateHL Ref0000
+S enemy2_data Ref0000
+S cpct_akp_stop_asm Ref0000
+S blackPaletteM1 Ref0000
+S cpct_drawStringM1_asm Ref0000
+S cpct_drawStringM2_asm Ref0000
+S cpct_drawSprite_asm Ref0000
+S game_data Ref0000
+S enemy_data Ref0000
+S setPaletteM1 Ref0000
+S .__.ABS. Def0000
+S cpct_setVideoMemoryPage_asm Ref0000
+S gameStart Ref0000
+S paletteM1 Ref0000
+S getVideoPtr Ref0000
+S paletteM2 Ref0000
+S incTeam1Points Ref0000
+S incTeam2Points Ref0000
+S cpct_setVideoMode_asm Ref0000
+S cpct_waitVSYNC_asm Ref0000
+S cpct_memcpy_asm Ref0000
+S setPaletteBlackM1 Ref0000
+S player2_data Ref0000
+S cpct_disableFirmware_asm Ref0000
+S cpct_akp_musicPlay_asm Ref0000
+S cpct_drawSolidBox_asm Ref0000
+S cpct_scanKeyboard_asm Ref0000
+S cpct_getScreenPtr_asm Ref0000
+A _CODE size 20 flags 0 addr 0
+S _main Def0000
+A _DATA size 0 flags 0 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 31 00 80 CD 00 00 CD 00 00 2E 10 26 54 CD
+R 00 00 00 00 02 06 1D 00 02 09 1B 00
+T 0E 00 00 00 21 00 C0 11 01 C0 36 FF 01 00 40 ED
+R 00 00 00 00 02 02 04 00
+T 1C 00 B0 CD 00 00
+R 00 00 00 00 02 04 12 00

@@ -1,0 +1,313 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           cpct_keyboard
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__GSFINAL                      
+     00000000  l__GSINIT                       
+     00000000  l__HOME                         
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     00000006  l__DATA                         
+     00000012  l__INITIALIZED                  
+     00000012  l__INITIALIZER                  
+     000028E4  l__CODE                         
+     00004000  s__CODE                         
+     000068E4  s__DATA                         
+     000068EA  s__INITIALIZED                  
+     000068FC  s__GSFINAL                      
+     000068FC  s__GSINIT                       
+     000068FC  s__HOME                         
+     000068FC  s__INITIALIZER                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000028E4 =       10468. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004000  _sprite_points                     points
+     00004007  _sprite_numbers_00                 numbers
+     0000401C  _sprite_numbers_01                 numbers
+     00004031  _sprite_numbers_02                 numbers
+     00004046  _sprite_numbers_03                 numbers
+     0000405B  _sprite_numbers_04                 numbers
+     00004070  _sprite_numbers_05                 numbers
+     00004085  _sprite_numbers_06                 numbers
+     0000409A  _sprite_numbers_07                 numbers
+     000040AF  _sprite_numbers_08                 numbers
+     000040C4  _sprite_numbers_09                 numbers
+     000040D9  _sprite_frisbee_1_0                frisbee_1
+     00004119  _sprite_frisbee_1_1                frisbee_1
+     00004159  _sprite_robot_2_0                  robot_2
+     000041BD  _sprite_robot_2_1                  robot_2
+     00004221  _sprite_palette                    robot_1
+     00004231  _sprite_robot_1_0                  robot_1
+     00004295  _sprite_robot_1_1                  robot_1
+     000042F9  _initAcel                          IA
+     0000440F  _cerca                             IA
+     0000441A  _medio                             IA
+     00004425  _lejos                             IA
+     00004430  _acelMu                            IA
+     0000443B  _acelPo                            IA
+     00004446  _acelMed                           IA
+     00004451  _rulex                             IA
+     00004455  _rulex1                            IA
+     00004459  _rulex2                            IA
+     0000445D  _ruley                             IA
+     00004461  _ruley1                            IA
+     00004465  _ruley2                            IA
+     00004469  _calculateDom                      IA
+     00004783  _defuzzi                           IA
+     00004884  _calcule                           IA
+     0000490C  _calcularb_direc                   IA
+     00004941  _fuzzificacion                     IA
+     00004AA0  _moveIA                            IA
+     00004AF0  _sprite_frisbeeMenu                frisbeeMenu
+     00004B00  robot_1_sprites                    
+     00004B04  robot_2_sprites                    
+     00004B08  frisbee_sprites                    
+     00004B0C  entityDraw                         
+     00004B41  entityErase                        
+     00004B5B  entityUpdatePhysics                
+     00004C60  entityCheckCollision               
+     00004CB5  entityUpdatePosition               
+     00004D31  negateHL                           
+     00004D62  frisbee_data                       
+     00004D7F  init_data                          
+     00004D9C  frisbee_restart                    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000028E4 =       10468. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004DC5  frisbee_erase                      
+     00004DCD  frisbee_setVelocities              
+     00004E04  frisbee_setEffect                  
+     00004E0F  frisbee_update                     
+     00004E2A  frisbee_draw                       
+     00004E32  frisbee_setState                   
+     00004E36  update_frisbee_animation           
+     00004E83  frisbee_checkGoal                  
+     00004EA5  _main                              
+     00004EC5  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00004ECF  player_erase                       cpct_keyboard
+     00004EDE  player_update                      cpct_keyboard
+     00004EFB  update_player_animation            cpct_keyboard
+     000058E0  menuStart                          
+     000058F8  wait_X_halts                       
+     00005905  moveCursor                         
+     0000598E  setPaletteM1                       
+     0000599D  setPaletteBlackM1                  
+     000059AC  menuOptions                        
+     00005A5F  paletteM2                          
+     00005A61  paletteM1                          
+     00005A65  blackPaletteM1                     
+     00005A69  player_data                        
+     00005A84  enemy_data                         
+     00005A9F  player2_data                       
+     00005ABA  enemy2_data                        
+     00005AD5  game_data                          
+     00005AD5  game_type                          
+     00005AED  gameStart                          
+     00005B02  getVideoPtr                        
+     00005B06  incTeam1Points                     
+     00005B12  incTeam2Points                     
+     00005B3E  decideNumber                       
+     00005B8B  drawNumber                         
+     00005BE5  updateTime                         
+     00005C24  handlerTime                        
+     00005D28  _cpct_setInterruptHandler          cpct_firmware
+     00005D28  cpct_setInterruptHandler_asm       cpct_firmware
+     00005D39  cpct_safeInterruptHandlerHook      cpct_firmware
+     00005D50  __divuint                          
+     00005D58  __divuchar                         
+     00005D5F  __divu8                            
+     00005D62  __divu16                           
+     00005D91  _cpct_isKeyPressed                 cpct_keyboard
+     00005D91  cpct_isKeyPressed_asm              cpct_keyboard
+     00005D9D  cpct_setPalette_asm                cpct_video
+     00005DB0  cpct_setPALColour_asm              cpct_video
+     00005DBA  _cpct_akp_digidrumStatus           cpct_audio
+     00005DBB  _cpct_akp_songLoopTimes            cpct_audio
+     00005DBC  _cpct_akp_musicPlay                cpct_audio
+     00005DBC  cpct_akp_musicPlay_asm             cpct_audio
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000028E4 =       10468. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000064BF  _cpct_akp_musicInit                cpct_audio
+     000064C6  cpct_akp_musicInit_asm             cpct_audio
+     0000651F  _cpct_akp_stop                     cpct_audio
+     0000651F  cpct_akp_stop_asm                  cpct_audio
+     00006532  _cpct_akp_SFXGetInstrument         cpct_audio
+     00006537  cpct_akp_SFXGetInstrument_asm      cpct_audio
+     0000654B  _cpct_akp_SFXInit                  cpct_audio
+     00006552  cpct_akp_SFXInit_asm               cpct_audio
+     00006559  _cpct_akp_SFXStopAll               cpct_audio
+     00006559  cpct_akp_SFXStopAll_asm            cpct_audio
+     00006566  _cpct_akp_SFXPlay                  cpct_audio
+     00006578  cpct_akp_SFXPlay_asm               cpct_audio
+     000065C5  _cpct_akp_SFXStop                  cpct_audio
+     000065CA  cpct_akp_SFXStop_asm               cpct_audio
+     000065E3  _cpct_drawStringM1                 cpct_strings
+     000065EB  cpct_drawStringM1_asm              cpct_strings
+     00006605  _cpct_drawStringM2                 cpct_strings
+     0000660D  cpct_drawStringM2_asm              cpct_strings
+     00006626  cpct_drawSprite_asm                cpct_sprites
+     000066C6  _cpct_drawCharM1                   cpct_strings
+     000066D3  cpct_drawCharM1_asm                cpct_strings
+     0000674D  _cpct_drawCharM2                   cpct_strings
+     00006753  cpct_drawCharM2_asm                cpct_strings
+     00006799  __mulint                           
+     000067A1  __mul16                            
+     000067B5  _cpct_setVideoMemoryPage           cpct_video
+     000067B5  cpct_setVideoMemoryPage_asm        cpct_video
+     000067BE  _cpct_waitVSYNC                    cpct_video
+     000067BE  cpct_waitVSYNC_asm                 cpct_video
+     000067C6  cpct_setVideoMode_asm              cpct_video
+     000067D3  dc_mode1_ct                        
+     000067D7  cpct_memcpy_asm                    cpct_memutils
+     000067DA  _cpct_disableFirmware              cpct_firmware
+     000067DA  _cpct_removeInterruptHandler       cpct_firmware
+     000067DA  cpct_disableFirmware_asm           cpct_firmware
+     000067DA  cpct_removeInterruptHandler_asm    cpct_firmware
+     000067EA  cpct_drawSolidBox_asm              cpct_sprites
+     00006896  _cpct_mode_rom_status              cpct_firmware
+     00006897  cpct_getScreenPtr_asm              cpct_video
+     000068B3  _cpct_scanKeyboard                 cpct_keyboard
+     000068B3  cpct_scanKeyboard_asm              cpct_keyboard
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               000068E4    00000006 =           6. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000068E4  _aceleracion                       IA
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZED                        000068EA    00000012 =          18. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000068EA  _vRulesx                           IA
+     000068F0  _vRulesy                           IA
+     000068F6  _fmems                             IA
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZER                        000068FC    00000012 =          18. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+
+Files Linked                              [ module(s) ]
+
+obj/sprites/maps/points.rel               [ points ]
+obj/sprites/maps/numbers.rel              [ numbers ]
+obj/sprites/frisbees/frisbee_1.rel        [ frisbee_1 ]
+obj/sprites/characters/robot_2.rel        [ robot_2 ]
+obj/sprites/characters/robot_1.rel        [ robot_1 ]
+obj/IA.rel                                [ IA ]
+obj/sprites/frisbees/frisbeeMenu.rel      [ frisbeeMenu ]
+obj/entity.rel                            [  ]
+obj/frisbee.rel                           [  ]
+obj/entity.h.rel                          [  ]
+obj/game.h.rel                            [  ]
+obj/sprites.h.rel                         [  ]
+obj/utility.h.rel                         [  ]
+obj/main.rel                              [  ]
+obj/menu.h.rel                            [  ]
+obj/frisbee.h.rel                         [  ]
+obj/credits.rel                           [  ]
+obj/player.h.rel                          [  ]
+obj/player.rel                            [ cpct_keyboard ]
+obj/menu.rel                              [  ]
+obj/game.rel                              [  ]
+
+
+Libraries Linked                          [ object file ]
+
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setInterruptHandler.rel ]
+/home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divunsigned.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isKeyPressed.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPALColour_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ arkostracker.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawStringM1.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawStringM2.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSprite_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM1.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM2.rel ]
+/home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ mul.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMemoryPage.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_dc_mode1_ct.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_memcpy_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_removeInterruptHandler.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpc_mode_rom_status.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_scanKeyboard.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+
+User Base Address Definitions
+
+_CODE = 0x4000
+_DATA = 0x0000
+
+

@@ -47,6 +47,8 @@
 .equ MAX_VEL_Y, 3
 .equ MIN_VEL_Y, -3
 
+
+;; Sprite pointers vectors
 robot_1_sprites::
 	.dw	#_sprite_robot_1_0
 	.dw	#_sprite_robot_1_1

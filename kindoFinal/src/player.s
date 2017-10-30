@@ -83,8 +83,8 @@ update_player_animation::
 ;; Determina el siguiente estado de
 ;;	la entidad
 ;; Entrada:
+;;	IX <= Pointer to player data
 ;; =========================================
-
 animation_delta:
 	ld	a, Ent_state(ix)
 
@@ -102,170 +102,170 @@ animation_delta:
 	not_one:
 	cp	#2
 	jr	nz, not_two
-		;; STATE 2 ;;
-
+		;; STATE 2 - Step down first state ;;
+		call stepDown1_state
 		ret
 	not_two:
 	cp	#3
 	jr	nz, not_three
-		;; STATE 3 ;;
-
+		;; STATE 3 - Step right first state ;;
+		call stepRight1_state
 		ret
 	not_three:
 	cp	#4
 	jr	nz, not_four
-		;; STATE 1 ;;
-
+		;; STATE 4 - Step left first state ;;
+		call stepLeft1_state
 		ret
 	not_four:
 	cp	#5
 	jr	nz, not_five
-		;; STATE 1 ;;
-
+		;; STATE 5 - Step up-right first state ;;
+		call stepUpRight1_state
 		ret
 	not_five:
 	cp	#6
 	jr	nz, not_six
-		;; STATE 6 ;;
-
+		;; STATE 6 - Step up-left first state ;;
+		call stepUpLeft1_state
 		ret
 	not_six:
 	cp	#7
 	jr	nz, not_seven
-		;; STATE 7 ;;
-
+		;; STATE 7 - Step down-right first state ;;
+		call stepDownRight1_state
 		ret
 	not_seven:
 	cp	#8
 	jr	nz, not_eight
-		;; STATE 8 ;;
-
+		;; STATE 8 - Step down-left first state ;;
+		call stepDownLeft1_state
 		ret
 	not_eight:
 	cp	#9
 	jr	nz, not_nine
-		;; STATE 2 ;;
-
+		;; STATE 9 - Throwing up - first ;;
+		call throwUp1_state
 		ret
 	not_nine:
 	cp	#10
 	jr	nz, not_ten
-		;; STATE 10 ;;
-
+		;; STATE 10 - Throwing up ;;
+		call throwUp2_state
 		ret
 	not_ten:
 	cp	#11
 	jr	nz, not_eleven
-		;; STATE 11 ;;
-
+		;; STATE 11 - Throwing up ;;
+		call throwUp3_state
 		ret
 	not_eleven:
 	cp	#12
 	jr	nz, not_twelve
-		;; STATE 12 ;;
-
+		;; STATE 12 - Throwing up ;;
+		call throwUp4_state
 		ret
 	not_twelve:
 	cp	#13
 	jr	nz, not_thirteen
-		;; STATE 13 ;;
-
+		;; STATE 13 - Throwing up ;;
+		call throwUp5_state
 		ret
 	not_thirteen:
 	cp	#14
 	jr	nz, not_fourteen
-		;; STATE 14 ;;
-
+		;; STATE 14 - Throwing up ;;
+		call throwUp6_state
 		ret
 	not_fourteen:
 	cp	#15
 	jr	nz, not_fiveteen
-		;; STATE 15 ;;
-
+		;; STATE 15 - Throwing up - last ;;
+		call throwUp7_state
 		ret
 	not_fiveteen:
 	cp	#16
 	jr	nz, not_sixteen
-		;; STATE 16 ;;
-
+		;; STATE 16 - Throwing Down - first ;;
+		call throwDown1_state
 		ret
 	not_sixteen:
 	cp	#17
 	jr	nz, not_seventeen
-		;; STATE 17 ;;
-
+		;; STATE 17 - Throwing Down ;;
+		call throwDown2_state
 		ret
 	not_seventeen:
 	cp	#18
 	jr	nz, not_eighteen
-		;; STATE 18 ;;
-
+		;; STATE 18 - Throwing Down ;;
+		call throwDown3_state
 		ret
 	not_eighteen:
 	cp	#19
 	jr	nz, not_nineteen
-		;; STATE 19 ;;
-
+		;; STATE 19 - Throwing Down ;;
+		call throwDown4_state
 		ret
 	not_nineteen:
 	cp	#20
 	jr	nz, not_twenty
-		;; STATE 20 ;;
-
+		;; STATE 20 - Throwing Down ;;
+		call throwDown5_state
 		ret
 	not_twenty:
 	cp	#21
 	jr	nz, not_twenty_one
-		;; STATE 21 ;;
-
+		;; STATE 21 - Throwing Down ;;
+		call throwDown6_state
 		ret
 	not_twenty_one:
 	cp	#22
 	jr	nz, not_twenty_two
-		;; STATE 22 ;;
-
+		;; STATE 22 - Throwing Down - last ;;
+		call throwDown7_state
 		ret
 	not_twenty_two:
 	cp	#23
 	jr	nz, not_twenty_three
-		;; STATE 23 ;;
-
+		;; STATE 23 - Throwing straight - first ;;
+		call throwStraight1_state
 		ret
 	not_twenty_three:
 	cp	#24
 	jr	nz, not_twenty_four
-		;; STATE 24 ;;
-
+		;; STATE 24 - Throwing straight ;;
+		call throwStraight2_state
 		ret
 	not_twenty_four:
 	cp	#25
 	jr	nz, not_twenty_five
-		;; STATE 25 ;;
-
+		;; STATE 25 - Throwing straight ;;
+		call throwStraight3_state
 		ret
 	not_twenty_five:
 	cp	#26
 	jr	nz, not_twenty_six
-		;; STATE 26 ;;
-
+		;; STATE 26 - Throwing straight ;;
+		call throwStraight4_state
 		ret
 	not_twenty_six:
 	cp	#27
 	jr	nz, not_twenty_seven
-		;; STATE 27 ;;
-
+		;; STATE 27 - Throwing straight ;;
+		call throwStraight5_state
 		ret
 	not_twenty_seven:
 	cp	#28
 	jr	nz, not_twenty_eight
-		;; STATE 28 ;;
-
+		;; STATE 28 - Throwing straight ;;
+		call throwStraight6_state
 		ret
 	not_twenty_eight:
 	cp	#29
 	jr	nz, not_twenty_nine
-		;; STATE 29 ;;
-
+		;; STATE 29 - Throwing straight - last ;;
+		call throwStraight7_state
 		ret
 	not_twenty_nine:
 	cp	#30
@@ -282,86 +282,86 @@ animation_delta:
 	not_thirty_one:
 	cp	#32
 	jr	nz, not_thirty_two
-		;; STATE 31 ;;
-
+		;; STATE 31 - Step down second state ;;
+		call stepDown2_state
 		ret
 	not_thirty_two:
 	cp	#33
 	jr	nz, not_thirty_three
-		;; STATE 33 ;;
-
+		;; STATE 33 - Step down third state ;;
+		call stepDown3_state
 		ret
 	not_thirty_three:
 	cp	#34
 	jr	nz, not_thirty_four
-		;; STATE 34 ;;
-
+		;; STATE 34 - Step right second state ;;
+		call stepRight2_state
 		ret
 	not_thirty_four:
 	cp	#35
 	jr	nz, not_thirty_five
-		;; STATE 35 ;;
-
+		;; STATE 35 - Step right third state ;;
+		call stepRight3_state
 		ret
 	not_thirty_five:
 	cp	#36
 	jr	nz, not_thirty_six
-		;; STATE 36 ;;
-
+		;; STATE 36 - Step left second state ;;
+		call stepLeft2_state
 		ret
 	not_thirty_six:
 	cp	#37
 	jr	nz, not_thirty_seven
-		;; STATE 37 ;;
-
+		;; STATE 37 - Step left third state ;;
+		call stepLeft3_state
 		ret
 	not_thirty_seven:
 	cp	#38
 	jr	nz, not_thirty_eight
-		;; STATE 38 ;;
-
+		;; STATE 38 - Step up-right second state ;;
+		call stepUpRight2_state
 		ret
 	not_thirty_eight:
 	cp	#39
 	jr	nz, not_thirty_nine
-		;; STATE 39 ;;
-
+		;; STATE 39 - Step up-right third state ;;
+		call stepUpRight3_state
 		ret
 	not_thirty_nine:
 	cp	#40
 	jr	nz, not_fourty
-		;; STATE 40 ;;
-
+		;; STATE 40 - Step up-left second state ;;
+		call stepUpLeft2_state
 		ret
 	not_fourty:
 	cp	#41
 	jr	nz, not_fourty_one
-		;; STATE 41 ;;
-
+		;; STATE 41 - Step up-left third state ;;
+		call stepUpLeft3_state
 		ret
 	not_fourty_one:
 	cp	#42
 	jr	nz, not_fourty_two
-		;; STATE 42 ;;
-
+		;; STATE 42 - Step down-right second state ;;
+		call stepDownRight2_state
 		ret
 	not_fourty_two:
 	cp	#43
 	jr	nz, not_fourty_three
-		;; STATE 43 ;;
-
+		;; STATE 43 - Step down-right third state ;;
+		call stepDownRight3_state
 		ret
 	not_fourty_three:
 	cp	#44
 	jr	nz, not_fourty_four
-		;; STATE 44 ;;
-
+		;; STATE 44 - Step down-left second state ;;
+		call stepDownLeft2_state
 		ret
 	not_fourty_four:
 	cp	#45
 	jr	nz, not_fourty_five
-		;; STATE 45 ;;
-
+		;; STATE 45 - Step down-left third state ;;
+		call stepDownLeft3_state
 		ret
 	not_fourty_five:
 
