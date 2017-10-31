@@ -49,7 +49,7 @@ number_h = 7
 
 ;;defineEntity name, 	x,	y,	 h, w, 	vx, 	vy, 	ax, 	ay, normal, 	sprites_ptr, 		id
 defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 		#1
-defineEntity enemy, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#2
+defineEntity enemy, #0x0050-0x000A, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#2
 
 defineEntity player2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 	#3
 defineEntity enemy2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#4
@@ -86,11 +86,6 @@ game_data::
 	;;game_t1Score: 		.db #0 		;; Points of team 1		(8 bits)
 	;;game_t2Score: 		.db #0 		;; Points of team 2		(8 bits)
 ;; 
-;; .equ RIGHT_LIMIT,	80
-;; .equ LEFT_LIMIT,	0
-;; .equ TOP_LIMIT,	10
-;; .equ BOTTOM_LIMIT,	200
-;; .equ CENTER_LIMIT,	40
 
 
 ;; ====================================
@@ -99,8 +94,11 @@ game_data::
 ;; ====================================
 ;; ====================================
 
-;; .equ mi_constante0, 0
-;; .equ mi_constante1, 1
+.equ RIGHT_LIMIT,	80
+.equ LEFT_LIMIT,	0
+.equ TOP_LIMIT,	 	32
+.equ BOTTOM_LIMIT,	200
+.equ CENTER_LIMIT,	40
 
 .equ minSpPointer, 0xE025		;; Pointer to know where to print the score, on both videopointers.
 .equ minSpPointer2, 0xA025
@@ -110,6 +108,9 @@ game_data::
 .equ secRightSpPointer2, 0xA02C
 
 videoPtr:	.dw 0x8000
+
+.equ map_tH, 42
+.equ map_tW, 40
 
 ;; ====================================
 ;; ====================================
@@ -423,8 +424,17 @@ emptyHandler:
 	ret
 
 handlerTime::
+	push af
+	push hl
+	exx
+	push af
+	push hl
+
+
+
+
 	ld 	hl, (game_interrTime)
-	dec hl
+	dec 	hl
 	ld 	a, h
 	cp 	#0
 	jr 	nz, time_iterate
@@ -437,6 +447,13 @@ handlerTime::
 
 	time_iterate:
 		ld (game_interrTime), hl
+
+	pop hl
+	pop af
+	exx
+	pop hl
+	pop af
+
 	ret
 
 handlerMusic:
@@ -480,7 +497,7 @@ configureMatch:
 ;; ========================
 ;; Initialize game
 ;; ========================
-initializeGame:
+initializeGame::
 
 	;; Set video mode
 	ld 	c, #0
@@ -503,7 +520,71 @@ initializeGame:
 	ld	hl, #game_t2Score
 	ld 	(hl), #0		;; Initialize points to 0
 
+	ld	hl, #_map_tileset
+	call cpct_etm_setTileset2x4_asm
+
+;;	;; Print map at second video buffer
+;;	ld	a, #map_tW
+;;	ld	c, #map_tH
+;;	ld	de, #0x8140
+;;	ld	hl, #_tilemap
+;;	call cpct_etm_drawTilemap2x4_f_asm
+;;	;; Print map at first video buffer
+;;	ld	a, #map_tW
+;;	ld	c, #map_tH
+;;	ld	de, #0xC140
+;;	ld	hl, #_tilemap
+;;	call cpct_etm_drawTilemap2x4_f_asm
+
+;;	ld	a, Ent_erase_x(ix)	;; A <= ent_erase_x
+;;	sra 	a			;; A <= A/2
+;;	ld	c, a 			;; C <= ent_erase_x/2
+;;
+;;	ld	a, Ent_erase_y(ix)	;; A <= ent_erase_y
+;;	sra 	a			;;
+;;	sra 	a			;; A <= A/4
+;;	ld	b, a 			;; B <= ent_erase_y/4
+;;
+;;
+;;	ld	hl, #_tilemap	;; Pointer to tilemap
+;;	push 	hl
+;;	call 	getVideoPtr	;; HL <= Video memory pointer
+;;	push	hl		;; Videomem pointer to draw
+;;	ld	e, #5
+;;	ld	d, #5
+;;	ld	a, #map_tW
+;;	call cpct_etm_drawTileBox2x4_asm
+
+
+
+	;; Print map at second video buffer
+	ld	hl, #_tilemap	;; Pointer to tilemap
+	push 	hl
+	ld	hl, #0x8000	;; Videomem pointer
+	push 	hl
+	ld	bc, #0x0000	;; Starting tile of the tilemap
+	ld	e, #map_tW
+	ld	d, #map_tH
+	ld	a, #map_tW
+	call 	cpct_etm_drawTileBox2x4_asm
+
+	;; Print map at first video buffer
+	ld	hl, #_tilemap	;; Pointer to tilemap
+	push 	hl
+	ld	hl, #0xC000	;; Videomem pointer
+	push 	hl
+	ld	bc, #0x0000	;; Starting tile of the tilemap
+	ld	e, #map_tW
+	ld	d, #map_tH
+	ld	a, #map_tW
+	call 	cpct_etm_drawTileBox2x4_asm
+
+
+	;; Initialize music
+;;	ld	de, #_song_pointer
+;;	call	cpct_akp_musicInit_asm
 	
+
 	ret
 
 

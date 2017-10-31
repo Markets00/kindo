@@ -42,8 +42,8 @@ winCondString: 			.asciz "Win Condition"
 
 ;; .equ minCursorPos, 0xC88F	;; Saves the MIN position posible of the cursor.
 ;; .equ maxCursorPos, 0xC97F	;; 2 ;; Saves the MIN position posible of the cursor.
-;;.equ maxCursorPos, 0xCA6F	;; 3 ;; Saves the MAX position posible of the cursor.
-;;.equ maxCursorPos, 0xCB5F	;; 4 ;; Saves the MAX position posible of the cursor.
+;; .equ maxCursorPos, 0xCA6F	;; 3 ;; Saves the MAX position posible of the cursor.
+;; .equ maxCursorPos, 0xCB5F	;; 4 ;; Saves the MAX position posible of the cursor.
 
 .equ instrPos, 0xC6E0
 

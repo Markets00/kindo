@@ -88,16 +88,16 @@ entityDraw::
 
 	ld	a, Ent_sprite(ix)	;; A <= sprite index
 
-	index_loop:
+	index_loop_2:
 	cp	#0
-	jr	z, load_sprite		;; A == 0?
+	jr	z, load_sprite_2		;; A == 0?
 		;; A (sprite) != 0
 		inc 	hl
 		inc 	hl		;; HL points 2 bytes ahead
 		dec 	a		;; a--
-		jr index_loop
+		jr index_loop_2
 
-	load_sprite:
+	load_sprite_2:
 	ld 	b, (hl)			;;
 	inc 	hl			;;
 	ld	c, (hl)			;; BC <= Sprite pointer
@@ -106,11 +106,11 @@ entityDraw::
 
 	ld 	b, Ent_h(ix) 		;; B = ent height
 	ld 	c, Ent_w(ix) 		;; C = ent width
-	call cpct_drawSprite_asm
+	call cpct_drawSpriteMasked_asm
 
 	call updateX
 	call updateY
-	ret
+
 
 ;; ===================================
 ;; Borra una entidad de la pantalla
@@ -121,17 +121,59 @@ entityDraw::
 entityErase::
 	call 	getVideoPtr		;; HL <= Video memory pointer
 	ex 	de, hl			;; DE <= HL (Video memory pointer)
-	ld 	c, Ent_erase_x(ix)	;; C = ent_erase_x
-	ld 	b, Ent_erase_y(ix)	;; B = ent_erase_y
-	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
+	ld 	c, Ent_erase_x(ix)	;; C <= ent_erase_x
+	ld 	b, Ent_erase_y(ix)	;; B <= ent_erase_y
+	call cpct_getScreenPtr_asm 	;; HL <= ent screen pointer
 
-	ex 	de, hl 			;; DE = ent screen pointer
-	ld 	a, #0x00 		;; A = background color
-	ld 	b, Ent_h(ix) 		;; B = ent height
-	ld 	c, Ent_w(ix) 		;; C = ent width
-	call cpct_drawSolidBox_asm
+;	ex 	de, hl 			;; DE <= ent screen pointer
+;	ld 	a, #0x00 		;; A <= background color
+;	ld 	b, Ent_h(ix) 		;; B <= ent height
+;	ld 	c, Ent_w(ix) 		;; C <= ent width
+;	call cpct_drawSolidBox_asm
 
 	ret
+
+;; ===================================
+;; Borra una entidad de la pantalla
+;; Entrada:
+;; 	IX => Pointer to entity data 
+;; Modifica AF, BC, DE, HL
+;; ===================================
+entityErase_2::
+	ld	a, Ent_erase_x(ix)	;; A <= ent_erase_x
+	sra 	a			;; A <= A/2
+	ld	c, a 			;; C <= ent_erase_x/2
+
+	ld	a, Ent_erase_y(ix)	;; A <= ent_erase_y
+	sra 	a			;;
+	sra 	a			;; A <= A/4
+	ld	b, a 			;; B <= ent_erase_y/4
+
+
+	ld	hl, #_tilemap	;; Pointer to tilemap
+	push 	hl
+	call 	getVideoPtr	;; HL <= Video memory pointer
+	push	hl		;; Videomem pointer to draw
+	ld	e, #5
+	ld	d, #5
+	ld	a, #map_tW
+	call cpct_etm_drawTileBox2x4_asm
+
+	ret
+
+
+ ;;   ;; Set Parameters on the stack
+ ;;   ld   hl, #ptilemap   ;; HL = pointer to the tilemap
+ ;;   push hl              ;; Push ptilemap to the stack
+ ;;   ld   hl, #pvideomem  ;; HL = Pointer to video memory location where tilemap is drawn
+ ;;   push hl              ;; Push pvideomem to the stack
+ ;;   ;; Set Paramters on registers
+ ;;   ld    a, #map_width  ;; A = map_width
+ ;;   ld    b, #y          ;; B = x tile-coordinate
+ ;;   ld    c, #x          ;; C = y tile-coordinate
+ ;;   ld    d, #h          ;; H = height in tiles of the tile-box
+ ;;   ld    e, #w          ;; L =  width in tiles of the tile-box
+ ;;   call  cpct_etm_drawTileBox2x4_asm ;; Call the function
 
 ;; =========================================
 ;; Actualiza el estado de las físicas
@@ -493,14 +535,15 @@ entityUpdatePosition::
 
 		ret
 
-;; =========================================
+;; ==========================================================================
 ;; Inverts HL value
 ;; Entrada:
 ;; 	HL => value we are going to negate
 ;; Modifica AF, HL
 ;; Devuelve:
 ;; 	HL <= HL value negated
-;; =========================================
+;; http://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Signed_Math
+;; ==========================================================================
 negateHL::
 	ld 	a, #0			;;
 	xor	a			;;
@@ -581,3 +624,39 @@ updateY:
 	ld	a, Ent_y_I(ix)
 	ld 	Ent_last_y(ix), a	;; Ent_last_y <= Ent_y_I
 	ret
+
+
+;; Transparent mask table definition
+transparent_mask:
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0xAA, 0xFF, 0x00, 0x00, 0xAA, 0xAA
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+ ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00

@@ -21,3 +21,8 @@
 .globl cpct_setPALColour_asm
 .globl cpct_drawStringM2_asm
 .globl cpct_drawStringM1_asm
+.globl cpct_etm_setTileset2x4_asm
+.globl cpct_etm_drawTileBox2x4_asm
+.globl cpct_etm_drawTilemap2x4_f_asm
+.globl cpct_drawSpriteMaskedAlignedTable_asm
+.globl cpct_drawSpriteMasked_asm

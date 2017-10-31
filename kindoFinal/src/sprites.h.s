@@ -9,6 +9,9 @@
 .globl _sprite_frisbee_1_0
 .globl _sprite_frisbee_1_1
 
+;; MAP
+.globl _map_tileset
+.globl _tilemap
 	
 ;; ":"
 .globl _sprite_points
