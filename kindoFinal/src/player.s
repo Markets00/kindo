@@ -44,7 +44,10 @@ player_update::
 	cp	#4
 	jr	z, check_IA		;; Ent_id == 4? check IA
 		;; check input
+		push ix
 		call checkUserInput
+		pop ix
+		call checkSignal
 		jr continue_updating
 
 	check_IA:
@@ -52,6 +55,7 @@ player_update::
 
 	continue_updating:
 
+	call update_player_animation
 	call entityUpdatePhysics
 	call entityUpdatePosition
 	call checkCenterCrossing
@@ -1685,6 +1689,89 @@ checkCenterCrossing:
 	not_crossed:
 	ret
 
+;; ===========================================
+;; Chequea el estado del jugador y comprueba
+;; 	y corrige su señal
+;; Entrada:
+;; 	IX <= pointer to entity data
+;; Modifica AF, BC, DE, HL
+;; ===========================================
+checkSignal:
+	ld 	a, Ent_signal(ix)
+	cp	#-1
+	jr	nz, signal_already_set
+		;; Signal is not set
+		ld 	a, Ent_ax_I(ix)
+		cp	#0
+		jr	nz, ax_is_negative
+			;; AX is zero or positive
+			ld 	a, Ent_ax_F(ix)
+			cp	#0
+			jr	nz, ax_is_positive
+				;; AX is zero
+				jr check_signal_ay
+			ax_is_positive:
+			ld Ent_signal(ix), #3
+			jr check_signal_ay
+
+		ax_is_negative:
+		ld Ent_signal(ix), #4
+
+	check_signal_ay:
+		ld 	a, Ent_signal(ix)
+		cp	#-1
+		jr	nz, diagonal_movement	;; Is signal set at AX checking?
+			;; Vertical movement
+			ld 	a, Ent_ay_I(ix)
+			cp	#0
+			jr	nz, move_up
+				;; AX is zero or positive
+				ld 	a, Ent_ay_F(ix)
+				cp	#0
+				jr	nz, move_down
+					;; AX is zero
+					jr signal_already_set
+				move_down:
+					ld Ent_signal(ix), #2
+					jr signal_already_set
+			move_up:
+			ld Ent_signal(ix), #1
+			jr signal_already_set
+
+		diagonal_movement:
+			ld 	a, Ent_ay_I(ix)
+			cp	#0
+			jr	nz, ay_is_negative
+				;; AY is zero or positive
+				ld 	a, Ent_ay_F(ix)
+				cp	#0
+				jr	nz, ay_is_positive
+					;; AY is zero
+					jr signal_already_set
+				ay_is_positive:
+					ld	a, Ent_signal(ix)
+					cp 	#3
+					jr	nz, move_downLeft
+						;; move down right
+						ld Ent_signal(ix), #7
+						jr signal_already_set
+					move_downLeft:
+						ld Ent_signal(ix), #8
+						jr signal_already_set
+			ay_is_negative:
+				ld	a, Ent_signal(ix)
+				cp 	#3
+				jr	nz, move_upLeft
+					;; move up right
+					ld Ent_signal(ix), #5
+					jr signal_already_set
+				move_upLeft:
+					ld Ent_signal(ix), #6
+					jr signal_already_set
+
+	signal_already_set:
+	ret
+
 
 ;; ====================================
 ;; Lee la entrada del teclado
@@ -1805,12 +1892,14 @@ checkVandB:
 					push 	ix
 					call frisbee_setEffect		;; efecto hacia abajo
 					pop 	ix
+					ld	Ent_signal(ix), #11
 					jr vorb_pressed
 				just_v_pressed:
 					ld 	hl, #std_N_eff		;; HL <= -standard effect
 					push 	ix
 					call frisbee_setEffect		;; efecto hacia arriba
 					pop 	ix
+					ld	Ent_signal(ix), #9
 					jr 	vorb_pressed
 			v_not_pressed:
 
@@ -1823,6 +1912,7 @@ checkVandB:
 					push 	ix
 					call frisbee_setEffect		;; efecto hacia abajo
 					pop 	ix
+					ld	Ent_signal(ix), #10
 
 					vorb_pressed:
 					ld	a, Ent_id(ix)		;;
@@ -1847,12 +1937,14 @@ checkVandB:
 					;; I and O are pressed
 					ld 	hl, #0			;; HL <= standard effect
 					call frisbee_setEffect		;; efecto hacia abajo
+					ld	Ent_signal(ix), #11
 					jr ioro_pressed
 				just_i_pressed:
 					ld 	hl, #std_N_eff		;; HL <= -standard effect
 					push 	ix
 					call frisbee_setEffect		;; efecto hacia arriba
 					pop 	ix
+					ld	Ent_signal(ix), #9
 					jr 	ioro_pressed
 			i_not_pressed:
 
@@ -1865,6 +1957,7 @@ checkVandB:
 					push 	ix
 					call frisbee_setEffect		;; efecto hacia abajo
 					pop 	ix
+					ld	Ent_signal(ix), #10
 
 					ioro_pressed:
 					ld	a, Ent_id(ix)		;;

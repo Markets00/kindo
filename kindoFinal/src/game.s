@@ -523,61 +523,42 @@ initializeGame::
 	ld	hl, #_map_tileset
 	call cpct_etm_setTileset2x4_asm
 
-;;	;; Print map at second video buffer
-;;	ld	a, #map_tW
-;;	ld	c, #map_tH
-;;	ld	de, #0x8140
-;;	ld	hl, #_tilemap
-;;	call cpct_etm_drawTilemap2x4_f_asm
-;;	;; Print map at first video buffer
-;;	ld	a, #map_tW
-;;	ld	c, #map_tH
-;;	ld	de, #0xC140
-;;	ld	hl, #_tilemap
-;;	call cpct_etm_drawTilemap2x4_f_asm
+	;; Print map at second video buffer
+	ld	a, #map_tW
+	ld	c, #map_tH
+	ld	de, #0x8140
+	ld	hl, #_tilemap
+	call cpct_etm_drawTilemap2x4_f_asm
+	;; Print map at first video buffer
+	ld	a, #map_tW
+	ld	c, #map_tH
+	ld	de, #0xC140
+	ld	hl, #_tilemap
+	call cpct_etm_drawTilemap2x4_f_asm
 
-;;	ld	a, Ent_erase_x(ix)	;; A <= ent_erase_x
-;;	sra 	a			;; A <= A/2
-;;	ld	c, a 			;; C <= ent_erase_x/2
-;;
-;;	ld	a, Ent_erase_y(ix)	;; A <= ent_erase_y
-;;	sra 	a			;;
-;;	sra 	a			;; A <= A/4
-;;	ld	b, a 			;; B <= ent_erase_y/4
-;;
-;;
+
+
+;;	;; Print map at second video buffer
 ;;	ld	hl, #_tilemap	;; Pointer to tilemap
 ;;	push 	hl
-;;	call 	getVideoPtr	;; HL <= Video memory pointer
-;;	push	hl		;; Videomem pointer to draw
-;;	ld	e, #5
-;;	ld	d, #5
+;;	ld	hl, #0x8000	;; Videomem pointer
+;;	push 	hl
+;;	ld	bc, #0x0000	;; Starting tile of the tilemap
+;;	ld	e, #map_tW
+;;	ld	d, #map_tH
 ;;	ld	a, #map_tW
-;;	call cpct_etm_drawTileBox2x4_asm
-
-
-
-	;; Print map at second video buffer
-	ld	hl, #_tilemap	;; Pointer to tilemap
-	push 	hl
-	ld	hl, #0x8000	;; Videomem pointer
-	push 	hl
-	ld	bc, #0x0000	;; Starting tile of the tilemap
-	ld	e, #map_tW
-	ld	d, #map_tH
-	ld	a, #map_tW
-	call 	cpct_etm_drawTileBox2x4_asm
-
-	;; Print map at first video buffer
-	ld	hl, #_tilemap	;; Pointer to tilemap
-	push 	hl
-	ld	hl, #0xC000	;; Videomem pointer
-	push 	hl
-	ld	bc, #0x0000	;; Starting tile of the tilemap
-	ld	e, #map_tW
-	ld	d, #map_tH
-	ld	a, #map_tW
-	call 	cpct_etm_drawTileBox2x4_asm
+;;	call 	cpct_etm_drawTileBox2x4_asm
+;;
+;;	;; Print map at first video buffer
+;;	ld	hl, #_tilemap	;; Pointer to tilemap
+;;	push 	hl
+;;	ld	hl, #0xC000	;; Videomem pointer
+;;	push 	hl
+;;	ld	bc, #0x0000	;; Starting tile of the tilemap
+;;	ld	e, #map_tW
+;;	ld	d, #map_tH
+;;	ld	a, #map_tW
+;;	call 	cpct_etm_drawTileBox2x4_asm
 
 
 	;; Initialize music

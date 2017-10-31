@@ -69,7 +69,7 @@ PALETTE={12 0 1 3 4 5 6 7 10 11 13 14 18 19 24 26}
 $(eval $(call IMG2SPRITES,assets/characters/robot_1.png,0,sprite,10,20,$(PALETTE),mask,src/sprites/characters,hwpalette))
 $(eval $(call IMG2SPRITES,assets/characters/robot_2.png,0,sprite,10,20,$(PALETTE),mask,src/sprites/characters,))
 $(eval $(call IMG2SPRITES,assets/frisbees/frisbee_1.png,0,sprite,8,16,$(PALETTE),mask,src/sprites/frisbees,))
-$(eval $(call IMG2SPRITES,assets/maps/numbers.png,0,sprite,6,7,$(PALETTE),mask,src/sprites/maps,))
-$(eval $(call IMG2SPRITES,assets/maps/points.png,0,sprite,2,7,$(PALETTE),mask,src/sprites/maps,))
+$(eval $(call IMG2SPRITES,assets/maps/numbers.png,0,sprite,6,7,$(PALETTE),,src/sprites/maps,))
+$(eval $(call IMG2SPRITES,assets/maps/points.png,0,sprite,2,7,$(PALETTE),,src/sprites/maps,))
 
 $(eval $(call IMG2SPRITES,assets/maps/tileset.png,0,map,4,4,$(PALETTE),tileset,src/sprites/maps,))

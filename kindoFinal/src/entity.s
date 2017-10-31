@@ -50,12 +50,72 @@
 
 ;; Sprite pointers vectors
 robot_1_sprites::
-	.dw	#_sprite_robot_1_0
-	.dw	#_sprite_robot_1_1
+	.dw	#_sprite_robot_1_00
+	.dw	#_sprite_robot_1_01
+	.dw	#_sprite_robot_1_02
+	.dw	#_sprite_robot_1_03
+	.dw	#_sprite_robot_1_04
+	.dw	#_sprite_robot_1_05
+	.dw	#_sprite_robot_1_06
+	.dw	#_sprite_robot_1_07
+	.dw	#_sprite_robot_1_08
+	.dw	#_sprite_robot_1_09
+	.dw	#_sprite_robot_1_10
+	.dw	#_sprite_robot_1_11
+	.dw	#_sprite_robot_1_12
+	.dw	#_sprite_robot_1_13
+	.dw	#_sprite_robot_1_14
+	.dw	#_sprite_robot_1_15
+	.dw	#_sprite_robot_1_16
+	.dw	#_sprite_robot_1_17
+	.dw	#_sprite_robot_1_18
+	.dw	#_sprite_robot_1_19
+	.dw	#_sprite_robot_1_20
+	.dw	#_sprite_robot_1_21
+	.dw	#_sprite_robot_1_22
+	.dw	#_sprite_robot_1_23
+	.dw	#_sprite_robot_1_24
+	.dw	#_sprite_robot_1_25
+	.dw	#_sprite_robot_1_26
+	.dw	#_sprite_robot_1_27
+	.dw	#_sprite_robot_1_28
+	.dw	#_sprite_robot_1_29
+	.dw	#_sprite_robot_1_30
+	.dw	#_sprite_robot_1_31
 
 robot_2_sprites::
-	.dw	#_sprite_robot_2_0
-	.dw	#_sprite_robot_2_1
+	.dw	#_sprite_robot_2_00
+	.dw	#_sprite_robot_2_01
+	.dw	#_sprite_robot_2_02
+	.dw	#_sprite_robot_2_03
+	.dw	#_sprite_robot_2_04
+	.dw	#_sprite_robot_2_05
+	.dw	#_sprite_robot_2_06
+	.dw	#_sprite_robot_2_07
+	.dw	#_sprite_robot_2_08
+	.dw	#_sprite_robot_2_09
+	.dw	#_sprite_robot_2_10
+	.dw	#_sprite_robot_2_11
+	.dw	#_sprite_robot_2_12
+	.dw	#_sprite_robot_2_13
+	.dw	#_sprite_robot_2_14
+	.dw	#_sprite_robot_2_15
+	.dw	#_sprite_robot_2_16
+	.dw	#_sprite_robot_2_17
+	.dw	#_sprite_robot_2_18
+	.dw	#_sprite_robot_2_19
+	.dw	#_sprite_robot_2_20
+	.dw	#_sprite_robot_2_21
+	.dw	#_sprite_robot_2_22
+	.dw	#_sprite_robot_2_23
+	.dw	#_sprite_robot_2_24
+	.dw	#_sprite_robot_2_25
+	.dw	#_sprite_robot_2_26
+	.dw	#_sprite_robot_2_27
+	.dw	#_sprite_robot_2_28
+	.dw	#_sprite_robot_2_29
+	.dw	#_sprite_robot_2_30
+	.dw	#_sprite_robot_2_31
 
 frisbee_sprites::
 	.dw	#_sprite_frisbee_1_0
@@ -88,16 +148,16 @@ entityDraw::
 
 	ld	a, Ent_sprite(ix)	;; A <= sprite index
 
-	index_loop_2:
+	index_loop:
 	cp	#0
-	jr	z, load_sprite_2		;; A == 0?
+	jr	z, load_sprite		;; A == 0?
 		;; A (sprite) != 0
 		inc 	hl
 		inc 	hl		;; HL points 2 bytes ahead
 		dec 	a		;; a--
-		jr index_loop_2
+		jr index_loop
 
-	load_sprite_2:
+	load_sprite:
 	ld 	b, (hl)			;;
 	inc 	hl			;;
 	ld	c, (hl)			;; BC <= Sprite pointer
