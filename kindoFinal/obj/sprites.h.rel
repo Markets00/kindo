@@ -1,0 +1,24 @@
+XL2
+H 1 areas 15 global symbols
+S _sprite_palette Ref0000
+S _tilemap Ref0000
+S _sprite_numbers_00 Ref0000
+S _sprite_numbers_01 Ref0000
+S _sprite_numbers_02 Ref0000
+S _sprite_numbers_03 Ref0000
+S _sprite_numbers_04 Ref0000
+S _sprite_frisbee_1_0 Ref0000
+S _sprite_numbers_05 Ref0000
+S _sprite_frisbee_1_1 Ref0000
+S _sprite_numbers_06 Ref0000
+S _sprite_numbers_07 Ref0000
+S _sprite_numbers_08 Ref0000
+S _sprite_numbers_09 Ref0000
+S _sprite_robot_1_0 Ref0000
+S _sprite_robot_2_0 Ref0000
+S _sprite_robot_1_1 Ref0000
+S _sprite_robot_2_1 Ref0000
+S .__.ABS. Def0000
+S _sprite_points Ref0000
+S _map_tileset Ref0000
+A _CODE size 0 flags 0 addr 0

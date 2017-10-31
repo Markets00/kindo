@@ -1,0 +1,83 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
+    Key_Curs=  0400     |     Key_Curs=  0101     |     Key_Curs=  0200 
+    Key_Curs=  0100     |     Key_Retu=  0402     |     Key_Spac=  8005 
+    LEFT_LIM=  0000     |     RIGHT_LI=  0050     |     TOP_LIMI=  001E 
+    _sprite_   **** GX  |     addPosit=  00F0     |     blackPal   **** GX
+  0 callingF   0062 R   |   0 cant_dec   023C R   |   0 cant_inc   0261 R
+  0 checkCur   021A GR  |   0 checkLat   018B GR  |   0 checkSel   01D7 GR
+  0 checkUse   0355 R   |   0 cleanScr   0356 GR  |     cpct_akp   **** GX
+    cpct_akp   **** GX  |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_mem   **** GX
+    cpct_sca   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_wai   **** GX  |   0 creditsS   0012 R   |   0 cursorPo   0063 R
+    cursorPo=  C88F     |     cursor_H=  0008     |     cursor_W=  0002 
+  0 down_not   0263 R   |   0 drawOpti   00AE GR  |     enemy2_d   **** GX
+    enemy_da   **** GX  |   0 enter_no   01E7 R   |   0 eraseOpt   00A6 GR
+    gameStar   **** GX  |     game_Win   **** GX  |     game_dat   **** GX
+    game_ena   **** GX  |     game_int   **** GX  |     game_int   **** GX
+    game_map   **** GX  |     game_max   **** GX  |     game_max   **** GX
+    game_min   **** GX  |     game_mus   **** GX  |     game_mus   **** GX
+    game_mus   **** GX  |     game_num   **** GX  |     game_sec   **** GX
+    game_sec   **** GX  |     game_t1S   **** GX  |     game_t2S   **** GX
+    game_tim   **** GX  |     game_typ   **** GX  |   0 getMaxIt   013F GR
+  0 getMusic   0119 GR  |   0 getScore   00F0 GR  |   0 getTimeO   00CF GR
+    getVideo   **** GX  |   0 getWinCo   00B6 GR  |     incTeam1   **** GX
+    incTeam2   **** GX  |   0 initiali   0364 R   |   0 initiali   0290 GR
+    instrPos=  C6E0     |   0 itsFifty   010B R   |   0 itsMusic   0124 R
+  0 itsThree   00E2 R   |   0 itsTime    00C1 R   |   0 itsTwent   0103 R
+  0 itsTwent   00FB R   |   0 itsTwoMi   00DA R   |   0 leftArro   0026 R
+  0 left_not   01B2 R   |   0 maxOn2     014D R   |   0 maxOn3     014E R
+  0 maxOn4     014F R   |   0 maxWinCo   015E R   |     max_inde=  0006 
+  0 menuInst   001A R   |   0 menuOpti   0097 GR  |     menuPos_=  C850 
+    menuPos_=  C85B     |     menuPos_=  C870     |     menuPos_=  C000 
+    menuPos_=  C940     |     menuPos_=  C94B     |     menuPos_=  C960 
+    menuPos_=  C0F0     |     menuPos_=  CA30     |     menuPos_=  CA3B 
+    menuPos_=  CA50     |     menuPos_=  C1E0     |     menuPos_=  CB20 
+    menuPos_=  CB2B     |     menuPos_=  CB40     |     menuPos_=  C2D0 
+    menuPos_=  CC10     |     menuPos_=  CC1B     |     menuPos_=  CC30 
+    menuPos_=  CD00     |     menuPos_=  CD0B     |     menuPos_=  CD20 
+    menuPos_=  CDF0     |     menuPos_=  CDFB     |     menuPos_=  CE10 
+  0 menuStar   0065 GR  |   0 menuStar   0080 R   |   0 menuStar   0096 R
+  0 menuStri   0000 R   |   0 menu_loo   0078 GR  |   0 minWinCo   0179 R
+  0 moveLeft   0189 GR  |   0 moveLeft   0183 GR  |   0 moveLeft   0186 GR
+  0 moveLeft   0151 GR  |   0 moveRigh   018A GR  |   0 moveRigh   0184 GR
+  0 moveRigh   0187 GR  |   0 moveRigh   0169 GR  |   0 musIndex   0188 R
+  0 musicStr   0055 R   |     negateHL   **** GX  |   0 not_Scor   014C R
+  0 not_Scor   01AC R   |   0 not_Scor   01D2 R   |   0 not_Time   0148 R
+  0 not_Time   01A5 R   |   0 not_Time   01CB R   |   0 not_WinC   0144 R
+  0 not_WinC   019E R   |   0 not_WinC   01C4 R   |   0 not_opti   01F8 R
+  0 offStrin   005E R   |   0 onString   005B R   |   0 optionsS   000A R
+    paletteM   **** GX  |     paletteM   **** GX  |   0 playStri   0005 R
+    player2_   **** GX  |     player_d   **** GX  |   0 printCre   03D1 R
+  0 printMus   0128 GR  |   0 printOpt   0132 GR  |   0 printSco   010F GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 printTim   00E6 GR  |   0 printWin   0165 R   |   0 printWin   017E R
+  0 printWin   00C5 GR  |   0 reDrawCu   01FC GR  |   0 rightArr   0028 R
+  0 right_no   01D6 R   |   0 scoIndex   0182 R   |   0 scoreStr   0043 R
+  0 selectio   01D7 R   |   0 setPalet   0281 GR  |   0 setPalet   0272 GR
+  0 string_1   003D R   |   0 string_1   0049 R   |   0 string_2   003F R
+  0 string_2   004C R   |   0 string_2   004F R   |   0 string_3   0041 R
+  0 string_5   0052 R   |     subPosit=  FFFFFF10     |   0 timIndex   0185 R
+  0 timeStri   0038 R   |   0 up_not_p   023E R   |   0 wait_X_h   0265 GR
+  0 wait_hal   0271 R   |   0 winCondS   002A R   |   0 winIndex   0150 R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  3D2   flags    0
+   1 _DATA      size    0   flags    0
+

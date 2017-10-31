@@ -1,0 +1,82 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
+    Ent_N_F =  000F     |     Ent_N_I =  000E     |     Ent_ax_F=  000B 
+    Ent_ax_I=  000A     |     Ent_ay_F=  000D     |     Ent_ay_I=  000C 
+    Ent_eras=  0011     |     Ent_eras=  0013     |     Ent_h   =  0004 
+    Ent_id  =  001A     |     Ent_last=  0015     |     Ent_last=  0010 
+    Ent_last=  0012     |     Ent_sign=  0016     |     Ent_spri=  0017 
+    Ent_spri=  0018     |     Ent_spri=  0019     |     Ent_stat=  0014 
+    Ent_vx_F=  0007     |     Ent_vx_I=  0006     |     Ent_vy_F=  0009 
+    Ent_vy_I=  0008     |     Ent_w   =  0005     |     Ent_x_F =  0001 
+    Ent_x_I =  0000     |     Ent_y_F =  0003     |     Ent_y_I =  0002 
+    Frisbee_=  001C     |     Frisbee_=  001B     |     LEFT_LIM=  0000 
+    MAX_VEL_=  0003     |     MAX_VEL_=  0003     |     MIN_VEL_=  FFFFFFFD 
+    MIN_VEL_=  FFFFFFFD     |     RIGHT_LI=  0050     |     TOP_LIMI=  001E 
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+    _sprite_   **** GX  |     _sprite_   **** GX  |     _sprite_   **** GX
+  0 anim_dis   00F4 R   |   0 animatio   00DC R   |     blackPal   **** GX
+    cpct_akp   **** GX  |     cpct_akp   **** GX  |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
+    cpct_mem   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_wai   **** GX  |     enemy2_d   **** GX
+    enemy_da   **** GX  |     entityCh   **** GX  |     entityDr   **** GX
+    entityEr   **** GX  |     entityUp   **** GX  |     entityUp   **** GX
+  0 frisbee0   00F7 R   |   0 frisbee1   0102 R   |   0 frisbee_   010D R
+  0 frisbee_   000A R   |   0 frisbee_   000C R   |   0 frisbee_   0121 GR
+  0 frisbee_   0000 GR  |   0 frisbee_   00C8 GR  |   0 frisbee_   001B R
+  0 frisbee_   0063 GR  |   0 frisbee_   0011 R   |   0 frisbee_   0013 R
+  0 frisbee_   0004 R   |   0 frisbee_   001A R   |   0 frisbee_   0015 R
+  0 frisbee_   0010 R   |   0 frisbee_   0012 R   |   0 frisbee_   000E R
+  0 frisbee_   003A GR  |   0 frisbee_   00A2 GR  |   0 frisbee_   00D0 GR
+  0 frisbee_   006B GR  |   0 frisbee_   0016 R   |     frisbee_=  001D 
+  0 frisbee_   0017 R   |     frisbee_   **** GX  |   0 frisbee_   0018 R
+  0 frisbee_   0014 R   |   0 frisbee_   00AD GR  |   0 frisbee_   0006 R
+  0 frisbee_   0008 R   |   0 frisbee_   0005 R   |   0 frisbee_   0000 R
+  0 frisbee_   0002 R   |     gameStar   **** GX  |     game_Win   **** GX
+    game_dat   **** GX  |     game_ena   **** GX  |     game_int   **** GX
+    game_int   **** GX  |     game_map   **** GX  |     game_max   **** GX
+    game_max   **** GX  |     game_min   **** GX  |     game_mus   **** GX
+    game_mus   **** GX  |     game_mus   **** GX  |     game_num   **** GX
+    game_sec   **** GX  |     game_sec   **** GX  |     game_t1S   **** GX
+    game_t2S   **** GX  |     game_tim   **** GX  |     game_typ   **** GX
+    getVideo   **** GX  |   0 goal       013F R   |     incTeam1   **** GX
+    incTeam2   **** GX  |   0 init_ax    0027 R   |   0 init_ay    0029 R
+  0 init_dat   001D GR  |   0 init_eff   0038 R   |   0 init_era   002E R
+  0 init_era   0030 R   |   0 init_h     0021 R   |   0 init_id    0037 R
+  0 init_las   0032 R   |   0 init_las   002D R   |   0 init_las   002F R
+  0 init_nor   002B R   |   0 init_sig   0033 R   |   0 init_spr   0034 R
+  0 init_spr   0035 R   |   0 init_sta   0031 R   |   0 init_vx    0023 R
+  0 init_vy    0025 R   |   0 init_w     0022 R   |   0 init_x     001D R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 init_y     001F R   |   0 less_tha   0080 R   |   0 less_tha   0092 R
+    neg_min_=  FF30     |     negateHL   **** GX  |   0 negative   0085 R
+  0 no_left_   0131 R   |   0 no_right   0142 R   |   0 not_acti   00C2 R
+  0 not_one    00F3 R   |   0 not_zero   00EB R   |     paletteM   **** GX
+    paletteM   **** GX  |     player2_   **** GX  |   0 player_1   0085 R
+    player_d   **** GX  |     pos_min_=  00D0     |     robot_1_   **** GX
+    robot_2_   **** GX  |   0 set_vels   0095 R   |     std_N_ef=  FFF8 
+    std_eff =  0008     |   0 update_f   00D4 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  143   flags    0
+   1 _DATA      size    0   flags    0
+

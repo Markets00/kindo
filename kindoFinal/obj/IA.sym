@@ -1,0 +1,54 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    __divuint                                                      **** GX
+    __mulint                                                       **** GX
+  7 __xinit__fmems                                                 000C R
+  7 __xinit__vRulesx                                               0000 R
+  7 __xinit__vRulesy                                               0006 R
+  0 _acelMed                                                       014D GR
+  0 _acelMu                                                        0137 GR
+  0 _acelPo                                                        0142 GR
+  1 _aceleracion                                                   0000 GR
+  0 _calcularb_direc                                               0613 GR
+  0 _calculateDom                                                  0170 GR
+  0 _calcule                                                       058B GR
+  0 _cerca                                                         0116 GR
+  0 _defuzzi                                                       048A GR
+  2 _fmems                                                         000C GR
+  0 _fuzzificacion                                                 0648 GR
+  0 _initAcel                                                      0000 GR
+  0 _lejos                                                         012C GR
+  0 _medio                                                         0121 GR
+  0 _moveIA                                                        07A7 GR
+  0 _rulex                                                         0158 GR
+  0 _rulex1                                                        015C GR
+  0 _rulex2                                                        0160 GR
+  0 _ruley                                                         0164 GR
+  0 _ruley1                                                        0168 GR
+  0 _ruley2                                                        016C GR
+  2 _vRulesx                                                       0000 GR
+  2 _vRulesy                                                       0006 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  7F7   flags    0
+   1 _DATA                                      size    6   flags    0
+   2 _INITIALIZED                               size   12   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size   12   flags    0
+   8 _CABS                                      size    0   flags    8
+

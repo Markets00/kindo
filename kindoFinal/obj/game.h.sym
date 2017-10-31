@@ -1,0 +1,21 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
+    LEFT_LIM=  0000     |     RIGHT_LI=  0050     |     TOP_LIMI=  0020 
+    blackPal   **** GX  |     enemy2_d   **** GX  |     enemy_da   **** GX
+    gameStar   **** GX  |     game_dat   **** GX  |     getVideo   **** GX
+    incTeam1   **** GX  |     incTeam2   **** GX  |     map_tH  =  002A 
+    map_tW  =  0028     |     paletteM   **** GX  |     paletteM   **** GX
+    player2_   **** GX  |     player_d   **** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size    0   flags    0
+

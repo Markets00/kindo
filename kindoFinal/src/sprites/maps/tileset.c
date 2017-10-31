@@ -1,0 +1,1941 @@
+#include "tileset.h"
+// Data created with Img2CPC - (c) Retroworks - 2007-2015
+u8* const map_tileset[242] = { 
+	map_tileset_000, map_tileset_001, map_tileset_002, map_tileset_003, map_tileset_004, map_tileset_005, map_tileset_006, map_tileset_007, map_tileset_008, map_tileset_009, map_tileset_010, map_tileset_011, map_tileset_012, map_tileset_013, map_tileset_014, map_tileset_015, map_tileset_016, map_tileset_017, map_tileset_018, map_tileset_019, map_tileset_020, map_tileset_021, map_tileset_022, map_tileset_023, map_tileset_024, map_tileset_025, map_tileset_026, map_tileset_027, map_tileset_028, map_tileset_029, map_tileset_030, map_tileset_031, map_tileset_032, map_tileset_033, map_tileset_034, map_tileset_035, map_tileset_036, map_tileset_037, map_tileset_038, map_tileset_039, map_tileset_040, map_tileset_041, map_tileset_042, map_tileset_043, map_tileset_044, map_tileset_045, map_tileset_046, map_tileset_047, map_tileset_048, map_tileset_049, map_tileset_050, map_tileset_051, map_tileset_052, map_tileset_053, map_tileset_054, map_tileset_055, map_tileset_056, map_tileset_057, map_tileset_058, map_tileset_059, map_tileset_060, map_tileset_061, map_tileset_062, map_tileset_063, map_tileset_064, map_tileset_065, map_tileset_066, map_tileset_067, map_tileset_068, map_tileset_069, map_tileset_070, map_tileset_071, map_tileset_072, map_tileset_073, map_tileset_074, map_tileset_075, map_tileset_076, map_tileset_077, map_tileset_078, map_tileset_079, map_tileset_080, map_tileset_081, map_tileset_082, map_tileset_083, map_tileset_084, map_tileset_085, map_tileset_086, map_tileset_087, map_tileset_088, map_tileset_089, map_tileset_090, map_tileset_091, map_tileset_092, map_tileset_093, map_tileset_094, map_tileset_095, map_tileset_096, map_tileset_097, map_tileset_098, map_tileset_099, map_tileset_100, map_tileset_101, map_tileset_102, map_tileset_103, map_tileset_104, map_tileset_105, map_tileset_106, map_tileset_107, map_tileset_108, map_tileset_109, map_tileset_110, map_tileset_111, map_tileset_112, map_tileset_113, map_tileset_114, map_tileset_115, map_tileset_116, map_tileset_117, map_tileset_118, map_tileset_119, map_tileset_120, map_tileset_121, map_tileset_122, map_tileset_123, map_tileset_124, map_tileset_125, map_tileset_126, map_tileset_127, map_tileset_128, map_tileset_129, map_tileset_130, map_tileset_131, map_tileset_132, map_tileset_133, map_tileset_134, map_tileset_135, map_tileset_136, map_tileset_137, map_tileset_138, map_tileset_139, map_tileset_140, map_tileset_141, map_tileset_142, map_tileset_143, map_tileset_144, map_tileset_145, map_tileset_146, map_tileset_147, map_tileset_148, map_tileset_149, map_tileset_150, map_tileset_151, map_tileset_152, map_tileset_153, map_tileset_154, map_tileset_155, map_tileset_156, map_tileset_157, map_tileset_158, map_tileset_159, map_tileset_160, map_tileset_161, map_tileset_162, map_tileset_163, map_tileset_164, map_tileset_165, map_tileset_166, map_tileset_167, map_tileset_168, map_tileset_169, map_tileset_170, map_tileset_171, map_tileset_172, map_tileset_173, map_tileset_174, map_tileset_175, map_tileset_176, map_tileset_177, map_tileset_178, map_tileset_179, map_tileset_180, map_tileset_181, map_tileset_182, map_tileset_183, map_tileset_184, map_tileset_185, map_tileset_186, map_tileset_187, map_tileset_188, map_tileset_189, map_tileset_190, map_tileset_191, map_tileset_192, map_tileset_193, map_tileset_194, map_tileset_195, map_tileset_196, map_tileset_197, map_tileset_198, map_tileset_199, map_tileset_200, map_tileset_201, map_tileset_202, map_tileset_203, map_tileset_204, map_tileset_205, map_tileset_206, map_tileset_207, map_tileset_208, map_tileset_209, map_tileset_210, map_tileset_211, map_tileset_212, map_tileset_213, map_tileset_214, map_tileset_215, map_tileset_216, map_tileset_217, map_tileset_218, map_tileset_219, map_tileset_220, map_tileset_221, map_tileset_222, map_tileset_223, map_tileset_224, map_tileset_225, map_tileset_226, map_tileset_227, map_tileset_228, map_tileset_229, map_tileset_230, map_tileset_231, map_tileset_232, map_tileset_233, map_tileset_234, map_tileset_235, map_tileset_236, map_tileset_237, map_tileset_238, map_tileset_239, map_tileset_240, map_tileset_241
+};
+// Tile map_tileset_000: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_000[2 * 4] = {
+	0xf0, 0xff,
+	0xf0, 0xff,
+	0xf0, 0xfa,
+	0xf0, 0xff
+};
+
+// Tile map_tileset_001: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_001[2 * 4] = {
+	0xf5, 0xf0,
+	0xf5, 0xf0,
+	0xff, 0xf0,
+	0xf5, 0xf0
+};
+
+// Tile map_tileset_002: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_002[2 * 4] = {
+	0xff, 0xff,
+	0xff, 0xff,
+	0xea, 0xff,
+	0xea, 0xff
+};
+
+// Tile map_tileset_003: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_003[2 * 4] = {
+	0xc0, 0xc0,
+	0x95, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_004: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_004[2 * 4] = {
+	0xc0, 0xc0,
+	0x95, 0xc0,
+	0x95, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_005: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_005[2 * 4] = {
+	0xff, 0xfb,
+	0xff, 0xfb,
+	0xff, 0xfb,
+	0xff, 0xfb
+};
+
+// Tile map_tileset_006: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_006[2 * 4] = {
+	0xf7, 0xff,
+	0xf7, 0xff,
+	0xf7, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_007: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_007[2 * 4] = {
+	0xea, 0xc0,
+	0xea, 0xc0,
+	0xea, 0xc0,
+	0xea, 0xc0
+};
+
+// Tile map_tileset_008: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_008[2 * 4] = {
+	0xea, 0xd0,
+	0xea, 0xd0,
+	0xea, 0xf0,
+	0xea, 0xf0
+};
+
+// Tile map_tileset_009: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_009[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_010: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_010[2 * 4] = {
+	0xff, 0xff,
+	0xd5, 0xff,
+	0xd5, 0xff,
+	0xc0, 0xff
+};
+
+// Tile map_tileset_011: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_011[2 * 4] = {
+	0xc0, 0xc0,
+	0xe8, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_012: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_012[2 * 4] = {
+	0xff, 0xeb,
+	0xff, 0xc3,
+	0xff, 0xc3,
+	0xeb, 0xc3
+};
+
+// Tile map_tileset_013: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_013[2 * 4] = {
+	0xff, 0xff,
+	0xd7, 0xff,
+	0xd7, 0xff,
+	0xc3, 0xff
+};
+
+// Tile map_tileset_014: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_014[2 * 4] = {
+	0x86, 0x0c,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_015: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_015[2 * 4] = {
+	0x0c, 0x0c,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_016: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_016[2 * 4] = {
+	0xff, 0xae,
+	0xff, 0x0c,
+	0xff, 0x0c,
+	0xae, 0x0c
+};
+
+// Tile map_tileset_017: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_017[2 * 4] = {
+	0xff, 0xff,
+	0x5d, 0xff,
+	0x5d, 0xff,
+	0x0c, 0xff
+};
+
+// Tile map_tileset_018: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_018[2 * 4] = {
+	0xff, 0xae,
+	0xff, 0x0c,
+	0xff, 0x0c,
+	0xae, 0x0c
+};
+
+// Tile map_tileset_019: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_019[2 * 4] = {
+	0xff, 0xff,
+	0x5d, 0xff,
+	0x5d, 0xff,
+	0x0c, 0xff
+};
+
+// Tile map_tileset_020: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_020[2 * 4] = {
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x49,
+	0x0c, 0xc3
+};
+
+// Tile map_tileset_021: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_021[2 * 4] = {
+	0xff, 0xff,
+	0xff, 0x5d,
+	0xff, 0x5d,
+	0xae, 0x5d
+};
+
+// Tile map_tileset_022: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_022[2 * 4] = {
+	0xf0, 0xef,
+	0xf0, 0xfa,
+	0xf0, 0xff,
+	0xf0, 0xff
+};
+
+// Tile map_tileset_023: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_023[2 * 4] = {
+	0xf5, 0xf0,
+	0xff, 0xf0,
+	0xf5, 0xf0,
+	0xf5, 0xf0
+};
+
+// Tile map_tileset_024: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_024[2 * 4] = {
+	0xea, 0xd5,
+	0xea, 0xc0,
+	0xea, 0xc0,
+	0xea, 0xc0
+};
+
+// Tile map_tileset_025: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_025[2 * 4] = {
+	0xff, 0xff,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_026: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_026[2 * 4] = {
+	0xff, 0xff,
+	0xd1, 0xf3,
+	0xd1, 0xf3,
+	0xd1, 0xf3
+};
+
+// Tile map_tileset_027: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_027[2 * 4] = {
+	0xfb, 0xff,
+	0xf3, 0xfb,
+	0xf3, 0xff,
+	0xf3, 0xff
+};
+
+// Tile map_tileset_028: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_028[2 * 4] = {
+	0xf7, 0xf7,
+	0xff, 0xf3,
+	0xf7, 0xf3,
+	0xf7, 0xf3
+};
+
+// Tile map_tileset_029: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_029[2 * 4] = {
+	0xff, 0xff,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_030: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_030[2 * 4] = {
+	0xff, 0xff,
+	0xf3, 0xe3,
+	0xf3, 0xe3,
+	0xf3, 0xe3
+};
+
+// Tile map_tileset_031: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_031[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xb0,
+	0xf0, 0x30,
+	0xb0, 0x30
+};
+
+// Tile map_tileset_032: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_032[2 * 4] = {
+	0xc0, 0xff,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_033: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_033[2 * 4] = {
+	0xea, 0xc0,
+	0xc3, 0xc0,
+	0xc2, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_034: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_034[2 * 4] = {
+	0xeb, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_035: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_035[2 * 4] = {
+	0xc3, 0xff,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_036: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_036[2 * 4] = {
+	0xff, 0xff,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_037: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_037[2 * 4] = {
+	0xae, 0x0c,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_038: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_038[2 * 4] = {
+	0x0c, 0xff,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_039: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_039[2 * 4] = {
+	0xff, 0xff,
+	0x0c, 0x0c,
+	0x86, 0x0c,
+	0x86, 0x0c
+};
+
+// Tile map_tileset_040: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_040[2 * 4] = {
+	0xae, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_041: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_041[2 * 4] = {
+	0x0c, 0xff,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_042: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_042[2 * 4] = {
+	0xff, 0xff,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_043: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_043[2 * 4] = {
+	0xae, 0x5d,
+	0x0c, 0x5d,
+	0x0c, 0x5d,
+	0x0c, 0x5d
+};
+
+// Tile map_tileset_044: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_044[2 * 4] = {
+	0xf0, 0xfa,
+	0xf0, 0xff,
+	0xf0, 0xef,
+	0xf0, 0xfa
+};
+
+// Tile map_tileset_045: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_045[2 * 4] = {
+	0xff, 0xf0,
+	0xf5, 0xf0,
+	0xf5, 0xf0,
+	0xff, 0xf0
+};
+
+// Tile map_tileset_046: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_046[2 * 4] = {
+	0xf0, 0x30,
+	0xb0, 0x30,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_047: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_047[2 * 4] = {
+	0xfa, 0x30,
+	0xfa, 0x30,
+	0xba, 0x30,
+	0xba, 0x30
+};
+
+// Tile map_tileset_048: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_048[2 * 4] = {
+	0xba, 0x30,
+	0xba, 0x30,
+	0xba, 0x30,
+	0xba, 0x30
+};
+
+// Tile map_tileset_049: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_049[2 * 4] = {
+	0xf3, 0xfb,
+	0xf3, 0xff,
+	0xf3, 0xef,
+	0xf3, 0xfb
+};
+
+// Tile map_tileset_050: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_050[2 * 4] = {
+	0xf0, 0xf0,
+	0x70, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0
+};
+
+// Tile map_tileset_051: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_051[2 * 4] = {
+	0xc3, 0xc3,
+	0xe3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_052: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_052[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_053: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_053[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_054: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_054[2 * 4] = {
+	0xc3, 0xc3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_055: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_055[2 * 4] = {
+	0xd3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_056: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_056[2 * 4] = {
+	0xe3, 0xc3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_057: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_057[2 * 4] = {
+	0xc3, 0xc3,
+	0xe3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_058: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_058[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xe3, 0xc3
+};
+
+// Tile map_tileset_059: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_059[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xd0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_060: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_060[2 * 4] = {
+	0x86, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x86
+};
+
+// Tile map_tileset_061: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_061[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xe2,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_062: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_062[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xe2,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_063: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_063[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xc0, 0xd1,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_064: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_064[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xd1, 0xf3
+};
+
+// Tile map_tileset_065: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_065[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xd1, 0xf3,
+	0xd1, 0xf3
+};
+
+// Tile map_tileset_066: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_066[2 * 4] = {
+	0xf0, 0xff,
+	0xb0, 0xff,
+	0x30, 0xba,
+	0x30, 0xff
+};
+
+// Tile map_tileset_067: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_067[2 * 4] = {
+	0xf5, 0xf0,
+	0x75, 0x30,
+	0xff, 0x30,
+	0x75, 0x30
+};
+
+// Tile map_tileset_068: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_068[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0x70, 0xf0,
+	0x30, 0xf0
+};
+
+// Tile map_tileset_069: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_069[2 * 4] = {
+	0xe3, 0xc3,
+	0xf3, 0xc3,
+	0xf3, 0xc3,
+	0xf3, 0xc3
+};
+
+// Tile map_tileset_070: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_070[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0x95, 0xc0,
+	0x95, 0xc0
+};
+
+// Tile map_tileset_071: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_071[2 * 4] = {
+	0xf3, 0xff,
+	0xf3, 0xff,
+	0xf3, 0xfb,
+	0xf3, 0xff
+};
+
+// Tile map_tileset_072: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_072[2 * 4] = {
+	0xf7, 0xf3,
+	0xf7, 0xf3,
+	0xff, 0xf3,
+	0xf7, 0xf3
+};
+
+// Tile map_tileset_073: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_073[2 * 4] = {
+	0xe3, 0xc3,
+	0xe3, 0xc3,
+	0xe3, 0xc3,
+	0xf3, 0xc3
+};
+
+// Tile map_tileset_074: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_074[2 * 4] = {
+	0xc3, 0xc3,
+	0xe3, 0xc3,
+	0xe3, 0xc3,
+	0xf3, 0xc3
+};
+
+// Tile map_tileset_075: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_075[2 * 4] = {
+	0xeb, 0xc3,
+	0xeb, 0xc3,
+	0xeb, 0xc3,
+	0xeb, 0xc3
+};
+
+// Tile map_tileset_076: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_076[2 * 4] = {
+	0xfa, 0xf0,
+	0xfa, 0xf0,
+	0xfa, 0xf0,
+	0xfa, 0xf0
+};
+
+// Tile map_tileset_077: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_077[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xe3, 0xc3
+};
+
+// Tile map_tileset_078: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_078[2 * 4] = {
+	0xc3, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x86
+};
+
+// Tile map_tileset_079: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_079[2 * 4] = {
+	0x0c, 0x5d,
+	0x0c, 0x5d,
+	0x0c, 0xd7,
+	0x0c, 0xd7
+};
+
+// Tile map_tileset_080: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_080[2 * 4] = {
+	0xf0, 0xf0,
+	0x70, 0xf0,
+	0x30, 0xf0,
+	0x30, 0x70
+};
+
+// Tile map_tileset_081: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_081[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xe2
+};
+
+// Tile map_tileset_082: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_082[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_083: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_083[2 * 4] = {
+	0xf3, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_084: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_084[2 * 4] = {
+	0x0c, 0x5d,
+	0x0c, 0x5d,
+	0x0c, 0x5d,
+	0x0c, 0x5d
+};
+
+// Tile map_tileset_085: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_085[2 * 4] = {
+	0xc0, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xf3
+};
+
+// Tile map_tileset_086: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_086[2 * 4] = {
+	0xc0, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xd1,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_087: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_087[2 * 4] = {
+	0xd1, 0xf3,
+	0xd1, 0xf3,
+	0xd1, 0xf3,
+	0xc0, 0xf3
+};
+
+// Tile map_tileset_088: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_088[2 * 4] = {
+	0x30, 0xef,
+	0x30, 0xba,
+	0x30, 0xff,
+	0x30, 0xff
+};
+
+// Tile map_tileset_089: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_089[2 * 4] = {
+	0x75, 0x30,
+	0xff, 0x30,
+	0x75, 0x30,
+	0x75, 0x30
+};
+
+// Tile map_tileset_090: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_090[2 * 4] = {
+	0x86, 0x0c,
+	0x86, 0x0c,
+	0x86, 0x0c,
+	0x86, 0x0c
+};
+
+// Tile map_tileset_091: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_091[2 * 4] = {
+	0xf3, 0xc3,
+	0xf3, 0xc3,
+	0xf3, 0xc3,
+	0xf3, 0xc3
+};
+
+// Tile map_tileset_092: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_092[2 * 4] = {
+	0x3f, 0x6a,
+	0x3f, 0x6a,
+	0x95, 0xc0,
+	0x95, 0xc0
+};
+
+// Tile map_tileset_093: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_093[2 * 4] = {
+	0xf3, 0xef,
+	0xf3, 0xfb,
+	0xf3, 0xff,
+	0xf3, 0xff
+};
+
+// Tile map_tileset_094: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_094[2 * 4] = {
+	0xf7, 0xf3,
+	0xff, 0xf3,
+	0xf7, 0xf3,
+	0xf7, 0xf3
+};
+
+// Tile map_tileset_095: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_095[2 * 4] = {
+	0xf3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xe3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_096: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_096[2 * 4] = {
+	0xf3, 0xe3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_097: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_097[2 * 4] = {
+	0xc3, 0xc3,
+	0xe3, 0xc3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_098: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_098[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_099: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_099[2 * 4] = {
+	0xf3, 0xc3,
+	0xf3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xe3
+};
+
+// Tile map_tileset_100: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_100[2 * 4] = {
+	0xc3, 0x86,
+	0xc3, 0x86,
+	0xc3, 0x86,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_101: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_101[2 * 4] = {
+	0x49, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xd7
+};
+
+// Tile map_tileset_102: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_102[2 * 4] = {
+	0x30, 0x70,
+	0x30, 0x30,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_103: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_103[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0x70, 0xf0
+};
+
+// Tile map_tileset_104: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_104[2 * 4] = {
+	0xf0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xc0
+};
+
+// Tile map_tileset_105: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_105[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xd1, 0xf3,
+	0xc0, 0xd1
+};
+
+// Tile map_tileset_106: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_106[2 * 4] = {
+	0xf3, 0xf3,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_107: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_107[2 * 4] = {
+	0xc0, 0xd1,
+	0xc0, 0xd1,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_108: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_108[2 * 4] = {
+	0xd1, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xd1
+};
+
+// Tile map_tileset_109: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_109[2 * 4] = {
+	0xf3, 0xf3,
+	0xd1, 0xf3,
+	0xc0, 0xf3,
+	0xc0, 0xd1
+};
+
+// Tile map_tileset_110: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_110[2 * 4] = {
+	0x30, 0xba,
+	0x30, 0xff,
+	0x30, 0xef,
+	0x30, 0xba
+};
+
+// Tile map_tileset_111: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_111[2 * 4] = {
+	0xff, 0x30,
+	0x75, 0x30,
+	0x75, 0x30,
+	0xff, 0x30
+};
+
+// Tile map_tileset_112: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_112[2 * 4] = {
+	0xc3, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x0c,
+	0xc3, 0x0c
+};
+
+// Tile map_tileset_113: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_113[2 * 4] = {
+	0xf3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xe3,
+	0xf3, 0xe3
+};
+
+// Tile map_tileset_114: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_114[2 * 4] = {
+	0xc3, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xd7
+};
+
+// Tile map_tileset_115: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_115[2 * 4] = {
+	0xf3, 0xfb,
+	0xd1, 0xff,
+	0xd1, 0xef,
+	0xc0, 0xfb
+};
+
+// Tile map_tileset_116: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_116[2 * 4] = {
+	0xff, 0xf3,
+	0xf7, 0xf3,
+	0xf7, 0xf3,
+	0xff, 0xf3
+};
+
+// Tile map_tileset_117: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_117[2 * 4] = {
+	0xc0, 0xea,
+	0xc0, 0xff,
+	0xc0, 0xef,
+	0xc0, 0xea
+};
+
+// Tile map_tileset_118: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_118[2 * 4] = {
+	0xff, 0xc0,
+	0xd5, 0xc0,
+	0xd5, 0xc0,
+	0xff, 0xc0
+};
+
+// Tile map_tileset_119: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_119[2 * 4] = {
+	0xf3, 0xc3,
+	0xf3, 0xe3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_120: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_120[2 * 4] = {
+	0xf0, 0xf0,
+	0x30, 0x70,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_121: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_121[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0x70, 0xf0,
+	0x30, 0x70
+};
+
+// Tile map_tileset_122: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_122[2 * 4] = {
+	0x92, 0x30,
+	0x92, 0x30,
+	0x92, 0x30,
+	0x92, 0x30
+};
+
+// Tile map_tileset_123: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_123[2 * 4] = {
+	0xf0, 0xf0,
+	0x30, 0x30,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_124: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_124[2 * 4] = {
+	0x30, 0xf0,
+	0x30, 0x70,
+	0x30, 0x70,
+	0x30, 0x70
+};
+
+// Tile map_tileset_125: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_125[2 * 4] = {
+	0x70, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0,
+	0x30, 0x70
+};
+
+// Tile map_tileset_126: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_126[2 * 4] = {
+	0xf0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xe0
+};
+
+// Tile map_tileset_127: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_127[2 * 4] = {
+	0xc0, 0xc0,
+	0xe0, 0xc0,
+	0xf0, 0xe0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_128: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_128[2 * 4] = {
+	0xe0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xe0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_129: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_129[2 * 4] = {
+	0xd1, 0xf3,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_130: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_130[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xf3, 0xf3
+};
+
+// Tile map_tileset_131: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_131[2 * 4] = {
+	0xf3, 0xf7,
+	0xf3, 0xd5,
+	0xe2, 0xd5,
+	0xc0, 0xd5
+};
+
+// Tile map_tileset_132: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_132[2 * 4] = {
+	0x30, 0xff,
+	0x30, 0xff,
+	0x30, 0xba,
+	0x30, 0xff
+};
+
+// Tile map_tileset_133: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_133[2 * 4] = {
+	0x75, 0x30,
+	0x75, 0x30,
+	0xff, 0x30,
+	0x75, 0x30
+};
+
+// Tile map_tileset_134: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_134[2 * 4] = {
+	0xc3, 0x86,
+	0xc3, 0x86,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_135: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_135[2 * 4] = {
+	0xf3, 0xe3,
+	0xf3, 0xe3,
+	0xf3, 0xe3,
+	0xf3, 0xe3
+};
+
+// Tile map_tileset_136: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_136[2 * 4] = {
+	0xc3, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xd7,
+	0xc3, 0xf7
+};
+
+// Tile map_tileset_137: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_137[2 * 4] = {
+	0xc0, 0xff,
+	0xc0, 0xff,
+	0xc0, 0xea,
+	0xc0, 0xff
+};
+
+// Tile map_tileset_138: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_138[2 * 4] = {
+	0xf7, 0xf3,
+	0xf7, 0xf3,
+	0xff, 0xf3,
+	0xd5, 0xf3
+};
+
+// Tile map_tileset_139: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_139[2 * 4] = {
+	0xc0, 0xff,
+	0xc0, 0xff,
+	0xc0, 0xea,
+	0xc0, 0xff
+};
+
+// Tile map_tileset_140: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_140[2 * 4] = {
+	0xd5, 0xc0,
+	0xd5, 0xc0,
+	0xff, 0xc0,
+	0xd5, 0xc0
+};
+
+// Tile map_tileset_141: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_141[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xd3,
+	0xc3, 0xf3,
+	0xd3, 0xf3
+};
+
+// Tile map_tileset_142: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_142[2 * 4] = {
+	0xc3, 0xef,
+	0xc3, 0xeb,
+	0xc3, 0xff,
+	0xc3, 0xff
+};
+
+// Tile map_tileset_143: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_143[2 * 4] = {
+	0xd7, 0xc3,
+	0xff, 0xc3,
+	0xd7, 0xc3,
+	0xd7, 0xc3
+};
+
+// Tile map_tileset_144: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_144[2 * 4] = {
+	0xc3, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x30
+};
+
+// Tile map_tileset_145: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_145[2 * 4] = {
+	0x92, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x92,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_146: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_146[2 * 4] = {
+	0x30, 0x70,
+	0x30, 0x70,
+	0x30, 0x70,
+	0x30, 0x70
+};
+
+// Tile map_tileset_147: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_147[2 * 4] = {
+	0x30, 0x70,
+	0x30, 0x70,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_148: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_148[2 * 4] = {
+	0xf0, 0xe0,
+	0xf0, 0xe0,
+	0xf0, 0xe0,
+	0xf0, 0xe0
+};
+
+// Tile map_tileset_149: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_149[2 * 4] = {
+	0xc0, 0xc0,
+	0xe0, 0xc0,
+	0xe0, 0xc0,
+	0xe0, 0xc0
+};
+
+// Tile map_tileset_150: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_150[2 * 4] = {
+	0xc0, 0xc0,
+	0xe0, 0xc0,
+	0xe0, 0xc0,
+	0xf0, 0xc0
+};
+
+// Tile map_tileset_151: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_151[2 * 4] = {
+	0xf3, 0xf3,
+	0xf3, 0xf3,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_152: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_152[2 * 4] = {
+	0xf3, 0xe2,
+	0xe2, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_153: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_153[2 * 4] = {
+	0xf3, 0xf7,
+	0xf3, 0xf7,
+	0xf3, 0xf7,
+	0xf3, 0xf7
+};
+
+// Tile map_tileset_154: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_154[2 * 4] = {
+	0x30, 0xef,
+	0x30, 0xba,
+	0x30, 0xff,
+	0xc3, 0xff
+};
+
+// Tile map_tileset_155: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_155[2 * 4] = {
+	0x75, 0x30,
+	0xff, 0x30,
+	0x75, 0x30,
+	0xd7, 0x92
+};
+
+// Tile map_tileset_156: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_156[2 * 4] = {
+	0xff, 0xea,
+	0xff, 0xc0,
+	0xff, 0xc0,
+	0xea, 0xc0
+};
+
+// Tile map_tileset_157: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_157[2 * 4] = {
+	0x0c, 0xc3,
+	0x0c, 0x49,
+	0x0c, 0x49,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_158: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_158[2 * 4] = {
+	0xc3, 0xf7,
+	0xd3, 0xf7,
+	0xd3, 0xf7,
+	0xf3, 0xf7
+};
+
+// Tile map_tileset_159: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_159[2 * 4] = {
+	0xc0, 0xef,
+	0xc0, 0xea,
+	0xc0, 0xff,
+	0xc0, 0xff
+};
+
+// Tile map_tileset_160: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_160[2 * 4] = {
+	0xd5, 0xf3,
+	0xff, 0xd1,
+	0xd5, 0xc0,
+	0xd5, 0xc0
+};
+
+// Tile map_tileset_161: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_161[2 * 4] = {
+	0xc0, 0xef,
+	0xc0, 0xea,
+	0xc0, 0xff,
+	0xc0, 0xff
+};
+
+// Tile map_tileset_162: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_162[2 * 4] = {
+	0xd5, 0xc0,
+	0xff, 0xc0,
+	0xd5, 0xc0,
+	0xd5, 0xc0
+};
+
+// Tile map_tileset_163: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_163[2 * 4] = {
+	0xc3, 0xc3,
+	0x49, 0xc3,
+	0x49, 0xc3,
+	0x0c, 0xc3
+};
+
+// Tile map_tileset_164: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_164[2 * 4] = {
+	0xc3, 0xeb,
+	0xc3, 0xff,
+	0xc3, 0xef,
+	0xc3, 0xeb
+};
+
+// Tile map_tileset_165: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_165[2 * 4] = {
+	0xff, 0xc3,
+	0xd7, 0xc3,
+	0xd7, 0xc3,
+	0xff, 0xc3
+};
+
+// Tile map_tileset_166: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_166[2 * 4] = {
+	0xc3, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x92
+};
+
+// Tile map_tileset_167: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_167[2 * 4] = {
+	0x92, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x30,
+	0xc3, 0x92
+};
+
+// Tile map_tileset_168: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_168[2 * 4] = {
+	0x30, 0x70,
+	0x30, 0x70,
+	0x30, 0xf0,
+	0x30, 0xf0
+};
+
+// Tile map_tileset_169: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_169[2 * 4] = {
+	0xf0, 0xf0,
+	0x70, 0xf0,
+	0x70, 0xf0,
+	0x70, 0xf0
+};
+
+// Tile map_tileset_170: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_170[2 * 4] = {
+	0xf0, 0xe0,
+	0xf0, 0xe0,
+	0xf0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_171: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_171[2 * 4] = {
+	0xe0, 0xc0,
+	0xe0, 0xc0,
+	0xe0, 0xc0,
+	0xe0, 0xc0
+};
+
+// Tile map_tileset_172: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_172[2 * 4] = {
+	0xf0, 0xc0,
+	0xf0, 0xe0,
+	0xf0, 0xe0,
+	0xf0, 0xe0
+};
+
+// Tile map_tileset_173: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_173[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xf0
+};
+
+// Tile map_tileset_174: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_174[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xd0,
+	0xf0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_175: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_175[2 * 4] = {
+	0xc0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_176: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_176[2 * 4] = {
+	0xae, 0x0c,
+	0xae, 0x0c,
+	0xae, 0x0c,
+	0xae, 0x0c
+};
+
+// Tile map_tileset_177: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_177[2 * 4] = {
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_178: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_178[2 * 4] = {
+	0xea, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_179: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_179[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_180: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_180[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x30,
+	0x92, 0x30,
+	0xc3, 0x30
+};
+
+// Tile map_tileset_181: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_181[2 * 4] = {
+	0xc3, 0x86,
+	0xc3, 0x0c,
+	0x86, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_182: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_182[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0x86, 0x0c
+};
+
+// Tile map_tileset_183: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_183[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0x0c, 0x0c,
+	0x0c, 0x0c
+};
+
+// Tile map_tileset_184: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_184[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0x0c, 0x49
+};
+
+// Tile map_tileset_185: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_185[2 * 4] = {
+	0x0c, 0xc3,
+	0x0c, 0x49,
+	0x0c, 0x49,
+	0x0c, 0x49
+};
+
+// Tile map_tileset_186: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_186[2 * 4] = {
+	0xc3, 0xff,
+	0xc3, 0xff,
+	0xc3, 0xeb,
+	0xc3, 0xff
+};
+
+// Tile map_tileset_187: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_187[2 * 4] = {
+	0xd7, 0xc3,
+	0xd7, 0xc3,
+	0xff, 0xc3,
+	0xd7, 0xc3
+};
+
+// Tile map_tileset_188: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_188[2 * 4] = {
+	0xc3, 0x92,
+	0xc3, 0x92,
+	0xc3, 0x92,
+	0xc3, 0x92
+};
+
+// Tile map_tileset_189: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_189[2 * 4] = {
+	0xc3, 0x92,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_190: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_190[2 * 4] = {
+	0x30, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0
+};
+
+// Tile map_tileset_191: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_191[2 * 4] = {
+	0x70, 0xf0,
+	0x70, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0
+};
+
+// Tile map_tileset_192: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_192[2 * 4] = {
+	0x30, 0x61,
+	0x30, 0xc3,
+	0x61, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_193: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_193[2 * 4] = {
+	0xe0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xc0,
+	0xf0, 0xc0
+};
+
+// Tile map_tileset_194: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_194[2 * 4] = {
+	0xf0, 0xe0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_195: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_195[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xd0,
+	0xc0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_196: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_196[2 * 4] = {
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_197: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_197[2 * 4] = {
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xc0, 0xd5
+};
+
+// Tile map_tileset_198: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_198[2 * 4] = {
+	0xae, 0x0c,
+	0xae, 0x0c,
+	0xae, 0x0c,
+	0xae, 0x5d
+};
+
+// Tile map_tileset_199: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_199[2 * 4] = {
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0xff, 0xff
+};
+
+// Tile map_tileset_200: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_200[2 * 4] = {
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0xff, 0x0c
+};
+
+// Tile map_tileset_201: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_201[2 * 4] = {
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x0c,
+	0x0c, 0x5d
+};
+
+// Tile map_tileset_202: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_202[2 * 4] = {
+	0xc3, 0xc3,
+	0x49, 0xc3,
+	0x0c, 0x49,
+	0xff, 0x0c
+};
+
+// Tile map_tileset_203: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_203[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0x86,
+	0x0c, 0x5d
+};
+
+// Tile map_tileset_204: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_204[2 * 4] = {
+	0xc3, 0x86,
+	0x86, 0x0c,
+	0x0c, 0x0c,
+	0xff, 0xff
+};
+
+// Tile map_tileset_205: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_205[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xd7
+};
+
+// Tile map_tileset_206: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_206[2 * 4] = {
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xff, 0xff
+};
+
+// Tile map_tileset_207: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_207[2 * 4] = {
+	0xc3, 0xef,
+	0xc3, 0xeb,
+	0xc3, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_208: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_208[2 * 4] = {
+	0xd7, 0xc3,
+	0xff, 0xc3,
+	0xd7, 0xc3,
+	0xd7, 0xc3
+};
+
+// Tile map_tileset_209: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_209[2 * 4] = {
+	0xc3, 0x92,
+	0xc3, 0x92,
+	0xc3, 0x92,
+	0xff, 0xba
+};
+
+// Tile map_tileset_210: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_210[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x30,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_211: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_211[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x30,
+	0x30, 0x30,
+	0xff, 0xff
+};
+
+// Tile map_tileset_212: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_212[2 * 4] = {
+	0x30, 0xf0,
+	0x30, 0xf0,
+	0x30, 0xf0,
+	0xff, 0xff
+};
+
+// Tile map_tileset_213: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_213[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xff, 0xfa
+};
+
+// Tile map_tileset_214: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_214[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0
+};
+
+// Tile map_tileset_215: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_215[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xf0, 0xf0,
+	0xff, 0xff
+};
+
+// Tile map_tileset_216: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_216[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xff, 0xff
+};
+
+// Tile map_tileset_217: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_217[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xff, 0xea
+};
+
+// Tile map_tileset_218: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_218[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0,
+	0xc0, 0xc0
+};
+
+// Tile map_tileset_219: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_219[2 * 4] = {
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xea, 0xd5
+};
+
+// Tile map_tileset_220: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_220[2 * 4] = {
+	0xae, 0x5d,
+	0xae, 0xff,
+	0xae, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_221: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_221[2 * 4] = {
+	0xff, 0xff,
+	0xff, 0xff,
+	0xff, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_222: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_222[2 * 4] = {
+	0xff, 0x0c,
+	0xff, 0xae,
+	0xff, 0xae,
+	0xff, 0xff
+};
+
+// Tile map_tileset_223: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_223[2 * 4] = {
+	0x0c, 0x5d,
+	0x0c, 0xff,
+	0x0c, 0xff,
+	0x5d, 0xff
+};
+
+// Tile map_tileset_224: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_224[2 * 4] = {
+	0xff, 0x0c,
+	0xff, 0xae,
+	0xff, 0xae,
+	0xff, 0xff
+};
+
+// Tile map_tileset_225: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_225[2 * 4] = {
+	0x0c, 0x5d,
+	0x0c, 0xff,
+	0x0c, 0xff,
+	0x5d, 0xff
+};
+
+// Tile map_tileset_226: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_226[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x75,
+	0x30, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_227: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_227[2 * 4] = {
+	0xc3, 0xd7,
+	0xc3, 0xff,
+	0x49, 0xff,
+	0x5d, 0xff
+};
+
+// Tile map_tileset_228: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_228[2 * 4] = {
+	0xeb, 0xc3,
+	0xeb, 0xc3,
+	0xae, 0x0c,
+	0xae, 0x0c
+};
+
+// Tile map_tileset_229: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_229[2 * 4] = {
+	0xff, 0xeb,
+	0xff, 0xff,
+	0xff, 0xef,
+	0xff, 0xff
+};
+
+// Tile map_tileset_230: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_230[2 * 4] = {
+	0xff, 0xc3,
+	0xd7, 0xd7,
+	0xd7, 0xd7,
+	0xff, 0xff
+};
+
+// Tile map_tileset_231: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_231[2 * 4] = {
+	0xff, 0xba,
+	0xff, 0xff,
+	0xff, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_232: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_232[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x75,
+	0x30, 0x75,
+	0xba, 0xff
+};
+
+// Tile map_tileset_233: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_233[2 * 4] = {
+	0x30, 0x30,
+	0xc3, 0x30,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_234: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_234[2 * 4] = {
+	0x30, 0x30,
+	0x30, 0x30,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_235: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_235[2 * 4] = {
+	0xff, 0xfa,
+	0xff, 0xff,
+	0xff, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_236: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_236[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xf5,
+	0xf0, 0xf5,
+	0xfa, 0xff
+};
+
+// Tile map_tileset_237: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_237[2 * 4] = {
+	0x30, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3,
+	0xc3, 0xc3
+};
+
+// Tile map_tileset_238: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_238[2 * 4] = {
+	0xf0, 0xf0,
+	0xf0, 0xb0,
+	0xb0, 0x30,
+	0x30, 0x30
+};
+
+// Tile map_tileset_239: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_239[2 * 4] = {
+	0xff, 0xea,
+	0xff, 0xff,
+	0xff, 0xff,
+	0xff, 0xff
+};
+
+// Tile map_tileset_240: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_240[2 * 4] = {
+	0xc0, 0xc0,
+	0xc0, 0xd5,
+	0xc0, 0xd5,
+	0xea, 0xff
+};
+
+// Tile map_tileset_241: 4x4 pixels, 2x4 bytes.
+const u8 map_tileset_241[2 * 4] = {
+	0xea, 0xd5,
+	0xff, 0xd5,
+	0xff, 0xd5,
+	0xff, 0xff
+};
+

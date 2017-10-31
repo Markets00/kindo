@@ -1,0 +1,632 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           cpct_sprites
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__GSFINAL                      
+     00000000  l__GSINIT                       
+     00000000  l__HOME                         
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     00000006  l__DATA                         
+     00000012  l__INITIALIZED                  
+     00000012  l__INITIALIZER                  
+     00002000  s__CODE                         
+     00003D60  l__CODE                         
+     00005D60  s__DATA                         
+     00005D66  s__INITIALIZED                  
+     00005D78  s__GSFINAL                      
+     00005D78  s__GSINIT                       
+     00005D78  s__HOME                         
+     00005D78  s__INITIALIZER                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002000  _tilemap                           mapamal
+     00002690  _map_tileset                       tileset
+     00002874  _map_tileset_000                   tileset
+     0000287C  _map_tileset_001                   tileset
+     00002884  _map_tileset_002                   tileset
+     0000288C  _map_tileset_003                   tileset
+     00002894  _map_tileset_004                   tileset
+     0000289C  _map_tileset_005                   tileset
+     000028A4  _map_tileset_006                   tileset
+     000028AC  _map_tileset_007                   tileset
+     000028B4  _map_tileset_008                   tileset
+     000028BC  _map_tileset_009                   tileset
+     000028C4  _map_tileset_010                   tileset
+     000028CC  _map_tileset_011                   tileset
+     000028D4  _map_tileset_012                   tileset
+     000028DC  _map_tileset_013                   tileset
+     000028E4  _map_tileset_014                   tileset
+     000028EC  _map_tileset_015                   tileset
+     000028F4  _map_tileset_016                   tileset
+     000028FC  _map_tileset_017                   tileset
+     00002904  _map_tileset_018                   tileset
+     0000290C  _map_tileset_019                   tileset
+     00002914  _map_tileset_020                   tileset
+     0000291C  _map_tileset_021                   tileset
+     00002924  _map_tileset_022                   tileset
+     0000292C  _map_tileset_023                   tileset
+     00002934  _map_tileset_024                   tileset
+     0000293C  _map_tileset_025                   tileset
+     00002944  _map_tileset_026                   tileset
+     0000294C  _map_tileset_027                   tileset
+     00002954  _map_tileset_028                   tileset
+     0000295C  _map_tileset_029                   tileset
+     00002964  _map_tileset_030                   tileset
+     0000296C  _map_tileset_031                   tileset
+     00002974  _map_tileset_032                   tileset
+     0000297C  _map_tileset_033                   tileset
+     00002984  _map_tileset_034                   tileset
+     0000298C  _map_tileset_035                   tileset
+     00002994  _map_tileset_036                   tileset
+     0000299C  _map_tileset_037                   tileset
+     000029A4  _map_tileset_038                   tileset
+     000029AC  _map_tileset_039                   tileset
+     000029B4  _map_tileset_040                   tileset
+     000029BC  _map_tileset_041                   tileset
+     000029C4  _map_tileset_042                   tileset
+     000029CC  _map_tileset_043                   tileset
+     000029D4  _map_tileset_044                   tileset
+     000029DC  _map_tileset_045                   tileset
+     000029E4  _map_tileset_046                   tileset
+     000029EC  _map_tileset_047                   tileset
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000029F4  _map_tileset_048                   tileset
+     000029FC  _map_tileset_049                   tileset
+     00002A04  _map_tileset_050                   tileset
+     00002A0C  _map_tileset_051                   tileset
+     00002A14  _map_tileset_052                   tileset
+     00002A1C  _map_tileset_053                   tileset
+     00002A24  _map_tileset_054                   tileset
+     00002A2C  _map_tileset_055                   tileset
+     00002A34  _map_tileset_056                   tileset
+     00002A3C  _map_tileset_057                   tileset
+     00002A44  _map_tileset_058                   tileset
+     00002A4C  _map_tileset_059                   tileset
+     00002A54  _map_tileset_060                   tileset
+     00002A5C  _map_tileset_061                   tileset
+     00002A64  _map_tileset_062                   tileset
+     00002A6C  _map_tileset_063                   tileset
+     00002A74  _map_tileset_064                   tileset
+     00002A7C  _map_tileset_065                   tileset
+     00002A84  _map_tileset_066                   tileset
+     00002A8C  _map_tileset_067                   tileset
+     00002A94  _map_tileset_068                   tileset
+     00002A9C  _map_tileset_069                   tileset
+     00002AA4  _map_tileset_070                   tileset
+     00002AAC  _map_tileset_071                   tileset
+     00002AB4  _map_tileset_072                   tileset
+     00002ABC  _map_tileset_073                   tileset
+     00002AC4  _map_tileset_074                   tileset
+     00002ACC  _map_tileset_075                   tileset
+     00002AD4  _map_tileset_076                   tileset
+     00002ADC  _map_tileset_077                   tileset
+     00002AE4  _map_tileset_078                   tileset
+     00002AEC  _map_tileset_079                   tileset
+     00002AF4  _map_tileset_080                   tileset
+     00002AFC  _map_tileset_081                   tileset
+     00002B04  _map_tileset_082                   tileset
+     00002B0C  _map_tileset_083                   tileset
+     00002B14  _map_tileset_084                   tileset
+     00002B1C  _map_tileset_085                   tileset
+     00002B24  _map_tileset_086                   tileset
+     00002B2C  _map_tileset_087                   tileset
+     00002B34  _map_tileset_088                   tileset
+     00002B3C  _map_tileset_089                   tileset
+     00002B44  _map_tileset_090                   tileset
+     00002B4C  _map_tileset_091                   tileset
+     00002B54  _map_tileset_092                   tileset
+     00002B5C  _map_tileset_093                   tileset
+     00002B64  _map_tileset_094                   tileset
+     00002B6C  _map_tileset_095                   tileset
+     00002B74  _map_tileset_096                   tileset
+     00002B7C  _map_tileset_097                   tileset
+     00002B84  _map_tileset_098                   tileset
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002B8C  _map_tileset_099                   tileset
+     00002B94  _map_tileset_100                   tileset
+     00002B9C  _map_tileset_101                   tileset
+     00002BA4  _map_tileset_102                   tileset
+     00002BAC  _map_tileset_103                   tileset
+     00002BB4  _map_tileset_104                   tileset
+     00002BBC  _map_tileset_105                   tileset
+     00002BC4  _map_tileset_106                   tileset
+     00002BCC  _map_tileset_107                   tileset
+     00002BD4  _map_tileset_108                   tileset
+     00002BDC  _map_tileset_109                   tileset
+     00002BE4  _map_tileset_110                   tileset
+     00002BEC  _map_tileset_111                   tileset
+     00002BF4  _map_tileset_112                   tileset
+     00002BFC  _map_tileset_113                   tileset
+     00002C04  _map_tileset_114                   tileset
+     00002C0C  _map_tileset_115                   tileset
+     00002C14  _map_tileset_116                   tileset
+     00002C1C  _map_tileset_117                   tileset
+     00002C24  _map_tileset_118                   tileset
+     00002C2C  _map_tileset_119                   tileset
+     00002C34  _map_tileset_120                   tileset
+     00002C3C  _map_tileset_121                   tileset
+     00002C44  _map_tileset_122                   tileset
+     00002C4C  _map_tileset_123                   tileset
+     00002C54  _map_tileset_124                   tileset
+     00002C5C  _map_tileset_125                   tileset
+     00002C64  _map_tileset_126                   tileset
+     00002C6C  _map_tileset_127                   tileset
+     00002C74  _map_tileset_128                   tileset
+     00002C7C  _map_tileset_129                   tileset
+     00002C84  _map_tileset_130                   tileset
+     00002C8C  _map_tileset_131                   tileset
+     00002C94  _map_tileset_132                   tileset
+     00002C9C  _map_tileset_133                   tileset
+     00002CA4  _map_tileset_134                   tileset
+     00002CAC  _map_tileset_135                   tileset
+     00002CB4  _map_tileset_136                   tileset
+     00002CBC  _map_tileset_137                   tileset
+     00002CC4  _map_tileset_138                   tileset
+     00002CCC  _map_tileset_139                   tileset
+     00002CD4  _map_tileset_140                   tileset
+     00002CDC  _map_tileset_141                   tileset
+     00002CE4  _map_tileset_142                   tileset
+     00002CEC  _map_tileset_143                   tileset
+     00002CF4  _map_tileset_144                   tileset
+     00002CFC  _map_tileset_145                   tileset
+     00002D04  _map_tileset_146                   tileset
+     00002D0C  _map_tileset_147                   tileset
+     00002D14  _map_tileset_148                   tileset
+     00002D1C  _map_tileset_149                   tileset
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002D24  _map_tileset_150                   tileset
+     00002D2C  _map_tileset_151                   tileset
+     00002D34  _map_tileset_152                   tileset
+     00002D3C  _map_tileset_153                   tileset
+     00002D44  _map_tileset_154                   tileset
+     00002D4C  _map_tileset_155                   tileset
+     00002D54  _map_tileset_156                   tileset
+     00002D5C  _map_tileset_157                   tileset
+     00002D64  _map_tileset_158                   tileset
+     00002D6C  _map_tileset_159                   tileset
+     00002D74  _map_tileset_160                   tileset
+     00002D7C  _map_tileset_161                   tileset
+     00002D84  _map_tileset_162                   tileset
+     00002D8C  _map_tileset_163                   tileset
+     00002D94  _map_tileset_164                   tileset
+     00002D9C  _map_tileset_165                   tileset
+     00002DA4  _map_tileset_166                   tileset
+     00002DAC  _map_tileset_167                   tileset
+     00002DB4  _map_tileset_168                   tileset
+     00002DBC  _map_tileset_169                   tileset
+     00002DC4  _map_tileset_170                   tileset
+     00002DCC  _map_tileset_171                   tileset
+     00002DD4  _map_tileset_172                   tileset
+     00002DDC  _map_tileset_173                   tileset
+     00002DE4  _map_tileset_174                   tileset
+     00002DEC  _map_tileset_175                   tileset
+     00002DF4  _map_tileset_176                   tileset
+     00002DFC  _map_tileset_177                   tileset
+     00002E04  _map_tileset_178                   tileset
+     00002E0C  _map_tileset_179                   tileset
+     00002E14  _map_tileset_180                   tileset
+     00002E1C  _map_tileset_181                   tileset
+     00002E24  _map_tileset_182                   tileset
+     00002E2C  _map_tileset_183                   tileset
+     00002E34  _map_tileset_184                   tileset
+     00002E3C  _map_tileset_185                   tileset
+     00002E44  _map_tileset_186                   tileset
+     00002E4C  _map_tileset_187                   tileset
+     00002E54  _map_tileset_188                   tileset
+     00002E5C  _map_tileset_189                   tileset
+     00002E64  _map_tileset_190                   tileset
+     00002E6C  _map_tileset_191                   tileset
+     00002E74  _map_tileset_192                   tileset
+     00002E7C  _map_tileset_193                   tileset
+     00002E84  _map_tileset_194                   tileset
+     00002E8C  _map_tileset_195                   tileset
+     00002E94  _map_tileset_196                   tileset
+     00002E9C  _map_tileset_197                   tileset
+     00002EA4  _map_tileset_198                   tileset
+     00002EAC  _map_tileset_199                   tileset
+     00002EB4  _map_tileset_200                   tileset
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002EBC  _map_tileset_201                   tileset
+     00002EC4  _map_tileset_202                   tileset
+     00002ECC  _map_tileset_203                   tileset
+     00002ED4  _map_tileset_204                   tileset
+     00002EDC  _map_tileset_205                   tileset
+     00002EE4  _map_tileset_206                   tileset
+     00002EEC  _map_tileset_207                   tileset
+     00002EF4  _map_tileset_208                   tileset
+     00002EFC  _map_tileset_209                   tileset
+     00002F04  _map_tileset_210                   tileset
+     00002F0C  _map_tileset_211                   tileset
+     00002F14  _map_tileset_212                   tileset
+     00002F1C  _map_tileset_213                   tileset
+     00002F24  _map_tileset_214                   tileset
+     00002F2C  _map_tileset_215                   tileset
+     00002F34  _map_tileset_216                   tileset
+     00002F3C  _map_tileset_217                   tileset
+     00002F44  _map_tileset_218                   tileset
+     00002F4C  _map_tileset_219                   tileset
+     00002F54  _map_tileset_220                   tileset
+     00002F5C  _map_tileset_221                   tileset
+     00002F64  _map_tileset_222                   tileset
+     00002F6C  _map_tileset_223                   tileset
+     00002F74  _map_tileset_224                   tileset
+     00002F7C  _map_tileset_225                   tileset
+     00002F84  _map_tileset_226                   tileset
+     00002F8C  _map_tileset_227                   tileset
+     00002F94  _map_tileset_228                   tileset
+     00002F9C  _map_tileset_229                   tileset
+     00002FA4  _map_tileset_230                   tileset
+     00002FAC  _map_tileset_231                   tileset
+     00002FB4  _map_tileset_232                   tileset
+     00002FBC  _map_tileset_233                   tileset
+     00002FC4  _map_tileset_234                   tileset
+     00002FCC  _map_tileset_235                   tileset
+     00002FD4  _map_tileset_236                   tileset
+     00002FDC  _map_tileset_237                   tileset
+     00002FE4  _map_tileset_238                   tileset
+     00002FEC  _map_tileset_239                   tileset
+     00002FF4  _map_tileset_240                   tileset
+     00002FFC  _map_tileset_241                   tileset
+     00003004  _sprite_points                     points
+     00003012  _sprite_numbers_00                 numbers
+     0000303C  _sprite_numbers_01                 numbers
+     00003066  _sprite_numbers_02                 numbers
+     00003090  _sprite_numbers_03                 numbers
+     000030BA  _sprite_numbers_04                 numbers
+     000030E4  _sprite_numbers_05                 numbers
+     0000310E  _sprite_numbers_06                 numbers
+     00003138  _sprite_numbers_07                 numbers
+     00003162  _sprite_numbers_08                 numbers
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000318C  _sprite_numbers_09                 numbers
+     000031B6  _sprite_frisbee_1_0                frisbee_1
+     00003236  _sprite_frisbee_1_1                frisbee_1
+     000032B6  _sprite_robot_2_0                  robot_2
+     0000337E  _sprite_robot_2_1                  robot_2
+     00003446  _sprite_palette                    robot_1
+     00003456  _sprite_robot_1_0                  robot_1
+     0000351E  _sprite_robot_1_1                  robot_1
+     000035E6  _initAcel                          IA
+     000036FC  _cerca                             IA
+     00003707  _medio                             IA
+     00003712  _lejos                             IA
+     0000371D  _acelMu                            IA
+     00003728  _acelPo                            IA
+     00003733  _acelMed                           IA
+     0000373E  _rulex                             IA
+     00003742  _rulex1                            IA
+     00003746  _rulex2                            IA
+     0000374A  _ruley                             IA
+     0000374E  _ruley1                            IA
+     00003752  _ruley2                            IA
+     00003756  _calculateDom                      IA
+     00003A70  _defuzzi                           IA
+     00003B71  _calcule                           IA
+     00003BF9  _calcularb_direc                   IA
+     00003C2E  _fuzzificacion                     IA
+     00003D8D  _moveIA                            IA
+     00003DDD  _sprite_frisbeeMenu                frisbeeMenu
+     00003DED  robot_1_sprites                    
+     00003DF1  robot_2_sprites                    
+     00003DF5  frisbee_sprites                    
+     00003DF9  entityDraw                         
+     00003E2D  entityErase                        
+     00003E3B  entityErase_2                      
+     00003E5B  entityUpdatePhysics                
+     00003F60  entityCheckCollision               
+     00003FB5  entityUpdatePosition               
+     00004031  negateHL                           
+     00004062  frisbee_data                       
+     0000407F  init_data                          
+     0000409C  frisbee_restart                    
+     000040C5  frisbee_erase                      
+     000040CD  frisbee_setVelocities              
+     00004104  frisbee_setEffect                  
+     0000410F  frisbee_update                     
+     0000412A  frisbee_draw                       
+     00004132  frisbee_setState                   
+     00004136  update_frisbee_animation           
+     00004183  frisbee_checkGoal                  
+     000041A5  _main                              
+     000041C5  _cpct_keyboardStatusBuffer         cpct_keyboard
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000041CF  player_erase                       cpct_keyboard
+     000041DE  player_update                      cpct_keyboard
+     000041FB  update_player_animation            cpct_keyboard
+     00004BDE  menuStart                          
+     00004BF5  checkSelection                     
+     00004C0E  reDrawCursor                       
+     00004C2C  checkCursor                        
+     00004C77  wait_X_halts                       
+     00004C84  setPaletteM1                       
+     00004C93  setPaletteBlackM1                  
+     00004CA2  menuOptions                        
+     00004D55  paletteM2                          
+     00004D57  paletteM1                          
+     00004D5B  blackPaletteM1                     
+     00004D5F  player_data                        
+     00004D7A  enemy_data                         
+     00004D95  player2_data                       
+     00004DB0  enemy2_data                        
+     00004DCB  game_data                          
+     00004DCB  game_type                          
+     00004DE3  gameStart                          
+     00004DF8  getVideoPtr                        
+     00004DFC  incTeam1Points                     
+     00004E08  incTeam2Points                     
+     00004E34  decideNumber                       
+     00004E81  drawNumber                         
+     00004EDB  updateTime                         
+     00004F1A  handlerTime                        
+     00004F68  initializeGame                     
+     00005056  _cpct_setInterruptHandler          cpct_firmware
+     00005056  cpct_setInterruptHandler_asm       cpct_firmware
+     00005067  cpct_safeInterruptHandlerHook      cpct_firmware
+     0000507E  __divuint                          
+     00005086  __divuchar                         
+     0000508D  __divu8                            
+     00005090  __divu16                           
+     000050BF  _cpct_isKeyPressed                 cpct_keyboard
+     000050BF  cpct_isKeyPressed_asm              cpct_keyboard
+     000050CB  cpct_setPalette_asm                cpct_video
+     000050DE  cpct_setPALColour_asm              cpct_video
+     000050E8  _cpct_akp_digidrumStatus           cpct_audio
+     000050E9  _cpct_akp_songLoopTimes            cpct_audio
+     000050EA  _cpct_akp_musicPlay                cpct_audio
+     000050EA  cpct_akp_musicPlay_asm             cpct_audio
+     000057ED  _cpct_akp_musicInit                cpct_audio
+     000057F4  cpct_akp_musicInit_asm             cpct_audio
+     0000584D  _cpct_akp_stop                     cpct_audio
+     0000584D  cpct_akp_stop_asm                  cpct_audio
+     00005860  _cpct_akp_SFXGetInstrument         cpct_audio
+     00005865  cpct_akp_SFXGetInstrument_asm      cpct_audio
+     00005879  _cpct_akp_SFXInit                  cpct_audio
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00003D60 =       15712. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00005880  cpct_akp_SFXInit_asm               cpct_audio
+     00005887  _cpct_akp_SFXStopAll               cpct_audio
+     00005887  cpct_akp_SFXStopAll_asm            cpct_audio
+     00005894  _cpct_akp_SFXPlay                  cpct_audio
+     000058A6  cpct_akp_SFXPlay_asm               cpct_audio
+     000058F3  _cpct_akp_SFXStop                  cpct_audio
+     000058F8  cpct_akp_SFXStop_asm               cpct_audio
+     00005911  _cpct_drawStringM1                 cpct_strings
+     00005919  cpct_drawStringM1_asm              cpct_strings
+     00005933  _cpct_drawStringM2                 cpct_strings
+     0000593B  cpct_drawStringM2_asm              cpct_strings
+     00005954  cpct_drawSprite_asm                cpct_sprites
+     000059F4  cpct_etm_drawTileBox2x4_asm        cpct_easytilemaps
+     00005A7F  _cpct_etm_setTileset2x4            cpct_easytilemaps
+     00005A7F  cpct_etm_setTileset2x4_asm         cpct_easytilemaps
+     00005A83  _cpct_drawCharM1                   cpct_strings
+     00005A90  cpct_drawCharM1_asm                cpct_strings
+     00005B0A  _cpct_drawCharM2                   cpct_strings
+     00005B10  cpct_drawCharM2_asm                cpct_strings
+     00005B56  __mulint                           
+     00005B5E  __mul16                            
+     00005B72  _cpct_etm_drawTileRow2x4           cpct_easytilemaps
+     00005B79  cpct_etm_drawTileRow2x4_asm        cpct_easytilemaps
+     00005B7B  dtr_restore_ptileset               cpct_easytilemaps
+     00005B93  _cpct_setVideoMemoryPage           cpct_video
+     00005B93  cpct_setVideoMemoryPage_asm        cpct_video
+     00005B9C  cpct_drawSpriteMasked_asm          cpct_sprites
+     00005BC6  cpct_etm_drawTilemap2x4_f_asm      cpct_easytilemaps
+     00005BEC  _cpct_waitVSYNC                    cpct_video
+     00005BEC  cpct_waitVSYNC_asm                 cpct_video
+     00005BF4  cpct_setVideoMode_asm              cpct_video
+     00005C01  dc_mode1_ct                        
+     00005C05  cpct_memcpy_asm                    cpct_memutils
+     00005C08  _cpct_disableFirmware              cpct_firmware
+     00005C08  _cpct_removeInterruptHandler       cpct_firmware
+     00005C08  cpct_disableFirmware_asm           cpct_firmware
+     00005C08  cpct_removeInterruptHandler_asm    cpct_firmware
+     00005C18  cpct_drawSolidBox_asm              cpct_sprites
+     00005CC4  cpct_drawTileAligned2x4_f_asm      cpct_sprites
+     00005CE5  _cpct_mode_rom_status              cpct_firmware
+     00005CE6  cpct_getScreenPtr_asm              cpct_video
+     00005D02  _cpct_scanKeyboard                 cpct_keyboard
+     00005D02  cpct_scanKeyboard_asm              cpct_keyboard
+     00005D33  cpct_drawSpriteMaskedAlignedTabl   cpct_sprites
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00005D60    00000006 =           6. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00005D60  _aceleracion                       IA
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZED                        00005D66    00000012 =          18. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00005D66  _vRulesx                           IA
+     00005D6C  _vRulesy                           IA
+     00005D72  _fmems                             IA
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZER                        00005D78    00000012 =          18. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+
+Files Linked                              [ module(s) ]
+
+obj/sprites/maps/mapamal.rel              [ mapamal ]
+obj/sprites/maps/tileset.rel              [ tileset ]
+obj/sprites/maps/points.rel               [ points ]
+obj/sprites/maps/numbers.rel              [ numbers ]
+obj/sprites/frisbees/frisbee_1.rel        [ frisbee_1 ]
+obj/sprites/characters/robot_2.rel        [ robot_2 ]
+obj/sprites/characters/robot_1.rel        [ robot_1 ]
+obj/IA.rel                                [ IA ]
+obj/sprites/frisbees/frisbeeMenu.rel      [ frisbeeMenu ]
+obj/entity.rel                            [  ]
+obj/frisbee.rel                           [  ]
+obj/entity.h.rel                          [  ]
+obj/game.h.rel                            [  ]
+obj/sprites.h.rel                         [  ]
+obj/utility.h.rel                         [  ]
+obj/main.rel                              [  ]
+obj/menu.h.rel                            [  ]
+obj/frisbee.h.rel                         [  ]
+obj/credits.rel                           [  ]
+obj/player.h.rel                          [  ]
+obj/player.rel                            [ cpct_keyboard ]
+obj/menu.rel                              [  ]
+obj/game.rel                              [  ]
+
+
+Libraries Linked                          [ object file ]
+
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setInterruptHandler.rel ]
+/home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divunsigned.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isKeyPressed.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPALColour_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ arkostracker.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawStringM1.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawStringM2.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSprite_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_etm_drawTileBox2x4_asmbindi ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_etm_setTileset2x4.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM1.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM2.rel ]
+/home/markets/git/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ mul.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_etm_drawTileRow2x4.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMemoryPage.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSpriteMasked_asmbinding ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_etm_drawTilemap2x4_f_asmbin ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_dc_mode1_ct.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_memcpy_asmbindings.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_removeInterruptHandler.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawTileAligned2x4_f_asmbin ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpc_mode_rom_status.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_scanKeyboard.rel ]
+/home/markets/git/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSpriteMaskedAlignedTabl ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
+
+User Base Address Definitions
+
+_CODE = 0x2000
+_DATA = 0x0000
+
+

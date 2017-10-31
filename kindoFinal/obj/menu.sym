@@ -1,0 +1,46 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     BOTTOM_L=  00C8     |     CENTER_L=  0028 
+    Key_Curs=  0400     |     Key_Curs=  0101     |     Key_Curs=  0200 
+    Key_Curs=  0100     |     Key_Ente=  4000     |     Key_Spac=  8005 
+    LEFT_LIM=  0000     |     RIGHT_LI=  0050     |     TOP_LIMI=  0020 
+    _sprite_   **** GX  |     addPosit=  00F0     |     blackPal   **** GX
+  0 cant_dec   00B3 R   |   0 cant_inc   00D8 R   |   0 checkCur   0091 GR
+  0 checkSel   005A GR  |   0 checkUse   0132 R   |     cpct_akp   **** GX
+    cpct_akp   **** GX  |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_etm   **** GX
+    cpct_etm   **** GX  |     cpct_etm   **** GX  |     cpct_get   **** GX
+    cpct_isK   **** GX  |     cpct_mem   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 creditsS   0012 R   |   0 cursorPo   0058 R   |     cursor_H=  0008 
+    cursor_W=  0002     |   0 down_not   00DA R   |     enemy2_d   **** GX
+    enemy_da   **** GX  |   0 enter_no   006C R   |     gameStar   **** GX
+    game_dat   **** GX  |     getVideo   **** GX  |     incTeam1   **** GX
+    incTeam2   **** GX  |   0 initiali   0133 R   |     instrPos=  C6E0 
+  0 leftArro   0026 R   |     map_tH  =  002A     |     map_tW  =  0028 
+    max_inde=  0006     |   0 menuInst   001A R   |   0 menuOpti   0107 GR
+  0 menuOpti   0121 R   |     menuPos_=  C850     |     menuPos_=  C940 
+    menuPos_=  CA30     |     menuPos_=  CB20     |     menuPos_=  CC10 
+    menuPos_=  CD00     |     menuPos_=  CDF0     |   0 menuStar   0043 GR
+  0 menuStri   0000 R   |     negateHL   **** GX  |   0 optionsS   000A R
+    paletteM   **** GX  |     paletteM   **** GX  |   0 playStri   0005 R
+    player2_   **** GX  |     player_d   **** GX  |   0 printCre   01B9 R
+  0 reDrawCu   0073 GR  |   0 rightArr   0028 R   |   0 scoreStr   002F R
+  0 selectio   005C R   |   0 setPalet   00F8 GR  |   0 setPalet   00E9 GR
+    subPosit=  FFFFFF10     |   0 timeStri   002A R   |   0 up_not_p   00B5 R
+  0 wait_X_h   00DC GR  |   0 wait_hal   00E8 R   |   0 winCondS   0035 R
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  1BA   flags    0
+   1 _DATA      size    0   flags    0
+
