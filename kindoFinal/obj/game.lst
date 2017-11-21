@@ -1,0 +1,1050 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 .area _DATA
+                              2 .area _CODE
+                              3 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                              4 .include "player.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; PLAYER PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl player_update
+                              7 .globl update_player_animation
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                              5 .include "frisbee.h.s"
+                              1 ;; =========================
+                              2 ;; =========================
+                              3 ;; FRISBEE PUBLIC FUNCTIONS
+                              4 ;; =========================
+                              5 ;; =========================
+                              6 .globl frisbee_erase
+                              7 .globl frisbee_update
+                              8 .globl frisbee_draw
+                              9 .globl frisbee_data
+                             10 .globl frisbee_setEffect
+                             11 .globl frisbee_setVelocities
+                             12 .globl frisbee_checkGoal
+                             13 .globl frisbee_setState
+                             14 .globl update_frisbee_animation
+                             15 	
+                     001B    16 .equ Frisbee_effect_I, 27
+                     001C    17 .equ Frisbee_effect_F, 28
+                     0008    18 .equ std_eff, 0x0008
+                     FFF8    19 .equ std_N_eff, 0xFFF8
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                              6 .include "utility.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; INCLUDED CPCTELERA FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl cpct_waitVSYNC_asm
+                              7 .globl cpct_drawSolidBox_asm
+                              8 .globl cpct_getScreenPtr_asm
+                              9 .globl cpct_scanKeyboard_asm
+                             10 .globl cpct_isKeyPressed_asm
+                             11 .globl cpct_disableFirmware_asm
+                             12 .globl cpct_setVideoMode_asm
+                             13 .globl cpct_setPalette_asm
+                             14 .globl cpct_memcpy_asm
+                             15 .globl negateHL
+                             16 .globl cpct_setVideoMemoryPage_asm
+                             17 .globl cpct_akp_musicPlay_asm
+                             18 .globl cpct_akp_stop_asm
+                             19 .globl cpct_drawSprite_asm
+                             20 .globl cpct_setInterruptHandler_asm
+                             21 .globl cpct_setPALColour_asm
+                             22 .globl cpct_drawStringM2_asm
+                             23 .globl cpct_drawStringM1_f_asm
+                             24 .globl cpct_akp_musicInit_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                              7 .include "entity.h.s"
+                              1 ;; ====================================
+                              2 ;; ====================================
+                              3 ;; ENTITY PUBLIC FUNCTIONS
+                              4 ;; ====================================
+                              5 ;; ====================================
+                              6 .globl entityDraw
+                              7 .globl entityErase
+                              8 .globl entityCheckCollision
+                              9 .globl entityUpdatePhysics
+                             10 .globl entityUpdatePosition
+                             11 
+                             12 
+                             13 .macro defineEntity name, x,y, h, w, vx, vy, ax, ay, normal, sprites_ptr, id
+                             14 	name'_data::
+                             15 		name'_x:	.dw x		;; X coordinate			(16 bits)
+                             16 		name'_y:	.dw y		;; Y coordinate			(16 bits)
+                             17 		name'_h:	.db h		;; Height			(8 bits)
+                             18 		name'_w:	.db w		;; Width			(8 bits)
+                             19 		name'_vx:	.dw vx		;; Velocity at X axis 		(16 bits)
+                             20 		name'_vy:	.dw vy		;; Velocity at Y axis		(16 bits)
+                             21 		name'_ax:	.dw ax		;; Acceleration at X axis	(16 bits)
+                             22 		name'_ay:	.dw ay		;; Acceleration at Y axis	(16 bits)
+                             23 		name'_normal:	.dw normal	;; Normal force			(16 bits)
+                             24 		name'_last_x:	.db x		;; Last x rendered		(8 bits)
+                             25 		name'_erase_x:	.db x		;; x rendered at same buffer	(8 bits)
+                             26 		name'_last_y:	.db y		;; Last y rendered		(8 bits)
+                             27 		name'_erase_y:	.db y		;; y rendered at same buffer	(8 bits)
+                             28 		name'_state:	.db #0		;; Entity animation state	(8 bits)
+                             29 		name'_lastState:.db #0		;; Last entity animation state	(8 bits)
+                             30 		name'_signal:	.db #-1		;; Signal recived for animations(8 bits)
+                             31 		name'_sprite:	.db #0		;; Entity sprite index		(8 bits)
+                             32 		name'_sprites_ptr: .dw sprites_ptr ;; Pointer to sprites	(16 bits)
+                             33 		name'_id:	.db id		;; Numeric ID			(8 bits)
+                             34 .endm
+                             35 
+                             36 
+                             37 ;; ====================================
+                             38 ;; ====================================
+                             39 ;; ENTITY PUBLIC DATA
+                             40 ;; ====================================
+                             41 ;; ====================================
+                             42 
+                             43 .globl robot_1_sprites
+                             44 .globl robot_2_sprites
+                             45 .globl frisbee_sprites
+                             46 
+                     0000    47 .equ Ent_x_I, 		0	;; X coordinate, integer part
+                     0001    48 .equ Ent_x_F, 		1	;; X coordinate, fractional part
+                     0002    49 .equ Ent_y_I, 		2	;; Y coordinate, integer part
+                     0003    50 .equ Ent_y_F, 		3	;; Y coordinate, fractional part
+                     0004    51 .equ Ent_h, 		4	;; Height
+                     0005    52 .equ Ent_w, 		5	;; Width
+                     0006    53 .equ Ent_vx_I,		6	;; Velocity at X axis, integer part
+                     0007    54 .equ Ent_vx_F,		7	;; Velocity at X axis, fractional part
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                     0008    55 .equ Ent_vy_I,		8	;; Velocity at Y axis, integer part
+                     0009    56 .equ Ent_vy_F,		9	;; Velocity at Y axis, fractional part
+                     000A    57 .equ Ent_ax_I,		10	;; Acceleration at X axis, integer part
+                     000B    58 .equ Ent_ax_F,		11	;; Acceleration at X axis, fractional part
+                     000C    59 .equ Ent_ay_I,		12	;; Acceleration at Y axis, integer part
+                     000D    60 .equ Ent_ay_F,		13	;; Acceleration at Y axis, fractional part
+                     000E    61 .equ Ent_N_I,		14	;; Normal force, integer part
+                     000F    62 .equ Ent_N_F,		15	;; Normal force, fractional part
+                     0010    63 .equ Ent_last_x,	16	;; Last x rendered
+                     0011    64 .equ Ent_erase_x,	17	;; x rendered at same buffer
+                     0012    65 .equ Ent_last_y,	18	;; Last y rendered
+                     0013    66 .equ Ent_erase_y,	19	;; y rendered at same buffer
+                     0014    67 .equ Ent_state,		20	;; Entity animation state
+                     0015    68 .equ Ent_lastState,	21	;; Last entity animation state
+                     0016    69 .equ Ent_signal,	22	;; Signar for animations
+                     0017    70 .equ Ent_sprite, 	23	;; Entity sprite index
+                     0018    71 .equ Ent_sprites_ptr_H, 24	;; Pointer to sprite, high part
+                     0019    72 .equ Ent_sprites_ptr_L, 25	;; Pointer to sprite, high part
+                     001A    73 .equ Ent_id, 		26	;; Numeric ID
+                             74 				;; Frisbee 	0
+                             75 				;; Player1 	1
+                             76 				;; Enemy1	2
+                             77 
+                     0003    78 .equ MAX_VEL_X, 3 
+                     FFFFFFFD    79 .equ MIN_VEL_X, -3
+                     0003    80 .equ MAX_VEL_Y, 3
+                     FFFFFFFD    81 .equ MIN_VEL_Y, -3
+                             82 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+                              8 .include "sprites.h.s"
+                              1 .globl _sprite_palette
+                              2 
+                              3 .globl _sprite_robot_1_0
+                              4 .globl _sprite_robot_1_1
+                              5 
+                              6 .globl _sprite_robot_2_0
+                              7 .globl _sprite_robot_2_1
+                              8 
+                              9 .globl _sprite_frisbee_1_0
+                             10 .globl _sprite_frisbee_1_1
+                             11 
+                             12 	
+                             13 ;; ":"
+                             14 .globl _sprite_points
+                             15 ;; "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
+                             16 .globl _sprite_numbers_09
+                             17 .globl _sprite_numbers_08
+                             18 .globl _sprite_numbers_07
+                             19 .globl _sprite_numbers_06
+                             20 .globl _sprite_numbers_05
+                             21 .globl _sprite_numbers_04
+                             22 .globl _sprite_numbers_03
+                             23 .globl _sprite_numbers_02
+                             24 .globl _sprite_numbers_01
+                             25 .globl _sprite_numbers_00
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+                              9 	
+                             10 ;; ====================================
+                             11 ;; ====================================
+                             12 ;; PUBLIC DATA
+                             13 ;; ====================================
+                             14 ;; ====================================
+                             15 
+   0000 4B                   16 paletteM2::	.db #0x4B	;; White
+   0001 54                   17 			.db #0x54	;; Black
+                             18 
+   0002 4C                   19 paletteM1::	.db #0x4C	;; Red
+   0003 40                   20 			.db #0x40	;; Grey
+   0004 4B                   21 			.db #0x4B	;; White
+   0005 54                   22 			.db #0x54	;; Black
+                             23 
+   0006 54                   24 blackPaletteM1::	.db #0x54	;; Black
+   0007 54                   25 					.db #0x54	;; Black
+   0008 54                   26 					.db #0x54	;; Black
+   0009 54                   27 					.db #0x54	;; Black
+                             28 
+                             29 ;;paletteM0::	.db # ;; 
+                             30 ;;			.db # ;; 
+                             31 ;;			.db # ;; 
+                             32 ;;			.db # ;; 
+                             33 ;;			.db # ;; 
+                             34 ;;			.db # ;; 
+                             35 ;;			.db # ;; 
+                             36 ;;			.db # ;; 
+                             37 ;;			.db # ;; 
+                             38 ;;			.db # ;; 
+                             39 ;;			.db # ;; 
+                             40 ;;			.db # ;; 
+                             41 ;;			.db # ;; 
+                             42 ;;			.db # ;;  
+                             43 ;;			.db #0x4B ;; White
+                             44 ;;			.db #0x54 ;; Black 
+                             45 
+                             46 
+                     0003    47 number_w = 3
+                     0007    48 number_h = 7
+                     0006    49 .equ music_vel, #6
+                             50 
+                             51 ;;defineEntity name, 	x,				y,	 	 h,   w,  vx, 	vy, 	ax,    ay,    normal, 	sprites_ptr, 	 id
+   000A                      52 defineEntity player, 	#0x0010, 		#0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, #1
+   000A                       1 	player_data::
+   000A 10 00                 2 		player_x:	.dw #0x0010		;; X coordinate			(16 bits)
+   000C 50 00                 3 		player_y:	.dw #0x0050		;; Y coordinate			(16 bits)
+   000E 14                    4 		player_h:	.db #20		;; Height			(8 bits)
+   000F 05                    5 		player_w:	.db #5		;; Width			(8 bits)
+   0010 00 00                 6 		player_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   0012 00 00                 7 		player_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   0014 00 00                 8 		player_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   0016 00 00                 9 		player_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   0018 00 18                10 		player_normal:	.dw #0x1800	;; Normal force			(16 bits)
+   001A 10                   11 		player_last_x:	.db #0x0010		;; Last x rendered		(8 bits)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+   001B 10                   12 		player_erase_x:	.db #0x0010		;; x rendered at same buffer	(8 bits)
+   001C 50                   13 		player_last_y:	.db #0x0050		;; Last y rendered		(8 bits)
+   001D 50                   14 		player_erase_y:	.db #0x0050		;; y rendered at same buffer	(8 bits)
+   001E 00                   15 		player_state:	.db #0		;; Entity animation state	(8 bits)
+   001F 00                   16 		player_lastState:.db #0		;; Last entity animation state	(8 bits)
+   0020 FF                   17 		player_signal:	.db #-1		;; Signal recived for animations(8 bits)
+   0021 00                   18 		player_sprite:	.db #0		;; Entity sprite index		(8 bits)
+   0022 00 00                19 		player_sprites_ptr: .dw #robot_1_sprites ;; Pointer to sprites	(16 bits)
+   0024 01                   20 		player_id:	.db #1		;; Numeric ID			(8 bits)
+   0025                      53 defineEntity enemy, 	#0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, #2
+   0025                       1 	enemy_data::
+   0025 4C 00                 2 		enemy_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
+   0027 64 00                 3 		enemy_y:	.dw #0x0064		;; Y coordinate			(16 bits)
+   0029 14                    4 		enemy_h:	.db #20		;; Height			(8 bits)
+   002A 05                    5 		enemy_w:	.db #5		;; Width			(8 bits)
+   002B 00 00                 6 		enemy_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   002D 00 00                 7 		enemy_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   002F 00 00                 8 		enemy_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   0031 00 00                 9 		enemy_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   0033 00 18                10 		enemy_normal:	.dw #0x1800	;; Normal force			(16 bits)
+   0035 4C                   11 		enemy_last_x:	.db #0x0050-0x0004		;; Last x rendered		(8 bits)
+   0036 4C                   12 		enemy_erase_x:	.db #0x0050-0x0004		;; x rendered at same buffer	(8 bits)
+   0037 64                   13 		enemy_last_y:	.db #0x0064		;; Last y rendered		(8 bits)
+   0038 64                   14 		enemy_erase_y:	.db #0x0064		;; y rendered at same buffer	(8 bits)
+   0039 00                   15 		enemy_state:	.db #0		;; Entity animation state	(8 bits)
+   003A 00                   16 		enemy_lastState:.db #0		;; Last entity animation state	(8 bits)
+   003B FF                   17 		enemy_signal:	.db #-1		;; Signal recived for animations(8 bits)
+   003C 00                   18 		enemy_sprite:	.db #0		;; Entity sprite index		(8 bits)
+   003D 00 00                19 		enemy_sprites_ptr: .dw #robot_2_sprites ;; Pointer to sprites	(16 bits)
+   003F 02                   20 		enemy_id:	.db #2		;; Numeric ID			(8 bits)
+                             54 
+   0040                      55 defineEntity player2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#3
+   0040                       1 	player2_data::
+   0040 4C 00                 2 		player2_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
+   0042 64 00                 3 		player2_y:	.dw #0x0064		;; Y coordinate			(16 bits)
+   0044 14                    4 		player2_h:	.db #20		;; Height			(8 bits)
+   0045 05                    5 		player2_w:	.db #5		;; Width			(8 bits)
+   0046 00 00                 6 		player2_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   0048 00 00                 7 		player2_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   004A 00 00                 8 		player2_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   004C 00 00                 9 		player2_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   004E 00 18                10 		player2_normal:	.dw #0x1800	;; Normal force			(16 bits)
+   0050 4C                   11 		player2_last_x:	.db #0x0050-0x0004		;; Last x rendered		(8 bits)
+   0051 4C                   12 		player2_erase_x:	.db #0x0050-0x0004		;; x rendered at same buffer	(8 bits)
+   0052 64                   13 		player2_last_y:	.db #0x0064		;; Last y rendered		(8 bits)
+   0053 64                   14 		player2_erase_y:	.db #0x0064		;; y rendered at same buffer	(8 bits)
+   0054 00                   15 		player2_state:	.db #0		;; Entity animation state	(8 bits)
+   0055 00                   16 		player2_lastState:.db #0		;; Last entity animation state	(8 bits)
+   0056 FF                   17 		player2_signal:	.db #-1		;; Signal recived for animations(8 bits)
+   0057 00                   18 		player2_sprite:	.db #0		;; Entity sprite index		(8 bits)
+   0058 00 00                19 		player2_sprites_ptr: .dw #robot_2_sprites ;; Pointer to sprites	(16 bits)
+   005A 03                   20 		player2_id:	.db #3		;; Numeric ID			(8 bits)
+   005B                      56 defineEntity enemy2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 	#4
+   005B                       1 	enemy2_data::
+   005B 4C 00                 2 		enemy2_x:	.dw #0x0050-0x0004		;; X coordinate			(16 bits)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+   005D 64 00                 3 		enemy2_y:	.dw #0x0064		;; Y coordinate			(16 bits)
+   005F 14                    4 		enemy2_h:	.db #20		;; Height			(8 bits)
+   0060 05                    5 		enemy2_w:	.db #5		;; Width			(8 bits)
+   0061 00 00                 6 		enemy2_vx:	.dw #0000		;; Velocity at X axis 		(16 bits)
+   0063 00 00                 7 		enemy2_vy:	.dw #0000		;; Velocity at Y axis		(16 bits)
+   0065 00 00                 8 		enemy2_ax:	.dw #0000		;; Acceleration at X axis	(16 bits)
+   0067 00 00                 9 		enemy2_ay:	.dw #0000		;; Acceleration at Y axis	(16 bits)
+   0069 00 18                10 		enemy2_normal:	.dw #0x1800	;; Normal force			(16 bits)
+   006B 4C                   11 		enemy2_last_x:	.db #0x0050-0x0004		;; Last x rendered		(8 bits)
+   006C 4C                   12 		enemy2_erase_x:	.db #0x0050-0x0004		;; x rendered at same buffer	(8 bits)
+   006D 64                   13 		enemy2_last_y:	.db #0x0064		;; Last y rendered		(8 bits)
+   006E 64                   14 		enemy2_erase_y:	.db #0x0064		;; y rendered at same buffer	(8 bits)
+   006F 00                   15 		enemy2_state:	.db #0		;; Entity animation state	(8 bits)
+   0070 00                   16 		enemy2_lastState:.db #0		;; Last entity animation state	(8 bits)
+   0071 FF                   17 		enemy2_signal:	.db #-1		;; Signal recived for animations(8 bits)
+   0072 00                   18 		enemy2_sprite:	.db #0		;; Entity sprite index		(8 bits)
+   0073 00 00                19 		enemy2_sprites_ptr: .dw #robot_1_sprites ;; Pointer to sprites	(16 bits)
+   0075 04                   20 		enemy2_id:	.db #4		;; Numeric ID			(8 bits)
+                             57 
+   0076                      58 game_data::
+   0076 00                   59 	game_type::          .db #0 ;; Game Mode (8 bits)
+   0077 00                   60    	game_numPlayers::    .db #0 ;; Players who are going to play
+   0078 00                   61    	game_WinCondition::  .db #0 ;; Win condition 0-> Time, 1 -> Score
+                             62 
+   0079 15                   63 	game_maxScore::      .db #21 ;; Max score of a match (to win)
+   007A 00                   64 	game_t1Score::       .db #0 ;; Points of team 1		(8 bits)
+   007B 00                   65 	game_t2Score::       .db #0 ;; Points of team 2		(8 bits)
+                             66 
+   007C 02                   67 	game_minute::		.db #2 ;; Actual minute. Also Controles if we whant to play with time
+   007D 00                   68 	game_secLeft::		.db #0 ;; Both variables to control the seconds
+   007E 00                   69 	game_secRight::		.db #0 ;; Both variables to control the seconds
+   007F 00 00                70 	game_maxTime::       .dw #0x0000 ;; Max time of a match
+   0081 00 00                71 	game_map::           .dw #0x0000 ;; Pointer to map of tiles	(16 bits little endian)
+                             72 
+   0083 00                   73 	game_musicOptions::  .db #0 ;; Controles if we whant to play music on options
+   0084 00                   74 	game_timeOptions::   .db #0 ;; Controles if we whant to play with time on options
+                             75 
+   0085 06                   76 	game_interrMusic::   .db #music_vel ;; Interruption counter for music handler	(16 bits)
+   0086 2C 01                77 	game_interrTime::	.dw #0x012C ;; Interruption counter for time handler	(16 bits)
+   0088 00                   78 	game_musicPlayer::   .db #0 ;; Controles the music player
+   0089 00                   79 	game_musicEffects::  .db #0 ;; Controles the effects on the match
+                             80 
+   008A 01                   81 	game_enableMusic::	.db #1 ;; Controles if we whant some music
+                             82 
+                             83 	;; ÑORDBUGER 0f89
+                             84 
+                             85 	;;game_map:		.dw #0x0000	;; Pointer to map of tiles	(16 bits little endian)
+                             86 	;;game_fTime:		.dw #0x0000	;; Final duration of each match	(16 bits)
+                             87 	;;game_t1Score: 		.db #0 		;; Points of team 1		(8 bits)
+                             88 	;;game_t2Score: 		.db #0 		;; Points of team 2		(8 bits)
+                             89 ;; 
+                             90 ;; .equ RIGHT_LIMIT,	80
+                             91 ;; .equ LEFT_LIMIT,	0
+                             92 ;; .equ TOP_LIMIT,	10
+                             93 ;; .equ BOTTOM_LIMIT,	200
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
+Hexadecimal [16-Bits]
+
+
+
+                             94 ;; .equ CENTER_LIMIT,	40
+                             95 
+                             96 
+                             97 ;; ====================================
+                             98 ;; ====================================
+                             99 ;; PRIVATE DATA
+                            100 ;; ====================================
+                            101 ;; ====================================
+                            102 
+                            103 ;; .equ mi_constante0, 0
+                            104 ;; .equ mi_constante1, 1
+                            105 
+                     E025   106 .equ minSpPointer, 0xE025		;; Pointer to know where to print the score, on both videopointers.
+                     A025   107 .equ minSpPointer2, 0xA025
+                     E029   108 .equ secLeftSpPointer, 0xE029
+                     A029   109 .equ secLeftSpPointer2, 0xA029
+                     E02C   110 .equ secRightSpPointer, 0xE02C
+                     A02C   111 .equ secRightSpPointer2, 0xA02C
+                            112 
+   008B 00 80               113 videoPtr:	.dw 0x8000
+                            114 
+                            115 ;; ====================================
+                            116 ;; ====================================
+                            117 ;; PUBLIC FUNCTIONS
+                            118 ;; ====================================
+                            119 ;; ====================================
+                            120 
+                            121 
+                            122 ;; ===================================
+                            123 ;; Inicia una partida dependiendo
+                            124 ;; 	de los atributos de game
+                            125 ;; ===================================
+   008D                     126 gameStart::
+   008D CD 38 02      [17]  127 	call 	initializeGame
+                            128 	;; Prepartida
+   0090 CD 07 02      [17]  129 	call 	configureISR
+   0093 3A 76 00      [13]  130 	ld a, (game_type)
+   0096 FE 00         [ 7]  131 	cp #0
+   0098 20 05         [12]  132 	jr nz, game_PVP
+   009A CD 7F 02      [17]  133 		call game_loop_Player_IA
+   009D 18 03         [12]  134 		jr afterGame
+                            135 
+   009F                     136 	game_PVP:
+   009F CD 05 03      [17]  137 		call game_loop_Player_PvP
+                            138 		;; call game_loop_PvP
+                            139 
+   00A2                     140 	afterGame:
+                            141 
+   00A2 21 D5 01      [10]  142 	ld hl, #emptyHandler	;; emptyHandler
+   00A5 CD 00 00      [17]  143 	call cpct_setInterruptHandler_asm
+                            144 
+   00A8 3A 7B 00      [13]  145 	ld 	a, (game_t2Score)
+   00AB 47            [ 4]  146 	ld 	b, a
+                            147 
+   00AC 3A 7A 00      [13]  148 	ld 	a, (game_t1Score)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
+Hexadecimal [16-Bits]
+
+
+
+   00AF B8            [ 4]  149 	cp 	b
+   00B0 FA B3 00      [10]  150 	jp 	m, t2_win
+                            151 		;; t1 win
+                            152 
+   00B3                     153 	t2_win:
+                            154 
+                            155 
+   00B3 C9            [10]  156 	ret
+                            157 
+                            158 ;; ==================================
+                            159 ;; Devuelve el puntero a video en HL
+                            160 ;; Devuelve:
+                            161 ;;	HL => Pointer to video memory
+                            162 ;; ==================================
+   00B4                     163 getVideoPtr::
+   00B4 2A 8B 00      [16]  164 	ld	hl, (videoPtr)
+   00B7 C9            [10]  165 	ret
+                            166 
+                            167 ;; ==================================
+                            168 ;; Incrementa los puntos del equipo 1
+                            169 ;; Modifica: A, B
+                            170 ;; ==================================
+   00B8                     171 incTeam1Points::
+   00B8 3A 79 00      [13]  172 	ld	a, (game_maxScore)
+   00BB 47            [ 4]  173 	ld 	b, a				;; B <= Max points
+                            174 
+   00BC 3A 7A 00      [13]  175 	ld	a, (game_t1Score)
+   00BF 3C            [ 4]  176 	inc	a				;; A <= Team 1 points + 1
+                            177 
+   00C0 32 7A 00      [13]  178 	ld	(game_t1Score), a	;; Inc team 1 points
+                            179 
+   00C3 C9            [10]  180 		ret
+                            181 
+                            182 ;; ================================== 
+                            183 ;; Incrementa los puntos del equipo 2
+                            184 ;; Modifica: A, B
+                            185 ;; ==================================
+   00C4                     186 incTeam2Points::
+   00C4 3A 79 00      [13]  187 	ld	a, (game_maxScore)
+   00C7 47            [ 4]  188 	ld 	b, a				;; B <= Max points
+                            189 
+   00C8 3A 7B 00      [13]  190 	ld	a, (game_t2Score)
+   00CB 3C            [ 4]  191 	inc	a				;; A <= Team 2 points + 1
+                            192 
+   00CC 32 7B 00      [13]  193 	ld	(game_t2Score), a	;; Inc team 2 points
+                            194 
+                            195 	;;cp 	b
+                            196 	;;jr	z, max_t2_points		;; t2Points+1 == max_points? 
+                            197 	;;	ld	(game_t2Score), a	;; Inc team 2 points
+                            198 
+   00CF C9            [10]  199 		ret
+                            200 
+                            201 ;; alomejor es una función privada
+   00D0                     202 play_music:
+   00D0 D9            [ 4]  203 	exx
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
+Hexadecimal [16-Bits]
+
+
+
+   00D1 08            [ 4]  204 	ex af', af
+   00D2 F5            [11]  205 	push af
+   00D3 C5            [11]  206 	push bc
+   00D4 D5            [11]  207 	push de
+   00D5 E5            [11]  208 	push hl
+                            209 
+   00D6 CD 00 00      [17]  210 	call cpct_akp_musicPlay_asm
+                            211 
+   00D9 E1            [10]  212 	pop hl
+   00DA D1            [10]  213 	pop de
+   00DB C1            [10]  214 	pop bc
+   00DC F1            [10]  215 	pop af
+   00DD 08            [ 4]  216 	ex af', af
+   00DE D9            [ 4]  217 	exx
+                            218 
+   00DF C9            [10]  219 	ret
+                            220 
+                            221 ;; alomejor es una función privada
+   00E0                     222 stop_music:
+   00E0 D9            [ 4]  223 	exx
+   00E1 08            [ 4]  224 	ex af', af
+   00E2 F5            [11]  225 	push af
+   00E3 C5            [11]  226 	push bc
+   00E4 D5            [11]  227 	push de
+   00E5 E5            [11]  228 	push hl
+                            229 
+   00E6 CD 00 00      [17]  230 	call cpct_akp_stop_asm
+                            231 
+   00E9 E1            [10]  232 	pop hl
+   00EA D1            [10]  233 	pop de
+   00EB C1            [10]  234 	pop bc
+   00EC F1            [10]  235 	pop af
+   00ED 08            [ 4]  236 	ex af', af
+   00EE D9            [ 4]  237 	exx
+                            238 
+   00EF C9            [10]  239 	ret
+                            240 
+                            241 
+                            242 ;; ====================================
+                            243 ;; ====================================
+                            244 ;; PRIVATE FUNCTIONS
+                            245 ;; ====================================
+                            246 ;; ====================================
+                            247 
+                            248 ;; ====================================
+                            249 ;; ====================================
+                            250 ;; Decide what number must charge
+                            251 ;; a -> Number
+                            252 ;; hl <- Sprite to print
+                            253 ;; ====================================
+                            254 ;; ====================================
+   00F0                     255 decideNumber::
+   00F0 FE 00         [ 7]  256 	cp #0
+   00F2 20 04         [12]  257 	jr nz, is_One
+                            258 		;; if
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
+Hexadecimal [16-Bits]
+
+
+
+   00F4 21 00 00      [10]  259 		ld hl, #_sprite_numbers_00
+   00F7 C9            [10]  260 		ret
+                            261 
+   00F8                     262 	is_One:
+   00F8 FE 01         [ 7]  263 	cp #1
+   00FA 20 04         [12]  264 	jr nz, is_Two
+   00FC 21 00 00      [10]  265 		ld hl, #_sprite_numbers_01
+   00FF C9            [10]  266 		ret
+                            267 
+   0100                     268 	is_Two:
+   0100 FE 02         [ 7]  269 	cp #2
+   0102 20 04         [12]  270 	jr nz, is_Tree
+   0104 21 00 00      [10]  271 		ld hl, #_sprite_numbers_02
+   0107 C9            [10]  272 		ret
+                            273 
+   0108                     274 	is_Tree:
+   0108 FE 03         [ 7]  275 	cp #3
+   010A 20 04         [12]  276 	jr nz, is_Four
+   010C 21 00 00      [10]  277 		ld hl, #_sprite_numbers_03
+   010F C9            [10]  278 		ret
+                            279 
+   0110                     280 	is_Four:
+   0110 FE 04         [ 7]  281 	cp #4
+   0112 20 04         [12]  282 	jr nz, is_Five
+   0114 21 00 00      [10]  283 		ld hl, #_sprite_numbers_04
+   0117 C9            [10]  284 		ret
+                            285 
+   0118                     286 	is_Five:
+   0118 FE 05         [ 7]  287 	cp #5
+   011A 20 04         [12]  288 	jr nz, is_Six
+   011C 21 00 00      [10]  289 		ld hl, #_sprite_numbers_05
+   011F C9            [10]  290 		ret
+                            291 
+   0120                     292 	is_Six:
+   0120 FE 06         [ 7]  293 	cp #6
+   0122 20 04         [12]  294 	jr nz, is_Seven
+   0124 21 00 00      [10]  295 		ld hl, #_sprite_numbers_06
+   0127 C9            [10]  296 		ret
+                            297 
+   0128                     298 	is_Seven:
+   0128 FE 07         [ 7]  299 	cp #7
+   012A 20 04         [12]  300 	jr nz, is_Eight
+   012C 21 00 00      [10]  301 		ld hl, #_sprite_numbers_07
+   012F C9            [10]  302 		ret
+                            303 
+   0130                     304 	is_Eight:
+   0130 FE 08         [ 7]  305 	cp #8
+   0132 20 04         [12]  306 	jr nz, is_Nine
+   0134 21 00 00      [10]  307 		ld hl, #_sprite_numbers_08
+   0137 C9            [10]  308 		ret
+                            309 
+   0138                     310 	is_Nine:
+   0138 21 00 00      [10]  311 		ld hl, #_sprite_numbers_09
+   013B C9            [10]  312 		ret
+                            313 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
+Hexadecimal [16-Bits]
+
+
+
+   013C C9            [10]  314 	ret
+                            315 
+                            316 ;; ===================================
+                            317 ;; Draws a number
+                            318 ;; Entrada:
+                            319 ;;	HL <= Pointer to number sprite
+                            320 ;;	DE <= Pointer to video memory
+                            321 ;; Modifica AF, BC, DE, HL
+                            322 ;; ===================================
+   013D                     323 drawNumber::
+   013D 06 07         [ 7]  324 	ld 	b, #number_h 		;; B = ent height
+   013F 0E 03         [ 7]  325 	ld 	c, #number_w 		;; C = ent width
+   0141 CD 00 00      [17]  326 	call cpct_drawSprite_asm
+                            327 
+   0144 C9            [10]  328 	ret
+                            329 
+   0145                     330 drawTimeCounters::
+   0145 3A 8C 00      [13]  331 		ld a, (videoPtr + 1)
+   0148 FE 80         [ 7]  332 		cp #0x80
+   014A 28 26         [12]  333 		jr z, paintOn8000
+                            334 			;; Painting on C000
+   014C 3A 7C 00      [13]  335 			ld a, (game_minute)
+   014F CD F0 00      [17]  336 			call decideNumber	;; HL <= sprite pointer
+   0152 11 25 E0      [10]  337 			ld de,	#minSpPointer
+   0155 CD 3D 01      [17]  338 			call drawNumber
+                            339 
+   0158 3A 7D 00      [13]  340 			ld a, (game_secLeft)
+   015B CD F0 00      [17]  341 			call decideNumber	;; HL <= sprite pointer
+   015E 11 29 E0      [10]  342 			ld de,	#secLeftSpPointer
+   0161 CD 3D 01      [17]  343 			call drawNumber
+                            344 
+   0164 3A 7E 00      [13]  345 			ld a, (game_secRight)
+   0167 CD F0 00      [17]  346 			call decideNumber	;; HL <= sprite pointer
+   016A 11 2C E0      [10]  347 			ld de,	#secRightSpPointer
+   016D CD 3D 01      [17]  348 			call drawNumber
+                            349 
+   0170 18 24         [12]  350 		jr drawTimeCounters_exit
+                            351 
+   0172                     352 		paintOn8000:
+   0172 3A 7C 00      [13]  353 			ld a, (game_minute)
+   0175 CD F0 00      [17]  354 			call decideNumber	;; HL <= sprite pointer
+   0178 11 25 A0      [10]  355 			ld de,	#minSpPointer2
+   017B CD 3D 01      [17]  356 			call drawNumber
+                            357 
+   017E 3A 7D 00      [13]  358 			ld a, (game_secLeft)
+   0181 CD F0 00      [17]  359 			call decideNumber	;; HL <= sprite pointer
+   0184 11 29 A0      [10]  360 			ld de,	#secLeftSpPointer2
+   0187 CD 3D 01      [17]  361 			call drawNumber
+                            362 
+   018A 3A 7E 00      [13]  363 			ld a, (game_secRight)
+   018D CD F0 00      [17]  364 			call decideNumber	;; HL <= sprite pointer
+   0190 11 2C A0      [10]  365 			ld de,	#secRightSpPointer2
+   0193 CD 3D 01      [17]  366 			call drawNumber
+                            367 
+   0196                     368 		drawTimeCounters_exit:
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
+Hexadecimal [16-Bits]
+
+
+
+   0196 C9            [10]  369 		ret
+                            370 
+   0197                     371 updateTime::
+   0197 3A 7D 00      [13]  372 	ld a, (game_secLeft)
+   019A FE 00         [ 7]  373 	cp #0
+   019C 20 1A         [12]  374 	jr nz, checkRightsec
+                            375 
+   019E 3A 7E 00      [13]  376 	ld a, (game_secRight)
+   01A1 FE 00         [ 7]  377 	cp #0
+   01A3 20 28         [12]  378 	jr nz, decRightsec
+   01A5 3A 7C 00      [13]  379 		ld a, (game_minute) 
+   01A8 3D            [ 4]  380 		dec a ;; min--
+   01A9 32 7C 00      [13]  381 		ld (game_minute), a
+                            382 
+   01AC 3E 05         [ 7]  383 		ld a, #5
+   01AE 32 7D 00      [13]  384 		ld (game_secLeft), a ;; secLeft = 5
+                            385 
+   01B1 3E 09         [ 7]  386 		ld a, #9
+   01B3 32 7E 00      [13]  387 		ld (game_secRight), a ;; secRight = 9;
+                            388 
+   01B6 18 1C         [12]  389 		jr continue
+   01B8                     390 	checkRightsec:
+   01B8 3A 7E 00      [13]  391 		ld a, (game_secRight)
+   01BB FE 00         [ 7]  392 		cp #0
+   01BD 20 0E         [12]  393 		jr nz, decRightsec
+   01BF 3A 7D 00      [13]  394 			ld a, (game_secLeft) 
+   01C2 3D            [ 4]  395 			dec a ;; secLeft--
+   01C3 32 7D 00      [13]  396 			ld (game_secLeft), a
+                            397 
+   01C6 3E 09         [ 7]  398 			ld a, #9 ;; secRight = 9;
+   01C8 32 7E 00      [13]  399 			ld (game_secRight), a
+   01CB 18 07         [12]  400 			jr continue
+   01CD                     401 	decRightsec:
+   01CD 3A 7E 00      [13]  402 		ld a, (game_secRight)
+   01D0 3D            [ 4]  403 		dec a ;; secRight--
+   01D1 32 7E 00      [13]  404 		ld (game_secRight), a
+                            405 
+   01D4                     406 	continue:
+   01D4 C9            [10]  407 	ret
+                            408 
+                            409 ;; Empty Handler
+   01D5                     410 emptyHandler:
+   01D5 C9            [10]  411 	ret
+                            412 
+                            413 ;; Handler for time
+   01D6                     414 handlerTime::
+   01D6 2A 86 00      [16]  415 	ld 	hl, (game_interrTime)
+   01D9 2B            [ 6]  416 	dec hl
+   01DA 7C            [ 4]  417 	ld 	a, h
+   01DB FE 00         [ 7]  418 	cp 	#0
+   01DD 20 0B         [12]  419 	jr 	nz, time_iterate
+   01DF 7D            [ 4]  420 		ld 	a, l
+   01E0 FE 00         [ 7]  421 		cp 	#0
+   01E2 20 06         [12]  422 	jr 	nz, time_iterate
+                            423 		;; interrTime == 0
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 17.
+Hexadecimal [16-Bits]
+
+
+
+   01E4 21 2C 01      [10]  424 		ld hl, #0x012C		;; HL <= 300
+   01E7 CD 97 01      [17]  425 		call updateTime
+                            426 
+   01EA                     427 	time_iterate:
+   01EA 22 86 00      [16]  428 		ld (game_interrTime), hl
+   01ED C9            [10]  429 	ret
+                            430 
+                            431 ;; Handler for music
+   01EE                     432 handlerMusic::
+   01EE 3A 85 00      [13]  433 	ld a , (game_interrMusic) ;; a <- game_interrMusic
+   01F1 3D            [ 4]  434 	dec a
+   01F2 32 85 00      [13]  435 	ld (game_interrMusic), a
+                            436 
+   01F5 20 08         [12]  437 	jr nz, music_iterate
+                            438 		;; a == 0
+   01F7 3E 06         [ 7]  439 		ld a, #music_vel
+   01F9 32 85 00      [13]  440 		ld (game_interrMusic), a
+   01FC CD D0 00      [17]  441 		call play_music
+                            442 
+   01FF                     443 	music_iterate:
+   01FF C9            [10]  444 	ret
+                            445 
+                            446 ;; Handler for time music
+   0200                     447 handlerTimeMusic:
+   0200 CD D6 01      [17]  448 	call handlerTime
+   0203 CD EE 01      [17]  449 	call handlerMusic
+   0206 C9            [10]  450 	ret
+                            451 
+   0207                     452 configureISR::
+   0207 3A 78 00      [13]  453 	ld a, (game_WinCondition) 	;; a <- game_WinCondition (0-> Time, 1 -> Score)
+   020A FE 00         [ 7]  454 	cp #0						;; a - 0
+   020C 28 0E         [12]  455 	jr z, ISR_timeOn			;; if (game_enableTime - 0) == 0, then jump ISR_timeOn
+                            456 		;; Time Off
+   020E 3A 8A 00      [13]  457 		ld a, (game_enableMusic) 	;; a <- game_enableMusic
+   0211 FE 00         [ 7]  458 		cp #0						;; a - 0
+   0213 20 15         [12]  459 		jr nz, ISR_timeOff_musicOn	;; if (game_enableMusic - 0) == 1, then jump ISR_timeOff_musicOn
+                            460 		;; Time Off, Music Off
+   0215 21 D5 01      [10]  461 			ld hl, #emptyHandler	;; emptyHandler
+   0218 CD 00 00      [17]  462 			call cpct_setInterruptHandler_asm
+   021B C9            [10]  463 			ret 					;; Get Out
+                            464 
+   021C                     465 	ISR_timeOn:
+                            466 		;; Time On
+   021C 3A 8A 00      [13]  467 		ld a, (game_enableMusic)	;; a <- game_enableMusic
+   021F FE 00         [ 7]  468 		cp #0
+   0221 20 0E         [12]  469 		jr nz, ISR_timeOn_musicOn 	;; if (a - 0) == 1, jump ISR_timeOn_musicOn
+                            470 			;; Time On, Music Off
+   0223 21 D6 01      [10]  471 			ld hl, #handlerTime 				;; handlerTime
+   0226 CD 00 00      [17]  472 			call cpct_setInterruptHandler_asm	;;
+   0229 C9            [10]  473 			ret 								;; Get Out
+                            474 
+   022A                     475 	ISR_timeOff_musicOn:
+   022A 21 EE 01      [10]  476 		ld hl, #handlerMusic
+   022D CD 00 00      [17]  477 		call cpct_setInterruptHandler_asm
+   0230 C9            [10]  478 		ret 								;; Get Out
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 18.
+Hexadecimal [16-Bits]
+
+
+
+                            479 
+   0231                     480 	ISR_timeOn_musicOn:
+   0231 21 00 02      [10]  481 		ld hl, #handlerTimeMusic
+   0234 CD 00 00      [17]  482 		call cpct_setInterruptHandler_asm
+   0237 C9            [10]  483 		ret 								;; Get Out
+                            484 
+                            485 .globl _mainSong
+                            486 
+                            487 ;; ========================
+                            488 ;; Initialize game
+                            489 ;; ========================
+   0238                     490 initializeGame:
+                            491 
+                            492 	;; Set video mode
+   0238 0E 00         [ 7]  493 	ld 	c, #0
+   023A CD 00 00      [17]  494 	call cpct_setVideoMode_asm
+                            495 
+                            496 	;; Set palette
+   023D 21 00 00      [10]  497 	ld 	hl, #_sprite_palette
+   0240 11 10 00      [10]  498 	ld 	de, #16
+   0243 CD 00 00      [17]  499 	call cpct_setPalette_asm
+                            500 
+   0246 2E 10         [ 7]  501 	ld l, #16					;; Select the border colour
+   0248 26 4B         [ 7]  502 	ld h, #0x4B					;; Set the White Colour
+   024A CD 00 00      [17]  503 	call cpct_setPALColour_asm
+                            504 
+                            505 	;; Clean from 8000 to FFFF
+   024D 21 00 80      [10]  506 	ld	hl, #0x8000			;; HL <= Copy pointer
+   0250 11 01 80      [10]  507 	ld	de, #0x8001			;; DE <= Write pointer
+   0253 36 00         [10]  508 	ld	(hl), #00			;; Set to 0 where HL points
+   0255 01 00 80      [10]  509 	ld	bc, #0x8000			;; BC <= Times to repeat
+   0258 ED B0         [21]  510 	ldir					;; Copy from where HL points to where DE points, and inc HL and DE, BC times
+                            511 
+   025A 21 7A 00      [10]  512 	ld	hl, #game_t1Score
+   025D 36 00         [10]  513 	ld 	(hl), #0
+   025F 21 7B 00      [10]  514 	ld	hl, #game_t2Score
+   0262 36 00         [10]  515 	ld 	(hl), #0		;; Initialize points to 0
+                            516 
+   0264 11 00 00      [10]  517 	ld de, #_mainSong
+   0267 CD 00 00      [17]  518 	call cpct_akp_musicInit_asm
+                            519 	
+   026A C9            [10]  520 	ret
+                            521 
+                            522 ;; ========================
+                            523 ;; Switch Buffers
+                            524 ;; ========================
+   026B                     525 switchBuffers:
+                     026C   526 	mem_page = .+1
+   026B 2E 20         [ 7]  527 	ld 	l, #0x20
+   026D CD 00 00      [17]  528 	call 	cpct_setVideoMemoryPage_asm
+   0270 21 6C 02      [10]  529 	ld 	hl, #mem_page
+   0273 3E 10         [ 7]  530 	ld	a, #0x10
+   0275 AE            [ 7]  531 	xor	(hl)
+   0276 77            [ 7]  532 	ld	(hl), a
+                            533 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 19.
+Hexadecimal [16-Bits]
+
+
+
+   0277 21 8C 00      [10]  534 	ld	hl, #videoPtr+1
+   027A 3E 40         [ 7]  535 	ld	a, #0x40
+   027C AE            [ 7]  536 	xor	(hl)
+   027D 77            [ 7]  537 	ld	(hl), a
+                            538 
+                            539 
+   027E C9            [10]  540 	ret
+                            541 
+                            542 ;; ============================
+                            543 ;; Game loop until end of game
+                            544 ;; ============================
+   027F                     545 game_loop_Player_IA:
+                            546 
+                            547 	;; Erase
+   027F DD 21 0A 00   [14]  548 	ld ix, #player_data
+   0283 CD 00 00      [17]  549 	call entityErase
+                            550 
+   0286 DD 21 25 00   [14]  551 	ld ix, #enemy_data
+   028A CD 00 00      [17]  552 	call entityErase
+                            553 
+   028D DD 21 00 00   [14]  554 	ld ix, #frisbee_data
+   0291 CD 00 00      [17]  555 	call entityErase
+                            556 
+                            557 	;; Update
+   0294 DD 21 0A 00   [14]  558 	ld ix, #player_data
+   0298 CD 00 00      [17]  559 	call player_update
+                            560 
+   029B DD 21 25 00   [14]  561 	ld ix, #enemy_data
+   029F CD 00 00      [17]  562 	call player_update
+                            563 
+   02A2 DD 21 00 00   [14]  564 	ld ix, #frisbee_data
+   02A6 CD 00 00      [17]  565 	call frisbee_update
+                            566 
+                            567 	;; Draw
+   02A9 DD 21 0A 00   [14]  568 	ld ix, #player_data
+   02AD CD 00 00      [17]  569 	call entityDraw
+                            570 
+   02B0 DD 21 25 00   [14]  571 	ld ix, #enemy_data
+   02B4 CD 00 00      [17]  572 	call entityDraw
+                            573 
+   02B7 DD 21 00 00   [14]  574 	ld ix, #frisbee_data
+   02BB CD 00 00      [17]  575 	call entityDraw
+                            576 
+   02BE CD 45 01      [17]  577 	call drawTimeCounters
+                            578 
+                            579 	;; Check goal
+   02C1 DD 21 00 00   [14]  580 	ld	ix, #frisbee_data
+   02C5 CD 00 00      [17]  581 	call frisbee_checkGoal
+                            582 
+                            583 	;; Wait VSYNC to modify VMEM without blinking
+   02C8 CD 00 00      [17]  584 	call cpct_waitVSYNC_asm
+   02CB CD 6B 02      [17]  585 	call switchBuffers
+                            586 
+   02CE 3A 78 00      [13]  587 	ld a, (game_WinCondition) ;; a <- WinCondition (0-> Time, 1 -> Score)
+   02D1 FE 00         [ 7]  588 	cp #0  				      ;; a - 0
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 20.
+Hexadecimal [16-Bits]
+
+
+
+   02D3 28 02         [12]  589 	jr z, timeWinning         ;; if (a - 0) == 0, then jump timeWinning
+   02D5 18 17         [12]  590 		jr scoreEnd 		  ;; else, jump ScoreWinning.
+                            591 
+   02D7                     592 	timeWinning:
+   02D7 3A 7C 00      [13]  593 		ld a, (game_minute) ;; a <- game_minute
+   02DA FE 00         [ 7]  594 		cp #0 				;; a - 0
+   02DC 20 A1         [12]  595 		jr nz, game_loop_Player_IA 	;; if (a - 0) != 0, then jump game_loop_Player_IA
+                            596 
+   02DE 3A 7D 00      [13]  597 		ld a, (game_secLeft)	;; a <- game_secLeft
+   02E1 FE 00         [ 7]  598 		cp #0 				  	;; a - 0
+   02E3 20 9A         [12]  599 		jr nz, game_loop_Player_IA	;; if (a - 0) != 0, then jump game_loop_Player_IA
+                            600 
+   02E5 3A 7E 00      [13]  601 		ld a, (game_secRight)	;; a <- game_secRight
+   02E8 FE 00         [ 7]  602 		cp #0 				  	;; a - 0
+   02EA 20 93         [12]  603 		jr nz, game_loop_Player_IA	;; if (a - 0) != 0, then jump game_loop_Player_IA
+   02EC 18 16         [12]  604 		jr game_loop_Player_IA_exit
+                            605 
+   02EE                     606 	scoreEnd:
+   02EE 3A 7A 00      [13]  607 		ld a, (game_t1Score) 
+   02F1 47            [ 4]  608 		ld b, a               ;; b <- LocalScore
+   02F2 3A 79 00      [13]  609 		ld a, (game_maxScore) ;; a <- maxScore
+   02F5 B8            [ 4]  610 		cp b             	  ;; a - b 
+   02F6 28 0C         [12]  611 		jr z, game_loop_Player_IA_exit 		      ;; if (maxScore - LocalScore) == 0, then jump localWin
+                            612 
+   02F8 4F            [ 4]  613 		ld c, a      	      ;; c <- maxScore
+   02F9 3A 7B 00      [13]  614 		ld a, (game_t2Score)
+   02FC 47            [ 4]  615 		ld b, a               ;; b <- VisitantScore
+   02FD 79            [ 4]  616 		ld a, c 			  ;; a <- c
+   02FE B8            [ 4]  617 		cp b             	  ;; a - b 
+   02FF 28 03         [12]  618 		jr z, game_loop_Player_IA_exit            ;; if (maxScore - VisitantScore) == 0, then jump visitantWin
+   0301 C3 7F 02      [10]  619 			jp game_loop_Player_IA ;; Keep Playing
+                            620 
+   0304                     621 	game_loop_Player_IA_exit:
+   0304 C9            [10]  622 	ret
+                            623 
+                            624 
+                            625 ;; Game loop for PVP
+   0305                     626 game_loop_Player_PvP:
+                            627 	;; Erase
+   0305 DD 21 0A 00   [14]  628 	ld ix, #player_data
+   0309 CD 00 00      [17]  629 	call entityErase
+                            630 
+   030C DD 21 40 00   [14]  631 	ld ix, #player2_data
+   0310 CD 00 00      [17]  632 	call entityErase
+                            633 
+   0313 DD 21 00 00   [14]  634 	ld ix, #frisbee_data
+   0317 CD 00 00      [17]  635 	call entityErase
+                            636 
+                            637 	;; Update
+   031A DD 21 0A 00   [14]  638 	ld ix, #player_data
+   031E CD 00 00      [17]  639 	call player_update
+                            640 
+   0321 DD 21 40 00   [14]  641 	ld ix, #player2_data
+   0325 CD 00 00      [17]  642 	call player_update
+                            643 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 21.
+Hexadecimal [16-Bits]
+
+
+
+   0328 DD 21 00 00   [14]  644 	ld ix, #frisbee_data
+   032C CD 00 00      [17]  645 	call frisbee_update
+                            646 
+                            647 	;; Draw
+   032F DD 21 0A 00   [14]  648 	ld ix, #player_data
+   0333 CD 00 00      [17]  649 	call entityDraw
+                            650 
+   0336 DD 21 40 00   [14]  651 	ld ix, #player2_data
+   033A CD 00 00      [17]  652 	call entityDraw
+                            653 
+   033D DD 21 00 00   [14]  654 	ld ix, #frisbee_data
+   0341 CD 00 00      [17]  655 	call entityDraw
+                            656 
+   0344 CD 45 01      [17]  657 	call drawTimeCounters
+                            658 
+                            659 	;; Check goal
+   0347 DD 21 00 00   [14]  660 	ld	ix, #frisbee_data
+   034B CD 00 00      [17]  661 	call frisbee_checkGoal
+                            662 
+                            663 	;; Wait VSYNC to modify VMEM without blinking
+   034E CD 00 00      [17]  664 	call cpct_waitVSYNC_asm
+   0351 CD 6B 02      [17]  665 	call switchBuffers
+                            666 
+   0354 3A 78 00      [13]  667 	ld a, (game_WinCondition) ;; a <- WinCondition (0-> Time, 1 -> Score)
+   0357 FE 00         [ 7]  668 	cp #0  				      ;; a - 0
+   0359 28 02         [12]  669 	jr z, timeWinning_Pvp         ;; if (a - 0) == 0, then jump timeWinning_Pvp
+   035B 18 17         [12]  670 		jr scoreEnd_Pvp 		  ;; else, jump ScoreWinning.
+                            671 
+   035D                     672 	timeWinning_Pvp:
+   035D 3A 7C 00      [13]  673 		ld a, (game_minute) ;; a <- game_minute
+   0360 FE 00         [ 7]  674 		cp #0 				;; a - 0
+   0362 20 A1         [12]  675 		jr nz, game_loop_Player_PvP 	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+                            676 
+   0364 3A 7D 00      [13]  677 		ld a, (game_secLeft)	;; a <- game_secLeft
+   0367 FE 00         [ 7]  678 		cp #0 				  	;; a - 0
+   0369 20 9A         [12]  679 		jr nz, game_loop_Player_PvP	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+                            680 
+   036B 3A 7E 00      [13]  681 		ld a, (game_secRight)	;; a <- game_secRight
+   036E FE 00         [ 7]  682 		cp #0 				  	;; a - 0
+   0370 20 93         [12]  683 		jr nz, game_loop_Player_PvP	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+   0372 18 16         [12]  684 		jr game_loop_Player_PvP_exit
+                            685 
+   0374                     686 	scoreEnd_Pvp:
+   0374 3A 7A 00      [13]  687 		ld a, (game_t1Score) 
+   0377 47            [ 4]  688 		ld b, a               ;; b <- LocalScore
+   0378 3A 79 00      [13]  689 		ld a, (game_maxScore) ;; a <- maxScore
+   037B B8            [ 4]  690 		cp b             	  ;; a - b 
+   037C 28 0C         [12]  691 		jr z, game_loop_Player_PvP_exit 		      ;; if (maxScore - LocalScore) == 0, then jump localWin
+                            692 
+   037E 4F            [ 4]  693 		ld c, a      	      ;; c <- maxScore
+   037F 3A 7B 00      [13]  694 		ld a, (game_t2Score)
+   0382 47            [ 4]  695 		ld b, a               ;; b <- VisitantScore
+   0383 79            [ 4]  696 		ld a, c 			  ;; a <- c
+   0384 B8            [ 4]  697 		cp b             	  ;; a - b 
+   0385 28 03         [12]  698 		jr z, game_loop_Player_PvP_exit            ;; if (maxScore - VisitantScore) == 0, then jump visitantWin
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 22.
+Hexadecimal [16-Bits]
+
+
+
+   0387 C3 05 03      [10]  699 			jp game_loop_Player_PvP ;; Keep Playing
+                            700 
+   038A                     701 	game_loop_Player_PvP_exit:
+                            702 
+   038A C9            [10]  703 	ret

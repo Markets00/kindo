@@ -1,0 +1,34 @@
+XL2
+H 1 areas 1F global symbols
+S game_musicOptions Ref0000
+S player_data Ref0000
+S game_musicPlayer Ref0000
+S enemy2_data Ref0000
+S blackPaletteM1 Ref0000
+S game_minute Ref0000
+S game_interrMusic Ref0000
+S game_maxTime Ref0000
+S game_WinCondition Ref0000
+S game_data Ref0000
+S game_timeOptions Ref0000
+S enemy_data Ref0000
+S game_musicEffects Ref0000
+S game_t1Score Ref0000
+S game_t2Score Ref0000
+S game_interrTime Ref0000
+S .__.ABS. Def0000
+S game_enableMusic Ref0000
+S gameStart Ref0000
+S game_numPlayers Ref0000
+S paletteM1 Ref0000
+S getVideoPtr Ref0000
+S paletteM2 Ref0000
+S incTeam1Points Ref0000
+S incTeam2Points Ref0000
+S game_secRight Ref0000
+S game_map Ref0000
+S player2_data Ref0000
+S game_maxScore Ref0000
+S game_type Ref0000
+S game_secLeft Ref0000
+A _CODE size 0 flags 0 addr 0

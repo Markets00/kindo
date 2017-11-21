@@ -46,38 +46,39 @@ blackPaletteM1::	.db #0x54	;; Black
 
 number_w = 3
 number_h = 7
+.equ music_vel, #6
 
-;;defineEntity name, 	x,	y,	 h, w, 	vx, 	vy, 	ax, 	ay, normal, 	sprites_ptr, 		id
-defineEntity player, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 		#1
-defineEntity enemy, #0x0050-0x000A, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#2
+;;defineEntity name, 	x,				y,	 	 h,   w,  vx, 	vy, 	ax,    ay,    normal, 	sprites_ptr, 	 id
+defineEntity player, 	#0x0010, 		#0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, #1
+defineEntity enemy, 	#0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, #2
 
-defineEntity player2, #0x0010, #0x0050, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 	#3
-defineEntity enemy2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#4
+defineEntity player2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_2_sprites, 	#3
+defineEntity enemy2, #0x0050-0x0004, #0x0064, #20, #5, #0000, #0000, #0000, #0000, #0x1800, #robot_1_sprites, 	#4
 
 game_data::
-	game_type::         .db #0 ;; Game Mode (8 bits)
-   	game_numPlayers:    .db #0 ;; Players who are going to play
-   	game_WinCondition:  .db #0 ;; Win condition 0-> Time, 1 -> Score
+	game_type::          .db #0 ;; Game Mode (8 bits)
+   	game_numPlayers::    .db #0 ;; Players who are going to play
+   	game_WinCondition::  .db #0 ;; Win condition 0-> Time, 1 -> Score
 
-	game_maxScore:      .db #10 ;; Max score of a match (to win)
-	game_t1Score:       .db #0 ;; Points of team 1		(8 bits)
-	game_t2Score:       .db #0 ;; Points of team 2		(8 bits)
+	game_maxScore::      .db #21 ;; Max score of a match (to win)
+	game_t1Score::       .db #0 ;; Points of team 1		(8 bits)
+	game_t2Score::       .db #0 ;; Points of team 2		(8 bits)
 
-	game_minute:		.db #2 ;; Actual minute. Also Controles if we whant to play with time
-	game_secLeft:		.db #0 ;; Both variables to control the seconds
-	game_secRight:		.db #0 ;; Both variables to control the seconds
-	game_maxTime:       .dw #0x0000 ;; Max time of a match
-	game_map:           .dw #0x0000 ;; Pointer to map of tiles	(16 bits little endian)
+	game_minute::		.db #2 ;; Actual minute. Also Controles if we whant to play with time
+	game_secLeft::		.db #0 ;; Both variables to control the seconds
+	game_secRight::		.db #0 ;; Both variables to control the seconds
+	game_maxTime::       .dw #0x0000 ;; Max time of a match
+	game_map::           .dw #0x0000 ;; Pointer to map of tiles	(16 bits little endian)
 
-	game_musicOptions:  .db #0 ;; Controles if we whant to play music on options
-	game_timeOptions:   .db #0 ;; Controles if we whant to play with time on options
+	game_musicOptions::  .db #0 ;; Controles if we whant to play music on options
+	game_timeOptions::   .db #0 ;; Controles if we whant to play with time on options
 
-	game_interrMusic:   .dw #0 ;; Interruption counter for music handler	(16 bits)
-	game_interrTime:	.dw #0x012C ;; Interruption counter for time handler	(16 bits)
-	game_musicPlayer:   .db #0 ;; Controles the music player
-	game_musicEffects:  .db #0 ;; Controles the effects on the match
+	game_interrMusic::   .db #music_vel ;; Interruption counter for music handler	(16 bits)
+	game_interrTime::	.dw #0x012C ;; Interruption counter for time handler	(16 bits)
+	game_musicPlayer::   .db #0 ;; Controles the music player
+	game_musicEffects::  .db #0 ;; Controles the effects on the match
 
-	game_enableMusic:	.db #0 ;; Controles if we whant some music
+	game_enableMusic::	.db #1 ;; Controles if we whant some music
 
 	;; ÑORDBUGER 0f89
 
@@ -86,6 +87,11 @@ game_data::
 	;;game_t1Score: 		.db #0 		;; Points of team 1		(8 bits)
 	;;game_t2Score: 		.db #0 		;; Points of team 2		(8 bits)
 ;; 
+;; .equ RIGHT_LIMIT,	80
+;; .equ LEFT_LIMIT,	0
+;; .equ TOP_LIMIT,	10
+;; .equ BOTTOM_LIMIT,	200
+;; .equ CENTER_LIMIT,	40
 
 
 ;; ====================================
@@ -94,11 +100,8 @@ game_data::
 ;; ====================================
 ;; ====================================
 
-.equ RIGHT_LIMIT,	80
-.equ LEFT_LIMIT,	0
-.equ TOP_LIMIT,	 	32
-.equ BOTTOM_LIMIT,	200
-.equ CENTER_LIMIT,	40
+;; .equ mi_constante0, 0
+;; .equ mi_constante1, 1
 
 .equ minSpPointer, 0xE025		;; Pointer to know where to print the score, on both videopointers.
 .equ minSpPointer2, 0xA025
@@ -108,9 +111,6 @@ game_data::
 .equ secRightSpPointer2, 0xA02C
 
 videoPtr:	.dw 0x8000
-
-.equ map_tH, 42
-.equ map_tW, 40
 
 ;; ====================================
 ;; ====================================
@@ -124,37 +124,23 @@ videoPtr:	.dw 0x8000
 ;; 	de los atributos de game
 ;; ===================================
 gameStart::
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; Reading game data example
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;	ld 	h, Game_type(ix)	;; H <= Game_type
-	;;
-	;;	ld 	h, Game_map_L(ix)
-	;;	ld 	l, Game_map_H(ix) 	;; HL <= Game_map pointer (little endian)
-	;;
-	;;	ld 	h, Game_time_H(ix)
-	;;	ld 	l, Game_time_L(ix)	;; HL <= Game_time
-	
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-	;; Modifying game data example
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;	ld 	Game_type(ix), #0	;; Game_type <= 0
-	;;
-	;;	ld 	Game_map_L(ix), #0
-	;;	ld 	Game_map_H(ix), #0 	;; Game_map <= 0x0000 (little endian)
-	;;
-	;;	ld 	Game_time_H(ix), #0
-	;;	ld 	Game_time_L(ix), #0	;; Game_time <= 0x0000
-
-
 	call 	initializeGame
-	;; Configuration staff...
-	;; Configuration staff...
-	;; Configuration staff...
-	;; Configurating the handler
 	;; Prepartida
-	call 	configureMatch
-	call 	game_loop_Player_IA
+	call 	configureISR
+	ld a, (game_type)
+	cp #0
+	jr nz, game_PVP
+		call game_loop_Player_IA
+		jr afterGame
+
+	game_PVP:
+		call game_loop_Player_PvP
+		;; call game_loop_PvP
+
+	afterGame:
+
+	ld hl, #emptyHandler	;; emptyHandler
+	call cpct_setInterruptHandler_asm
 
 	ld 	a, (game_t2Score)
 	ld 	b, a
@@ -341,7 +327,7 @@ drawNumber::
 
 	ret
 
-drawTimeCounters:
+drawTimeCounters::
 		ld a, (videoPtr + 1)
 		cp #0x80
 		jr z, paintOn8000
@@ -420,26 +406,19 @@ updateTime::
 	continue:
 	ret
 
+;; Empty Handler
 emptyHandler:
 	ret
 
+;; Handler for time
 handlerTime::
-	push af
-	push hl
-	exx
-	push af
-	push hl
-
-
-
-
 	ld 	hl, (game_interrTime)
-	dec 	hl
+	dec hl
 	ld 	a, h
 	cp 	#0
 	jr 	nz, time_iterate
-	ld 	a, l
-	cp 	#0
+		ld 	a, l
+		cp 	#0
 	jr 	nz, time_iterate
 		;; interrTime == 0
 		ld hl, #0x012C		;; HL <= 300
@@ -447,57 +426,68 @@ handlerTime::
 
 	time_iterate:
 		ld (game_interrTime), hl
-
-	pop hl
-	pop af
-	exx
-	pop hl
-	pop af
-
 	ret
 
-handlerMusic:
+;; Handler for music
+handlerMusic::
+	ld a , (game_interrMusic) ;; a <- game_interrMusic
+	dec a
+	ld (game_interrMusic), a
+
+	jr nz, music_iterate
+		;; a == 0
+		ld a, #music_vel
+		ld (game_interrMusic), a
+		call play_music
+
+	music_iterate:
 	ret
 
+;; Handler for time music
 handlerTimeMusic:
 	call handlerTime
 	call handlerMusic
 	ret
 
-configureMatch:
-	ld a, (game_minute) 		;; a <- game_minute
+configureISR::
+	ld a, (game_WinCondition) 	;; a <- game_WinCondition (0-> Time, 1 -> Score)
 	cp #0						;; a - 0
-	jr nz, ISR_timeOn			;; if (game_enableTime - 0) == 1, then jump ISR_timeOn
-	;; Time Off
-	ld a, (game_enableMusic) 	;; a <- game_enableMusic
-	cp #0						;; a - 0
-	jr nz, ISR_timeOff_musicOn	;; if (game_enableMusic - 0) == 1, then jump ISR_timeOff_musicOn
-	;; Time Off, Music Off
-	ld hl, #emptyHandler
-	call cpct_setInterruptHandler_asm
-
-	jr configureMatch_exit
+	jr z, ISR_timeOn			;; if (game_enableTime - 0) == 0, then jump ISR_timeOn
+		;; Time Off
+		ld a, (game_enableMusic) 	;; a <- game_enableMusic
+		cp #0						;; a - 0
+		jr nz, ISR_timeOff_musicOn	;; if (game_enableMusic - 0) == 1, then jump ISR_timeOff_musicOn
+		;; Time Off, Music Off
+			ld hl, #emptyHandler	;; emptyHandler
+			call cpct_setInterruptHandler_asm
+			ret 					;; Get Out
 
 	ISR_timeOn:
 		;; Time On
 		ld a, (game_enableMusic)	;; a <- game_enableMusic
 		cp #0
-		jr nz, ISR_timeOn_musicOn
-		;; Time On, Music Off
-		ld hl, #handlerTime
-		call cpct_setInterruptHandler_asm
+		jr nz, ISR_timeOn_musicOn 	;; if (a - 0) == 1, jump ISR_timeOn_musicOn
+			;; Time On, Music Off
+			ld hl, #handlerTime 				;; handlerTime
+			call cpct_setInterruptHandler_asm	;;
+			ret 								;; Get Out
 
 	ISR_timeOff_musicOn:
+		ld hl, #handlerMusic
+		call cpct_setInterruptHandler_asm
+		ret 								;; Get Out
 
 	ISR_timeOn_musicOn:
+		ld hl, #handlerTimeMusic
+		call cpct_setInterruptHandler_asm
+		ret 								;; Get Out
 
-	configureMatch_exit:
-	ret
+.globl _mainSong
 
 ;; ========================
 ;; Initialize game
 ;; ========================
-initializeGame::
+initializeGame:
 
 	;; Set video mode
 	ld 	c, #0
@@ -507,6 +497,10 @@ initializeGame::
 	ld 	hl, #_sprite_palette
 	ld 	de, #16
 	call cpct_setPalette_asm
+
+	ld l, #16					;; Select the border colour
+	ld h, #0x4B					;; Set the White Colour
+	call cpct_setPALColour_asm
 
 	;; Clean from 8000 to FFFF
 	ld	hl, #0x8000			;; HL <= Copy pointer
@@ -520,54 +514,10 @@ initializeGame::
 	ld	hl, #game_t2Score
 	ld 	(hl), #0		;; Initialize points to 0
 
-	ld	hl, #_map_tileset
-	call cpct_etm_setTileset2x4_asm
-
-	;; Print map at second video buffer
-	ld	a, #map_tW
-	ld	c, #map_tH
-	ld	de, #0x8140
-	ld	hl, #_tilemap
-	call cpct_etm_drawTilemap2x4_f_asm
-	;; Print map at first video buffer
-	ld	a, #map_tW
-	ld	c, #map_tH
-	ld	de, #0xC140
-	ld	hl, #_tilemap
-	call cpct_etm_drawTilemap2x4_f_asm
-
-
-
-;;	;; Print map at second video buffer
-;;	ld	hl, #_tilemap	;; Pointer to tilemap
-;;	push 	hl
-;;	ld	hl, #0x8000	;; Videomem pointer
-;;	push 	hl
-;;	ld	bc, #0x0000	;; Starting tile of the tilemap
-;;	ld	e, #map_tW
-;;	ld	d, #map_tH
-;;	ld	a, #map_tW
-;;	call 	cpct_etm_drawTileBox2x4_asm
-;;
-;;	;; Print map at first video buffer
-;;	ld	hl, #_tilemap	;; Pointer to tilemap
-;;	push 	hl
-;;	ld	hl, #0xC000	;; Videomem pointer
-;;	push 	hl
-;;	ld	bc, #0x0000	;; Starting tile of the tilemap
-;;	ld	e, #map_tW
-;;	ld	d, #map_tH
-;;	ld	a, #map_tW
-;;	call 	cpct_etm_drawTileBox2x4_asm
-
-
-	;; Initialize music
-;;	ld	de, #_song_pointer
-;;	call	cpct_akp_musicInit_asm
+	ld de, #_mainSong
+	call cpct_akp_musicInit_asm
 	
-
 	ret
-
 
 ;; ========================
 ;; Switch Buffers
@@ -668,5 +618,86 @@ game_loop_Player_IA:
 		jr z, game_loop_Player_IA_exit            ;; if (maxScore - VisitantScore) == 0, then jump visitantWin
 			jp game_loop_Player_IA ;; Keep Playing
 
-game_loop_Player_IA_exit:
+	game_loop_Player_IA_exit:
+	ret
+
+
+;; Game loop for PVP
+game_loop_Player_PvP:
+	;; Erase
+	ld ix, #player_data
+	call entityErase
+
+	ld ix, #player2_data
+	call entityErase
+
+	ld ix, #frisbee_data
+	call entityErase
+
+	;; Update
+	ld ix, #player_data
+	call player_update
+
+	ld ix, #player2_data
+	call player_update
+
+	ld ix, #frisbee_data
+	call frisbee_update
+
+	;; Draw
+	ld ix, #player_data
+	call entityDraw
+
+	ld ix, #player2_data
+	call entityDraw
+
+	ld ix, #frisbee_data
+	call entityDraw
+
+	call drawTimeCounters
+
+	;; Check goal
+	ld	ix, #frisbee_data
+	call frisbee_checkGoal
+
+	;; Wait VSYNC to modify VMEM without blinking
+	call cpct_waitVSYNC_asm
+	call switchBuffers
+
+	ld a, (game_WinCondition) ;; a <- WinCondition (0-> Time, 1 -> Score)
+	cp #0  				      ;; a - 0
+	jr z, timeWinning_Pvp         ;; if (a - 0) == 0, then jump timeWinning_Pvp
+		jr scoreEnd_Pvp 		  ;; else, jump ScoreWinning.
+
+	timeWinning_Pvp:
+		ld a, (game_minute) ;; a <- game_minute
+		cp #0 				;; a - 0
+		jr nz, game_loop_Player_PvP 	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+
+		ld a, (game_secLeft)	;; a <- game_secLeft
+		cp #0 				  	;; a - 0
+		jr nz, game_loop_Player_PvP	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+
+		ld a, (game_secRight)	;; a <- game_secRight
+		cp #0 				  	;; a - 0
+		jr nz, game_loop_Player_PvP	;; if (a - 0) != 0, then jump game_loop_Player_PvP
+		jr game_loop_Player_PvP_exit
+
+	scoreEnd_Pvp:
+		ld a, (game_t1Score) 
+		ld b, a               ;; b <- LocalScore
+		ld a, (game_maxScore) ;; a <- maxScore
+		cp b             	  ;; a - b 
+		jr z, game_loop_Player_PvP_exit 		      ;; if (maxScore - LocalScore) == 0, then jump localWin
+
+		ld c, a      	      ;; c <- maxScore
+		ld a, (game_t2Score)
+		ld b, a               ;; b <- VisitantScore
+		ld a, c 			  ;; a <- c
+		cp b             	  ;; a - b 
+		jr z, game_loop_Player_PvP_exit            ;; if (maxScore - VisitantScore) == 0, then jump visitantWin
+			jp game_loop_Player_PvP ;; Keep Playing
+
+	game_loop_Player_PvP_exit:
+
 	ret

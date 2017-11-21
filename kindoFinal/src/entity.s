@@ -50,72 +50,12 @@
 
 ;; Sprite pointers vectors
 robot_1_sprites::
-	.dw	#_sprite_robot_1_00
-	.dw	#_sprite_robot_1_01
-	.dw	#_sprite_robot_1_02
-	.dw	#_sprite_robot_1_03
-	.dw	#_sprite_robot_1_04
-	.dw	#_sprite_robot_1_05
-	.dw	#_sprite_robot_1_06
-	.dw	#_sprite_robot_1_07
-	.dw	#_sprite_robot_1_08
-	.dw	#_sprite_robot_1_09
-	.dw	#_sprite_robot_1_10
-	.dw	#_sprite_robot_1_11
-	.dw	#_sprite_robot_1_12
-	.dw	#_sprite_robot_1_13
-	.dw	#_sprite_robot_1_14
-	.dw	#_sprite_robot_1_15
-	.dw	#_sprite_robot_1_16
-	.dw	#_sprite_robot_1_17
-	.dw	#_sprite_robot_1_18
-	.dw	#_sprite_robot_1_19
-	.dw	#_sprite_robot_1_20
-	.dw	#_sprite_robot_1_21
-	.dw	#_sprite_robot_1_22
-	.dw	#_sprite_robot_1_23
-	.dw	#_sprite_robot_1_24
-	.dw	#_sprite_robot_1_25
-	.dw	#_sprite_robot_1_26
-	.dw	#_sprite_robot_1_27
-	.dw	#_sprite_robot_1_28
-	.dw	#_sprite_robot_1_29
-	.dw	#_sprite_robot_1_30
-	.dw	#_sprite_robot_1_31
+	.dw	#_sprite_robot_1_0
+	.dw	#_sprite_robot_1_1
 
 robot_2_sprites::
-	.dw	#_sprite_robot_2_00
-	.dw	#_sprite_robot_2_01
-	.dw	#_sprite_robot_2_02
-	.dw	#_sprite_robot_2_03
-	.dw	#_sprite_robot_2_04
-	.dw	#_sprite_robot_2_05
-	.dw	#_sprite_robot_2_06
-	.dw	#_sprite_robot_2_07
-	.dw	#_sprite_robot_2_08
-	.dw	#_sprite_robot_2_09
-	.dw	#_sprite_robot_2_10
-	.dw	#_sprite_robot_2_11
-	.dw	#_sprite_robot_2_12
-	.dw	#_sprite_robot_2_13
-	.dw	#_sprite_robot_2_14
-	.dw	#_sprite_robot_2_15
-	.dw	#_sprite_robot_2_16
-	.dw	#_sprite_robot_2_17
-	.dw	#_sprite_robot_2_18
-	.dw	#_sprite_robot_2_19
-	.dw	#_sprite_robot_2_20
-	.dw	#_sprite_robot_2_21
-	.dw	#_sprite_robot_2_22
-	.dw	#_sprite_robot_2_23
-	.dw	#_sprite_robot_2_24
-	.dw	#_sprite_robot_2_25
-	.dw	#_sprite_robot_2_26
-	.dw	#_sprite_robot_2_27
-	.dw	#_sprite_robot_2_28
-	.dw	#_sprite_robot_2_29
-	.dw	#_sprite_robot_2_30
-	.dw	#_sprite_robot_2_31
+	.dw	#_sprite_robot_2_0
+	.dw	#_sprite_robot_2_1
 
 frisbee_sprites::
 	.dw	#_sprite_frisbee_1_0
@@ -166,11 +106,11 @@ entityDraw::
 
 	ld 	b, Ent_h(ix) 		;; B = ent height
 	ld 	c, Ent_w(ix) 		;; C = ent width
-	call cpct_drawSpriteMasked_asm
+	call cpct_drawSprite_asm
 
 	call updateX
 	call updateY
-
+	ret
 
 ;; ===================================
 ;; Borra una entidad de la pantalla
@@ -181,59 +121,17 @@ entityDraw::
 entityErase::
 	call 	getVideoPtr		;; HL <= Video memory pointer
 	ex 	de, hl			;; DE <= HL (Video memory pointer)
-	ld 	c, Ent_erase_x(ix)	;; C <= ent_erase_x
-	ld 	b, Ent_erase_y(ix)	;; B <= ent_erase_y
-	call cpct_getScreenPtr_asm 	;; HL <= ent screen pointer
+	ld 	c, Ent_erase_x(ix)	;; C = ent_erase_x
+	ld 	b, Ent_erase_y(ix)	;; B = ent_erase_y
+	call cpct_getScreenPtr_asm 	;; HL = ent screen pointer
 
-;	ex 	de, hl 			;; DE <= ent screen pointer
-;	ld 	a, #0x00 		;; A <= background color
-;	ld 	b, Ent_h(ix) 		;; B <= ent height
-;	ld 	c, Ent_w(ix) 		;; C <= ent width
-;	call cpct_drawSolidBox_asm
-
-	ret
-
-;; ===================================
-;; Borra una entidad de la pantalla
-;; Entrada:
-;; 	IX => Pointer to entity data 
-;; Modifica AF, BC, DE, HL
-;; ===================================
-entityErase_2::
-	ld	a, Ent_erase_x(ix)	;; A <= ent_erase_x
-	sra 	a			;; A <= A/2
-	ld	c, a 			;; C <= ent_erase_x/2
-
-	ld	a, Ent_erase_y(ix)	;; A <= ent_erase_y
-	sra 	a			;;
-	sra 	a			;; A <= A/4
-	ld	b, a 			;; B <= ent_erase_y/4
-
-
-	ld	hl, #_tilemap	;; Pointer to tilemap
-	push 	hl
-	call 	getVideoPtr	;; HL <= Video memory pointer
-	push	hl		;; Videomem pointer to draw
-	ld	e, #5
-	ld	d, #5
-	ld	a, #map_tW
-	call cpct_etm_drawTileBox2x4_asm
+	ex 	de, hl 			;; DE = ent screen pointer
+	ld 	a, #0x00 		;; A = background color
+	ld 	b, Ent_h(ix) 		;; B = ent height
+	ld 	c, Ent_w(ix) 		;; C = ent width
+	call cpct_drawSolidBox_asm
 
 	ret
-
-
- ;;   ;; Set Parameters on the stack
- ;;   ld   hl, #ptilemap   ;; HL = pointer to the tilemap
- ;;   push hl              ;; Push ptilemap to the stack
- ;;   ld   hl, #pvideomem  ;; HL = Pointer to video memory location where tilemap is drawn
- ;;   push hl              ;; Push pvideomem to the stack
- ;;   ;; Set Paramters on registers
- ;;   ld    a, #map_width  ;; A = map_width
- ;;   ld    b, #y          ;; B = x tile-coordinate
- ;;   ld    c, #x          ;; C = y tile-coordinate
- ;;   ld    d, #h          ;; H = height in tiles of the tile-box
- ;;   ld    e, #w          ;; L =  width in tiles of the tile-box
- ;;   call  cpct_etm_drawTileBox2x4_asm ;; Call the function
 
 ;; =========================================
 ;; Actualiza el estado de las físicas
@@ -595,15 +493,14 @@ entityUpdatePosition::
 
 		ret
 
-;; ==========================================================================
+;; =========================================
 ;; Inverts HL value
 ;; Entrada:
 ;; 	HL => value we are going to negate
 ;; Modifica AF, HL
 ;; Devuelve:
 ;; 	HL <= HL value negated
-;; http://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Signed_Math
-;; ==========================================================================
+;; =========================================
 negateHL::
 	ld 	a, #0			;;
 	xor	a			;;
@@ -684,39 +581,3 @@ updateY:
 	ld	a, Ent_y_I(ix)
 	ld 	Ent_last_y(ix), a	;; Ent_last_y <= Ent_y_I
 	ret
-
-
-;; Transparent mask table definition
-transparent_mask:
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0xAA, 0xFF, 0x00, 0x00, 0xAA, 0xAA
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00, 0xAA, 0xAA
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x55, 0x00, 0x55, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
- ;;     .db 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
