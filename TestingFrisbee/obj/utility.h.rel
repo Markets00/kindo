@@ -1,0 +1,17 @@
+XL2
+H 1 areas E global symbols
+S cpct_setPalette_asm Ref0000
+S cpct_isKeyPressed_asm Ref0000
+S negateHL Ref0000
+S cpct_akp_stop_asm Ref0000
+S .__.ABS. Def0000
+S cpct_setVideoMemoryPage_asm Ref0000
+S cpct_setVideoMode_asm Ref0000
+S cpct_waitVSYNC_asm Ref0000
+S cpct_memcpy_asm Ref0000
+S cpct_disableFirmware_asm Ref0000
+S cpct_akp_musicPlay_asm Ref0000
+S cpct_drawSolidBox_asm Ref0000
+S cpct_scanKeyboard_asm Ref0000
+S cpct_getScreenPtr_asm Ref0000
+A _CODE size 0 flags 0 addr 0
